@@ -2,7 +2,7 @@ import asyncio
 import logging
 import itertools
 import re
-import collections
+
 from asyncua.ua.uatypes import DataValue, DateTime
 from asyncua import server, ua, Server
 from asyncua.common.methods import uamethod
