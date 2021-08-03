@@ -2,6 +2,7 @@ import PySimpleGUI as sg
 import machine_library as PLC
 import logo_data as lg
 
+
 title_font=(None,19,'bold')
 heading_font=(None,13,'bold')
 subtitle_font=(None,13)
@@ -89,26 +90,42 @@ output_layout=[[sg.Text('Output List',font=title_font,text_color='DarkRed',backg
                 sg.Column(output_layout_2,justification='center',background_color=output_page_color,size=(800,750),visible=False,key='output_page_2',pad=(0,0))],
                 [sg.B('Page 1',key='output_1'),sg.B('Page 2',key='output_2')]]
 
-
-
-
-
-module_page=[[sg.T('Module')]]
-io_list_page=[[sg.Column(input_layout,background_color=main_page_color),sg.VerticalSeparator(color='light grey'),sg.Column(output_layout,background_color=main_page_color,pad=(7,5))]]
+main_page=[[sg.T('MAIN PAGE')]]
+lot_entry_page=[[sg.T('Lot Entry')]]
 lot_information_page=[[sg.T('Lot Information')]]
-log_page=[[sg.T('Log')]]
+log_page=[[sg.T('Log')],[sg.Button("Start Server",key="opc_start"),sg.Button("Stop Server")]]
+io_list_page=[[sg.Column(input_layout,background_color=main_page_color),sg.VerticalSeparator(color='light grey'),sg.Column(output_layout,background_color=main_page_color,pad=(7,5))]]
+io_module_page=[[sg.T('IO MODULE')]]
+main_motor_page=[[sg.T('MAIN MOTOR')]]
+station_page=[[sg.T('STATION')]]
+misc_page=[[sg.T('MISC')]]
+vision_page=[[sg.T('VISION')]]
+recipe_page=[[sg.T('RECIPE')]]
+tower_light_page=[[sg.T('TOWER LIGHT')]]
+life_cycle_page=[[sg.T('LIFE CYCLE')]]
+user_area_page=[[sg.T('USER AREA')]]
 settings_page=[[sg.T('Settings')]]
 
 
-
+#----------------------------------------------------------------------PAGE_LAYOUT---------------------------------------------------------------------
 
 
 Main_Page=[[
-            sg.Column(module_page,visible=True,key='main_page_1'),
-            sg.Column(io_list_page,visible=False,background_color=main_page_color,key='main_page_2'),
+            sg.Column(main_page,visible=True,key='main_page_1'),
+            sg.Column(lot_entry_page,visible=False,key='main_page_2'),
             sg.Column(lot_information_page,visible=False,key='main_page_3'),
             sg.Column(log_page,visible=False,key='main_page_4'),
-            sg.Column(settings_page,visible=False,key='main_page_5')]
+            sg.Column(io_list_page,visible=False,background_color=main_page_color,key='main_page_5'),
+            sg.Column(io_module_page,visible=False,key='main_page_6'),
+            sg.Column(main_motor_page,visible=False,key='main_page_7'),
+            sg.Column(station_page,visible=False,key='main_page_8'),
+            sg.Column(misc_page,visible=False,key='main_page_9'),
+            sg.Column(vision_page,visible=False,key='main_page_10'),
+            sg.Column(recipe_page,visible=False,key='main_page_11'),
+            sg.Column(tower_light_page,visible=False,key='main_page_12'),
+            sg.Column(life_cycle_page,visible=False,key='main_page_13'),
+            sg.Column(user_area_page,visible=False,key='main_page_14'),
+            sg.Column(settings_page,visible=False,key='main_page_15')]
             ]
 
 
@@ -116,11 +133,22 @@ Main_Page=[[
 #----------------------------------------------------------------------side_menu_layout---------------------------------------------------------------------
 side_menu_layout=[
                 [sg.Image(data=lg.logo('company_logo'),background_color='white',size=(104,60),pad=(5,(0,4)))],
-                [sg.B('IO MODULE',font=heading_font,border_width=1,size=(12,2),pad=(0,0),button_color=('white',35195),key='main_button_1')],
-                [sg.B('IO LIST',font=heading_font,border_width=1,size=(12,2),pad=(0,0),button_color=('white',23375),key='main_button_2')],
-                [sg.B('LOT OEE',font=heading_font,border_width=1,size=(12,2),pad=(0,0),button_color=('white',23375),key='main_button_3')],
-                [sg.B('LOG',font=heading_font,border_width=1,size=(12,2),pad=(0,0),button_color=('white',23375),key='main_button_4')],
-                [sg.B('SETTINGS',font=heading_font,border_width=1,size=(12,2),pad=(0,0),button_color=('white',23375),key='main_button_5')]                
+                [sg.B('MAIN',font=heading_font,border_width=1,size=(12,2),pad=(0,0),button_color=('white',35195),key='main_button_1')],
+                [sg.B('LOT ENTRY',font=heading_font,border_width=1,size=(12,2),pad=(0,0),button_color=('white',23375),key='main_button_2')],
+                [sg.B('LOT INFO',font=heading_font,border_width=1,size=(12,2),pad=(0,0),button_color=('white',23375),key='main_button_3')],
+                [sg.B('EVENT LOG',font=heading_font,border_width=1,size=(12,2),pad=(0,0),button_color=('white',23375),key='main_button_4')],
+                [sg.B('IO LIST',font=heading_font,border_width=1,size=(12,2),pad=(0,0),button_color=('white',23375),key='main_button_5')],
+                [sg.B('IO MODULES',font=heading_font,border_width=1,size=(12,2),pad=(0,0),button_color=('white',23375),key='main_button_6')],
+                [sg.B('MAIN MOTOR',font=heading_font,border_width=1,size=(12,2),pad=(0,0),button_color=('white',23375),key='main_button_7')],
+                [sg.B('STATION',font=heading_font,border_width=1,size=(12,2),pad=(0,0),button_color=('white',23375),key='main_button_8')],
+                [sg.B('VISION',font=heading_font,border_width=1,size=(12,2),pad=(0,0),button_color=('white',23375),key='main_button_9')],
+                [sg.B('USERS',font=heading_font,border_width=1,size=(12,2),pad=(0,0),button_color=('white',23375),key='main_button_10')],                
+                [sg.B('RECIPE',font=heading_font,border_width=1,size=(12,2),pad=(0,0),button_color=('white',23375),key='main_button_11')],
+                [sg.B('TOWER LIGHT',font=heading_font,border_width=1,size=(12,2),pad=(0,0),button_color=('white',23375),key='main_button_12')],
+                [sg.B('LIFE CYCLE',font=heading_font,border_width=1,size=(12,2),pad=(0,0),button_color=('white',23375),key='main_button_13')],
+                [sg.B('USER AREA',font=heading_font,border_width=1,size=(12,2),pad=(0,0),button_color=('white',23375),key='main_button_14')],
+                [sg.B('USER SETTINGS',font=heading_font,border_width=1,size=(12,2),pad=(0,0),button_color=('white',23375),key='main_button_15')]
+
                 ]
 
 
@@ -137,11 +165,12 @@ window.Maximize()
 
 #---------------------------------------------governs main page----------------------------------------------------------------------
 def main_page_button(event):
-    for i in range(1,6):
+    for i in range(1,len(side_menu_layout)):
         window[f'main_button_{i}'].update(button_color=('white',23375)) #change button color to default for other button
         window[f'main_page_{i}'].update(visible=False) #change all page to false visible
     window[event].update(button_color=('white',35195))
-    window[f'main_page_'+event[-1]].update(visible=True)
+    number=event.split("_")
+    window[f'main_page_'+number[2]].update(visible=True)
 
 
 
@@ -156,10 +185,11 @@ def io_page_button(event):
     
 
 #------------------------------------------------------------------------------------------------------------------------------------
+work_id = 0
 while True:
     
     event, values = window.read(timeout=POLL_FREQUENCY)
-    print(event, values)
+    #print(event, values)
     
 
     if event in (None,'Exit'):
@@ -176,6 +206,18 @@ while True:
     elif event == 'main_button_3': main_page_button(event)
     elif event == 'main_button_4': main_page_button(event)
     elif event == 'main_button_5': main_page_button(event)
+    elif event == 'main_button_6': main_page_button(event)
+    elif event == 'main_button_7': main_page_button(event)
+    elif event == 'main_button_8': main_page_button(event)
+    elif event == 'main_button_9': main_page_button(event)
+    elif event == 'main_button_10': main_page_button(event)
+    elif event == 'main_button_11': main_page_button(event)
+    elif event == 'main_button_12': main_page_button(event)
+    elif event == 'main_button_13': main_page_button(event)
+    elif event == 'main_button_14': main_page_button(event)
+    elif event == 'main_button_15': main_page_button(event)
+
+    
 
     if event == 'input_1': io_page_button(event)
     elif event == 'input_2': io_page_button(event)

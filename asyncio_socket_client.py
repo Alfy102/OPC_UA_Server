@@ -20,7 +20,7 @@ async def tcp_echo_client(message):
 
 
 async def main():
-    task=asyncio.create_task(tcp_echo_client("RDS R100 32\r\nRDS CM700 6\r\n"))
+    task=asyncio.create_task(tcp_echo_client("WR R015 1\r\n"))
     await task
 
 asyncio.run(main())
