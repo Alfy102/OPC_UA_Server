@@ -1,3 +1,5 @@
+import multiprocessing
+#----------------------import for server
 import asyncio
 import logging
 import itertools
@@ -6,45 +8,17 @@ from asyncua.common.subscription import SubHandler
 from asyncua.server.internal_server import InternalServer
 from asyncua.ua.uaprotocol_auto import DataChangeNotification
 from asyncua.ua.uatypes import DataValue, DateTime, Int64
-from asyncua import server, ua, Server
-
+from asyncua import server, ua, Server,Client, Node
+#---------------------import for hmi_client
 import PySimpleGUI as sg
 import machine_library as PLC
 import logo_data as lg
+import sys
+sys.path.insert(0, "..")
+import os
 
-
-class SubscriptionHandler(object):
-
-    """
-    Subscription Handler. To receive events from server for a subscription
-    """
-    async def plc_tcp_socket2(self,register_name):
-        reader, writer = await asyncio.open_connection("192.168.0.11", 8501)
-        encapsulate = bytes(f"RDS {register_name}\r",'utf-8')
-        writer.write(encapsulate)
-        recv_value = reader.read(2048)
-        print(recv_value)
-
-    async def datachange_notification(self, node_id, data_value,data):
-        #print("Python: New data change event", node_id, data_value)
-        identifier = re.findall(r"[\w']+", str(node_id))
-        identifier = int(identifier[3])-2
-        for i in range(len(list_of_devices)):
-            if identifier > list_of_devices[i][1]:
-                identifier=identifier-list_of_devices[i][1]
-
-            elif identifier < list_of_devices[i][1]:
-                device= re.split('(\d+)', list_of_devices[i][0])
-                device_number=identifier+int(device[1])
-                register_name = device[0]+str(device_number)
-                await SubscriptionHandler().plc_tcp_socket2(register_name)
-                break
-
-        
-        
-        #print(identifier)
-
-
+read_list_of_devices=[("R100",32),("R400",32)]
+write_list_of_devices=[()]
 #module to send socket command to PLC
 async def plc_tcp_socket(start_device,number_of_devices,reader,writer):
     encapsulate = bytes(f"RDS {start_device} {number_of_devices}\r",'utf-8')
@@ -82,12 +56,11 @@ async def rw_opc(nodes_id,data_list,source_time,server):
     else:
         data_value = ua.DataValue((int(data_list)),SourceTimestamp=source_time, ServerTimestamp=DateTime.utcnow())
         asyncio.create_task(server.write_attribute_value(nodes_id.nodeid, data_value))#attr=ua.AttributeIds.Value)
-
 async def nodes_init(Param,addspace,start_device,devices_qty):
     start_device = re.split('(\d+)', start_device)
     start_address=int(start_device[1])
     if start_device[0]=="R":
-        Relay_node_name_list=list(itertools.chain(*[[(f"{start_device[0]}{start_address+i+(j*100):05}") for i in range(16)] for j in range(0,(devices_qty//16)+1)]))
+        Relay_node_name_list=list(itertools.chain(*[[(f"{start_device[0]}{start_address+i+(j*100):03}") for i in range(16)] for j in range(0,(devices_qty//16)+1)]))
     else:
         Relay_node_name_list=list([(f"{start_device[0]}{start_address+i:05}") for i in range(devices_qty)])
     Relay_nodes=[]
@@ -96,18 +69,55 @@ async def nodes_init(Param,addspace,start_device,devices_qty):
         #await Relay_nodes[l].set_writable()
            
     return Relay_nodes
-
 async def plc_to_opc(i, dv, current_list,source_time,nodes_id,server):
     if dv[i]!=current_list[i]:
         dv[i]=current_list[i]
         asyncio.create_task(rw_opc(nodes_id[i],dv[i],source_time,server))
     return dv
-
 async def scan_loop_plc(reader,writer,start_address,number_of_devices,device_nodes,read_device,source_time,server):
     current_relay_list = await plc_tcp_socket(start_address,number_of_devices,reader,writer)
     read_device = asyncio.gather(*(plc_to_opc(i, read_device, current_relay_list,source_time, device_nodes,server) for i in range(len(read_device))))
+async def opc_server():#-------------------------------------------------------------------------------------------------PLC OPC Server starts here
+    _logger = logging.getLogger('server_log')
+    server = Server()
+    await server.init()
+    #open server at local host ip address
+    url = "opc.tcp://localhost:4840" 
+    server.set_endpoint(url)
+    
+    name = "OPC_PLC_SERVER"
+    addspace = await server.register_namespace(name) #idx
+    Param = await server.nodes.objects.add_object(addspace, 'PLC1')
+    plc_reader, plc_writer = await asyncio.open_connection("192.168.0.11", 8501)
+    #initializing opc nodes value with current relay value in PLC
+    source_time = await plc_source_time(plc_reader,plc_writer)
+    device_nodes=[]
+    read_device=[]
+    for i in range(len(read_list_of_devices)): 
 
-async def IO_layout_list(set,starting_number,io_type,input_button_color,output_button_color):
+        device_nodes.append(await nodes_init(Param,addspace,read_list_of_devices[i][0],read_list_of_devices[i][1]))
+        read_device.append(await plc_tcp_socket(read_list_of_devices[i][0],read_list_of_devices[i][1],plc_reader,plc_writer))
+        await rw_opc(device_nodes[i],read_device[i],source_time,server)
+
+    _logger.info('Set PLC time!')
+    await  set_plc_time(plc_reader,plc_writer,DateTime.utcnow())
+    
+    _logger.info('Starting server!')
+    async with server:
+
+        while True:
+
+            try:
+                for i in range(len(read_list_of_devices)):
+                    source_time = await plc_source_time(plc_reader,plc_writer)
+                    tasks = await asyncio.create_task(scan_loop_plc(plc_reader,plc_writer,read_list_of_devices[i][0],read_list_of_devices[i][1],device_nodes[i],read_device[i],source_time,server))
+  
+            except KeyboardInterrupt as e:
+                print("Caught keyboard interrupt. Canceling tasks...")
+                tasks.cancel()
+                tasks.exception()
+
+def IO_layout_list(set,starting_number,io_type,input_button_color,output_button_color):
     if io_type=='input':
         io_color=input_button_color
     elif io_type=='output':
@@ -116,18 +126,15 @@ async def IO_layout_list(set,starting_number,io_type,input_button_color,output_b
     for i in range(0,16):
         input_name=PLC.IO_sample(set)[i]
         IO_layout += [[sg.Button(f'R{(i+starting_number):003}',button_color=io_color,border_width=0,key=f'button_R{(i+starting_number):03}',pad=(5,7)),
-        sg.Text(input_name, text_color='black',font=(None,12), justification='left',size=(35,1),background_color='Snow')]]
+        sg.Text(input_name, text_color='black',font=(None,12), justification='left',size=(35,1),background_color='Snow',key=f'name_R{(i+starting_number):03}')]]
     return IO_layout 
-
-async def main_page_button(event,window,side_menu_layout):
+def main_page_button(event,window,side_menu_layout):
     for i in range(1,len(side_menu_layout)):
         window[f'main_button_{i}'].update(button_color=('white',23375)) #change button color to default for other button
         window[f'main_page_{i}'].update(visible=False) #change all page to false visible
     window[event].update(button_color=('white',35195))
     number=event.split("_")
     window[f'main_page_'+number[2]].update(visible=True)
- 
-
 def io_page_button(event,window):
     y=event.split("_")
     for i in range(1,3):
@@ -137,7 +144,18 @@ def io_page_button(event,window):
     window[y[0]+'_page_'+y[1]].update(visible=True)
 
 
-async def main():
+async def input_status(window):
+    if await var1.read_value()==1: window.Element('name_R100').Update(text_color='green') 
+    else: window.Element('name_R100').Update(text_color='black')
+    if await var2.read_value()==1: window.Element('name_R101').Update(text_color='green') 
+    else: window.Element('name_R101').Update(text_color='black')
+    if await var3.read_value()==1: window.Element('name_R102').Update(text_color='green') 
+    else: window.Element('name_R102').Update(text_color='black')
+
+
+async def hmi():#-------------------------------------------------------------------------------------------------------OPC HMI Starts here
+    global x
+    global y
     title_font=(None,19,'bold')
     heading_font=(None,13,'bold')
     subtitle_font=(None,13)
@@ -151,15 +169,12 @@ async def main():
     input_button_color="Lime on Green"
     #written by Mohd Aliff
 
-    POLL_FREQUENCY = 200 #update frequency
-    
+    POLL_FREQUENCY = 20 #update frequency
     #-------------------------------------------------------------------scheme layout------------------------------------------------------------------------
     machine_status_layout=[
                         [sg.T('MACHINE STATUS\n N/A',text_color='black',background_color='light grey',font=title_font,pad=(0,(8,2)),size=(15,2),justification='center',key='Machine_Status')],
                         [sg.T('MACHINE MODE\n N/A',text_color='black',background_color='light grey',font=title_font,pad=(0,2),size=(15,2),justification='center',key='Machine_Mode')],
                         ]
-
-
     UPH_layout_1=[[sg.T('Production UPH',text_color='black',background_color='WhiteSmoke',font=heading_font,pad=(0,(2,0)),size=(15,1),justification='center')],
         [sg.T('N/A',text_color='black',background_color='WhiteSmoke',font=subtitle_font,pad=(0,(0,2)),size=(17,2),justification='center',key='UPH_Status')]]
     UPH_layout_2=[[sg.T('Sprint UPH',text_color='black',background_color='WhiteSmoke',font=heading_font,pad=(0,(2,0)),size=(15,1),justification='center')],
@@ -187,17 +202,17 @@ async def main():
                     sg.VerticalSeparator(color='light grey'),
                     sg.Column(UPH_status_layout,background_color='white',element_justification='right', size=(230,150),pad=(0,0))],
                         []]
-    input_layout_1=[[sg.Column(await IO_layout_list(0,100,'input',input_button_color,output_button_color),background_color=input_page_color),
-                    sg.Column(await IO_layout_list(1,200,'input',input_button_color,output_button_color),background_color=input_page_color)]]
-    input_layout_2=[[sg.Column(await IO_layout_list(2,300,'input',input_button_color,output_button_color),background_color=input_page_color),
-                    sg.Column(await IO_layout_list(3,400,'input',input_button_color,output_button_color),background_color=input_page_color)]]
+    input_layout_1=[[sg.Column(IO_layout_list(0,100,'input',input_button_color,output_button_color),background_color=input_page_color),
+                    sg.Column(IO_layout_list(1,200,'input',input_button_color,output_button_color),background_color=input_page_color)]]
+    input_layout_2=[[sg.Column(IO_layout_list(2,300,'input',input_button_color,output_button_color),background_color=input_page_color),
+                    sg.Column(IO_layout_list(3,400,'input',input_button_color,output_button_color),background_color=input_page_color)]]
     input_layout=[[sg.Text('Input List',font=title_font,text_color='ForestGreen',background_color=main_page_color)],[
                     sg.Column(input_layout_1,justification='center',background_color=input_page_color,size=(800,750),visible=True,key='input_page_1',pad=(0,0)),
                     sg.Column(input_layout_2,justification='center',background_color=input_page_color,size=(800,750),visible=False,key='input_page_2',pad=(0,0))],
                     [sg.B('Page 1',key='input_1'),sg.B('Page 2',key='input_2')]]
-    output_layout_1=[[sg.Column(await IO_layout_list(4,500,'output',input_button_color,output_button_color),background_color=output_page_color),
-                    sg.Column(await IO_layout_list(5,600,'output',input_button_color,output_button_color),background_color=output_page_color)]]
-    output_layout_2=[[sg.Column(await IO_layout_list(6,700,'output',input_button_color,output_button_color),background_color=output_page_color)]]
+    output_layout_1=[[sg.Column(IO_layout_list(4,500,'output',input_button_color,output_button_color),background_color=output_page_color),
+                    sg.Column(IO_layout_list(5,600,'output',input_button_color,output_button_color),background_color=output_page_color)]]
+    output_layout_2=[[sg.Column(IO_layout_list(6,700,'output',input_button_color,output_button_color),background_color=output_page_color)]]
     output_layout=[[sg.Text('Output List',font=title_font,text_color='DarkRed',background_color=main_page_color)],
                     [sg.Column(output_layout_1,justification='center',background_color=output_page_color,size=(800,750),visible=True,key='output_page_1',pad=(0,0)),
                     sg.Column(output_layout_2,justification='center',background_color=output_page_color,size=(800,750),visible=False,key='output_page_2',pad=(0,0))],
@@ -261,42 +276,42 @@ async def main():
                     [sg.Column(side_menu_layout,justification='left',size=(120,180),background_color='DarkTurquoise',expand_y=True,pad=(0,0)),
                     sg.Column(Main_Page,pad=(0,0),background_color=main_page_color,size=(1800,850),expand_x=True,expand_y=True),]
                     ]
-    _logger = logging.getLogger('server_log')
-    server = Server()
-    await server.init()
 
-    #open server at local host ip address
-    url = "opc.tcp://localhost:4840" 
-    server.set_endpoint(url)
-    read_list_of_devices=[("R100",32),("R400",32)]
-    name = "OPC_PLC_SERVER"
-    addspace = await server.register_namespace(name) #idx
-    Param = await server.nodes.objects.add_object(addspace, 'PLC1')
-    plc_reader, plc_writer = await asyncio.open_connection("192.168.0.11", 8501)
-    #initializing opc nodes value with current relay value in PLC
-    source_time = await plc_source_time(plc_reader,plc_writer)
-    device_nodes=[]
-    read_device=[]
-    for i in range(len(read_list_of_devices)): 
-        device_nodes.append(await nodes_init(Param,addspace,read_list_of_devices[i][0],read_list_of_devices[i][1]))
-        read_device.append(await plc_tcp_socket(read_list_of_devices[i][0],read_list_of_devices[i][1],plc_reader,plc_writer))
-        await rw_opc(device_nodes[i],read_device[i],source_time,server)
-
-    _logger.info('Set PLC time!')
-    await  set_plc_time(plc_reader,plc_writer,DateTime.utcnow())
-    
-    _logger.info('Starting server!')
     window = sg.Window('GSH Genesis', window_layout, background_color='white', no_titlebar=False, location=(0,0), size=(1920,1080), keep_on_top=False, resizable=True, finalize=True)
     window.Maximize()
-    down = True
-    async with server:
+    client = Client(url='opc.tcp://localhost:4840/freeopcua/server/')
+    async with client:
 
+        """
+        Main task of this Client-Subscription example.
+        """
+        idx = await client.get_namespace_index(uri="OPC_PLC_SERVER")
+        var=[]
+
+
+        for i in range(len(read_list_of_devices)):
+            for k in range(int(read_list_of_devices[i][1])):
+                start_device = re.split('(\d+)', read_list_of_devices[i][0])
+                device = start_device[0]
+                start_address=int(start_device[1])
+                var[i]=await client.nodes.root.get_child(["0:Objects", f"{idx}:PLC1", f"{idx}:{device}{start_address}"])
+
+
+
+
+
+        #var1 = await client.nodes.root.get_child(["0:Objects", f"{idx}:PLC1", f"{idx}:R00401"])
+        #var2 = await client.nodes.root.get_child(["0:Objects", f"{idx}:PLC1", f"{idx}:R00402"])
+        #var3 = await client.nodes.root.get_child(["0:Objects", f"{idx}:PLC1", f"{idx}:R00403"])
+
+
+
+
+        down = True      
         while True:
+            await asyncio.sleep(0.0001)
             event, values = window.read(timeout=POLL_FREQUENCY)
-            #wait asyncio.sleep(2)
-            for i in range(len(read_list_of_devices)):
-                    source_time = await plc_source_time(plc_reader,plc_writer)
-                    await asyncio.create_task(scan_loop_plc(plc_reader,plc_writer,read_list_of_devices[i][0],read_list_of_devices[i][1],device_nodes[i],read_device[i],source_time,server))
+                    #wait asyncio.sleep(2)
 
             if event in (None,'Exit'):
                 break
@@ -307,7 +322,7 @@ async def main():
                 window.refresh()
 
             for n in range(1,16):
-                if event == f'main_button_{n}': await main_page_button(event,window,side_menu_layout)
+                if event == f'main_button_{n}': main_page_button(event,window,side_menu_layout)
 
             for m in range(1,3):
                 if event == f'input_{m}': io_page_button(event,window)
@@ -318,22 +333,24 @@ async def main():
             if event == "button_R100":
                 down = not down
                 window.Element('button_R100').Update(button_color=(('white', ('red', 'green')[down])))
-                #window[f'input_{i}'].update(button_color=('white',23375))
-            #if event == "R101":
-            #if event == "R102":
-            #if event == "R103":
-            #if event == "R104":
-            #if event == "R105":
-            #if event == "R106":
-            #if event == "R107":
+
+            asyncio.create_task(input_status(window))
+
 
             if event == 'button_R000':
                 window[event].update(image_data=lg.logo('toggle_on'),image_subsample=3)
     window.close()
 
-
-
+def start_server():
+    asyncio.run(opc_server())
+def start_hmi():
+    asyncio.run(hmi())
 if __name__ == '__main__':
-    asyncio.run(main())
-
-
+    (print("Starting Server"))
+    p1 = multiprocessing.Process(target=start_server) #background
+    p1.start()
+    (print("Server Started"))
+    (print("Starting HMI"))
+    p = multiprocessing.Process(target=start_hmi) #foreground
+    p.start()
+    (print("HMI Started"))

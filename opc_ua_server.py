@@ -7,7 +7,7 @@ from asyncua.server.internal_server import InternalServer
 from asyncua.ua.uaprotocol_auto import DataChangeNotification
 from asyncua.ua.uatypes import DataValue, DateTime, Int64
 from asyncua import server, ua, Server
-
+list_of_devices=[("R100",32),("DM1000",32),("R400",16)]
 
 
 class SubscriptionHandler(object):
@@ -116,7 +116,7 @@ async def main():
     #open server at local host ip address
     url = "opc.tcp://localhost:4840" 
     server.set_endpoint(url)
-    list_of_devices=[("R100",32),("DM1000",32),("R400",16)]
+    
     name = "OPC_PLC_SERVER"
     addspace = await server.register_namespace(name) #idx
     Param = await server.nodes.objects.add_object(addspace, 'PLC1')
@@ -149,13 +149,6 @@ async def main():
                 tasks.cancel()
                 tasks.exception()
 
-def start(work_id, window):
-    # LOCATION 1
-    # this is our "long running function call"
-    # sleep for a while as a simulation of a long-running computation
+def start():
     asyncio.run(main())
-    # at the end of the work, before exiting, send a message back to the GUI indicating end
-    window.write_event_value('-THREAD DONE-', work_id)
-    # at this point, the thread exits
-    return
 
