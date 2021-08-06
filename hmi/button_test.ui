@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>423</width>
+    <height>592</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>gsh_hmi</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QPushButton" name="pushButton_32">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>550</y>
+      <width>75</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Start Client</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_33">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>550</y>
+      <width>75</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Stop Client</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>50</y>
+      <width>162</width>
+      <height>478</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="12" column="0">
+        <widget class="QPushButton" name="pushButton_28">
+         <property name="text">
+          <string>R112</string>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="0">
+        <widget class="QPushButton" name="pushButton_23">
+         <property name="text">
+          <string>R110</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QPushButton" name="pushButton_24">
+         <property name="text">
+          <string>R100</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0">
+        <widget class="QPushButton" name="pushButton_19">
+         <property name="text">
+          <string>R107</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0">
+        <widget class="QPushButton" name="pushButton_29">
+         <property name="text">
+          <string>R106</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QPushButton" name="pushButton_18">
+         <property name="text">
+          <string>R101</string>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="0">
+        <widget class="QPushButton" name="pushButton_20">
+         <property name="text">
+          <string>R111</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QPushButton" name="pushButton_22">
+         <property name="text">
+          <string>R105</string>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="0">
+        <widget class="QPushButton" name="pushButton_17">
+         <property name="text">
+          <string>R109</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QPushButton" name="pushButton_16">
+         <property name="text">
+          <string>R104</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QPushButton" name="pushButton_25">
+         <property name="text">
+          <string>R103</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="0">
+        <widget class="QPushButton" name="pushButton_26">
+         <property name="text">
+          <string>R108</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QPushButton" name="pushButton_21">
+         <property name="text">
+          <string>R102</string>
+         </property>
+        </widget>
+       </item>
+       <item row="14" column="0">
+        <widget class="QPushButton" name="pushButton_30">
+         <property name="text">
+          <string>R114</string>
+         </property>
+        </widget>
+       </item>
+       <item row="13" column="0">
+        <widget class="QPushButton" name="pushButton_27">
+         <property name="text">
+          <string>R113</string>
+         </property>
+        </widget>
+       </item>
+       <item row="15" column="0">
+        <widget class="QPushButton" name="pushButton_31">
+         <property name="text">
+          <string>R115</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="15" column="0">
+        <widget class="QPushButton" name="pushButton_15">
+         <property name="text">
+          <string>R514</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QPushButton" name="pushButton_5">
+         <property name="text">
+          <string>R504</string>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="0">
+        <widget class="QPushButton" name="pushButton_10">
+         <property name="text">
+          <string>R509</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QPushButton" name="pushButton_2">
+         <property name="text">
+          <string>R501</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="0">
+        <widget class="QPushButton" name="pushButton_8">
+         <property name="text">
+          <string>R507</string>
+         </property>
+        </widget>
+       </item>
+       <item row="12" column="0">
+        <widget class="QPushButton" name="pushButton_12">
+         <property name="text">
+          <string>R511</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QPushButton" name="pushButton_3">
+         <property name="text">
+          <string>R502</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0">
+        <widget class="QPushButton" name="pushButton_6">
+         <property name="text">
+          <string>R505</string>
+         </property>
+        </widget>
+       </item>
+       <item row="16" column="0">
+        <widget class="QPushButton" name="pushButton">
+         <property name="text">
+          <string>R515</string>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="0">
+        <widget class="QPushButton" name="pushButton_11">
+         <property name="text">
+          <string>R510</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QPushButton" name="pushButton_4">
+         <property name="text">
+          <string>R503</string>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="0">
+        <widget class="QPushButton" name="pushButton_9">
+         <property name="text">
+          <string>R508</string>
+         </property>
+        </widget>
+       </item>
+       <item row="14" column="0">
+        <widget class="QPushButton" name="pushButton_14">
+         <property name="text">
+          <string>R513</string>
+         </property>
+        </widget>
+       </item>
+       <item row="13" column="0">
+        <widget class="QPushButton" name="pushButton_13">
+         <property name="text">
+          <string>R512</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0">
+        <widget class="QPushButton" name="pushButton_7">
+         <property name="text">
+          <string>R506</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QPushButton" name="pushButton_1">
+         <property name="text">
+          <string>R500</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
