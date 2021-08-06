@@ -63,4 +63,7 @@ def IO_sample(group):
     elif group==6:
         io_list=['WB 1 Cyl Ext','WB 1 Cyl Rvs','WB 2 Cyl Ext','WB 2 Cyl Rvs','WB 3 Cyl Ext','WB 3 Cyl Rvs','WB 4 Cyl Ext','WB 4 Cyl Rvs','Linear Track Cyl Up/Down','Spare','Reject Y Cyl Ext', 
         'Reject Y Cyl Rvs','Reject Z Cyl Ext','Reject Z Cyl Rvs','Stepper Enable Relay','VFD Output']
+    elif group==7:
+        io_list=['WB 1 Cyl Ext','WB 1 Cyl Rvs','WB 2 Cyl Ext','WB 2 Cyl Rvs','WB 3 Cyl Ext','WB 3 Cyl Rvs','WB 4 Cyl Ext','WB 4 Cyl Rvs','Linear Track Cyl Up/Down','Spare','Reject Y Cyl Ext', 
+        'Reject Y Cyl Rvs','Reject Z Cyl Ext','Reject Z Cyl Rvs','Stepper Enable Relay','VFD Output']
     return io_list

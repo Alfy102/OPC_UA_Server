@@ -17,9 +17,8 @@ import sys
 sys.path.insert(0, "..")
 import os
 
-read_list_of_devices=[("R100",32),("R400",32)]
-write_list_of_devices=[()]
-#module to send socket command to PLC
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+#-----------------------------------------------------------------------------------------------------------------
 async def plc_tcp_socket(start_device,number_of_devices,reader,writer):
     encapsulate = bytes(f"RDS {start_device} {number_of_devices}\r",'utf-8')
     writer.write(encapsulate)
@@ -48,6 +47,7 @@ async def set_plc_time(reader,writer, time):
 
 #module to read and write to OPC nodes
 async def rw_opc(nodes_id,data_list,source_time,server):
+
     if isinstance(nodes_id,list):# and len(data_list[0])==1:
         for i in range(len(nodes_id)):
             data_value = ua.DataValue((int(data_list[i])),SourceTimestamp=source_time, ServerTimestamp=DateTime.utcnow())
@@ -56,66 +56,64 @@ async def rw_opc(nodes_id,data_list,source_time,server):
     else:
         data_value = ua.DataValue((int(data_list)),SourceTimestamp=source_time, ServerTimestamp=DateTime.utcnow())
         asyncio.create_task(server.write_attribute_value(nodes_id.nodeid, data_value))#attr=ua.AttributeIds.Value)
-async def nodes_init(Param,addspace,start_device,devices_qty):
-    start_device = re.split('(\d+)', start_device)
-    start_address=int(start_device[1])
-    if start_device[0]=="R":
-        Relay_node_name_list=list(itertools.chain(*[[(f"{start_device[0]}{start_address+i+(j*100):03}") for i in range(16)] for j in range(0,(devices_qty//16)+1)]))
-    else:
-        Relay_node_name_list=list([(f"{start_device[0]}{start_address+i:05}") for i in range(devices_qty)])
-    Relay_nodes=[]
-    for l in range(devices_qty):
-        Relay_nodes.append(await Param.add_variable(addspace, Relay_node_name_list[l], 0, varianttype=ua.VariantType.Int64))
-        #await Relay_nodes[l].set_writable()
-           
-    return Relay_nodes
+
 async def plc_to_opc(i, dv, current_list,source_time,nodes_id,server):
     if dv[i]!=current_list[i]:
         dv[i]=current_list[i]
         asyncio.create_task(rw_opc(nodes_id[i],dv[i],source_time,server))
     return dv
-async def scan_loop_plc(reader,writer,start_address,number_of_devices,device_nodes,read_device,source_time,server):
+
+async def scan_loop_plc(reader,writer,start_address,number_of_devices,nodes_id,read_device,source_time,server):
     current_relay_list = await plc_tcp_socket(start_address,number_of_devices,reader,writer)
-    read_device = asyncio.gather(*(plc_to_opc(i, read_device, current_relay_list,source_time, device_nodes,server) for i in range(len(read_device))))
+    read_device = asyncio.gather(*(plc_to_opc(i, read_device, current_relay_list,source_time, nodes_id,server) for i in range(len(read_device))))
+
 async def opc_server():#-------------------------------------------------------------------------------------------------PLC OPC Server starts here
     _logger = logging.getLogger('server_log')
     server = Server()
     await server.init()
-    #open server at local host ip address
-    url = "opc.tcp://localhost:4840" 
-    server.set_endpoint(url)
-    
-    name = "OPC_PLC_SERVER"
-    addspace = await server.register_namespace(name) #idx
-    Param = await server.nodes.objects.add_object(addspace, 'PLC1')
+    server.set_endpoint("opc.tcp://localhost:4840" )
+    #server.set_server_name("OPC_PLC_SERVER")
+
+    try:
+        list_nodes = await server.import_xml("opc_plc_server.xml")
+    except FileNotFoundError as e:
+        print("File not found")
+    except Exception as e:
+        print(e)
     plc_reader, plc_writer = await asyncio.open_connection("192.168.0.11", 8501)
-    #initializing opc nodes value with current relay value in PLC
+    await server.load_data_type_definitions()
+
     source_time = await plc_source_time(plc_reader,plc_writer)
-    device_nodes=[]
+    obj=[]
+    obj.append(await server.nodes.root.get_child(["0:Objects", "2:plc1_relay_input"]))
+    obj.append(await server.nodes.root.get_child(["0:Objects", "2:plc1_dm_input"]))
+    input_device_nodes=[]
+    start_device=[]
     read_device=[]
-    for i in range(len(read_list_of_devices)): 
+    for i in range(len(obj)):
+        input_device_nodes.append(await obj[i].get_children()) #get children of of the above node. Can use len to determine the number of variables
+        display_name = await input_device_nodes[i][0].read_display_name() #get the display name of the variables, will be use to send to plc socket
+        start_device.append(display_name.Text)
+        read_device.append(await plc_tcp_socket(start_device[i],len(input_device_nodes[i]),plc_reader,plc_writer))
+        await rw_opc(input_device_nodes[i],read_device[i],source_time,server)
 
-        device_nodes.append(await nodes_init(Param,addspace,read_list_of_devices[i][0],read_list_of_devices[i][1]))
-        read_device.append(await plc_tcp_socket(read_list_of_devices[i][0],read_list_of_devices[i][1],plc_reader,plc_writer))
-        await rw_opc(device_nodes[i],read_device[i],source_time,server)
 
-    _logger.info('Set PLC time!')
-    await  set_plc_time(plc_reader,plc_writer,DateTime.utcnow())
-    
+
     _logger.info('Starting server!')
     async with server:
 
         while True:
-
-            try:
-                for i in range(len(read_list_of_devices)):
+            #await asyncio.sleep()
+            for i in range(len(obj)):
+                try:
                     source_time = await plc_source_time(plc_reader,plc_writer)
-                    tasks = await asyncio.create_task(scan_loop_plc(plc_reader,plc_writer,read_list_of_devices[i][0],read_list_of_devices[i][1],device_nodes[i],read_device[i],source_time,server))
-  
-            except KeyboardInterrupt as e:
-                print("Caught keyboard interrupt. Canceling tasks...")
-                tasks.cancel()
-                tasks.exception()
+                    tasks = await asyncio.create_task(scan_loop_plc(plc_reader,plc_writer,start_device[i],len(read_device[i]),input_device_nodes[i],read_device[i],source_time,server))
+            
+                except KeyboardInterrupt as e:
+                    print("Caught keyboard interrupt. Canceling tasks...")
+                    tasks.cancel()
+                    tasks.exception()
+
 
 def IO_layout_list(set,starting_number,io_type,input_button_color,output_button_color):
     if io_type=='input':
@@ -144,13 +142,10 @@ def io_page_button(event,window):
     window[y[0]+'_page_'+y[1]].update(visible=True)
 
 
-async def input_status(window):
-    if await var1.read_value()==1: window.Element('name_R100').Update(text_color='green') 
-    else: window.Element('name_R100').Update(text_color='black')
-    if await var2.read_value()==1: window.Element('name_R101').Update(text_color='green') 
-    else: window.Element('name_R101').Update(text_color='black')
-    if await var3.read_value()==1: window.Element('name_R102').Update(text_color='green') 
-    else: window.Element('name_R102').Update(text_color='black')
+async def input_status(window,var,device_names):
+    if await var.read_value()==1: window.Element(f'name_{device_names}').Update(text_color='green') 
+    else: window.Element(f'name_{device_names}').Update(text_color='black')
+
 
 
 async def hmi():#-------------------------------------------------------------------------------------------------------OPC HMI Starts here
@@ -282,29 +277,10 @@ async def hmi():#---------------------------------------------------------------
     client = Client(url='opc.tcp://localhost:4840/freeopcua/server/')
     async with client:
 
-        """
-        Main task of this Client-Subscription example.
-        """
         idx = await client.get_namespace_index(uri="OPC_PLC_SERVER")
-        var=[]
 
-
-        for i in range(len(read_list_of_devices)):
-            for k in range(int(read_list_of_devices[i][1])):
-                start_device = re.split('(\d+)', read_list_of_devices[i][0])
-                device = start_device[0]
-                start_address=int(start_device[1])
-                var[i]=await client.nodes.root.get_child(["0:Objects", f"{idx}:PLC1", f"{idx}:{device}{start_address}"])
-
-
-
-
-
-        #var1 = await client.nodes.root.get_child(["0:Objects", f"{idx}:PLC1", f"{idx}:R00401"])
-        #var2 = await client.nodes.root.get_child(["0:Objects", f"{idx}:PLC1", f"{idx}:R00402"])
-        #var3 = await client.nodes.root.get_child(["0:Objects", f"{idx}:PLC1", f"{idx}:R00403"])
-
-
+        #var=await client.nodes.root.get_child(["0:Objects", f"{idx}:PLC1", f"{idx}:{device}{start_address}"]))
+                
 
 
         down = True      
@@ -334,11 +310,9 @@ async def hmi():#---------------------------------------------------------------
                 down = not down
                 window.Element('button_R100').Update(button_color=(('white', ('red', 'green')[down])))
 
-            asyncio.create_task(input_status(window))
+            #(input_status(window,var[i],device_names[i]) for i in range(sum(j for i, j in read_list_of_devices)))
 
 
-            if event == 'button_R000':
-                window[event].update(image_data=lg.logo('toggle_on'),image_subsample=3)
     window.close()
 
 def start_server():
