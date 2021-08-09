@@ -31,8 +31,8 @@ class button_window(QMainWindow):
         self.pushButton_2.setCheckable(True)
         self.pushButton_3.clicked.connect(self.data_test3)
         self.pushButton_3.setCheckable(True)
-        self.pushButton_32.clicked.connect(self.client_start(client_process))
-        self.pushButton_33.clicked.connect(self.client_shutdown)
+        #self.pushButton_32.clicked.connect(self.client_start(client_process))
+        #Eself.pushButton_33.clicked.connect(self.client_shutdown)
         
 
     def data_test1(self):
@@ -65,18 +65,14 @@ class button_window(QMainWindow):
 def start_client(inputs_queue, outputs_queue, proc_id):
     asyncio.run(opc_client(inputs_queue, outputs_queue, proc_id))
 
-async def read_opc_2(input_nodes,ivn,io_type,io_color):
+async def read_opc_2(input_nodes,ivn,io_type):
     data = await input_nodes.read_value()
     #asyncio.create_task(print(data))
     #print(data)
 async def transfer_data(msg):
         print(msg)
 async def read_opc(input_nodes,ivn,io_type):
-
-    if io_type=='input': io_color="Black on lime"
-    elif io_type=='output': io_color="Black on red"
-    asyncio.gather(*(read_opc_2(input_nodes[i],ivn[i],io_type,io_color) for i in range(len(input_nodes))))
-
+    asyncio.gather(*(read_opc_2(input_nodes[i],ivn[i],io_type) for i in range(len(input_nodes))))
 async def opc_client(inputs_queue, outputs_queue, proc_id):#-------------------------------------------------------------------------------------------------------OPC HMI Starts here
     
     client = Client(url='opc.tcp://localhost:4840/freeopcua/server/')
@@ -120,7 +116,7 @@ async def opc_client(inputs_queue, outputs_queue, proc_id):#--------------------
                 except KeyboardInterrupt as e:
                     tasks.cancel()
                     tasks.exception()
-        print("Client Shutdown")
+
             
 
     
@@ -132,7 +128,7 @@ if __name__ == '__main__':
     widget.addWidget(home)
     widget.setFixedHeight(600)
     widget.setFixedWidth(400)
-    widget.show(quit_event)
+    widget.show()
     try:
         sys.exit(app.exec_())
     except:

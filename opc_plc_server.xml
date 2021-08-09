@@ -1506,8 +1506,8 @@
       <Reference ReferenceType="HasComponent">ns=1;i=2158</Reference>
     </References>
   </UAObject>
-  <UAVariable NodeId="ns=1;i=2126" BrowseName="1:MR1000" ParentNodeId="ns=1;i=2096" DataType="Int64" UserAccessLevel="3">
-    <DisplayName>MR1000</DisplayName>
+  <UAVariable NodeId="ns=1;i=2126" BrowseName="1:DM1000" ParentNodeId="ns=1;i=2096" DataType="Int64" UserAccessLevel="3">
+    <DisplayName>DM1000</DisplayName>
     <Description>MR1000</Description>
     <References>
       <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2096</Reference>
