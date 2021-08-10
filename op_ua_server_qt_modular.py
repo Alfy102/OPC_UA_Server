@@ -47,8 +47,6 @@ class opc_server_worker(QObject):
         recv_value = recv_value.decode('UTF-8').split()
         hmi_flag = False
 
-
-
     async def plc_source_time(self,reader,writer):
         recv_timestamp = await self.plc_tcp_socket("CM700",6,reader, writer)
         print(recv_timestamp)
@@ -91,6 +89,22 @@ class opc_server_worker(QObject):
         current_relay_list = await self.plc_tcp_socket(start_address,number_of_devices,reader,writer)
         read_device = asyncio.gather(*(self.plc_to_opc(i, read_device, current_relay_list,source_time, nodes_id,server) for i in range(len(read_device))))
 
+
+    """
+    To create a modular tcp to plc function
+    """
+
+    async def tcp_socket(self,plc_address):
+        ipaddressport = plc_address.split(":")
+        reader, writer = await asyncio.open_connection(ipaddressport[0], ipaddressport[1])
+        source_time = await self.plc_source_time(reader,writer)
+
+
+
+
+
+
+
     async def opc_server(self):#-------------------------------------------------------------------------------------------------PLC OPC Server starts here
         _logger = logging.getLogger('server_log')
         server = Server()
@@ -106,6 +120,7 @@ class opc_server_worker(QObject):
         except FileNotFoundError as e:
             _logger.info("File not found")
 
+        """
         #plc_ip_address = "192.168.0.11"
         _logger.info("Connecting to PLC at " + plc_ip_address)
         address_port = plc_ip_address.split(":")
@@ -114,22 +129,54 @@ class opc_server_worker(QObject):
         except WindowsError as e:
             _logger.info("No Connection to PLC\nExiting with Code 1")
             sys.exit(1)
+        """
         await server.load_data_type_definitions()
-        _logger.info("Connected to PLC")
+        #_logger.info("Connected to PLC")
         #check for plc connection
         _logger.info("Initializing Nodes")
+#----------------------------------------------------------------------------------------------
+        """
+        Initializing read only nodes and hmi nodes
+        """
+        device_group=[]
+        device_hmi_group=[]
+        root_obj = await server.nodes.root.get_child(["0:Objects", "2:Device"])
+        root_obj_children = await root_obj.get_children()
+        for i in range(len(root_obj_children)): #loop based on how many plc is connected
+            #print((await root_obj_children[i].read_display_name()).Text)
+            category = await root_obj_children[i].get_children()
+            category_group = []
+            for k in range(len(category)):
+                category_name = (await category[k].read_display_name()).Text
+                test = await category[k].get_children()
+                data_group=[]
+                hmi_group=[]
+                if category_name not in 'hmi':
+                    for l in range(len(test)):
+                        #data_group.append((await test[l].read_display_name()).Text)
+                        data_group.append(test[l])
+                else:
+                    for l in range(len(test)):
+                        #hmi_group.append((await test[l].read_display_name()).Text)
+                        await test[l].set_writable(True)
+                        hmi_group.append(test[l])
+                category_group.append(data_group)
+                device_hmi_group.append(hmi_group)
+            device_group.append(category_group)
         
-        plc_obj=[]
-        plc_obj.append(await server.nodes.root.get_child(["0:Objects", "2:plc1_relay_input"]))
-        #plc_obj.append(await server.nodes.root.get_child(["0:Objects", "2:plc1_relay_output"]))
-        input_device_nodes=[]
-        start_device=[]
-        read_device=[]        
-        #initializing server with curent value of sensor inputs
-        #source_time = await self.plc_source_time(plc_reader,plc_writer)
-        source_time = DateTime.utcnow()
+        #print(device_group)
+        device_hmi_group = [x for x in device_hmi_group if x]
+        #print(device_hmi_group)
+        """
+        Device group consist of read only data nodes that is contained in category list 
+        that is contained device group list *triple layer. This allows the server to accomate 
+        more than one PLC. The same is applied to device hmi group.
+        """
+#---------------------------------------------------------------------------------------------
+
+
         for i in range(len(plc_obj)):
-            input_device_nodes.append(await plc_obj[i].get_children()) #get children of of the above node. Can use len to determine the number of variables
+            #input_device_nodes.append(await plc_obj[i].get_children()) #get children of of the above node. Can use len to determine the number of variables
             display_name = await input_device_nodes[i][0].read_display_name() #get the display name of the variables, will be use to send to plc socket
             start_device.append(display_name.Text)
             read_device.append(await self.plc_tcp_socket(start_device[i],len(input_device_nodes[i]),plc_reader,plc_writer))
@@ -156,6 +203,12 @@ class opc_server_worker(QObject):
         #-------------------------------------------------------------------------------------------------------------
         _logger.info('Starting server!')
         async with server:
+
+            #######################  
+
+
+            ##########################
+
             if set_plc_time==True:
                 await self.set_plc_time(plc_reader,plc_writer,DateTime.utcnow())
                 _logger.info('Sync PLC time with server')
@@ -174,6 +227,35 @@ class opc_server_worker(QObject):
                         for i in range(len(ivn)):
                             await self.hmi_input_status(ivn[i],hmi_data_list[i], plc_reader,plc_writer)
         _logger.info('Server Stopped!')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 class server_conf(QDialog):
     def __init__(self):

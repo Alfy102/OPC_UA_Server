@@ -2,7 +2,8 @@ import sys
 import os
 from PyQt5.QtCore import QTimer
 from PyQt5.uic import loadUi
-from PyQt5.QtWidgets import QDialog,QApplication, QMainWindow, QStackedWidget
+from PyQt5.QtGui import * 
+from PyQt5.QtWidgets import * 
 from asyncua import Client
 import asyncio
 from threading import Thread
@@ -90,7 +91,6 @@ async def client(inputs_queue, proc_id):#---------------------------------------
 
 class button_window(QMainWindow):
 
-
     def __init__(self):
         super(button_window,self).__init__()
         loadUi("button_test.ui",self)
@@ -175,45 +175,46 @@ class button_window(QMainWindow):
 
     def update_label(self):
         if len(data_list)>15: #to update with better implementation
-            hmi.label_1.setText(str(bool(data_list[0])))
-            hmi.label_2.setText(str(bool(data_list[1])))
-            hmi.label_3.setText(str(bool(data_list[2])))
-            hmi.label_4.setText(str(bool(data_list[3])))
-            hmi.label_5.setText(str(bool(data_list[4])))
-            hmi.label_6.setText(str(bool(data_list[5])))
-            hmi.label_7.setText(str(bool(data_list[6])))
-            hmi.label_8.setText(str(bool(data_list[7])))
-            hmi.label_9.setText(str(bool(data_list[8])))
-            hmi.label_10.setText(str(bool(data_list[9])))
-            hmi.label_11.setText(str(bool(data_list[10])))
-            hmi.label_12.setText(str(bool(data_list[11])))
-            hmi.label_13.setText(str(bool(data_list[12])))
-            hmi.label_14.setText(str(bool(data_list[13])))
-            hmi.label_15.setText(str(bool(data_list[14])))
-            hmi.label_16.setText(str(bool(data_list[15])))
+            user_hmi.hmi.label_1.setText(str(bool(data_list[0])))
+            user_hmi.hmi.label_2.setText(str(bool(data_list[1])))
+            user_hmi.hmi.label_3.setText(str(bool(data_list[2])))
+            user_hmi.hmi.label_4.setText(str(bool(data_list[3])))
+            user_hmi.hmi.label_5.setText(str(bool(data_list[4])))
+            user_hmi.hmi.label_6.setText(str(bool(data_list[5])))
+            user_hmi.hmi.label_7.setText(str(bool(data_list[6])))
+            user_hmi. hmi.label_8.setText(str(bool(data_list[7])))
+            user_hmi.hmi.label_9.setText(str(bool(data_list[8])))
+            user_hmi.hmi.label_10.setText(str(bool(data_list[9])))
+            user_hmi.hmi.label_11.setText(str(bool(data_list[10])))
+            user_hmi.hmi.label_12.setText(str(bool(data_list[11])))
+            user_hmi.hmi.label_13.setText(str(bool(data_list[12])))
+            user_hmi.hmi.label_14.setText(str(bool(data_list[13])))
+            user_hmi.hmi.label_15.setText(str(bool(data_list[14])))
+            user_hmi.hmi.label_16.setText(str(bool(data_list[15])))
 
 
 
 
 
+
+class user_hmi():
+    def main():
+        app = QApplication(sys.argv)
+        hmi = button_window()
+        widget = QStackedWidget()
+        widget.addWidget(hmi)
+        widget.setFixedHeight(800)
+        widget.setFixedWidth(600)
+        widget.show()
+
+        timer = QTimer()
+        timer.timeout.connect(hmi.update_label)
+        timer.start(200)
+        sys.exit(app.exec_())
 
     
         
 if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    #app.aboutToQuit.connect(button_window.client_quit())
-    hmi = button_window()
-    widget = QStackedWidget()
-    widget.addWidget(hmi)
-    widget.setFixedHeight(800)
-    widget.setFixedWidth(600)
-    widget.show()
+    user_hmi.main()
 
-    timer = QTimer()
-    timer.timeout.connect(hmi.update_label)
-    timer.start(200)
-    try:
-        sys.exit(app.exec_())
-    except:
 
-        print("exiting")
