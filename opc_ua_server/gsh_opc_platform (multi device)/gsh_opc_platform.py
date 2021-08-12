@@ -11,7 +11,7 @@ from PyQt5.QtWidgets import *
 import os.path
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 stop_threads=False
-xml_file_path ='C:/Users/aliff/Documents/OPC_UA_Server/standard_server_structure2.xml'
+xml_file_path ='C:/Users/aliff/Documents/OPC_UA_Server/opc_ua_server/gsh_opc_platform (multi device)/standard_server_structure2.xml'
 plc_ip_address='192.168.0.11:8501;127.0.0.1:8501'
 set_plc_time=False
 server_ip='localhost:4840'
@@ -49,41 +49,42 @@ class opc_server_worker(QObject):
         await server.write_attribute_value(zipped_data[0].nodeid, data_value)
 
     async def plc_source_time(self):
-        #recv_timestamp = await self.plc_tcp_socket(("CM700",6))
+        #recv_timestamp = await self.plc_tcp_socket_init(("CM700",6))
         #print(recv_timestamp)
         #recv_timestamp = str(recv_timestamp[0][-2:])+","+str(recv_timestamp[1][-2:])+","+str(recv_timestamp[2][-2:])+","+str(recv_timestamp[3][-2:])+","+str(recv_timestamp[4][-2:])+","+str(recv_timestamp[5][-2:])
         #recv_timestamp = DateTime.strptime(recv_timestamp,"%y,%m,%d,%H,%M,%S")
         recv_timestamp = DateTime.utcnow()
+        #print(recv_timestamp)
         return recv_timestamp
     
     async def plc_tcp_socket_init(self,start_device,ipaddress):
         reader, writer = await asyncio.open_connection(ipaddress[0], ipaddress[1])
-        print(f"Connected to {ipaddress}")
+        #print(f"Connected to {ipaddress}")
         encapsulate = bytes(f"RDS {start_device[0]} {start_device[1]}\r\n",'utf-8')
         writer.write(encapsulate)
         await writer.drain()
-        recv_value = await reader.read(1000)
+        recv_value = await reader.readuntil(separator=b'\r\n')
         recv_value = recv_value.decode('UTF-8').split()
         recv_value = [int(recv_value[i]) for i in range(len(recv_value))]
+        await writer.drain()
         writer.close()
         return recv_value
-
-    async def plc_tcp_socket_loop(self,start_device,reader,writer,ipaddress):
-        #reader, writer = await asyncio.open_connection(ipaddress[0], ipaddress[1])
+    """ 
+    async def plc_tcp_socket_loop(self,start_device,reader,writer):
         encapsulate = bytes(f"RDS {start_device[0]} {start_device[1]}\r\n",'utf-8')
         writer.write(encapsulate)
         recv_value = await reader.readuntil(separator=b'\r\n')
         recv_value = recv_value.decode('UTF-8').split()
         recv_value = [int(recv_value[i]) for i in range(len(recv_value))]
         await writer.drain()
-        #writer.close()
         return recv_value
+    """
 
     async def scan_loop_plc(self,start_device,zipped_data,server,ipaddress,tcp_rw):
         reader, writer = tcp_rw
         source_time = await self.plc_source_time()
-        current_relay_list = [await self.plc_tcp_socket_loop(start_device[i],reader,writer,ipaddress) for i in range(len(start_device))]
-
+        #current_relay_list = [await self.plc_tcp_socket_loop(start_device[i],reader,writer) for i in range(len(start_device))]
+        current_relay_list = [await self.plc_tcp_socket_init(start_device[i],ipaddress) for i in range(len(start_device))]
         for i in range(len(current_relay_list)):
             await self.plc_to_opc(current_relay_list[i], source_time, zipped_data[i],server)
         
@@ -92,7 +93,6 @@ class opc_server_worker(QObject):
             if current_list[i] != (await nodes_id[i][0].read_value()):
                 data = [nodes_id[i][0],current_list[i]]
                 await self.rw_opc(data,server,source_time)
-
 
     async def hmi_init(self,server,hmi_node,ipaddress):
         
@@ -103,7 +103,6 @@ class opc_server_worker(QObject):
             return_data = await self.plc_tcp_socket_init(data,ipaddress)
             opc_data = [hmi_node[i],return_data[0]]
             await self.rw_opc(opc_data,server, source_time)
-
 
     async def init_server(self,server,device_group,ipaddress):
         start_device=[]
@@ -119,9 +118,8 @@ class opc_server_worker(QObject):
         for k in range(len(nodes_data_list)):
             source_time = await self.plc_source_time()
             asyncio.gather(*(self.rw_opc(nodes_data_list[k][i],server,source_time) for i in range(len(nodes_data_list[k]))))
-        #print(data_list)
-        return start_device,zipped_data,data_list
-  
+        return start_device,zipped_data
+
     async def opc_server(self):
         _logger = logging.getLogger('server_log')
         server = Server()
@@ -135,7 +133,7 @@ class opc_server_worker(QObject):
             _logger.info("loading server structure from file")
             list_nodes = await server.import_xml(xml_file_path)
         except FileNotFoundError as e:
-            _logger.info("File not found")
+            _logger.info("Server Settings File not found")
 
         await server.load_data_type_definitions()
         
@@ -175,7 +173,7 @@ class opc_server_worker(QObject):
         """
         _logger.info("Initializing Nodes for HMI Subscription")
         for i in range(len(device_hmi_group)):
-            await self.hmi_init(server,device_hmi_group[i],ipaddress[i])
+            init_hmi = (await self.hmi_init(server,device_hmi_group[i],ipaddress[i]))
         """
         Create node subscription for HMI       
         """
@@ -192,23 +190,33 @@ class opc_server_worker(QObject):
         _logger.info('Starting server!')
         global stop_threads
         stop_threads = False
-        async with server:
+        """async with server:
             start_device=[0 for x in range(len(device_group))]
             zipped_data=[0 for x in range(len(device_group))]
             data_list=[0 for x in range(len(device_group))]
-            #for i in range(len(hardware_ip)):
-            #    ipaddress.append(hardware_ip[i].split(":"))
             tcp_rw=[0 for x in range(len(device_group))]
             for i in range(len(device_group)):
                 start_device[i],zipped_data[i], data_list[i]=await asyncio.create_task(self.init_server(server,device_group[i],ipaddress[i]))
-                #reader, writer = await asyncio.open_connection(ipaddress[0], ipaddress[1])
                 rdr, wrtr = await asyncio.open_connection(ipaddress[i][0], ipaddress[i][1])
                 tcp_rw[i] = [rdr , wrtr]
 
             while stop_threads==False:
-                await asyncio.sleep(0.01)
+                await asyncio.sleep(1)
                 for i in range(len(device_group)):
-                    tasks = await asyncio.create_task(self.scan_loop_plc(start_device[i],zipped_data[i],server,ipaddress[i],tcp_rw[i]))
+                    tasks = await asyncio.create_task(self.scan_loop_plc(start_device[i],zipped_data[i],server,ipaddress[i],tcp_rw[i]))"""
+        async with server:
+            start_device=[0 for x in range(len(device_group))]
+            zipped_data=[0 for x in range(len(device_group))]
+            tcp_rw=[0 for x in range(len(device_group))]
+            for i in range(len(device_group)):
+                start_device[i],zipped_data[i]=await asyncio.create_task(self.init_server(server,device_group[i],ipaddress[i]))
+                rdr, wrtr = await asyncio.open_connection(ipaddress[i][0], ipaddress[i][1])
+                tcp_rw[i] = [rdr , wrtr]
+
+            while stop_threads==False:
+                await asyncio.sleep(0.1)
+                for i in range(len(device_group)):
+                    tasks = await asyncio.create_task(self.scan_loop_plc(start_device[i],zipped_data[i],server,ipaddress[i],tcp_rw[i])) 
 
         
         _logger.info('Server Stopped!')
