@@ -69,16 +69,6 @@ class opc_server_worker(QObject):
         await writer.drain()
         writer.close()
         return recv_value
-    """ 
-    async def plc_tcp_socket_loop(self,start_device,reader,writer):
-        encapsulate = bytes(f"RDS {start_device[0]} {start_device[1]}\r\n",'utf-8')
-        writer.write(encapsulate)
-        recv_value = await reader.readuntil(separator=b'\r\n')
-        recv_value = recv_value.decode('UTF-8').split()
-        recv_value = [int(recv_value[i]) for i in range(len(recv_value))]
-        await writer.drain()
-        return recv_value
-    """
 
     async def scan_loop_plc(self,start_device,zipped_data,server,ipaddress,tcp_rw):
         reader, writer = tcp_rw
