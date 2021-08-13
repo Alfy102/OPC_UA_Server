@@ -180,21 +180,7 @@ class opc_server_worker(QObject):
         _logger.info('Starting server!')
         global stop_threads
         stop_threads = False
-        """async with server:
-            start_device=[0 for x in range(len(device_group))]
-            zipped_data=[0 for x in range(len(device_group))]
-            data_list=[0 for x in range(len(device_group))]
-            tcp_rw=[0 for x in range(len(device_group))]
-            for i in range(len(device_group)):
-                start_device[i],zipped_data[i], data_list[i]=await asyncio.create_task(self.init_server(server,device_group[i],ipaddress[i]))
-                rdr, wrtr = await asyncio.open_connection(ipaddress[i][0], ipaddress[i][1])
-                tcp_rw[i] = [rdr , wrtr]
 
-            while stop_threads==False:
-                await asyncio.sleep(1)
-                for i in range(len(device_group)):
-                    tasks = await asyncio.create_task(self.scan_loop_plc(start_device[i],zipped_data[i],server,ipaddress[i],tcp_rw[i]))"""
-        async with server:
             start_device=[0 for x in range(len(device_group))]
             zipped_data=[0 for x in range(len(device_group))]
             tcp_rw=[0 for x in range(len(device_group))]
