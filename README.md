@@ -31,7 +31,7 @@ Implemented
 
 Not yet implemented:
 
-* Mina homepage that show each machine module.
+* Main homepage that show each machine module.
 * Lot Entry page
 * Lot info page
 * Event Log Page
