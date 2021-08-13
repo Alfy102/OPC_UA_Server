@@ -111,8 +111,8 @@ class opc_server_worker(QObject):
         endpoint = server_ip
         server.set_endpoint(f"opc.tcp://{endpoint}/freeopcua/server/" )
         server.set_security_policy([ua.SecurityPolicyType.Basic256Sha256_SignAndEncrypt],permission_ruleset=SimpleRoleRuleset())
-        await server.load_certificate("C:/Users/aliff/Documents/OPC_UA_Server/opc_ua_server/gsh_opc_platform (multi device)/gsh_private_certificate.der")
-        await server.load_private_key("C:/Users/aliff/Documents/OPC_UA_Server/opc_ua_server/gsh_opc_platform (multi device)/gsh_private_key.pem")
+        await server.load_certificate("gsh_private_certificate.der")
+        await server.load_private_key("gsh_private_key.pem")
 
 
 
