@@ -121,13 +121,13 @@ async def opc_client(inputs_queue, outputs_queue, proc_id):#--------------------
 
     
 if __name__ == '__main__':
-    quit_event = Event()
+    #quit_event = Event()
     app = QApplication(sys.argv)
     home = button_window()
     widget = QStackedWidget()
     widget.addWidget(home)
-    widget.setFixedHeight(600)
-    widget.setFixedWidth(400)
+    #widget.setFixedHeight(600)
+    #widget.setFixedWidth(400)
     widget.show()
     try:
         sys.exit(app.exec_())

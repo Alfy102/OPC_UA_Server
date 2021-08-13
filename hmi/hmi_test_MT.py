@@ -192,11 +192,6 @@ class button_window(QMainWindow):
             user_hmi.hmi.label_15.setText(str(bool(data_list[14])))
             user_hmi.hmi.label_16.setText(str(bool(data_list[15])))
 
-
-
-
-
-
 class user_hmi():
     def main():
         app = QApplication(sys.argv)
@@ -212,8 +207,6 @@ class user_hmi():
         timer.start(200)
         sys.exit(app.exec_())
 
-    
-        
 if __name__ == '__main__':
     user_hmi.main()
 
