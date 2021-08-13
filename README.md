@@ -71,12 +71,13 @@ Implemented
 * server configuration and server settings file
 * datachange events will trigger write to PLC relay/data memory
 * multithreaded application to prevent GUI freeze
+* Server certificate and key for encryption                                                                                                                             
+                                                                                                                               
 
 Tested clients: uaexpert
 
 Not yet implemented:
 
-* Server certificate for connection authorisation.
 * Server logs export to CSV/TXT
 * Server events/methods
 * Mean Time Between Failure (MTBF) calculation using server method
