@@ -9,12 +9,15 @@ from PyQt5.uic import loadUi
 from PyQt5.QtGui import * 
 from PyQt5.QtWidgets import * 
 import os.path
+from asyncua.crypto.permission_rules import SimpleRoleRuleset
+#from asyncua.server.users import UserRole
+#from asyncua.server.user_managers import CertificateUserManager
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 stop_threads=False
 xml_file_path ='C:/Users/aliff/Documents/OPC_UA_Server/opc_ua_server/gsh_opc_platform (multi device)/standard_server_structure2.xml'
-plc_ip_address='192.168.0.11:8501;127.0.0.1:8501'
+plc_ip_address='127.0.0.1:8501;127.0.0.2:8501'
 set_plc_time=False
-server_ip='localhost:4840'
+server_ip='127.0.0.1:4840'
 
 
 device_hmi_global=[]
@@ -71,28 +74,18 @@ class opc_server_worker(QObject):
         return recv_value
 
     async def scan_loop_plc(self,start_device,zipped_data,server,ipaddress,tcp_rw):
-        reader, writer = tcp_rw
         source_time = await self.plc_source_time()
-        #current_relay_list = [await self.plc_tcp_socket_loop(start_device[i],reader,writer) for i in range(len(start_device))]
         current_relay_list = [await self.plc_tcp_socket_init(start_device[i],ipaddress) for i in range(len(start_device))]
-        for i in range(len(current_relay_list)):
-            await self.plc_to_opc(current_relay_list[i], source_time, zipped_data[i],server)
+        [await self.plc_to_opc(current_relay_list[i], source_time, zipped_data[i],server) for i in range(len(current_relay_list))]
         
     async def plc_to_opc(self,current_list,source_time,nodes_id,server):
-        for i in range(len(current_list)):
-            if current_list[i] != (await nodes_id[i][0].read_value()):
-                data = [nodes_id[i][0],current_list[i]]
-                await self.rw_opc(data,server,source_time)
+        [await self.rw_opc([nodes_id[i][0],current_list[i]],server,source_time) for i in range(len(current_list)) if current_list[i] != (await nodes_id[i][0].read_value())]
 
     async def hmi_init(self,server,hmi_node,ipaddress):
-        
         source_time = await self.plc_source_time()
         for i in range(len(hmi_node)):
-            name = (await hmi_node[i].read_display_name()).Text
-            data = [name,'1']
-            return_data = await self.plc_tcp_socket_init(data,ipaddress)
-            opc_data = [hmi_node[i],return_data[0]]
-            await self.rw_opc(opc_data,server, source_time)
+            return_data = await self.plc_tcp_socket_init([(await hmi_node[i].read_display_name()).Text,'1'],ipaddress)
+            await self.rw_opc([hmi_node[i],return_data[0]],server, source_time)
 
     async def init_server(self,server,device_group,ipaddress):
         start_device=[]
@@ -100,8 +93,8 @@ class opc_server_worker(QObject):
         zipped_data=[]
         device_group = [x for x in device_group if x]
         for i in range(len(device_group)):
-            name = (await device_group[i][0].read_display_name()).Text
-            start_device.append((name,len(device_group[i])))
+            #name = (await device_group[i][0].read_display_name()).Text
+            start_device.append(((await device_group[i][0].read_display_name()).Text,len(device_group[i])))
             data_list.append(await self.plc_tcp_socket_init(start_device[i],ipaddress))
             zipped_data.append(list(zip(device_group[i],data_list[i])))
         nodes_data_list = list(zipped_data)
@@ -116,7 +109,12 @@ class opc_server_worker(QObject):
         await server.init()
         _logger.info("Initializing Server")
         endpoint = server_ip
-        server.set_endpoint(f"opc.tcp://{endpoint}" )
+        server.set_endpoint(f"opc.tcp://{endpoint}/freeopcua/server/" )
+        server.set_security_policy([ua.SecurityPolicyType.Basic256Sha256_SignAndEncrypt],permission_ruleset=SimpleRoleRuleset())
+        await server.load_certificate("C:/Users/aliff/Documents/OPC_UA_Server/opc_ua_server/gsh_opc_platform (multi device)/gsh_private_certificate.der")
+        await server.load_private_key("C:/Users/aliff/Documents/OPC_UA_Server/opc_ua_server/gsh_opc_platform (multi device)/gsh_private_key.pem")
+
+
 
         _logger.info(f"Establisihing Server at {endpoint}")
         try:
@@ -181,6 +179,7 @@ class opc_server_worker(QObject):
         global stop_threads
         stop_threads = False
 
+        async with server:
             start_device=[0 for x in range(len(device_group))]
             zipped_data=[0 for x in range(len(device_group))]
             tcp_rw=[0 for x in range(len(device_group))]
@@ -191,8 +190,8 @@ class opc_server_worker(QObject):
 
             while stop_threads==False:
                 await asyncio.sleep(0.1)
-                for i in range(len(device_group)):
-                    tasks = await asyncio.create_task(self.scan_loop_plc(start_device[i],zipped_data[i],server,ipaddress[i],tcp_rw[i])) 
+                #for i in range(len(device_group)):
+                tasks = [await asyncio.create_task(self.scan_loop_plc(start_device[i],zipped_data[i],server,ipaddress[i],tcp_rw[i])) for i in range(len(device_group))]
 
         
         _logger.info('Server Stopped!')
