@@ -22,7 +22,8 @@ Installation with pip
 Installing Qt from the main website:
     
     https://www.qt.io/download
-    Go to the bottom and find "Download for open source users" and then go to bottom of this page find "Download the Qt online installer"
+    Go to the bottom and find "Download for open source users"
+    Then go to bottom of this page find "Download the Qt online installer"
     
 Use the included Designer software to start making GUI's
     
