@@ -3,25 +3,38 @@
 <br>
 
 <div align="left">
-Project library dependecy:
-<br>
+    
+## Project library dependecy:
+
 ASYNCIO OPC UA : - https://github.com/FreeOpcUa/opcua-asyncio : 
 
 Installation with pip
 
     pip install asyncua
 
-PyQt5 : - https://pypi.org/project/PyQt5/
+PyQt5 : - https://pypi.org/project/PySide2/
 
 Installation with pip
 
+    pip install PySide2
     pip install PyQt5
 
-Clarifying general terms:
+Installing Qt from the main website:
+    
+    https://www.qt.io/download
+    Go to the bottom and find "Download for open source users" and then go to bottom of this page find "Download the Qt online installer"
+    
+Use the included Designer software to start making GUI's
+    
+
+## Clarifying general terms:
 
 opcua-asyncio is an asyncio-based asynchronous OPC UA client and server based on python-opcua, removing support of python < 3.7.
 Asynchronous programming allows for simpler code (e.g. less need for locks) and potentially performance gains.
 
+Qt is set of cross-platform C++ libraries that implement high-level APIs for accessing many aspects of modern desktop and mobile systems. These include location and positioning services, multimedia, NFC and Bluetooth connectivity, a Chromium based web browser, as well as traditional UI development.
+
+PyQt5 is a comprehensive set of Python bindings for Qt v5. It is implemented as more than 35 extension modules and enables Python to be used as an alternative application development language to C++ on all supported platforms including iOS and Android.
 
 ## PyQt5 HMI
 
@@ -71,7 +84,7 @@ Implemented
 * server configuration and server settings file
 * datachange events will trigger write to PLC relay/data memory
 * multithreaded application to prevent GUI freeze
-* Server certificate and key for encryption                                                                                                                             
+* Server certificate and key for encryption                                                                                                                          
                                                                                                                                
 
 Tested clients: uaexpert
