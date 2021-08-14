@@ -1,17 +1,11 @@
 import asyncio
 import logging
-from PyQt5.QtCore import QObject, QThread
-from asyncua.ua.uaprotocol_auto import WriteRequest
+from PyQt5.QtCore import QObject
 from asyncua.ua.uatypes import DateTime
 from asyncua import ua, Server
-import sys
-from PyQt5.uic import loadUi
-from PyQt5.QtGui import * 
-from PyQt5.QtWidgets import * 
 import os.path
 from asyncua.crypto.permission_rules import SimpleRoleRuleset
-#from asyncua.server.users import UserRole
-#from asyncua.server.user_managers import CertificateUserManager
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 stop_threads=False
 xml_file_path ='C:/Users/aliff/Documents/OPC_UA_Server/opc_ua_server/gsh_opc_platform (multi device)/standard_server_structure2.xml'
@@ -40,10 +34,19 @@ class SubServerHandler(object):
         recv_value = await reader.read(50)
         recv_value = recv_value.decode('UTF-8').split()
         writer.close()
+
+
 class opc_server_worker(QObject):
     def start_opc_server(self):
+        global stop_threads
+        stop_threads = False
         logging.basicConfig(level=logging.INFO)
         asyncio.run(self.opc_server())
+
+
+    def stop_opc_server(self):
+        global stop_threads
+        stop_threads=True
     """
     To create a modular tcp to plc function
     """
@@ -62,7 +65,6 @@ class opc_server_worker(QObject):
     
     async def plc_tcp_socket_init(self,start_device,ipaddress):
         reader, writer = await asyncio.open_connection(ipaddress[0], ipaddress[1])
-        #print(f"Connected to {ipaddress}")
         encapsulate = bytes(f"RDS {start_device[0]} {start_device[1]}\r\n",'utf-8')
         writer.write(encapsulate)
         await writer.drain()
@@ -87,16 +89,16 @@ class opc_server_worker(QObject):
             return_data = await self.plc_tcp_socket_init([(await hmi_node[i].read_display_name()).Text,'1'],ipaddress)
             await self.rw_opc([hmi_node[i],return_data[0]],server, source_time)
 
-    async def init_server(self,server,device_group,ipaddress):
+    async def init_server(self,server,logger,device_group,ipaddress):
         start_device=[]
         data_list=[]
         zipped_data=[]
         device_group = [x for x in device_group if x]
         for i in range(len(device_group)):
-            #name = (await device_group[i][0].read_display_name()).Text
-            start_device.append(((await device_group[i][0].read_display_name()).Text,len(device_group[i])))
+            start_device.append(((device_name := await device_group[i][0].read_display_name()).Text,len(device_group[i])))
             data_list.append(await self.plc_tcp_socket_init(start_device[i],ipaddress))
             zipped_data.append(list(zip(device_group[i],data_list[i])))
+            logger.info(f"Successfully load {device_name}")
         nodes_data_list = list(zipped_data)
         for k in range(len(nodes_data_list)):
             source_time = await self.plc_source_time()
@@ -113,18 +115,14 @@ class opc_server_worker(QObject):
         server.set_security_policy([ua.SecurityPolicyType.Basic256Sha256_SignAndEncrypt],permission_ruleset=SimpleRoleRuleset())
         await server.load_certificate("gsh_private_certificate.der")
         await server.load_private_key("gsh_private_key.pem")
-
-
-
         _logger.info(f"Establisihing Server at {endpoint}")
         try:
             _logger.info("loading server structure from file")
             list_nodes = await server.import_xml(xml_file_path)
         except FileNotFoundError as e:
-            _logger.info("Server Settings File not found")
+            _logger.info("Server Structure File not found")
 
         await server.load_data_type_definitions()
-        
         hardware_ip = plc_ip_address.split(";")
         ipaddress=[hardware_ip[i].split(":") for i in range(len(hardware_ip))]
         """
@@ -160,8 +158,8 @@ class opc_server_worker(QObject):
         Init node subscription for HMI       
         """
         _logger.info("Initializing Nodes for HMI Subscription")
-        for i in range(len(device_hmi_group)):
-            init_hmi = (await self.hmi_init(server,device_hmi_group[i],ipaddress[i]))
+        #for i in range(len(device_hmi_group)):
+        init_hmi = [await self.hmi_init(server,device_hmi_group[i],ipaddress[i]) for i in range(len(device_hmi_group))]
         """
         Create node subscription for HMI       
         """
@@ -174,116 +172,22 @@ class opc_server_worker(QObject):
         that is contained device group list *triple layer. This allows the server to accomate 
         more than one PLC. The same is applied to device hmi group.
         """
-
-        _logger.info('Starting server!')
-        global stop_threads
-        stop_threads = False
-
+        
         async with server:
             start_device=[0 for x in range(len(device_group))]
             zipped_data=[0 for x in range(len(device_group))]
             tcp_rw=[0 for x in range(len(device_group))]
+            _logger.info('Initializing server!')
             for i in range(len(device_group)):
-                start_device[i],zipped_data[i]=await asyncio.create_task(self.init_server(server,device_group[i],ipaddress[i]))
+                start_device[i],zipped_data[i]=await asyncio.create_task(self.init_server(server,_logger,device_group[i],ipaddress[i]))
                 rdr, wrtr = await asyncio.open_connection(ipaddress[i][0], ipaddress[i][1])
                 tcp_rw[i] = [rdr , wrtr]
-
+            _logger.info('Starting server!')
             while stop_threads==False:
                 await asyncio.sleep(0.1)
-                #for i in range(len(device_group)):
                 tasks = [await asyncio.create_task(self.scan_loop_plc(start_device[i],zipped_data[i],server,ipaddress[i],tcp_rw[i])) for i in range(len(device_group))]
 
         
-        _logger.info('Server Stopped!')
+        _logger.info('Server Has Stopped!')
 
 
-class server_conf(QDialog):
-    def __init__(self):
-        super(server_conf, self).__init__()
-        loadUi('server_conf.ui', self)
-        self.setWindowTitle("Configure Server")
-        self.pushButton_browse.clicked.connect(self.open_xml)
-        self.buttonBox.accepted.connect(self.ok_button)
-        self.buttonBox.rejected.connect(self.cancel_button)
-
-        with open('server_settings.txt') as f:
-            lines = f.readlines()
-        settings= [lines[i].split("=")[1] for i in range(len(lines))]
-        settings= [settings[i].replace('\n', '') for i in range(len(lines))]
-
-
-
-
-
-        self.lineEdit_2.setText(plc_ip_address)
-        self.lineEdit_3.setText(xml_file_path)
-        self.lineEdit.setText(server_ip)
-
-    def open_xml(self):
-        dlg = QFileDialog()
-        fileName = dlg.getOpenFileName(self, 'OpenFile')
-        self.lineEdit_3.setText(str(fileName[0]))
-
-    def ok_button(self):
-        global plc_ip_address
-        global set_plc_time
-        global xml_file_path
-        global server_ip
-        if self.checkBox.isChecked():
-            set_plc_time=True
-        else:
-            set_plc_time=False
-        plc_ip_address = self.lineEdit_2.text()
-        xml_file_path = self.lineEdit_3.text()
-        server_ip = self.lineEdit.text()
-
-    def cancel_button(self):
-        self.close()
-
-
-def main():
-    thread = QThread()
-    worker = opc_server_worker()
-    worker.moveToThread(thread)
-    thread.started.connect(worker.start_opc_server)
-
-    
-    app = QApplication([])
-    app.setQuitOnLastWindowClosed(False)
-    tray = QSystemTrayIcon()
-    menu = QMenu()
-    option1 = QAction("Start Server")
-    option2 = QAction("Stop Server")
-    option3 = QAction("Configure Server")
-    option1.triggered.connect(lambda: tray_start_button(thread))
-    option2.triggered.connect(lambda: tray_stop_button(thread))
-    option3.triggered.connect(server_conf_dialog)
-    menu.addAction(option1)
-    menu.addAction(option2)
-    menu.addAction(option3)
-
-    # To quit the app
-    quit = QAction("Quit")
-    quit.triggered.connect(app.quit)
-    menu.addAction(quit)
-    icon = QIcon("icons8.png")
-    tray.setIcon(icon)
-    tray.setVisible(True)
-    tray.setContextMenu(menu)
-    sys.exit(app.exec_())
-
-def tray_start_button(thread):
-    thread.start()
-
-def tray_stop_button(thread):
-    #thread.requestInterruption()
-    global stop_threads
-    stop_threads = True
-    thread.quit()
-    #thread.join()
-def server_conf_dialog():
-    server_configuration = server_conf()
-    server_configuration.exec_()
-
-if __name__ == '__main__':
-    main()
