@@ -5,7 +5,7 @@ import datetime
 from asyncua import ua, Server
 import os.path
 import sys
-import sqlite3
+import sqlite3 as sql
 sys.path.insert(0, "..")
 from asyncua.server.history_sql import HistorySQLite
 #from asyncua.crypto.permission_rules import SimpleRoleRuleset
@@ -13,7 +13,6 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 stop_threads=False
 xml_file_path ='C:/Users/aliff/Documents/OPC_UA_Server/opc_ua_server/gsh_opc_platform (multi device)/standard_server_structure2.xml'
 plc_ip_address='127.0.0.1:8501;127.0.0.2:8501'
-log_file_path = "server_node_history.db"
 set_plc_time=False
 server_ip='127.0.0.1:4840'
 device_hmi_global=[]
@@ -23,28 +22,31 @@ device_hmi_global=[]
 
 
 class ServerLogHandler(logging.Handler):
-    def __init__(self, sql_conn, sql_cursor):
+    def __init__(self):#,log_file_path):
         logging.Handler.__init__(self)
-        self.sql_cursor = sql_cursor
-        self.sql_conn = sql_conn
-
+        #self.sql_cursor = sql_cursor
+        #self.sql_conn = sql_conn        
     def emit(self, record):
-        #log_file_path = "server_node_history.db"
-        #log_conn = sqlite3.connect(log_file_path)
-        self.log_msg = record.msg
-        self.log_msg = self.log_msg.strip()
-        print(f"test log  {self.log_msg}")
-
+        time = datetime.datetime.now()
+        with sql.connect("server_node_history.db") as Conn:
+            cursor = Conn.cursor()
+            self.log_msg = record.msg
+            self.log_msg = self.log_msg.strip()
+            msg = self.log_msg
+            #print(f"{self.log_msg}")
+            try:
+                cursor.execute("INSERT OR IGNORE INTO server_logs(event_date_time,event_type,event_desc)  VALUES (?,?,?)", (time,'INFO',msg))
+                #print("written")
+            except:
+                print("Can't write")
+            Conn.commit()
 
 log_file_path = "server_node_history.db"
-logging.basicConfig(filename=log_file_path)
-log_conn = sqlite3.connect(log_file_path)
-log_cursor = log_conn.cursor()
-logdb = ServerLogHandler(log_conn, log_cursor)
+logging.basicConfig(filename="server_logs_history.db")
+logdb = ServerLogHandler()
 logging.getLogger('').addHandler(logdb)
 log = logging.getLogger('opc_server_log')
 log.setLevel('INFO')
-
 
 class SubServerHandler(object):
     async def datachange_notification(self, node, val, data):
@@ -66,13 +68,11 @@ class SubServerHandler(object):
         recv_value = recv_value.decode('UTF-8').split()
         writer.close()
 
-
-
 class opc_server_worker(QObject):
     def start_opc_server(self):
         global stop_threads
         stop_threads = False
-        asyncio.run(self.opc_server(log))
+        asyncio.run(self.opc_server())
 
     def stop_opc_server(self):
         global stop_threads
@@ -147,15 +147,23 @@ class opc_server_worker(QObject):
         return False
 
 
-    async def opc_server(self,log):
-        
+    async def opc_server(self):
+        #log_file_path = "server_node_history.db"
+        #logging.basicConfig(filename="server_logs_history.db")
+        #log_conn = sql.connect("server_logs_history.db")
+        #log_cursor = log_conn.cursor()
+        #logdb = ServerLogHandler(log_cursor,log_conn)
+        #logdb = ServerLogHandler()
+        #logging.getLogger('').addHandler(logdb)
+        #log = logging.getLogger('opc_server_log')
+        #log.setLevel('INFO')
 
         server = Server()
         server.iserver.history_manager.set_storage(HistorySQLite(log_file_path))
         await server.init()
         endpoint = server_ip
         server.set_endpoint(f"opc.tcp://{endpoint}/freeopcua/server/" )
-        log.info(f"Establisihing Server at {endpoint}/freeopcua/server/")
+        log.info(f"Establishing Server at {endpoint}/freeopcua/server/")
         #server.set_security_policy([ua.SecurityPolicyType.Basic256Sha256_SignAndEncrypt],permission_ruleset=SimpleRoleRuleset())
         #try:
         #    await server.load_certificate("gsh_private_certificate.der")   
@@ -225,7 +233,7 @@ class opc_server_worker(QObject):
         """
            
         for i in range(len(root_obj_children)):
-                log.info(f'Checking for device {ipaddress[0]}:{ipaddress[1]}')
+                log.info(f'Checking for device {ipaddress[i][0]}:{ipaddress[i][1]}')
                 device_connection = await self.is_connected(ipaddress[i])
                 await asyncio.sleep(3)
                 if device_connection == False:
@@ -288,6 +296,3 @@ class opc_server_worker(QObject):
             
 
         
-        
-
-
