@@ -5,3 +5,8 @@
 /test.py
 /dump
 opc_ua_server/gsh_opc_platform (multi device)/__pycache__/gsh_opc_platform_server.cpython-39.pyc
+opc_ua_server/gsh_opc_platform (multi device)/server_node_history.db
+opc_ua_server/gsh_opc_platform (multi device)/__pycache__/gsh_opc_platform_server.cpython-38.pyc
+opc_ua_server/gsh_opc_platform (multi device)/server_logs_history.txt
+opc_ua_server/gsh_opc_platform (multi device)/server_log_test.py
+opc_ua_server/test_history_server.py
