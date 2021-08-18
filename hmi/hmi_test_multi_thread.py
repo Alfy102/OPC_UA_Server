@@ -13,7 +13,7 @@ data_list=[]
 node_list=[]
 import datetime
 stop_thread=False
-
+from asyncua.crypto.security_policies import SecurityPolicyBasic256Sha256
 
 class SubHandler(object):
     """
@@ -40,7 +40,7 @@ async def transfer_data(message,input_nodes,ovn):
 
 async def client(inputs_queue, proc_id):#-------------------------------------------------------------------------------------------------------OPC HMI Starts here
     print("Initializing Input Nodes")
-    client = Client(url='opc.tcp://localhost:4840/freeopcua/server/')
+    client = Client(url='opc.tcp://127.0.0.1:4840/freeopcua/server/')
     async with client:
 
         obj=[]
@@ -93,7 +93,8 @@ class button_window(QMainWindow):
 
     def __init__(self):
         super(button_window,self).__init__()
-        loadUi("button_test.ui",self)
+        ui_path="C:/Users/aliff/Documents/OPC_UA_Server/hmi/button_test.ui"
+        loadUi(ui_path,self)
         self._inputs_queue = Queue()
 
         self.pushButton_1.clicked.connect(lambda: self.send_data(self.pushButton_1))

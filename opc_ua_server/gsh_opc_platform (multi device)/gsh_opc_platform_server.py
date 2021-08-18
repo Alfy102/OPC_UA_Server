@@ -7,9 +7,8 @@ import os.path
 import sys
 import sqlite3
 sys.path.insert(0, "..")
-#from asyncua.crypto.permission_rules import SimpleRoleRuleset #Disabled due to causing write problem from client
 from asyncua.server.history_sql import HistorySQLite
-
+#from asyncua.crypto.permission_rules import SimpleRoleRuleset
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 stop_threads=False
 xml_file_path ='C:/Users/aliff/Documents/OPC_UA_Server/opc_ua_server/gsh_opc_platform (multi device)/standard_server_structure2.xml'
@@ -18,6 +17,9 @@ log_file_path = "server_node_history.db"
 set_plc_time=False
 server_ip='127.0.0.1:4840'
 device_hmi_global=[]
+
+
+
 
 
 class ServerLogHandler(logging.Handler):
@@ -33,17 +35,28 @@ class ServerLogHandler(logging.Handler):
         self.log_msg = self.log_msg.strip()
         print(f"test log  {self.log_msg}")
 
+
+log_file_path = "server_node_history.db"
+logging.basicConfig(filename=log_file_path)
+log_conn = sqlite3.connect(log_file_path)
+log_cursor = log_conn.cursor()
+logdb = ServerLogHandler(log_conn, log_cursor)
+logging.getLogger('').addHandler(logdb)
+log = logging.getLogger('opc_server_log')
+log.setLevel('INFO')
+
+
 class SubServerHandler(object):
     async def datachange_notification(self, node, val, data):
         await self.index_comm(node,val)
-    async def index_comm(self,log,node,val):
+    async def index_comm(self,node,val):
         name = (await node.read_display_name()).Text
         global device_hmi_global
         for i in range(len(device_hmi_global)):
             if node in device_hmi_global[i]:
                 ipadd = plc_ip_address.split(";")
                 ipaddress = ipadd[i].split(":")
-        log.info(f"Device {name} at {ipaddress} change to {val}")
+        log.info(f"Device {name} at {ipaddress[0]}:{ipaddress[1]} data changed to {val}")
         await self.hmi_input(name,val,ipaddress)
     async def hmi_input(self,name,val,ipaddress):
         reader, writer = await asyncio.open_connection(ipaddress[0], ipaddress[1])
@@ -57,26 +70,15 @@ class SubServerHandler(object):
 
 class opc_server_worker(QObject):
     def start_opc_server(self):
-        log_file_path = "server_node_history.db"
-        logging.basicConfig(filename=log_file_path)
-        log_conn = sqlite3.connect(log_file_path)
-        log_cursor = log_conn.cursor()
-        logdb = ServerLogHandler(log_conn, log_cursor)
-        logging.getLogger('').addHandler(logdb)
-        log = logging.getLogger('opc_server_log')
-        log.setLevel('INFO')
         global stop_threads
         stop_threads = False
-
         asyncio.run(self.opc_server(log))
-
 
     def stop_opc_server(self):
         global stop_threads
         stop_threads=True
 
     async def rw_opc(self,zipped_data,server,source_time):
-
         data_value = ua.DataValue(ua.Variant((int(zipped_data[1])), ua.VariantType.Int64),SourceTimestamp=source_time, ServerTimestamp=source_time)
         await server.write_attribute_value(zipped_data[0].nodeid, data_value)
 
@@ -103,7 +105,6 @@ class opc_server_worker(QObject):
         recv_value = await reader.readuntil(separator=b'\r\n')
         recv_value = recv_value.decode('UTF-8').split()
         recv_value = [int(recv_value[i]) for i in range(len(recv_value))]
-        #await writer.drain()
         writer.close()
         return recv_value
 
@@ -130,7 +131,6 @@ class opc_server_worker(QObject):
             start_device.append(((await device_group[i][0].read_display_name()).Text,len(device_group[i])))
             data_list.append(await self.plc_tcp_socket_init(start_device[i],ipaddress))
             zipped_data.append(list(zip(device_group[i],data_list[i])))
-        #log.info(f"Initialized {start_device}")
         nodes_data_list = list(zipped_data)
         for k in range(len(nodes_data_list)):
             source_time = await self.plc_source_time(ipaddress)
@@ -227,11 +227,10 @@ class opc_server_worker(QObject):
         for i in range(len(root_obj_children)):
                 log.info(f'Checking for device {ipaddress[0]}:{ipaddress[1]}')
                 device_connection = await self.is_connected(ipaddress[i])
-                #log.info(f'Retrying to connect to {ipaddress[i][0]}:{ipaddress[i][1]} in 3 seconds')
                 await asyncio.sleep(3)
                 if device_connection == False:
                     log.info(f'Failed to connect to {ipaddress[i][0]}:{ipaddress[i][1]}')
-                    raise Exception("No connected device")
+                    raise Exception("No connected device. Recheck Connection")
         #log.info(f'Checking connection with device {ipaddress}')
         """
         Init node subscription for HMI       
@@ -241,9 +240,9 @@ class opc_server_worker(QObject):
         """
         Create node subscription for HMI       
         """
-        #hmi_handler = SubServerHandler()
-        #hmi_sub = await server.create_subscription(20, hmi_handler)
-        #sub = [await hmi_sub.subscribe_data_change(device_hmi_group[i][k],queuesize=1) for k in range(len(device_hmi_group[i])) for i in range(len(device_hmi_group))]
+        hmi_handler = SubServerHandler()
+        hmi_sub = await server.create_subscription(20, hmi_handler)
+        sub = [await hmi_sub.subscribe_data_change(device_hmi_group[i][k],queuesize=1) for k in range(len(device_hmi_group[i])) for i in range(len(device_hmi_group))]
         log.info("Done Initializing Nodes for HMI Subscription")
 
 
@@ -266,18 +265,23 @@ class opc_server_worker(QObject):
         log.info('Initializing server complete!')
         log.info('Starting server!')
         log.info('Server Started!')
+        i=1
         async with server:
-            for i in range(0,10):
+            while i <11:
                 while stop_threads==False:
-                    await asyncio.sleep(5)
+                    await asyncio.sleep(2)
                     try:
                         #log.info(f"Lost Connection to device at {ipaddress[o]}:{ipaddress[1]}")
                         tasks = [await asyncio.create_task(self.scan_loop_plc(start_device[i],zipped_data[i],server,ipaddress[i])) for i in range(len(device_group))]
                     except:
-                        log.info('Server Exception Occured, Retrying in 10s!')
-                        await asyncio.sleep(1)
-                        log.info(f'Retry number {i}')
+                        log.info(f'Server Exception Occured, Retrying Attempt {i} in 10s!')
+                        await asyncio.sleep(10)
+                        i+=1
                         break
+                    else:
+                        if i>1:
+                            log.info("Resuming Server Operation!")
+                            i=1
                     continue
             raise Exception("Device Connection Problem")
                         #log.info('Server Failed to Start!')
