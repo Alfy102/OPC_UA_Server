@@ -4,47 +4,53 @@ from PyQt5.QtCore import QTimer
 from PyQt5.uic import loadUi
 from PyQt5.QtGui import * 
 from PyQt5.QtWidgets import * 
-from asyncua import Client
-import asyncio
 from threading import Thread
 from queue import Queue
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+import gsh_platform_client as gsh_client
+import gsh_opc_platform_server as gsh_server
 data_list=[]
-node_list=[]
-import datetime
-
-stop_thread=False
+import logging
+import time
 #from asyncua.crypto.security_policies import SecurityPolicyBasic256Sha256
 
+logger = logging.getLogger('EVENT')
+class QTextEditLogger(logging.Handler):
+    def __init__(self, parent,textEdit):
+        super().__init__()
+        self.widget = textEdit
+        #self.widget.setCenterOnScroll(True)
+        self.widget.setReadOnly(True)
 
-
+    def emit(self, record):
+        msg = self.format(record)
+        self.widget.appendPlainText(msg)
+        self.widget.ensureCursorVisible()
 class button_window(QMainWindow):
 
     def __init__(self):
         super(button_window,self).__init__()
-        ui_path="C:/Users/aliff/Documents/OPC_UA_Server/hmi/button_test.ui"
+        ui_path="C:/Users/aliff/Documents/OPC_UA_Server/opc_ua_server/gsh_opc_platform (multi device)/button_test.ui"
         loadUi(ui_path,self)
         self._inputs_queue = Queue()
-        
+        input_q = self._inputs_queue
+        logTextBox = QTextEditLogger(self,self.plainTextEdit_1)
+        logTextBox.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
+        logger.addHandler(logTextBox)
+        logger.setLevel(logging.INFO)
 
-        self.pushButton_32.clicked.connect(lambda:self.client_start(self._inputs_queue))
-        self.pushButton_33.clicked.connect(self.client_quit)
+        self.server_process = Thread(target=gsh_server.start_opc_server)#,args=(input_q,2))#background
+        self.server_process.daemon = True
+        logger.info("Launching OPC Server!")
 
-    def client_start(self,input_q):
-        global stop_thread
-        stop_thread=False
-        self.client_process = Thread(target=start_client, args=(input_q,1)) #background
+        self.client_process = Thread(target=gsh_client.start_client, args=(input_q,1)) #background
         self.client_process.daemon = True
         self.client_process.start()
-        print("Client Started")
-
+        logger.info("Client Started")
         
-
-    def client_quit(self):
-        global stop_thread
-        stop_thread=True
-        #self.client_start.join()
-        print("Client Terminated")
+        time.sleep(2)
+        self.server_process.start()
+        
 
     def send_data(self,button_number):
         Relay = button_number.text()
@@ -81,7 +87,7 @@ class user_hmi():
         widget = QStackedWidget()
         widget.addWidget(hmi)
         widget.setFixedHeight(800)
-        widget.setFixedWidth(600)
+        widget.setFixedWidth(1055)
         widget.show()
 
         timer = QTimer()
