@@ -6,8 +6,7 @@ from asyncua import ua, Server
 import os.path
 import sys
 sys.path.insert(0, "..")
-from asyncua.server.history_sql import HistorySQLite
-#from asyncua.crypto.permission_rules import SimpleRoleRuleset
+#from asyncua.server.history_sql import HistorySQLite
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 stop_threads=False
 xml_file_path ='C:/Users/aliff/Documents/OPC_UA_Server/opc_ua_server/gsh_opc_platform (multi device)/standard_server_structure2.xml'
@@ -16,8 +15,18 @@ set_plc_time=False
 server_ip='127.0.0.1:4840'
 device_hmi_global=[]
 logger = logging.getLogger('EVENT.SERVER')
+logger_alarm = logging.getLogger('ALARM.SERVER')
 
-class SubServerHandler(object):
+
+class SubServerAlarmHandler(object):
+    async def datachange_notification(self, node, val, data):
+        if val !=0:
+            logger_alarm.info(f"Alarm Trigger at {node},with alarm code {val}")
+            #to create event trigger on alarm subscription
+
+
+
+class SubServerHmiHandler(object):
     async def datachange_notification(self, node, val, data):
         await self.index_comm(node,val)
     async def index_comm(self,node,val):
@@ -41,23 +50,19 @@ class SubServerHandler(object):
 def start_opc_server():
     asyncio.run(opc_server())
 
+
 async def rw_opc(zipped_data,server,source_time):
     data_value = ua.DataValue(ua.Variant((int(zipped_data[1])), ua.VariantType.Int64),SourceTimestamp=source_time, ServerTimestamp=source_time)
     await server.write_attribute_value(zipped_data[0].nodeid, data_value)
+    #asyncio.create_task(alarm_check(zipped_data[0],device_alarm))
 
 async def plc_source_time(ipaddress):
     recv_timestamp = await plc_tcp_socket_init(("CM700",6),ipaddress)
     timestamp = [(f"{i:02}") for i in recv_timestamp]
     timestamp = ''.join(timestamp)
     timestamp = datetime.datetime.strptime(timestamp,"%y%m%d%H%M%S")
-    #date_timestamp=
-    #print(timestamp)
-    #print(recv_timestamp)
-    #recv_timestamp = str(recv_timestamp[0][-2:])+","+str(recv_timestamp[1][-2:])+","+str(recv_timestamp[2][-2:])+","+str(recv_timestamp[3][-2:])+","+str(recv_timestamp[4][-2:])+","+str(recv_timestamp[5][-2:])
-    #recv_timestamp = DateTime.strptime(recv_timestamp,"%y,%m,%d,%H,%M,%S")
+
     recv_timestamp = datetime.datetime.now() #place holder time method
-    #print(recv_timestamp)
-    #print(recv_timestamp)
     return recv_timestamp
 
 async def plc_tcp_socket_init(start_device,ipaddress):
@@ -111,23 +116,11 @@ async def is_connected(ipaddress):
 
 
 async def opc_server():
-    log_file_path = "server_node_history.db"
-
     server = Server()
-    server.iserver.history_manager.set_storage(HistorySQLite(log_file_path))
     await server.init()
     endpoint = server_ip
     server.set_endpoint(f"opc.tcp://{endpoint}/freeopcua/server/" )
     logger.info(f"Establishing Server at {endpoint}/freeopcua/server/")
-    #server.set_security_policy([ua.SecurityPolicyType.Basic256Sha256_SignAndEncrypt],permission_ruleset=SimpleRoleRuleset())
-    #try:
-    #    await server.load_certificate("gsh_private_certificate.der")   
-    #except:
-    #    log.info("Server Certicate File not found")
-    #try:
-    #    await server.load_private_key("gsh_private_key.pem")    
-    #except:
-    #    log.info("Server Key file not found")
     try:
         logger.info("loading server structure from file")
         await server.import_xml(xml_file_path)
@@ -155,6 +148,7 @@ async def opc_server():
     logger.info("Loading Server Structure!")
     device_group=[]
     device_hmi_group=[]
+    device_alarm_group=[]
     root_obj = await server.nodes.root.get_child(["0:Objects", "2:Device"])
     root_obj_children = await root_obj.get_children()
     for i in range(len(root_obj_children)):
@@ -166,35 +160,33 @@ async def opc_server():
             logger.info(f"Successfully load {device_name}:{category_name}")
             device_nodes = await category[k].get_children()
             hmi_group=[]
-            data_group=[]
+            #print(category_name)
             if category_name not in 'hmi':
-                for l in range(len(device_nodes)):
-                    data_group.append(device_nodes[l]) 
-                    await server.historize_node_data_change(device_nodes[l], period=None, count=100)
+                data_group_1 = [(device_nodes[l]) for l in range(len(device_nodes))]
             else:
                 for l in range(len(device_nodes)):
                     await device_nodes[l].set_writable(True)
-                    await server.historize_node_data_change(device_nodes[l], period=None, count=100)
                     hmi_group.append(device_nodes[l])
-            category_group.append(data_group)
+            category_group.append(data_group_1)
+            if category_name == 'alarm':
+                device_alarm_group.append(data_group_1)
             device_hmi_group.append(hmi_group)
         device_group.append(category_group)    
     device_hmi_group = [x for x in device_hmi_group if x]
+    device_alarm_group = [x for x in device_alarm_group if x]
     logger.info("Done Initializing Nodes from XML")
     global device_hmi_global
     device_hmi_global = device_hmi_group
     """
     Check for device connection
     """
-        
     for i in range(len(root_obj_children)):
             logger.info(f'Checking for device {ipaddress[i][0]}:{ipaddress[i][1]}')
             device_connection = await is_connected(ipaddress[i])
             await asyncio.sleep(3)
             if device_connection == False:
-                logger.info(f'Failed to connect to {ipaddress[i][0]}:{ipaddress[i][1]}')
+                logger.info(f'Failed to connect to {ipaddress[i][0]}:{ipaddress[i][1]}. Cannot start Server!')
                 raise Exception("No connected device. Recheck Connection")
-    #log.info(f'Checking connection with device {ipaddress}')
     """
     Init node subscription for HMI       
     """
@@ -203,10 +195,16 @@ async def opc_server():
     """
     Create node subscription for HMI       
     """
-    hmi_handler = SubServerHandler()
+    hmi_handler = SubServerHmiHandler()
     hmi_sub = await server.create_subscription(20, hmi_handler)
-    sub = [await hmi_sub.subscribe_data_change(device_hmi_group[i][k],queuesize=1) for k in range(len(device_hmi_group[i])) for i in range(len(device_hmi_group))]
+    [await hmi_sub.subscribe_data_change(device_hmi_group[i][k],queuesize=1) for k in range(len(device_hmi_group[i])) for i in range(len(device_hmi_group))]
     logger.info("Done Initializing Nodes for HMI Subscription")
+    """
+    Create node subscription for Alarm Trigger
+    """
+    alarm_handler = SubServerAlarmHandler()
+    alarm_sub = await server.create_subscription(20, alarm_handler)
+    [await alarm_sub.subscribe_data_change(device_alarm_group[i][k],queuesize=1) for k in range(len(device_alarm_group[i])) for i in range(len(device_group))]
 
     """
     Device group consist of read only data nodes that is contained in category list 
@@ -215,7 +213,7 @@ async def opc_server():
     """
     start_device=[0 for x in range(len(device_group))]
     zipped_data=[0 for x in range(len(device_group))]
-    tcp_rw=[0 for x in range(len(device_group))]
+
     logger.info('Initializing server!')
     for i in range(len(device_group)):
         try:
@@ -225,13 +223,13 @@ async def opc_server():
     logger.info('Initializing server complete!')
     logger.info('Starting server!')
     i=1
+    
     async with server:
         logger.info('Server Started!')
         while i <11:
             while True:
                 await asyncio.sleep(2)
                 try:
-                    #log.info(f"Lost Connection to device at {ipaddress[o]}:{ipaddress[1]}")
                     tasks = [await asyncio.create_task(scan_loop_plc(start_device[i],zipped_data[i],server,ipaddress[i])) for i in range(len(device_group))]
                 except:
                     logger.info(f'Server Exception Occured, Retrying Attempt {i} in 10s!')
@@ -244,7 +242,6 @@ async def opc_server():
                         i=1
                 continue
         logger.info('Server Has Stopped!')
-        #raise Exception("Device Connection Problem")
         
         
 
