@@ -19,7 +19,7 @@
      <rect>
       <x>470</x>
       <y>60</y>
-      <width>77</width>
+      <width>81</width>
       <height>56</height>
      </rect>
     </property>
@@ -383,6 +383,39 @@
       <widget class="QLabel" name="label_16">
        <property name="text">
         <string>TextLabel</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="layoutWidget_2">
+    <property name="geometry">
+     <rect>
+      <x>470</x>
+      <y>120</y>
+      <width>81</width>
+      <height>86</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_3">
+     <item>
+      <widget class="QPushButton" name="pushButton_34">
+       <property name="text">
+        <string>Start Server</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_35">
+       <property name="text">
+        <string>Stop Server</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton">
+       <property name="text">
+        <string>Configure</string>
        </property>
       </widget>
      </item>
