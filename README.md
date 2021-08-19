@@ -67,7 +67,7 @@ Implemented
 * reduced input delay by imlpmenting asynchronous input output method
 
 Not yet implemented:
-
+* Server logs export to CSV/TXT
 * Integration with PyQt5 HMI
 * Require server certificate to start connection with OPC server.
 * Client logs export to CSV/TXT
@@ -85,15 +85,17 @@ Implemented
 * server configuration and server settings file
 * datachange events will trigger write to PLC relay/data memory
 * multithreaded application to prevent GUI freeze
-* Server certificate and key for encryption                                                                                                                          
+* server event and alarm logs
+* ~~Server certificate and key for encryption~~                                                                                                                          
                                                                                                                                
 
 Tested clients: uaexpert
 
 Not yet implemented:
 
-* Server logs export to CSV/TXT
+
 * Server events/methods
+*
 * Mean Time Between Failure (MTBF) calculation using server method
 * Mean Time Between Action (MTBF) calculation using server method
 * Unit per Hour (UPH) calculation using server method
