@@ -67,6 +67,7 @@ Implemented
 * reduced input delay by imlpmenting asynchronous input output method
 
 Not yet implemented:
+* Integrate with new ui file
 * Server logs export to CSV/TXT
 * Integration with PyQt5 HMI
 * Require server certificate to start connection with OPC server.
@@ -82,7 +83,7 @@ Implemented
 * adding nodes to address space
 * read from the correct PLC relay by referencing Nodes Display Name
 * write to node of current value of PLC relay/data memory
-* server configuration and server settings file
+* ~~server configuration and server settings file~~
 * datachange events will trigger write to PLC relay/data memory
 * multithreaded application to prevent GUI freeze
 * server event and alarm logs
