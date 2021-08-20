@@ -30,9 +30,15 @@ class SubHandler(object):
     def event_notification(self, event):
         print("New event", event)
 
-
+        
 def start_client(input_q,proc_id):
     asyncio.run(client())
+
+
+async def transfer_data(message,input_nodes,ovn):
+    index = ovn.index(message[0])
+    await input_nodes[index].write_value(int(message[1]))
+
 
 async def client():
     """
@@ -45,11 +51,32 @@ async def client():
     await asyncio.sleep(5)
     logger.info("Connecting to server")
     async with Client(url=url) as client:
-        logger.info('Children of root are: %r', await client.nodes.root.get_children())
+        #logger.info('Children of root are: %r', await client.nodes.root.get_children())
         idx = await client.get_namespace_index(uri="Keyence_PLC_Server")
         main_folder = await client.nodes.objects.get_child(f"{idx}:Device")
-        main_devices = await main_folder.get_children()
+        devices = await main_folder.get_children()
+        main_devices = [await devices[i].get_children() for i in range(len(devices))]
+        """
+        Create node subscription for Alarm Trigger
+        """
+        alarm_handler = SubAlarmHandler()
+        alarm_sub = await client.create_subscription(20, alarm_handler)
+
+
+        for i in range(len(main_devices)):
+            for k in range(len(main_devices[i])):
+                device_category=main_devices[i][k]
+                device_category_name=(await  device_category.read_display_name()).Text
+                #print(device_category_name)
+                if device_category_name=='alarm':
+                    alarm_device = await device_category.get_children()
+                    #print(alarm_device)
+                    [await alarm_sub.subscribe_data_change(alarm_device[i],queuesize=1) for i in range(len(alarm_device))]
+                elif device_category_name=='hmi':
+                    hmi_devices = await device_category.get_children()
+
+
         while True:
             await asyncio.sleep(5)
-            print(struct_children)
+            print(devices)
 
