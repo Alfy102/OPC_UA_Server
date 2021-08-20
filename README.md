@@ -72,7 +72,8 @@ Not yet implemented:
 * Integration with PyQt5 HMI
 * Require server certificate to start connection with OPC server.
 * Client logs export to CSV/TXT
-
+* event and alarm logs (moved from server side to client side)
+                                                                                                                                
 ## OPC UA Server
 
 Implemented
@@ -83,13 +84,11 @@ Implemented
 * adding nodes to address space
 * read from the correct PLC relay by referencing Nodes Display Name
 * write to node of current value of PLC relay/data memory
-* ~~server configuration and server settings file~~
 * datachange events will trigger write to PLC relay/data memory
 * multithreaded application to prevent GUI freeze
-* server event and alarm logs
-* ~~Server certificate and key for encryption~~                                                                                                                          
-                                                                                                                               
-
+* ~~server configuration and server settings file~~
+* ~~server event and alarm logs~~
+* ~~Server certificate and key for encryption~~ (removed implementatiuon of server encryption as it current SSL key generation does not meet security criteria)                                                                                                                                          
 Tested clients: uaexpert
 
 Not yet implemented:
