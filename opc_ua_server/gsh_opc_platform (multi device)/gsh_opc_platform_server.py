@@ -12,18 +12,9 @@ stop_threads=False
 xml_file_path ='C:/Users/aliff/Documents/OPC_UA_Server/opc_ua_server/gsh_opc_platform (multi device)/standard_server_structure2.xml'
 plc_ip_address='127.0.0.1:8501;127.0.0.2:8501'
 set_plc_time=False
-server_ip='127.0.0.1:4840'
+server_ip='localhost:4840'
 device_hmi_global=[]
 logger = logging.getLogger('EVENT.SERVER')
-logger_alarm = logging.getLogger('ALARM.SERVER')
-
-
-class SubServerAlarmHandler(object):
-    async def datachange_notification(self, node, val, data):
-        if val !=0:
-            logger_alarm.info(f"Alarm Trigger at {node},with alarm code {val}")
-            #to create event trigger on alarm subscription
-
 
 
 class SubServerHmiHandler(object):
@@ -47,9 +38,8 @@ class SubServerHmiHandler(object):
         writer.close()
 
 
-def start_opc_server():
+def start_opc_server(input_q,proc_id):
     asyncio.run(opc_server())
-
 
 async def rw_opc(zipped_data,server,source_time):
     data_value = ua.DataValue(ua.Variant((int(zipped_data[1])), ua.VariantType.Int64),SourceTimestamp=source_time, ServerTimestamp=source_time)
@@ -114,13 +104,12 @@ async def is_connected(ipaddress):
         pass
     return False
 
-
 async def opc_server():
     server = Server()
     await server.init()
     endpoint = server_ip
-    server.set_endpoint(f"opc.tcp://{endpoint}/freeopcua/server/" )
-    logger.info(f"Establishing Server at {endpoint}/freeopcua/server/")
+    server.set_endpoint(f"opc.tcp://{endpoint}/gshopcua/server" )
+    logger.info(f"Establishing Server at {endpoint}/gshopcua/server")
     try:
         logger.info("loading server structure from file")
         await server.import_xml(xml_file_path)
@@ -199,12 +188,6 @@ async def opc_server():
     hmi_sub = await server.create_subscription(20, hmi_handler)
     [await hmi_sub.subscribe_data_change(device_hmi_group[i][k],queuesize=1) for k in range(len(device_hmi_group[i])) for i in range(len(device_hmi_group))]
     logger.info("Done Initializing Nodes for HMI Subscription")
-    """
-    Create node subscription for Alarm Trigger
-    """
-    alarm_handler = SubServerAlarmHandler()
-    alarm_sub = await server.create_subscription(20, alarm_handler)
-    [await alarm_sub.subscribe_data_change(device_alarm_group[i][k],queuesize=1) for k in range(len(device_alarm_group[i])) for i in range(len(device_group))]
 
     """
     Device group consist of read only data nodes that is contained in category list 

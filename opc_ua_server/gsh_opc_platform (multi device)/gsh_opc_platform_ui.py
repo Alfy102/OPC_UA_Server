@@ -16,6 +16,9 @@ import time
 
 logger = logging.getLogger('EVENT')
 logger_alarm = logging.getLogger('ALARM')
+
+
+
 class QTextEditLogger(logging.Handler):
     def __init__(self, parent,textEdit):
         super().__init__()
@@ -49,6 +52,8 @@ class button_window(QMainWindow):
         loadUi(ui_path,self)
         self._inputs_queue = Queue()
         input_q = self._inputs_queue
+
+        
         logTextBox_1 = QTextEditLogger(self,self.plainTextEdit_1)
         logTextBox_1.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
         logger.addHandler(logTextBox_1)
@@ -62,18 +67,17 @@ class button_window(QMainWindow):
 
 
 
-        self.server_process = Thread(target=gsh_server.start_opc_server)#,args=(input_q,2))#background
+        self.server_process = Thread(target=gsh_server.start_opc_server,args=(input_q,1))#,args=(input_q,2))#background
         self.server_process.daemon = True
         logger.info("Launching OPC Server!")
 
-        #self.client_process = Thread(target=gsh_client.start_client, args=(input_q,1)) #background
-        #self.client_process.daemon = True
-        
+        self.client_process = Thread(target=gsh_client.start_client,args=(input_q,2))#, args=(input_q,1)) #background
+        self.client_process.daemon = True
         logger.info("Launching OPC Client")
 
         time.sleep(2)
         self.server_process.start()
-        #self.client_process.start()
+        self.client_process.start()
 
     def send_data(self,button_number):
         Relay = button_number.text()
