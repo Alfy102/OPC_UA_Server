@@ -10,3 +10,4 @@ opc_ua_server/gsh_opc_platform (multi device)/__pycache__/gsh_opc_platform_serve
 opc_ua_server/gsh_opc_platform (multi device)/server_logs_history.txt
 opc_ua_server/gsh_opc_platform (multi device)/server_log_test.py
 opc_ua_server/test_history_server.py
+opc_ua_server/gsh_opc_platform (multi device)/__pycache__/gsh_platform_client.cpython-39.pyc
