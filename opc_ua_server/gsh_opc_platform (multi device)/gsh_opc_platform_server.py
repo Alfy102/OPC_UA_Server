@@ -215,7 +215,7 @@ class opc_server_thread(QObject):
             self.server_signal.emit('Server Started!')
             while i <11:
                 while True:
-                    await asyncio.sleep(0.1)
+                    await asyncio.sleep(2)
                     try:
                         tasks = [await asyncio.create_task(self.scan_loop_plc(start_device[i],zipped_data[i],server,ipaddress[i])) for i in range(len(device_group))]
                     except:
