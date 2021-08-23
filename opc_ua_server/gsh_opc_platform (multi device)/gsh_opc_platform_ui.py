@@ -1,10 +1,12 @@
 import sys
 import os
-from PyQt5.QtCore import QTimer
+from PyQt5.QtCore import QCoreApplication,QTimer
 from PyQt5.uic import loadUi
 from PyQt5.QtGui import * 
-from PyQt5.QtWidgets import * 
-from threading import Thread
+from PyQt5.QtCore import *
+from PyQt5.QtWidgets import *
+from queue import Queue
+
 from queue import Queue
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 import gsh_platform_client as gsh_client
@@ -20,110 +22,111 @@ logger_alarm = logging.getLogger('ALARM')
 
 
 class QTextEditLogger(logging.Handler):
-    def __init__(self, parent,textEdit):
-        super().__init__()
+    def __init__(self,textEdit):
+        super(QTextEditLogger, self).__init__()
         self.widget = textEdit
-        #self.widget.setCenterOnScroll(True)
         self.widget.setReadOnly(True)
 
     def emit(self, record):
         msg = self.format(record)
         self.widget.appendPlainText(msg)
-        #self.widget.ensureCursorVisible()
 
 class QTextEditLoggerAlarm(logging.Handler):
-    def __init__(self, parent,textEdit):
-        super().__init__()
+    def __init__(self,textEdit):
+        super(QTextEditLoggerAlarm, self).__init__()
         self.widget = textEdit
-        #self.widget.setCenterOnScroll(True)
         self.widget.setReadOnly(True)
 
     def emit(self, record):
         msg = self.format(record)
         self.widget.appendPlainText(msg)
-        #self.widget.ensureCursorVisible()
 
 
 class button_window(QMainWindow):
 
     def __init__(self):
         super(button_window,self).__init__()
+
         ui_path="C:/Users/aliff/Documents/OPC_UA_Server/opc_ua_server/gsh_opc_platform (multi device)/button_test.ui"
         loadUi(ui_path,self)
         self._inputs_queue = Queue()
+        self._outputs_queue = Queue()
         input_q = self._inputs_queue
-
+        output_q = self._outputs_queue
         
-        logTextBox_1 = QTextEditLogger(self,self.plainTextEdit_1)
+        logTextBox_1 = QTextEditLogger(self.plainTextEdit_1)
         logTextBox_1.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
         logger.addHandler(logTextBox_1)
         logger.setLevel(logging.INFO)
 
-        logTextBox_2 = QTextEditLogger(self,self.plainTextEdit_2)
+        logTextBox_2 = QTextEditLogger(self.plainTextEdit_2)
         logTextBox_2.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(message)s'))
         logger_alarm.addHandler(logTextBox_2)
         logger_alarm.setLevel(logging.INFO)
 
+        self.server_thread=QThread()
+        self.server_worker = gsh_server.opc_server_thread()
+        self.server_worker.moveToThread(self.server_thread)
+        self.server_thread.started.connect(self.server_worker.run)
+        self.server_worker.server_signal.connect(self.server_logger_bridge)
+        #self.server_worker.server_signal.connect(self.alarm_logger_bridge)
+
+        self.client_thread=QThread()
+        self.queue = Queue()
+        self.client_worker = gsh_client.opc_client_thread(input_q)
+        self.client_worker.moveToThread(self.client_thread)
+        self.client_thread.started.connect(self.client_worker.run)
+        self.client_worker.client_signal.connect(self.client_logger_bridge)
+        self.client_worker.scan_signal.connect(self.client_scan_bridge)
+        self.client_worker.alarm_signal.connect(self.alarm_logger_bridge)
+
+        logger.info("Launching Server!")
+        self.server_thread.start()
+        logger.info("Launching Client!")
+        self.client_thread.start()
+
+        self.pushButton_1.clicked.connect(lambda: self.send_data(self.pushButton_1))
+        self.pushButton_1.setCheckable(True)
 
 
+    def server_logger_bridge(self, msg):
+        logger.info(msg)
 
-        self.server_process = Thread(target=gsh_server.start_opc_server,args=(input_q,1))#,args=(input_q,2))#background
-        self.server_process.daemon = True
-        logger.info("Launching OPC Server!")
+    def client_scan_bridge(self, package_data):
+        print("package_data received")
+    
+    def client_logger_bridge(self, msg):
+        logger.info(msg)
 
-        self.client_process = Thread(target=gsh_client.start_client,args=(input_q,2))#, args=(input_q,1)) #background
-        self.client_process.daemon = True
-        logger.info("Launching OPC Client")
+    def alarm_logger_bridge(self, msg):
+        alert_code = f"Alarm raised with code {msg}"
+        logger_alarm.info(alert_code)
 
-        time.sleep(2)
-        self.server_process.start()
-        self.client_process.start()
+
+    def client_start(self):
+        client_thread = gsh_client.opc_client_thread(self)
+        client_thread.start()
 
     def send_data(self,button_number):
         Relay = button_number.text()
         if button_number.isChecked():
             message = [Relay,1]
             self._inputs_queue.put(message)
+            logger.info(message) #HMI input logger info
         else:
             message = [Relay,0]
             self._inputs_queue.put(message)
-
-    def update_label(self):
-        if len(data_list)>15: #to update with better implementation
-            user_hmi.hmi.label_1.setText(str(bool(data_list[0])))
-            user_hmi.hmi.label_2.setText(str(bool(data_list[1])))
-            user_hmi.hmi.label_3.setText(str(bool(data_list[2])))
-            user_hmi.hmi.label_4.setText(str(bool(data_list[3])))
-            user_hmi.hmi.label_5.setText(str(bool(data_list[4])))
-            user_hmi.hmi.label_6.setText(str(bool(data_list[5])))
-            user_hmi.hmi.label_7.setText(str(bool(data_list[6])))
-            user_hmi. hmi.label_8.setText(str(bool(data_list[7])))
-            user_hmi.hmi.label_9.setText(str(bool(data_list[8])))
-            user_hmi.hmi.label_10.setText(str(bool(data_list[9])))
-            user_hmi.hmi.label_11.setText(str(bool(data_list[10])))
-            user_hmi.hmi.label_12.setText(str(bool(data_list[11])))
-            user_hmi.hmi.label_13.setText(str(bool(data_list[12])))
-            user_hmi.hmi.label_14.setText(str(bool(data_list[13])))
-            user_hmi.hmi.label_15.setText(str(bool(data_list[14])))
-            user_hmi.hmi.label_16.setText(str(bool(data_list[15])))
-
-            
-class user_hmi():
-    def main():
-        app = QApplication(sys.argv)
-        hmi = button_window()
-        widget = QStackedWidget()
-        widget.addWidget(hmi)
-        widget.setFixedHeight(800)
-        widget.setFixedWidth(1055)
-        widget.show()
-
-        timer = QTimer()
-        timer.timeout.connect(hmi.update_label)
-        timer.start(200)
-        sys.exit(app.exec_())
+            logger.info(message) #HMI input logger info
+             
+        
 
 if __name__ == '__main__':
-    user_hmi.main()
-
+    app = QApplication(sys.argv)
+    hmi = button_window()
+    widget = QStackedWidget()
+    widget.addWidget(hmi)
+    widget.setFixedHeight(800)
+    widget.setFixedWidth(1055)
+    widget.show()
+    sys.exit(app.exec_())
 
