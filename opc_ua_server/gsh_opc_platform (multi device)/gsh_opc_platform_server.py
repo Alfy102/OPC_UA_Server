@@ -123,21 +123,7 @@ class opc_server_thread(QObject):
         await server.load_data_type_definitions()
         hardware_ip = plc_ip_address.split(";")
         ipaddress=[hardware_ip[i].split(":") for i in range(len(hardware_ip))]
-        """
-        Initializing read only nodes and hmi nodes base on server structure xml file hierachy.
-        Device <--Get children of this node
-            |__PLC1 <-- Loop 1 get children of this node
-            |   |__hmi          <--Loop 2 get all children for this node
-            |   |__alarm        <--Loop 2 get all children for this node
-            |   |__relay_data   <--Loop 2 get all children for this node
-            |   |__memory_data  <--Loop 2 get all children for this node
-            |
-            |__PLC2 <-- Loop 1 get children of this node
-                |__hmi          <--Loop 2 get all children for this node
-                |__alarm        <--Loop 2 get all children for this node
-                |__relay_data   <--Loop 2 get all children for this node
-                |__memory_data  <--Loop 2 get all children for this node
-        """
+
         self.server_signal.emit("Loading Server Structure!")
         device_group=[]
         device_hmi_group=[]
