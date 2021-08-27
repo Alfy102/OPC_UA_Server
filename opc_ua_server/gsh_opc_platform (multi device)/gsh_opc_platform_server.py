@@ -1,11 +1,12 @@
 import asyncio
+from PyQt5.QtGui import * 
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 import datetime
 import time
 from collections import Counter
 from asyncua import ua, Server
-
+import gsh_opc_platform_ui as gsh_ui
 
 
 
@@ -32,7 +33,7 @@ class SubAlarmHandler(object):
         if val >0:
             self.alarm_signal.emit((node.nodeid.Identifier, val))
 
-class SubIoHandler:
+class SubIoHandler(object):
     def __init__(self,data_signal):
         self.data_signal = data_signal
     async def datachange_notification(self, node, val, data):
@@ -44,12 +45,14 @@ class OpcServerThread(QObject):
     data_signal = pyqtSignal(tuple)
     alarm_signal = pyqtSignal(tuple)
     hmi_signal = pyqtSignal(tuple)
+    hmi_init_signal = pyqtSignal(dict)
     def __init__(self,input_q,current_file_path,parent=None,**kwargs):
         super().__init__(parent, **kwargs)
         self.input_queue = input_q
         self.device_structure={}
         self.plc_ip_address={'PLC1':'127.0.0.1:8501','PLC2':'127.0.0.2:8501'}
         self.file_path = current_file_path
+        self.server_class = Server()
     def run(self):
         asyncio.run(self.opc_server())
 
@@ -93,6 +96,13 @@ class OpcServerThread(QObject):
             await server.write_attribute_value(node_id.nodeid, data_value)
             self.device_structure.update({cat_filter_keys[i]:from_filter})
 
+    async def simple_write_to_opc(self,server,hmi_signal):
+        node_id=server.get_node(ua.NodeId(hmi_signal[0], 2))
+        data_value = ua.DataValue(ua.Variant(hmi_signal[1], ua.VariantType.Int64))
+        await server.write_attribute_value(node_id.nodeid, data_value)
+
+
+
     async def is_connected(self,ipaddress):
         try:
             r, w = await asyncio.open_connection(ipaddress[0], ipaddress[1])
@@ -103,8 +113,8 @@ class OpcServerThread(QObject):
         return False
 
     async def opc_server(self):
-        await asyncio.sleep(1)
-        server = Server()
+
+        server = self.server_class
         await server.init()
         endpoint = "localhost:4840"
         server.set_endpoint(f"opc.tcp://{endpoint}/gshopcua/server" )
@@ -168,9 +178,10 @@ class OpcServerThread(QObject):
             data_value = ua.DataValue(ua.Variant(hmi_plc_status, ua.VariantType.Int64))
             await server.write_attribute_value(hmi_var.nodeid, data_value)
             await hmi_sub.subscribe_data_change(hmi_var,queuesize=1)
-
-
-
+            from_hmi_dict[4] = hmi_plc_status
+            hmi_dict.update({key:from_hmi_dict})
+        
+        self.hmi_init_signal.emit(hmi_dict)
 
         #create alarm subscription handler and pass the self.alarm_signal
         alarm_handler = SubAlarmHandler(self.alarm_signal)
@@ -182,7 +193,7 @@ class OpcServerThread(QObject):
 
 
         #create io_dict to remove hmi and alarm from device structure for io operation
-        io_dict = dict(filter(lambda elem: (elem[1][2]!='alarm') and (elem[1][2]!='hmi') ,self.device_structure.items()))
+        io_dict = dict(filter(lambda elem: elem[1][2]!='hmi' ,self.device_structure.items()))
         io_handler = SubIoHandler(self.data_signal)
         io_sub = await server.create_subscription(20, io_handler) 
         for key in io_dict.keys():
@@ -210,13 +221,17 @@ class OpcServerThread(QObject):
         async with server:
             while i <11:
                 while True:
-                    #tic = time.perf_counter()
-                    await asyncio.sleep(5)
+                    tic = time.perf_counter()
+                    await asyncio.sleep(2)
                     try:
                         for k in range(len(ip_list)):
                             await asyncio.create_task(self.scan_loop_plc(server,coil_cat_dict_list[k],device_coil_list[k],ip_list[k]))
-                        #toc = time.perf_counter()
-                        #self.server_signal.emit(f"Executed in {toc - tic:0.4f} seconds")
+                        if not self.input_queue.empty():
+                            hmi_signal = self.input_queue.get()
+                            #print(hmi_signal)
+                            asyncio.ensure_future(self.simple_write_to_opc(server,hmi_signal))
+                        toc = time.perf_counter()
+                        print(f"Executed loop in {toc - tic:0.4f} seconds")
                     except:
                         self.server_signal.emit(f"Server Exception Occured, Retrying Attempt {i} in 10s!")
                         await asyncio.sleep(10)
