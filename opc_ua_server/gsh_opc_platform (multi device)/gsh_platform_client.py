@@ -22,7 +22,7 @@ class SubAlarmHandler(object):
 
 
 class opc_client_thread(QObject):
-    client_signal=pyqtSignal(str)
+    client_signal=pyqtSignal(dict)
     scan_signal=pyqtSignal(dict)
     alarm_signal=pyqtSignal(int)
     def __init__(self,input_q,parent=None,**kwargs):
@@ -30,7 +30,6 @@ class opc_client_thread(QObject):
         self.input_queue = input_q
 
     def run(self):
-        self.client_signal.emit("Client Starting")
         asyncio.run(self.client())
 
     async def transfer_data(self,message,input_nodes,ovn):
@@ -38,10 +37,13 @@ class opc_client_thread(QObject):
         await input_nodes[index].write_value(int(message[1]))
 
     @pyqtSlot(dict)
-    async def client_scan_loop(self,devices_group, devices_name):
+    async def client_scan_loop(self,devices_group,devices_id_group, devices_name):
         devices_data = [(await devices_group[i].read_value()) for i in range(len(devices_group))]
-        #devices_zip = zip(devices_name,devices_data)
-        self.scan_signal.emit(dict(zip(devices_group,zip(devices_name,devices_data))))
+        
+        self.scan_signal.emit(dict(zip(devices_id_group,zip(devices_name,devices_data))))
+
+
+
 
     async def transfer_data(message,input_nodes,ovn):
         index = ovn.index(message[0])
@@ -53,15 +55,14 @@ class opc_client_thread(QObject):
             if alarm_data_group[i]!=0:
                 self.alarm_signal.emit(alarm_data[i])
 
-    @pyqtSlot(str)
+    @pyqtSlot(list)
     async def client(self):
         url = "opc.tcp://127.0.0.1:4840/gshopcua/server"
         global alarm_devices_group
         global alarm_data_group
         await asyncio.sleep(5)
-        self.client_signal.emit("Connecting to server")
         async with Client(url=url) as client:
-            #logger.info('Children of root are: %r', await client.nodes.root.get_children())
+
             idx = await client.get_namespace_index(uri="Keyence_PLC_Server")
             main_folder = await client.nodes.objects.get_child(f"{idx}:Device")
             devices = await main_folder.get_children()
@@ -72,14 +73,7 @@ class opc_client_thread(QObject):
             alarm_handler = SubAlarmHandler()
             alarm_sub = await client.create_subscription(100, alarm_handler)
 
-            """
-            Create node subscription for relays and memory data
-            """
-            #sub_handler = SubHandler()
-            #sub = await client.create_subscription(100, sub_handler)
-
             hmi_devices_group=[]
-            #alarm_devices_group=[]
             devices_group=[]
             for i in range(len(main_devices)):
                 for k in range(len(main_devices[i])):
@@ -90,20 +84,21 @@ class opc_client_thread(QObject):
                         [await alarm_sub.subscribe_data_change(alarm_devices[i],queuesize=1) for i in range(len(alarm_devices))]
                         alarm_devices_group.extend(alarm_devices)
                     elif device_category_name=='hmi':
-                        hmi_devices = await device_category.get_children()
-                        hmi_devices_group.append(hmi_devices)
+                        hmi_devices_group.extend(await device_category.get_children())
                     else:
-                        mnemonic_device = await device_category.get_children()
-                        devices_group.extend(mnemonic_device)
+                        devices_group.extend(await device_category.get_children())
+
             alarm_data_group=[0 for i in  range(len(alarm_devices_group))]
-            
             devices_name = [(await devices_group[i].read_display_name()).Text for i in range(len(devices_group))]
-            #print(devices_name)
+            devices_id_group = [devices_group[i].nodeid.Identifier for i in range(len(devices_group))]
+            hmi_device_name = [(await hmi_devices_group[i].read_display_name()).Text for i in range(len(hmi_devices_group))]
+            hmi_devices_id_group = [hmi_devices_group[i].nodeid.Identifier for i in range(len(hmi_devices_group))]
+            self.client_signal.emit(dict(zip(hmi_devices_id_group,hmi_device_name)))
             while True:
-                await asyncio.sleep(2)
-                self.client_signal.emit("Client Alive")
+                await asyncio.sleep(0.1)
+
                 alarm_tasks = asyncio.create_task(self.alarm_notification_loop(alarm_data_group))
-                client_task = asyncio.create_task(self.client_scan_loop(devices_group,devices_name))
+                client_task = asyncio.create_task(self.client_scan_loop(devices_group,devices_id_group,devices_name))
                 if not self.input_queue.empty():
                     hmi_signal = self.input_queue.get()
                     print(hmi_signal)
