@@ -42,9 +42,9 @@ class button_window(QMainWindow):
     def __init__(self):
         super(button_window,self).__init__()
         self.inputs_queue = Queue()
-
+        self.button_dict = all_button_dict
         self.file_path = Path(__file__).parent.absolute()
-        ui_path=self.file_path.joinpath("button_test.ui")
+        ui_path=self.file_path.joinpath("opc_ui.ui")
         loadUi(ui_path,self)
         logTextBox_1 = QTextEditLogger(self.plainTextEdit_1)
         logTextBox_1.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
@@ -66,9 +66,29 @@ class button_window(QMainWindow):
         self.server_worker.hmi_init_signal.connect(self.hmi_init_handler)
         self.server_worker.data_signal.connect(self.io_handler)
         logger.info("Launching Server!")
-        self.server_thread.start()
+        #self.server_thread.start()
+        self.stackedWidget.setCurrentIndex(0)
+        
+        self.main_page_button.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(0))
+        self.lot_entry_button.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(1))
+        self.lot_info_button.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(2))
+        self.event_log_button.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(3))
+        self.show_event_button.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(3))
+        self.io_list_button.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(4))
+        self.io_module_button.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(5))
+        self.main_motor_button.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(6))
+        self.station_button.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(7))
+        self.misc_button.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(8))
+        self.vision_button.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(9))
+        self.tower_light_button.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(10))
+        self.life_cycle_button.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(11))
+        self.user_area_button.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(12))
+        self.user_access_button.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(13))
+        self.settings_button.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(14))
 
-        self.button_dict = all_button_dict
+
+
+
         for key,values in self.button_dict.items():
             self.button =  eval(f"self.{values[0]}")
             self.button.clicked.connect(partial(self.send_data,(key,values)))
@@ -122,8 +142,7 @@ if __name__ == '__main__':
     hmi = button_window()
     widget = QStackedWidget()
     widget.addWidget(hmi)
-    widget.setFixedHeight(800)
-    widget.setFixedWidth(1055)
     widget.show()
+    widget.showMaximized()
     sys.exit(app.exec_())
 

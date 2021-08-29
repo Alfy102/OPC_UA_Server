@@ -206,7 +206,7 @@ class OpcServerThread(QObject):
         self.server_signal.emit("Starting server!")
         
         ip_list = list(self.plc_ip_address.values())
-        device_coil_list = [dict(filter(lambda elem: key in elem[1],io_dict.items())) for key in self.plc_ip_address.keys()]
+        device_coil_list = [dict(filter(lambda elem: key in elem[1],io_dict.items())) for key in self.plc_ip_address.keys()] #get list of keys in io_dict
         coil_cat_dict_list=[]
         for i in range(len(ip_list)):
             value_list = list(device_coil_list[i].values())
@@ -228,7 +228,6 @@ class OpcServerThread(QObject):
                             await asyncio.create_task(self.scan_loop_plc(server,coil_cat_dict_list[k],device_coil_list[k],ip_list[k]))
                         if not self.input_queue.empty():
                             hmi_signal = self.input_queue.get()
-                            #print(hmi_signal)
                             asyncio.ensure_future(self.simple_write_to_opc(server,hmi_signal))
                         toc = time.perf_counter()
                         print(f"Executed loop in {toc - tic:0.4f} seconds")
