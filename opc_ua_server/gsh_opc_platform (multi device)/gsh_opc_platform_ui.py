@@ -11,7 +11,7 @@ from io_layout_map import all_button_dict
 import logging
 logger = logging.getLogger('EVENT')
 logger_alarm = logging.getLogger('ALARM')
-
+import qtrc
 
 class QTextEditLogger(logging.Handler):
     def __init__(self,textEdit):
@@ -42,7 +42,12 @@ class button_window(QMainWindow):
     def __init__(self):
         super(button_window,self).__init__()
         self.inputs_queue = Queue()
-        self.button_dict = all_button_dict
+
+
+
+        #-----------------------------------
+
+
         self.file_path = Path(__file__).parent.absolute()
         ui_path=self.file_path.joinpath("opc_ui.ui")
         loadUi(ui_path,self)
@@ -63,19 +68,21 @@ class button_window(QMainWindow):
         self.server_worker.server_signal.connect(self.server_logger)
         self.server_worker.alarm_signal.connect(self.alarm_handler)
         self.server_worker.hmi_signal.connect(self.hmi_handler)
-        self.server_worker.hmi_init_signal.connect(self.hmi_init_handler)
         self.server_worker.data_signal.connect(self.io_handler)
         logger.info("Launching Server!")
         #self.server_thread.start()
+
+
         self.stackedWidget.setCurrentIndex(0)
+        
         
         self.main_page_button.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(0))
         self.lot_entry_button.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(1))
         self.lot_info_button.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(2))
         self.event_log_button.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(3))
         self.show_event_button.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(3))
-        self.io_list_button.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(4))
-        self.io_module_button.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(5))
+        
+
         self.main_motor_button.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(6))
         self.station_button.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(7))
         self.misc_button.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(8))
@@ -86,23 +93,42 @@ class button_window(QMainWindow):
         self.user_access_button.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(13))
         self.settings_button.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(14))
 
+        #IO List signals
+        self.io_list_button.clicked.connect(self.io_list_page_behaviour)
+        self.input_page_1_button.clicked.connect(lambda : self.input_stacked_widget.setCurrentIndex(0))
+        self.input_page_2_button.clicked.connect(lambda : self.input_stacked_widget.setCurrentIndex(1))
+        self.output_page_1_button.clicked.connect(lambda : self.output_stacked_widget.setCurrentIndex(0))
+        self.output_page_2_button.clicked.connect(lambda : self.output_stacked_widget.setCurrentIndex(1))
+
+        #IO module signal        
+        self.io_module_button.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(5))
+        self.io_module_button.clicked.connect(lambda :self.io_module_stacked_widget.setCurrentIndex(0))
+        self.io_module_page_1_button.clicked.connect(lambda : self.io_module_stacked_widget.setCurrentIndex(0))
+        self.io_module_page_2_button.clicked.connect(lambda : self.io_module_stacked_widget.setCurrentIndex(1))
+        self.io_module_page_3_button.clicked.connect(lambda : self.io_module_stacked_widget.setCurrentIndex(2))
+        self.io_module_page_4_button.clicked.connect(lambda : self.io_module_stacked_widget.setCurrentIndex(3))
+        self.io_module_page_5_button.clicked.connect(lambda : self.io_module_stacked_widget.setCurrentIndex(4))
+        self.io_module_page_6_button.clicked.connect(lambda : self.io_module_stacked_widget.setCurrentIndex(5))
+
+  
+
+    def io_list_page_behaviour(self):
+        self.stackedWidget.setCurrentIndex(4)
+        self.input_stacked_widget.setCurrentIndex(0)
+        self.output_stacked_widget.setCurrentIndex(0)
+        self.input_page_1_button.setChecked(True)
+        self.output_page_1_button.setChecked(True)
 
 
 
-        for key,values in self.button_dict.items():
-            self.button =  eval(f"self.{values[0]}")
-            self.button.clicked.connect(partial(self.send_data,(key,values)))
-            self.button.setCheckable(True)
-            
+    def on_button_clicked(self, button_group):
+        print(button_group.checkedId())
+        print(button_group.checkedButton().text())
+
+                
 
 
 
-    def hmi_init_handler(self,data):
-        for key,values in data.items():
-            button_ref = self.button_dict[key]
-            self.button =  eval(f"self.{button_ref[0]}")
-            if values[4]==1:
-                self.button.setChecked(True)
 
 
     def server_logger(self, msg):
@@ -115,7 +141,11 @@ class button_window(QMainWindow):
         logger.info(msg)
 
     def io_handler(self, data): 
-        data = data
+        print(data)
+
+
+
+
              
     def update_io_list(self,key,data):
         for i in range(len(self.all_labels)):
@@ -140,9 +170,9 @@ class button_window(QMainWindow):
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     hmi = button_window()
-    widget = QStackedWidget()
-    widget.addWidget(hmi)
-    widget.show()
-    widget.showMaximized()
+    #widget = QStackedWidget()
+    #widget.addWidget(hmi)
+    hmi.show()
+    hmi.showMaximized()
     sys.exit(app.exec_())
 

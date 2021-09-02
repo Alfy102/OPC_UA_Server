@@ -42,10 +42,9 @@ class SubIoHandler(object):
 
 class OpcServerThread(QObject):
     server_signal = pyqtSignal(str)
-    data_signal = pyqtSignal(tuple)
+    data_signal = pyqtSignal(dict)
     alarm_signal = pyqtSignal(tuple)
     hmi_signal = pyqtSignal(tuple)
-    hmi_init_signal = pyqtSignal(dict)
     def __init__(self,input_q,current_file_path,parent=None,**kwargs):
         super().__init__(parent, **kwargs)
         self.input_queue = input_q
@@ -181,7 +180,6 @@ class OpcServerThread(QObject):
             from_hmi_dict[4] = hmi_plc_status
             hmi_dict.update({key:from_hmi_dict})
         
-        self.hmi_init_signal.emit(hmi_dict)
 
         #create alarm subscription handler and pass the self.alarm_signal
         alarm_handler = SubAlarmHandler(self.alarm_signal)
@@ -226,6 +224,7 @@ class OpcServerThread(QObject):
                     try:
                         for k in range(len(ip_list)):
                             await asyncio.create_task(self.scan_loop_plc(server,coil_cat_dict_list[k],device_coil_list[k],ip_list[k]))
+                        #self.data_signal.emit(io_dict)
                         if not self.input_queue.empty():
                             hmi_signal = self.input_queue.get()
                             asyncio.ensure_future(self.simple_write_to_opc(server,hmi_signal))
