@@ -70,7 +70,7 @@ class button_window(QMainWindow):
         self.server_worker.hmi_signal.connect(self.hmi_handler)
         self.server_worker.data_signal.connect(self.io_handler)
         logger.info("Launching Server!")
-        #self.server_thread.start()
+        self.server_thread.start()
 
 
         self.stackedWidget.setCurrentIndex(0)
@@ -170,8 +170,6 @@ class button_window(QMainWindow):
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     hmi = button_window()
-    #widget = QStackedWidget()
-    #widget.addWidget(hmi)
     hmi.show()
     hmi.showMaximized()
     sys.exit(app.exec_())
