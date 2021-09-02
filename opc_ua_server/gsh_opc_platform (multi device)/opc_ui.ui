@@ -390,6 +390,12 @@
             <property name="spacing">
              <number>0</number>
             </property>
+            <property name="topMargin">
+             <number>4</number>
+            </property>
+            <property name="bottomMargin">
+             <number>4</number>
+            </property>
             <item>
              <widget class="QLabel" name="label_27">
               <property name="font">
@@ -430,6 +436,12 @@
            <layout class="QVBoxLayout" name="verticalLayout_12" stretch="0,1">
             <property name="spacing">
              <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>4</number>
+            </property>
+            <property name="bottomMargin">
+             <number>4</number>
             </property>
             <item>
              <widget class="QLabel" name="label_29">
@@ -3060,7 +3072,7 @@ QPushButton:checked
                       <item>
                        <layout class="QVBoxLayout" name="verticalLayout_2">
                         <item>
-                         <widget class="QLabel" name="label_46">
+                         <widget class="QLabel" name="label_x0000">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -3086,7 +3098,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_47">
+                         <widget class="QLabel" name="label_x0001">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -3112,7 +3124,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_48">
+                         <widget class="QLabel" name="label_x0002">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -3138,7 +3150,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_49">
+                         <widget class="QLabel" name="label_x0003">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -3164,7 +3176,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_50">
+                         <widget class="QLabel" name="label_x0004">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -3190,7 +3202,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_51">
+                         <widget class="QLabel" name="label_x0005">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -3216,7 +3228,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_52">
+                         <widget class="QLabel" name="label_x0006">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -3242,7 +3254,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_53">
+                         <widget class="QLabel" name="label_x0007">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -3268,7 +3280,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_54">
+                         <widget class="QLabel" name="label_x0008">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -3294,7 +3306,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_55">
+                         <widget class="QLabel" name="label_x0009">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -3320,7 +3332,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_56">
+                         <widget class="QLabel" name="label_x0010">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -3346,7 +3358,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_57">
+                         <widget class="QLabel" name="label_x0011">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -3372,7 +3384,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_58">
+                         <widget class="QLabel" name="label_x0012">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -3398,7 +3410,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_59">
+                         <widget class="QLabel" name="label_x0013">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -3424,7 +3436,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_60">
+                         <widget class="QLabel" name="label_x0014">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -3450,7 +3462,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_61">
+                         <widget class="QLabel" name="label_x0015">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -3482,112 +3494,112 @@ QPushButton:checked
                         <item>
                          <widget class="QLabel" name="label_45">
                           <property name="text">
-                           <string>EMO 1</string>
+                           <string>R100</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_78">
                           <property name="text">
-                           <string>EMO 2</string>
+                           <string>R101</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_79">
                           <property name="text">
-                           <string>VERTICAL CORRECTION CYLINDER 2 UP</string>
+                           <string>R102</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_80">
                           <property name="text">
-                           <string>VERTICAL CORRECTION CYLINDER 2 DOWN</string>
+                           <string>R103</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_81">
                           <property name="text">
-                           <string>VERTICAL CORRECTION RELAY</string>
+                           <string>R104</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_82">
                           <property name="text">
-                           <string>INCOMING AIR PRESSURE ON</string>
+                           <string>R105</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_83">
                           <property name="text">
-                           <string>FRONT LEFT DOOR SWITCH</string>
+                           <string>R106</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_84">
                           <property name="text">
-                           <string>FRONT RIGHT DOOR SWTICH</string>
+                           <string>R107</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_85">
                           <property name="text">
-                           <string>REAR LEFT DOOR SWITCH</string>
+                           <string>R108</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_86">
                           <property name="text">
-                           <string>REAR RIGHT DOOR SWITCH</string>
+                           <string>R109</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_87">
                           <property name="text">
-                           <string>DEGATE STOPPER UP RS</string>
+                           <string>R110</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_88">
                           <property name="text">
-                           <string>DEGATE STOPPER DOWN RS</string>
+                           <string>R111</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_89">
                           <property name="text">
-                           <string>DEGATE PUSHER UP RS</string>
+                           <string>R112</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_90">
                           <property name="text">
-                           <string>DEGATE PUSHER DOWN RS</string>
+                           <string>R113</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_91">
                           <property name="text">
-                           <string>DEGATE PUSHER FORWARD RS</string>
+                           <string>R114</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_92">
                           <property name="text">
-                           <string>DEGATE PUSHER REVERSE RS</string>
+                           <string>R115</string>
                           </property>
                          </widget>
                         </item>
@@ -3600,7 +3612,7 @@ QPushButton:checked
                       <item>
                        <layout class="QVBoxLayout" name="verticalLayout_4">
                         <item>
-                         <widget class="QLabel" name="label_62">
+                         <widget class="QLabel" name="label_x0100">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -3626,7 +3638,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_63">
+                         <widget class="QLabel" name="label_x0101">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -3652,7 +3664,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_64">
+                         <widget class="QLabel" name="label_x0102">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -3678,7 +3690,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_65">
+                         <widget class="QLabel" name="label_x0103">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -3704,7 +3716,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_66">
+                         <widget class="QLabel" name="label_x0104">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -3730,7 +3742,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_67">
+                         <widget class="QLabel" name="label_x0105">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -3756,7 +3768,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_68">
+                         <widget class="QLabel" name="label_x0106">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -3782,7 +3794,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_69">
+                         <widget class="QLabel" name="label_x0107">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -3808,7 +3820,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_70">
+                         <widget class="QLabel" name="label_x0108">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -3834,7 +3846,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_71">
+                         <widget class="QLabel" name="label_x0109">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -3860,7 +3872,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_72">
+                         <widget class="QLabel" name="label_x0110">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -3886,7 +3898,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_73">
+                         <widget class="QLabel" name="label_x0111">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -3912,7 +3924,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_74">
+                         <widget class="QLabel" name="label_x0112">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -3938,7 +3950,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_75">
+                         <widget class="QLabel" name="label_x0113">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -3964,7 +3976,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_76">
+                         <widget class="QLabel" name="label_x0114">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -3990,7 +4002,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_77">
+                         <widget class="QLabel" name="label_x0115">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -4022,112 +4034,112 @@ QPushButton:checked
                         <item>
                          <widget class="QLabel" name="label_108">
                           <property name="text">
-                           <string>LEAD FRAME PRESENT AT ENTRACE</string>
+                           <string>R200</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_107">
                           <property name="text">
-                           <string>LEAD FRAME PRESENT AT DEGATE</string>
+                           <string>R201</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_93">
                           <property name="text">
-                           <string>FRICTION 1 EXTEND RS</string>
+                           <string>R202</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_94">
                           <property name="text">
-                           <string>ENTRANCE STOPPER UP RS</string>
+                           <string>R203</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_95">
                           <property name="text">
-                           <string>FRICTION 2 EXTEND RS</string>
+                           <string>R204</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_96">
                           <property name="text">
-                           <string>ENTRANCE STOPPER DOWN RS</string>
+                           <string>R205</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_97">
                           <property name="text">
-                           <string>CLAMPER 1 EXTEND RS</string>
+                           <string>R206</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_98">
                           <property name="text">
-                           <string>CLAMPER 1 REVERSE RS</string>
+                           <string>R207</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_99">
                           <property name="text">
-                           <string>CLAMPER 2 EXTEND RS</string>
+                           <string>R208</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_100">
                           <property name="text">
-                           <string>CLAMPER 2 EXTEND RS</string>
+                           <string>R209</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_101">
                           <property name="text">
-                           <string>DEGATE SLIDER FORWARD</string>
+                           <string>R210</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_102">
                           <property name="text">
-                           <string>DEGATE SLIDER REVERSE</string>
+                           <string>R211</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_103">
                           <property name="text">
-                           <string>SPARE 1</string>
+                           <string>R212</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_104">
                           <property name="text">
-                           <string>DEGATE BRUSH RETRACT RS</string>
+                           <string>R213</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_105">
                           <property name="text">
-                           <string>LINEAR TRACK FULL SENSOR 2</string>
+                           <string>R214</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_106">
                           <property name="text">
-                           <string>LINEAR TRACK IN POSITION SENSOR</string>
+                           <string>R215</string>
                           </property>
                          </widget>
                         </item>
@@ -4160,7 +4172,7 @@ QPushButton:checked
                       <item>
                        <layout class="QVBoxLayout" name="verticalLayout_21">
                         <item>
-                         <widget class="QLabel" name="label_173">
+                         <widget class="QLabel" name="label_x0200">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -4186,7 +4198,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_174">
+                         <widget class="QLabel" name="label_x0201">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -4212,7 +4224,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_175">
+                         <widget class="QLabel" name="label_x0202">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -4238,7 +4250,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_176">
+                         <widget class="QLabel" name="label_x0203">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -4264,7 +4276,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_177">
+                         <widget class="QLabel" name="label_x0204">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -4290,7 +4302,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_178">
+                         <widget class="QLabel" name="label_x0205">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -4316,7 +4328,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_179">
+                         <widget class="QLabel" name="label_x0206">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -4342,7 +4354,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_180">
+                         <widget class="QLabel" name="label_x0207">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -4368,7 +4380,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_181">
+                         <widget class="QLabel" name="label_x0208">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -4394,7 +4406,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_182">
+                         <widget class="QLabel" name="label_x0209">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -4420,7 +4432,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_183">
+                         <widget class="QLabel" name="label_x0210">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -4446,7 +4458,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_184">
+                         <widget class="QLabel" name="label_x0211">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -4472,7 +4484,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_185">
+                         <widget class="QLabel" name="label_x0212">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -4498,7 +4510,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_186">
+                         <widget class="QLabel" name="label_x0213">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -4524,7 +4536,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_187">
+                         <widget class="QLabel" name="label_x0214">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -4550,7 +4562,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_188">
+                         <widget class="QLabel" name="label_x0215">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -4582,112 +4594,112 @@ QPushButton:checked
                         <item>
                          <widget class="QLabel" name="label_189">
                           <property name="text">
-                           <string>WALKING BEAM EXTEND 1 RS</string>
+                           <string>R300</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_190">
                           <property name="text">
-                           <string>WALKING BEAM RETRACT 1 RS</string>
+                           <string>R301</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_191">
                           <property name="text">
-                           <string>WALKING BEAM EXTEND 2 RS</string>
+                           <string>R302</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_192">
                           <property name="text">
-                           <string>WALKING BEAM RETRACT 2 RS</string>
+                           <string>R303</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_193">
                           <property name="text">
-                           <string>WALKING BEAM EXTEND 3 RS</string>
+                           <string>R304</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_194">
                           <property name="text">
-                           <string>WALKING BEAM RETRACT 3 RS</string>
+                           <string>R305</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_195">
                           <property name="text">
-                           <string>WALKING BEAM EXTEND 4 RS</string>
+                           <string>R306</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_196">
                           <property name="text">
-                           <string>WALKING BEAM RETRACT 4 RS</string>
+                           <string>R307</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_197">
                           <property name="text">
-                           <string>TRIM DIESET MISSFEED 1</string>
+                           <string>R308</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_198">
                           <property name="text">
-                           <string>TRIM DIESET MISSFEED 2</string>
+                           <string>R309</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_199">
                           <property name="text">
-                           <string>TRIM DIESET MISSFEED 3</string>
+                           <string>R310</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_200">
                           <property name="text">
-                           <string>TRIM DIESET MISSFEED 4</string>
+                           <string>R311</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_201">
                           <property name="text">
-                           <string>TRIM DIESET MISSFEED 5</string>
+                           <string>R312</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_202">
                           <property name="text">
-                           <string>REJECT BIN PRESENT SENSOR</string>
+                           <string>R313</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_203">
                           <property name="text">
-                           <string>HORIZONTAL CORRECTION CYLINDER UP</string>
+                           <string>R314</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_204">
                           <property name="text">
-                           <string>HORIZONTAL CORRECTION CYLINDER DOWN</string>
+                           <string>R315</string>
                           </property>
                          </widget>
                         </item>
@@ -4700,7 +4712,7 @@ QPushButton:checked
                       <item>
                        <layout class="QVBoxLayout" name="verticalLayout_23">
                         <item>
-                         <widget class="QLabel" name="label_205">
+                         <widget class="QLabel" name="label_x0300">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -4726,7 +4738,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_206">
+                         <widget class="QLabel" name="label_x0301">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -4752,7 +4764,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_207">
+                         <widget class="QLabel" name="label_x0302">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -4778,7 +4790,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_219">
+                         <widget class="QLabel" name="label_x0303">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -4804,7 +4816,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_208">
+                         <widget class="QLabel" name="label_x0304">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -4830,7 +4842,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_209">
+                         <widget class="QLabel" name="label_x0305">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -4856,7 +4868,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_210">
+                         <widget class="QLabel" name="label_x0306">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -4882,7 +4894,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_211">
+                         <widget class="QLabel" name="label_x0307">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -4908,7 +4920,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_212">
+                         <widget class="QLabel" name="label_x0308">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -4934,7 +4946,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_213">
+                         <widget class="QLabel" name="label_x0309">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -4960,7 +4972,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_214">
+                         <widget class="QLabel" name="label_x0310">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -4986,7 +4998,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_215">
+                         <widget class="QLabel" name="label_x0311">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -5012,7 +5024,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_216">
+                         <widget class="QLabel" name="label_x0312">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -5038,7 +5050,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_217">
+                         <widget class="QLabel" name="label_x0313">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -5064,7 +5076,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_218">
+                         <widget class="QLabel" name="label_x0314">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -5090,7 +5102,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_220">
+                         <widget class="QLabel" name="label_x0315">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -5122,112 +5134,112 @@ QPushButton:checked
                         <item>
                          <widget class="QLabel" name="label_221">
                           <property name="text">
-                           <string>VACCUM 1 RS</string>
+                           <string>R400</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_222">
                           <property name="text">
-                           <string>VACUUM 2 RS</string>
+                           <string>R401</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_223">
                           <property name="text">
-                           <string>REJECT STATION CLEAR RS</string>
+                           <string>R402</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_224">
                           <property name="text">
-                           <string>REJECT STATION CLEAR RS</string>
+                           <string>R403</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_225">
                           <property name="text">
-                           <string>LINEAR TRACK FULL SENSOR 1</string>
+                           <string>R404</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_226">
                           <property name="text">
-                           <string>LINEAR TRACK IN POSITION SENSOR 1</string>
+                           <string>R405</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_227">
                           <property name="text">
-                           <string>LINEAR TRACK EXTEND RS</string>
+                           <string>R406</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_228">
                           <property name="text">
-                           <string>LINEAR TRACK REVERSE RS</string>
+                           <string>R407</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_229">
                           <property name="text">
-                           <string>REJECT Y CYLINDER EXTEND RS</string>
+                           <string>R408</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_230">
                           <property name="text">
-                           <string>REJECT Y CYLINDER REVERSE RS</string>
+                           <string>R409</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_231">
                           <property name="text">
-                           <string>REJECT Z CYLINDER EXTEND RS</string>
+                           <string>R410</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_232">
                           <property name="text">
-                           <string>REJECT Z CYLINDER REVERSE RS</string>
+                           <string>R411</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_233">
                           <property name="text">
-                           <string>HORRIZONTAL CORRECTION PART PRESENT</string>
+                           <string>R412</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_234">
                           <property name="text">
-                           <string>VERTICAL CORRECTION PART PRESENT</string>
+                           <string>R413</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_235">
                           <property name="text">
-                           <string>VERTICAL CORRECTION CYLINDER UP</string>
+                           <string>R414</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_236">
                           <property name="text">
-                           <string>VERTICAL CORRECTION CYLINDER DOWN</string>
+                           <string>R415</string>
                           </property>
                          </widget>
                         </item>
@@ -5250,7 +5262,7 @@ QPushButton:checked
                <item>
                 <widget class="QStackedWidget" name="output_stacked_widget">
                  <property name="currentIndex">
-                  <number>0</number>
+                  <number>1</number>
                  </property>
                  <widget class="QWidget" name="output_page_1">
                   <widget class="QFrame" name="frame_29">
@@ -5277,7 +5289,7 @@ QPushButton:checked
                       <item>
                        <layout class="QVBoxLayout" name="verticalLayout_30">
                         <item>
-                         <widget class="QLabel" name="label_301">
+                         <widget class="QLabel" name="label_y6000">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -5303,7 +5315,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_302">
+                         <widget class="QLabel" name="label_y6001">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -5329,7 +5341,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_303">
+                         <widget class="QLabel" name="label_y6002">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -5355,7 +5367,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_304">
+                         <widget class="QLabel" name="label_y6003">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -5381,7 +5393,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_305">
+                         <widget class="QLabel" name="label_y6004">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -5407,7 +5419,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_306">
+                         <widget class="QLabel" name="label_y6005">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -5433,7 +5445,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_307">
+                         <widget class="QLabel" name="label_y6006">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -5459,7 +5471,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_308">
+                         <widget class="QLabel" name="label_y6007">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -5485,7 +5497,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_309">
+                         <widget class="QLabel" name="label_y6008">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -5511,7 +5523,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_310">
+                         <widget class="QLabel" name="label_y6009">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -5537,7 +5549,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_311">
+                         <widget class="QLabel" name="label_y6010">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -5563,7 +5575,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_312">
+                         <widget class="QLabel" name="label_y6011">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -5589,7 +5601,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_313">
+                         <widget class="QLabel" name="label_y6012">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -5615,7 +5627,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_314">
+                         <widget class="QLabel" name="label_y6013">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -5641,7 +5653,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_315">
+                         <widget class="QLabel" name="label_y6014">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -5667,7 +5679,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_316">
+                         <widget class="QLabel" name="label_y6015">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -5699,112 +5711,112 @@ QPushButton:checked
                         <item>
                          <widget class="QLabel" name="label_317">
                           <property name="text">
-                           <string>REJECT VACUUM 1 OFF</string>
+                           <string>R500</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_318">
                           <property name="text">
-                           <string>REJECT VACUUM 2 OFF</string>
+                           <string>R501</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_319">
                           <property name="text">
-                           <string>HORRIZONTAL CORRECTION CYLINDER </string>
+                           <string>R502</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_320">
                           <property name="text">
-                           <string>VERTICAL CORRECTION CYLINDER 1</string>
+                           <string>R503</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_321">
                           <property name="text">
-                           <string>VERTICAL CORRECTION CYLINDER 2</string>
+                           <string>R504</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_322">
                           <property name="text">
-                           <string>ALL DOOR LOCK</string>
+                           <string>R505</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_323">
                           <property name="text">
-                           <string>REJECT STATION CYLINDER CLEAR</string>
+                           <string>R506</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_324">
                           <property name="text">
-                           <string>REJECT STATION CYLINDER CLEAR</string>
+                           <string>R507</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_325">
                           <property name="text">
-                           <string>TRIM DIE VACUUM ON</string>
+                           <string>R508</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_326">
                           <property name="text">
-                           <string>ENTRANCE STOPPER UP/DOWN</string>
+                           <string>R509</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_327">
                           <property name="text">
-                           <string>SPARE 3</string>
+                           <string>R510</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_328">
                           <property name="text">
-                           <string>DEGATE PUSHER UP/DOWN</string>
+                           <string>R511</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_329">
                           <property name="text">
-                           <string>SPARE 4</string>
+                           <string>R512</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_330">
                           <property name="text">
-                           <string>DEGATE BRUSH UP/DOWN</string>
+                           <string>R513</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_331">
                           <property name="text">
-                           <string>SPARE 5</string>
+                           <string>R514</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_332">
                           <property name="text">
-                           <string>PRESS 1 RELAY</string>
+                           <string>R515</string>
                           </property>
                          </widget>
                         </item>
@@ -5817,7 +5829,7 @@ QPushButton:checked
                       <item>
                        <layout class="QVBoxLayout" name="verticalLayout_32">
                         <item>
-                         <widget class="QLabel" name="label_333">
+                         <widget class="QLabel" name="label_y6100">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -5843,7 +5855,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_334">
+                         <widget class="QLabel" name="label_y6101">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -5869,7 +5881,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_335">
+                         <widget class="QLabel" name="label_y6102">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -5895,7 +5907,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_336">
+                         <widget class="QLabel" name="label_y6103">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -5921,7 +5933,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_337">
+                         <widget class="QLabel" name="label_y6104">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -5947,7 +5959,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_338">
+                         <widget class="QLabel" name="label_y6105">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -5973,7 +5985,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_339">
+                         <widget class="QLabel" name="label_y6106">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -5999,7 +6011,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_340">
+                         <widget class="QLabel" name="label_y6107">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -6025,7 +6037,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_341">
+                         <widget class="QLabel" name="label_y6108">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -6051,7 +6063,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_342">
+                         <widget class="QLabel" name="label_y6109">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -6077,7 +6089,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_343">
+                         <widget class="QLabel" name="label_y6110">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -6103,7 +6115,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_344">
+                         <widget class="QLabel" name="label_y6111">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -6129,7 +6141,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_345">
+                         <widget class="QLabel" name="label_y6112">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -6155,7 +6167,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_346">
+                         <widget class="QLabel" name="label_y6113">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -6181,7 +6193,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_347">
+                         <widget class="QLabel" name="label_y6114">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -6207,7 +6219,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_348">
+                         <widget class="QLabel" name="label_y6115">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -6239,112 +6251,112 @@ QPushButton:checked
                         <item>
                          <widget class="QLabel" name="label_349">
                           <property name="text">
-                           <string>FRICTION 1 CYLINDER EXTEND/REVERSE</string>
+                           <string>R600</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_350">
                           <property name="text">
-                           <string>SPARE 5</string>
+                           <string>R601</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_351">
                           <property name="text">
-                           <string>FRICTION 1 MOTOR ON</string>
+                           <string>R602</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_352">
                           <property name="text">
-                           <string>FRICTION 2 CYLINDER EXTEND/REVERSE</string>
+                           <string>R603</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_353">
                           <property name="text">
-                           <string>DEGATE STOPPER UP/DOWN</string>
+                           <string>R604</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_354">
                           <property name="text">
-                           <string>ENTRANCE STOPPER DOWN RS</string>
+                           <string>R605</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_355">
                           <property name="text">
-                           <string>FRICTION 2 MOTOR ON</string>
+                           <string>R606</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_356">
                           <property name="text">
-                           <string>CLAMPER 1 CYLINDER EXTEND</string>
+                           <string>R607</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_357">
                           <property name="text">
-                           <string>CLAMPER 1 CYLINDER REVERSE</string>
+                           <string>R608</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_358">
                           <property name="text">
-                           <string>CLAMPER 2 CYLINDER EXTEND</string>
+                           <string>R609</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_359">
                           <property name="text">
-                           <string>CLAMPER 2 CYLINDER REVERSE</string>
+                           <string>R610</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_360">
                           <property name="text">
-                           <string>DEGATE SLIDER FORWARD</string>
+                           <string>R611</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_361">
                           <property name="text">
-                           <string>DEGATE SLIDER REVERSE</string>
+                           <string>R612</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_362">
                           <property name="text">
-                           <string>DEGATE PUSHER FORWARD</string>
+                           <string>R613</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_363">
                           <property name="text">
-                           <string>DEGATE PUSHER REVERSE</string>
+                           <string>R614</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_364">
                           <property name="text">
-                           <string>PRESS 2 RELAY</string>
+                           <string>R615.</string>
                           </property>
                          </widget>
                         </item>
@@ -6377,7 +6389,7 @@ QPushButton:checked
                       <item>
                        <layout class="QVBoxLayout" name="verticalLayout_34">
                         <item>
-                         <widget class="QLabel" name="label_365">
+                         <widget class="QLabel" name="label_y6200">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -6403,7 +6415,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_366">
+                         <widget class="QLabel" name="label_y6201">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -6429,7 +6441,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_367">
+                         <widget class="QLabel" name="label_y6202">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -6455,7 +6467,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_368">
+                         <widget class="QLabel" name="label_y6203">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -6481,7 +6493,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_369">
+                         <widget class="QLabel" name="label_y6204">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -6507,7 +6519,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_370">
+                         <widget class="QLabel" name="label_y6205">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -6533,7 +6545,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_371">
+                         <widget class="QLabel" name="label_y6206">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -6559,7 +6571,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_372">
+                         <widget class="QLabel" name="label_y6207">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -6585,7 +6597,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_373">
+                         <widget class="QLabel" name="label_y6208">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -6611,7 +6623,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_374">
+                         <widget class="QLabel" name="label_y6209">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -6637,7 +6649,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_375">
+                         <widget class="QLabel" name="label_y6210">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -6663,7 +6675,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_376">
+                         <widget class="QLabel" name="label_y6211">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -6689,7 +6701,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_377">
+                         <widget class="QLabel" name="label_y6212">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -6715,7 +6727,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_378">
+                         <widget class="QLabel" name="label_y6213">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -6741,7 +6753,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_379">
+                         <widget class="QLabel" name="label_y6214">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -6767,7 +6779,7 @@ QPushButton:checked
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_380">
+                         <widget class="QLabel" name="label_y6215">
                           <property name="font">
                            <font>
                             <bold>true</bold>
@@ -6799,112 +6811,112 @@ QPushButton:checked
                         <item>
                          <widget class="QLabel" name="label_381">
                           <property name="text">
-                           <string>WALKING BEAM EXTEND 1</string>
+                           <string>R700</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_382">
                           <property name="text">
-                           <string>WALKING BEAM RETRACT 1 </string>
+                           <string>R701</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_383">
                           <property name="text">
-                           <string>WALKING BEAM EXTEND 2</string>
+                           <string>R702</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_384">
                           <property name="text">
-                           <string>WALKING BEAM RETRACT 2</string>
+                           <string>R703</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_385">
                           <property name="text">
-                           <string>WALKING BEAM EXTEND 3</string>
+                           <string>R704</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_386">
                           <property name="text">
-                           <string>WALKING BEAM RETRACT 3</string>
+                           <string>R705</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_387">
                           <property name="text">
-                           <string>WALKING BEAM EXTEND 4</string>
+                           <string>R706</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_388">
                           <property name="text">
-                           <string>WALKING BEAM RETRACT 4</string>
+                           <string>R707</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_389">
                           <property name="text">
-                           <string>LINEAR TRACK CYLINDER UP/DOWN</string>
+                           <string>R708</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_390">
                           <property name="text">
-                           <string>SPARE</string>
+                           <string>R709</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_391">
                           <property name="text">
-                           <string>REJECT Y CYLINDER EXTEND</string>
+                           <string>R710</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_392">
                           <property name="text">
-                           <string>REJECT Y CYLINDER REVERSE</string>
+                           <string>R711</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_393">
                           <property name="text">
-                           <string>REJECT Z CYLINDER EXTEND</string>
+                           <string>R712</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_394">
                           <property name="text">
-                           <string>REJECT Z CYLINDER REVERSE</string>
+                           <string>R713</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_395">
                           <property name="text">
-                           <string>STEPPER ENABLE RELAY</string>
+                           <string>R714</string>
                           </property>
                          </widget>
                         </item>
                         <item>
                          <widget class="QLabel" name="label_396">
                           <property name="text">
-                           <string>VFD OUTPUT</string>
+                           <string>R715</string>
                           </property>
                          </widget>
                         </item>
@@ -8271,7 +8283,7 @@ Page 1</string>
                </item>
               </layout>
              </widget>
-             <widget class="QWidget" name="">
+             <widget class="QWidget" name="layoutWidget">
               <property name="geometry">
                <rect>
                 <x>30</x>
@@ -8909,8 +8921,11 @@ background-color: rgba(229, 229, 229, 247)
                </item>
                <item>
                 <widget class="QStackedWidget" name="stackedWidget_2">
+                 <property name="currentIndex">
+                  <number>0</number>
+                 </property>
                  <widget class="QWidget" name="page">
-                  <widget class="QWidget" name="">
+                  <widget class="QWidget" name="layoutWidget">
                    <property name="geometry">
                     <rect>
                      <x>0</x>
@@ -8932,12 +8947,12 @@ background-color: rgba(229, 229, 229, 247)
                        <string notr="true">border-color: rgb(255, 255, 255)</string>
                       </property>
                       <property name="text">
-                       <string>PRESS STATION</string>
+                       <string>MODULE 1</string>
                       </property>
                      </widget>
                     </item>
                     <item>
-                     <layout class="QHBoxLayout" name="horizontalLayout_28">
+                     <layout class="QHBoxLayout" name="horizontalLayout_28" stretch="1,1">
                       <property name="spacing">
                        <number>6</number>
                       </property>
@@ -8962,7 +8977,7 @@ background-color: rgba(229, 229, 229, 247)
 </string>
                         </property>
                         <property name="text">
-                         <string>Press 1</string>
+                         <string>MOTOR 1</string>
                         </property>
                         <property name="checkable">
                          <bool>true</bool>
@@ -8973,35 +8988,17 @@ background-color: rgba(229, 229, 229, 247)
                        </widget>
                       </item>
                       <item>
-                       <widget class="QPushButton" name="pushButton_26">
-                        <property name="sizePolicy">
-                         <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-                          <horstretch>0</horstretch>
-                          <verstretch>0</verstretch>
-                         </sizepolicy>
+                       <spacer name="horizontalSpacer_6">
+                        <property name="orientation">
+                         <enum>Qt::Horizontal</enum>
                         </property>
-                        <property name="font">
-                         <font>
-                          <pointsize>12</pointsize>
-                         </font>
+                        <property name="sizeHint" stdset="0">
+                         <size>
+                          <width>40</width>
+                          <height>20</height>
+                         </size>
                         </property>
-                        <property name="styleSheet">
-                         <string notr="true">background-color: rgb(247, 247, 247);
-</string>
-                        </property>
-                        <property name="text">
-                         <string>Press 2</string>
-                        </property>
-                        <property name="checkable">
-                         <bool>true</bool>
-                        </property>
-                        <property name="default">
-                         <bool>false</bool>
-                        </property>
-                        <attribute name="buttonGroup">
-                         <string notr="true">main_motor_module_button_group</string>
-                        </attribute>
-                       </widget>
+                       </spacer>
                       </item>
                      </layout>
                     </item>
@@ -9017,7 +9014,7 @@ background-color: rgba(229, 229, 229, 247)
                        <string notr="true">border-color: rgb(255, 255, 255)</string>
                       </property>
                       <property name="text">
-                       <string>INDEXING</string>
+                       <string>MODULE 2</string>
                       </property>
                      </widget>
                     </item>
@@ -9047,7 +9044,7 @@ background-color: rgba(229, 229, 229, 247)
 </string>
                         </property>
                         <property name="text">
-                         <string>Walking Beam</string>
+                         <string>MOTOR 2</string>
                         </property>
                         <property name="checkable">
                          <bool>true</bool>
@@ -9084,7 +9081,7 @@ background-color: rgba(229, 229, 229, 247)
                        <string notr="true">border-color: rgb(255, 255, 255)</string>
                       </property>
                       <property name="text">
-                       <string>VISION</string>
+                       <string>MODULE 3</string>
                       </property>
                      </widget>
                     </item>
@@ -9114,7 +9111,7 @@ background-color: rgba(229, 229, 229, 247)
 </string>
                         </property>
                         <property name="text">
-                         <string>Vision</string>
+                         <string>MOTOR 3</string>
                         </property>
                         <property name="checkable">
                          <bool>true</bool>
@@ -9151,12 +9148,12 @@ background-color: rgba(229, 229, 229, 247)
                        <string notr="true">border-color: rgb(255, 255, 255)</string>
                       </property>
                       <property name="text">
-                       <string>LEAD CORRECTION</string>
+                       <string>MODULE 4</string>
                       </property>
                      </widget>
                     </item>
                     <item>
-                     <layout class="QHBoxLayout" name="horizontalLayout_47">
+                     <layout class="QHBoxLayout" name="horizontalLayout_47" stretch="1,1">
                       <property name="spacing">
                        <number>6</number>
                       </property>
@@ -9181,8 +9178,7 @@ background-color: rgba(229, 229, 229, 247)
 </string>
                         </property>
                         <property name="text">
-                         <string>Horizontal
-Correction</string>
+                         <string>MOTOR 4</string>
                         </property>
                         <property name="checkable">
                          <bool>true</bool>
@@ -9192,6 +9188,251 @@ Correction</string>
                         </attribute>
                        </widget>
                       </item>
+                      <item>
+                       <spacer name="horizontalSpacer_5">
+                        <property name="orientation">
+                         <enum>Qt::Horizontal</enum>
+                        </property>
+                        <property name="sizeHint" stdset="0">
+                         <size>
+                          <width>40</width>
+                          <height>20</height>
+                         </size>
+                        </property>
+                       </spacer>
+                      </item>
+                     </layout>
+                    </item>
+                   </layout>
+                  </widget>
+                 </widget>
+                 <widget class="QWidget" name="page_2">
+                  <widget class="QWidget" name="layoutWidget_2">
+                   <property name="geometry">
+                    <rect>
+                     <x>0</x>
+                     <y>0</y>
+                     <width>281</width>
+                     <height>371</height>
+                    </rect>
+                   </property>
+                   <layout class="QVBoxLayout" name="verticalLayout_62">
+                    <item>
+                     <widget class="QLabel" name="label_114">
+                      <property name="font">
+                       <font>
+                        <pointsize>12</pointsize>
+                        <bold>true</bold>
+                       </font>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">border-color: rgb(255, 255, 255)</string>
+                      </property>
+                      <property name="text">
+                       <string>MODULE 1</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <layout class="QHBoxLayout" name="horizontalLayout_50" stretch="1,1">
+                      <property name="spacing">
+                       <number>6</number>
+                      </property>
+                      <property name="sizeConstraint">
+                       <enum>QLayout::SetDefaultConstraint</enum>
+                      </property>
+                      <item>
+                       <widget class="QPushButton" name="pushButton_26">
+                        <property name="sizePolicy">
+                         <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+                          <horstretch>0</horstretch>
+                          <verstretch>0</verstretch>
+                         </sizepolicy>
+                        </property>
+                        <property name="font">
+                         <font>
+                          <pointsize>12</pointsize>
+                         </font>
+                        </property>
+                        <property name="styleSheet">
+                         <string notr="true">background-color: rgb(247, 247, 247);
+</string>
+                        </property>
+                        <property name="text">
+                         <string>MOTOR 1</string>
+                        </property>
+                        <property name="checkable">
+                         <bool>true</bool>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <spacer name="horizontalSpacer_7">
+                        <property name="orientation">
+                         <enum>Qt::Horizontal</enum>
+                        </property>
+                        <property name="sizeHint" stdset="0">
+                         <size>
+                          <width>40</width>
+                          <height>20</height>
+                         </size>
+                        </property>
+                       </spacer>
+                      </item>
+                     </layout>
+                    </item>
+                    <item>
+                     <widget class="QLabel" name="label_115">
+                      <property name="font">
+                       <font>
+                        <pointsize>12</pointsize>
+                        <bold>true</bold>
+                       </font>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">border-color: rgb(255, 255, 255)</string>
+                      </property>
+                      <property name="text">
+                       <string>MODULE 2</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <layout class="QHBoxLayout" name="horizontalLayout_51" stretch="1,1">
+                      <property name="spacing">
+                       <number>6</number>
+                      </property>
+                      <property name="sizeConstraint">
+                       <enum>QLayout::SetDefaultConstraint</enum>
+                      </property>
+                      <item>
+                       <widget class="QPushButton" name="pushButton_30">
+                        <property name="sizePolicy">
+                         <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+                          <horstretch>0</horstretch>
+                          <verstretch>0</verstretch>
+                         </sizepolicy>
+                        </property>
+                        <property name="font">
+                         <font>
+                          <pointsize>12</pointsize>
+                         </font>
+                        </property>
+                        <property name="styleSheet">
+                         <string notr="true">background-color: rgb(247, 247, 247);
+</string>
+                        </property>
+                        <property name="text">
+                         <string>MOTOR 2</string>
+                        </property>
+                        <property name="checkable">
+                         <bool>true</bool>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <spacer name="horizontalSpacer_8">
+                        <property name="orientation">
+                         <enum>Qt::Horizontal</enum>
+                        </property>
+                        <property name="sizeHint" stdset="0">
+                         <size>
+                          <width>40</width>
+                          <height>20</height>
+                         </size>
+                        </property>
+                       </spacer>
+                      </item>
+                     </layout>
+                    </item>
+                    <item>
+                     <widget class="QLabel" name="label_116">
+                      <property name="font">
+                       <font>
+                        <pointsize>12</pointsize>
+                        <bold>true</bold>
+                       </font>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">border-color: rgb(255, 255, 255)</string>
+                      </property>
+                      <property name="text">
+                       <string>MODULE 3</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <layout class="QHBoxLayout" name="horizontalLayout_52" stretch="1,1">
+                      <property name="spacing">
+                       <number>6</number>
+                      </property>
+                      <property name="sizeConstraint">
+                       <enum>QLayout::SetDefaultConstraint</enum>
+                      </property>
+                      <item>
+                       <widget class="QPushButton" name="pushButton_36">
+                        <property name="sizePolicy">
+                         <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+                          <horstretch>0</horstretch>
+                          <verstretch>0</verstretch>
+                         </sizepolicy>
+                        </property>
+                        <property name="font">
+                         <font>
+                          <pointsize>12</pointsize>
+                         </font>
+                        </property>
+                        <property name="styleSheet">
+                         <string notr="true">background-color: rgb(247, 247, 247);
+</string>
+                        </property>
+                        <property name="text">
+                         <string>MOTOR 3</string>
+                        </property>
+                        <property name="checkable">
+                         <bool>true</bool>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <spacer name="horizontalSpacer_9">
+                        <property name="orientation">
+                         <enum>Qt::Horizontal</enum>
+                        </property>
+                        <property name="sizeHint" stdset="0">
+                         <size>
+                          <width>40</width>
+                          <height>20</height>
+                         </size>
+                        </property>
+                       </spacer>
+                      </item>
+                     </layout>
+                    </item>
+                    <item>
+                     <widget class="QLabel" name="label_117">
+                      <property name="font">
+                       <font>
+                        <pointsize>12</pointsize>
+                        <bold>true</bold>
+                       </font>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">border-color: rgb(255, 255, 255)</string>
+                      </property>
+                      <property name="text">
+                       <string>MODULE 4</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <layout class="QHBoxLayout" name="horizontalLayout_53" stretch="1,1">
+                      <property name="spacing">
+                       <number>6</number>
+                      </property>
+                      <property name="sizeConstraint">
+                       <enum>QLayout::SetDefaultConstraint</enum>
+                      </property>
                       <item>
                        <widget class="QPushButton" name="pushButton_38">
                         <property name="sizePolicy">
@@ -9210,26 +9451,31 @@ Correction</string>
 </string>
                         </property>
                         <property name="text">
-                         <string>Vertical
-Correction</string>
+                         <string>MOTOR 4</string>
                         </property>
                         <property name="checkable">
                          <bool>true</bool>
                         </property>
-                        <property name="default">
-                         <bool>false</bool>
-                        </property>
-                        <attribute name="buttonGroup">
-                         <string notr="true">main_motor_module_button_group</string>
-                        </attribute>
                        </widget>
+                      </item>
+                      <item>
+                       <spacer name="horizontalSpacer_10">
+                        <property name="orientation">
+                         <enum>Qt::Horizontal</enum>
+                        </property>
+                        <property name="sizeHint" stdset="0">
+                         <size>
+                          <width>40</width>
+                          <height>20</height>
+                         </size>
+                        </property>
+                       </spacer>
                       </item>
                      </layout>
                     </item>
                    </layout>
                   </widget>
                  </widget>
-                 <widget class="QWidget" name="page_2"/>
                 </widget>
                </item>
                <item>
@@ -9730,10 +9976,10 @@ Correction</string>
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="input_list_page_button_group"/>
-  <buttongroup name="output_list_page_button_group"/>
-  <buttongroup name="io_module_button_group"/>
   <buttongroup name="navigation_button_group"/>
   <buttongroup name="main_motor_module_button_group"/>
+  <buttongroup name="input_list_page_button_group"/>
+  <buttongroup name="io_module_button_group"/>
+  <buttongroup name="output_list_page_button_group"/>
  </buttongroups>
 </ui>

@@ -1,0 +1,2052 @@
+<?xml version='1.0' encoding='utf-8'?>
+<UANodeSet xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://opcfoundation.org/UA/2011/03/UANodeSet.xsd">
+  <NamespaceUris>
+    <Uri>Keyence_PLC_Server</Uri>
+  </NamespaceUris>
+  <Aliases>
+    <Alias Alias="Int64">i=8</Alias>
+    <Alias Alias="Organizes">i=35</Alias>
+    <Alias Alias="HasTypeDefinition">i=40</Alias>
+    <Alias Alias="HasComponent">i=47</Alias>
+  </Aliases>
+  <UAObject NodeId="ns=1;i=2002" BrowseName="1:Device" ParentNodeId="i=85">
+    <DisplayName>Device</DisplayName>
+    <Description>Device</Description>
+    <References>
+      <Reference ReferenceType="Organizes" IsForward="false">i=85</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=61</Reference>
+      <Reference ReferenceType="Organizes">ns=1;i=2003</Reference>
+    </References>
+  </UAObject>
+  <UAObject NodeId="ns=1;i=2003" BrowseName="1:PLC1" ParentNodeId="ns=1;i=2002">
+    <DisplayName>PLC1</DisplayName>
+    <References>
+      <Reference ReferenceType="Organizes" IsForward="false">ns=1;i=2002</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=58</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2126</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2133</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2183</Reference>
+    </References>
+  </UAObject>
+  <UAObject NodeId="ns=1;i=2126" BrowseName="1:alarm" ParentNodeId="ns=1;i=2003">
+    <DisplayName>alarm</DisplayName>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2003</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=58</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2127</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2128</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2129</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2130</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2131</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2132</Reference>
+    </References>
+  </UAObject>
+  <UAVariable NodeId="ns=1;i=2127" BrowseName="1:DM3000" ParentNodeId="ns=1;i=2126" DataType="Int64">
+    <DisplayName>DM3000</DisplayName>
+    <Description>DM3000</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2126</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2128" BrowseName="1:DM3001" ParentNodeId="ns=1;i=2126" DataType="Int64">
+    <DisplayName>DM3001</DisplayName>
+    <Description>DM3001</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2126</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2129" BrowseName="1:DM3002" ParentNodeId="ns=1;i=2126" DataType="Int64">
+    <DisplayName>DM3002</DisplayName>
+    <Description>DM3002</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2126</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2130" BrowseName="1:DM3003" ParentNodeId="ns=1;i=2126" DataType="Int64">
+    <DisplayName>DM3003</DisplayName>
+    <Description>DM3003</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2126</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2131" BrowseName="1:DM3004" ParentNodeId="ns=1;i=2126" DataType="Int64">
+    <DisplayName>DM3004</DisplayName>
+    <Description>DM3004</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2126</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2132" BrowseName="1:DM3005" ParentNodeId="ns=1;i=2126" DataType="Int64">
+    <DisplayName>DM3005</DisplayName>
+    <Description>DM3005</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2126</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAObject NodeId="ns=1;i=2133" BrowseName="1:hmi" ParentNodeId="ns=1;i=2003">
+    <DisplayName>hmi</DisplayName>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2003</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=58</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2134</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2135</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2136</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2137</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2138</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2139</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2140</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2141</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2142</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2143</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2144</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2145</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2146</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2147</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2148</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2155</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2001</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2004</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2005</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2006</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2007</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2008</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2009</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2010</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2011</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2012</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2013</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2014</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2015</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2016</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2017</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2018</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2020</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2021</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2022</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2023</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2024</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2025</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2026</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2027</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2028</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2029</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2030</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2031</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2032</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2033</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2034</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2035</Reference>
+    </References>
+  </UAObject>
+  <UAVariable NodeId="ns=1;i=2134" BrowseName="1:MR1001" ParentNodeId="ns=1;i=2133" DataType="Int64">
+    <DisplayName>MR1001</DisplayName>
+    <Description>MR1001</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2133</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2135" BrowseName="1:MR1002" ParentNodeId="ns=1;i=2133" DataType="Int64">
+    <DisplayName>MR1002</DisplayName>
+    <Description>MR1002</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2133</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2136" BrowseName="1:MR1003" ParentNodeId="ns=1;i=2133" DataType="Int64">
+    <DisplayName>MR1003</DisplayName>
+    <Description>MR1003</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2133</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2137" BrowseName="1:MR1004" ParentNodeId="ns=1;i=2133" DataType="Int64">
+    <DisplayName>MR1004</DisplayName>
+    <Description>MR1004</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2133</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2138" BrowseName="1:MR1005" ParentNodeId="ns=1;i=2133" DataType="Int64">
+    <DisplayName>MR1005</DisplayName>
+    <Description>MR1005</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2133</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2139" BrowseName="1:MR1006" ParentNodeId="ns=1;i=2133" DataType="Int64">
+    <DisplayName>MR1006</DisplayName>
+    <Description>MR1006</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2133</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2140" BrowseName="1:MR1007" ParentNodeId="ns=1;i=2133" DataType="Int64">
+    <DisplayName>MR1007</DisplayName>
+    <Description>MR1007</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2133</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2141" BrowseName="1:MR1008" ParentNodeId="ns=1;i=2133" DataType="Int64">
+    <DisplayName>MR1008</DisplayName>
+    <Description>MR1008</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2133</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2142" BrowseName="1:MR1009" ParentNodeId="ns=1;i=2133" DataType="Int64">
+    <DisplayName>MR1009</DisplayName>
+    <Description>MR1009</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2133</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2143" BrowseName="1:MR1010" ParentNodeId="ns=1;i=2133" DataType="Int64">
+    <DisplayName>MR1010</DisplayName>
+    <Description>MR1010</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2133</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2144" BrowseName="1:MR1011" ParentNodeId="ns=1;i=2133" DataType="Int64">
+    <DisplayName>MR1011</DisplayName>
+    <Description>MR1011</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2133</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2145" BrowseName="1:MR1012" ParentNodeId="ns=1;i=2133" DataType="Int64">
+    <DisplayName>MR1012</DisplayName>
+    <Description>MR1012</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2133</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2146" BrowseName="1:MR1013" ParentNodeId="ns=1;i=2133" DataType="Int64">
+    <DisplayName>MR1013</DisplayName>
+    <Description>MR1013</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2133</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2147" BrowseName="1:MR1014" ParentNodeId="ns=1;i=2133" DataType="Int64">
+    <DisplayName>MR1014</DisplayName>
+    <Description>MR1014</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2133</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2148" BrowseName="1:MR1015" ParentNodeId="ns=1;i=2133" DataType="Int64">
+    <DisplayName>MR1015</DisplayName>
+    <Description>MR1015</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2133</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2155" BrowseName="1:MR1000" ParentNodeId="ns=1;i=2133" DataType="Int64">
+    <DisplayName>MR1000</DisplayName>
+    <Description>MR1000</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2133</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAObject NodeId="ns=1;i=2166" BrowseName="1:input_relay_1" ParentNodeId="ns=1;i=2003">
+    <DisplayName>input_relay_1</DisplayName>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2003</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=58</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2167</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2168</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2169</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2170</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2171</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2172</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2173</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2174</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2175</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2176</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2177</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2178</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2179</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2180</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2181</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2182</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2036</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2037</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2038</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2039</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2040</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2041</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2042</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2043</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2044</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2045</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2046</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2047</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2049</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2050</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2051</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2052</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2053</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2054</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2055</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2056</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2057</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2058</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2059</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2060</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2061</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2062</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2064</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2065</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2066</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2067</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2068</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2069</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2070</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2071</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2072</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2073</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2074</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2075</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2076</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2077</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2078</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2079</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2080</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2081</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2082</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2083</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2084</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2019</Reference>
+    </References>
+  </UAObject>
+  <UAVariable NodeId="ns=1;i=2167" BrowseName="1:R100" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R100</DisplayName>
+    <Description>R100</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2168" BrowseName="1:R101" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R101</DisplayName>
+    <Description>R101</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2169" BrowseName="1:R102" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R102</DisplayName>
+    <Description>R102</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2170" BrowseName="1:R103" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R103</DisplayName>
+    <Description>R103</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2171" BrowseName="1:R104" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R104</DisplayName>
+    <Description>R104</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2172" BrowseName="1:R105" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R105</DisplayName>
+    <Description>R105</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2173" BrowseName="1:R106" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R106</DisplayName>
+    <Description>R106</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2174" BrowseName="1:R107" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R107</DisplayName>
+    <Description>R107</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2175" BrowseName="1:R108" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R108</DisplayName>
+    <Description>R108</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2176" BrowseName="1:R109" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R109</DisplayName>
+    <Description>R109</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2177" BrowseName="1:R110" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R110</DisplayName>
+    <Description>R110</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2178" BrowseName="1:R111" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R111</DisplayName>
+    <Description>R111</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2179" BrowseName="1:R112" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R112</DisplayName>
+    <Description>R112</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2180" BrowseName="1:R113" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R113</DisplayName>
+    <Description>R113</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2181" BrowseName="1:R114" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R114</DisplayName>
+    <Description>R114</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2182" BrowseName="1:R115" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R115</DisplayName>
+    <Description>R115</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAObject NodeId="ns=1;i=2183" BrowseName="1:output_relay_1" ParentNodeId="ns=1;i=2003">
+    <DisplayName>output_relay_1</DisplayName>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2003</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=58</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2184</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2185</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2186</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2187</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2188</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2189</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2190</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2191</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2192</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2193</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2194</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2195</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2196</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2197</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2198</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2199</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2085</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2086</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2087</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2088</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2089</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2090</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2091</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2092</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2093</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2094</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2095</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2096</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2097</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2098</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2099</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2100</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2101</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2102</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2103</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2104</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2105</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2106</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2107</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2108</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2109</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2110</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2111</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2112</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2113</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2114</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2115</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2116</Reference>
+    </References>
+  </UAObject>
+  <UAVariable NodeId="ns=1;i=2184" BrowseName="1:R500" ParentNodeId="ns=1;i=2183" DataType="Int64">
+    <DisplayName>R500</DisplayName>
+    <Description>R500</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2183</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2185" BrowseName="1:R501" ParentNodeId="ns=1;i=2183" DataType="Int64">
+    <DisplayName>R501</DisplayName>
+    <Description>R501</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2183</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2186" BrowseName="1:R502" ParentNodeId="ns=1;i=2183" DataType="Int64">
+    <DisplayName>R502</DisplayName>
+    <Description>R502</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2183</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2187" BrowseName="1:R503" ParentNodeId="ns=1;i=2183" DataType="Int64">
+    <DisplayName>R503</DisplayName>
+    <Description>R503</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2183</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2188" BrowseName="1:R504" ParentNodeId="ns=1;i=2183" DataType="Int64">
+    <DisplayName>R504</DisplayName>
+    <Description>R504</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2183</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2189" BrowseName="1:R505" ParentNodeId="ns=1;i=2183" DataType="Int64">
+    <DisplayName>R505</DisplayName>
+    <Description>R505</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2183</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2190" BrowseName="1:R506" ParentNodeId="ns=1;i=2183" DataType="Int64">
+    <DisplayName>R506</DisplayName>
+    <Description>R506</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2183</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2191" BrowseName="1:R507" ParentNodeId="ns=1;i=2183" DataType="Int64">
+    <DisplayName>R507</DisplayName>
+    <Description>R507</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2183</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2192" BrowseName="1:R508" ParentNodeId="ns=1;i=2183" DataType="Int64">
+    <DisplayName>R508</DisplayName>
+    <Description>R508</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2183</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2193" BrowseName="1:R509" ParentNodeId="ns=1;i=2183" DataType="Int64">
+    <DisplayName>R509</DisplayName>
+    <Description>R509</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2183</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2194" BrowseName="1:R510" ParentNodeId="ns=1;i=2183" DataType="Int64">
+    <DisplayName>R510</DisplayName>
+    <Description>R510</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2183</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2195" BrowseName="1:R511" ParentNodeId="ns=1;i=2183" DataType="Int64">
+    <DisplayName>R511</DisplayName>
+    <Description>R511</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2183</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2196" BrowseName="1:R512" ParentNodeId="ns=1;i=2183" DataType="Int64">
+    <DisplayName>R512</DisplayName>
+    <Description>R512</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2183</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2197" BrowseName="1:R513" ParentNodeId="ns=1;i=2183" DataType="Int64">
+    <DisplayName>R513</DisplayName>
+    <Description>R513</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2183</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2198" BrowseName="1:R514" ParentNodeId="ns=1;i=2183" DataType="Int64">
+    <DisplayName>R514</DisplayName>
+    <Description>R514</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2183</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2199" BrowseName="1:R515" ParentNodeId="ns=1;i=2183" DataType="Int64">
+    <DisplayName>R515</DisplayName>
+    <Description>R515</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2183</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2001" BrowseName="1:MR1100" ParentNodeId="ns=1;i=2133" DataType="Int64">
+    <DisplayName>MR1100</DisplayName>
+    <Description>MR1100</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2133</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2004" BrowseName="1:MR1101" ParentNodeId="ns=1;i=2133" DataType="Int64">
+    <DisplayName>MR1101</DisplayName>
+    <Description>MR1101</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2133</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2005" BrowseName="1:MR1102" ParentNodeId="ns=1;i=2133" DataType="Int64">
+    <DisplayName>MR1102</DisplayName>
+    <Description>MR1102</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2133</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2006" BrowseName="1:MR1103" ParentNodeId="ns=1;i=2133" DataType="Int64">
+    <DisplayName>MR1103</DisplayName>
+    <Description>MR1103</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2133</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2007" BrowseName="1:MR1104" ParentNodeId="ns=1;i=2133" DataType="Int64">
+    <DisplayName>MR1104</DisplayName>
+    <Description>MR1104</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2133</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2008" BrowseName="1:MR1105" ParentNodeId="ns=1;i=2133" DataType="Int64">
+    <DisplayName>MR1105</DisplayName>
+    <Description>MR1105</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2133</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2009" BrowseName="1:MR1106" ParentNodeId="ns=1;i=2133" DataType="Int64">
+    <DisplayName>MR1106</DisplayName>
+    <Description>MR1106</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2133</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2010" BrowseName="1:MR1107" ParentNodeId="ns=1;i=2133" DataType="Int64">
+    <DisplayName>MR1107</DisplayName>
+    <Description>MR1107</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2133</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2011" BrowseName="1:MR1108" ParentNodeId="ns=1;i=2133" DataType="Int64">
+    <DisplayName>MR1108</DisplayName>
+    <Description>MR1108</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2133</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2012" BrowseName="1:MR1109" ParentNodeId="ns=1;i=2133" DataType="Int64">
+    <DisplayName>MR1109</DisplayName>
+    <Description>MR1109</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2133</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2013" BrowseName="1:MR1110" ParentNodeId="ns=1;i=2133" DataType="Int64">
+    <DisplayName>MR1110</DisplayName>
+    <Description>MR1110</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2133</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2014" BrowseName="1:MR1111" ParentNodeId="ns=1;i=2133" DataType="Int64">
+    <DisplayName>MR1111</DisplayName>
+    <Description>MR1111</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2133</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2015" BrowseName="1:MR1112" ParentNodeId="ns=1;i=2133" DataType="Int64">
+    <DisplayName>MR1112</DisplayName>
+    <Description>MR1112</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2133</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2016" BrowseName="1:MR1113" ParentNodeId="ns=1;i=2133" DataType="Int64">
+    <DisplayName>MR1113</DisplayName>
+    <Description>MR1113</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2133</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2017" BrowseName="1:MR1114" ParentNodeId="ns=1;i=2133" DataType="Int64">
+    <DisplayName>MR1114</DisplayName>
+    <Description>MR1114</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2133</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2018" BrowseName="1:MR1115" ParentNodeId="ns=1;i=2133" DataType="Int64">
+    <DisplayName>MR1115</DisplayName>
+    <Description>MR1115</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2133</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2020" BrowseName="1:MR1200" ParentNodeId="ns=1;i=2133" DataType="Int64">
+    <DisplayName>MR1200</DisplayName>
+    <Description>MR1200</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2133</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2021" BrowseName="1:MR1201" ParentNodeId="ns=1;i=2133" DataType="Int64">
+    <DisplayName>MR1201</DisplayName>
+    <Description>MR1201</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2133</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2022" BrowseName="1:MR1202" ParentNodeId="ns=1;i=2133" DataType="Int64">
+    <DisplayName>MR1202</DisplayName>
+    <Description>MR1202</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2133</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2023" BrowseName="1:MR1203" ParentNodeId="ns=1;i=2133" DataType="Int64">
+    <DisplayName>MR1203</DisplayName>
+    <Description>MR1203</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2133</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2024" BrowseName="1:MR1204" ParentNodeId="ns=1;i=2133" DataType="Int64">
+    <DisplayName>MR1204</DisplayName>
+    <Description>MR1204</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2133</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2025" BrowseName="1:MR1205" ParentNodeId="ns=1;i=2133" DataType="Int64">
+    <DisplayName>MR1205</DisplayName>
+    <Description>MR1205</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2133</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2026" BrowseName="1:MR1206" ParentNodeId="ns=1;i=2133" DataType="Int64">
+    <DisplayName>MR1206</DisplayName>
+    <Description>MR1206</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2133</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2027" BrowseName="1:MR1207" ParentNodeId="ns=1;i=2133" DataType="Int64">
+    <DisplayName>MR1207</DisplayName>
+    <Description>MR1207</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2133</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2028" BrowseName="1:MR1208" ParentNodeId="ns=1;i=2133" DataType="Int64">
+    <DisplayName>MR1208</DisplayName>
+    <Description>MR1208</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2133</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2029" BrowseName="1:MR1209" ParentNodeId="ns=1;i=2133" DataType="Int64">
+    <DisplayName>MR1209</DisplayName>
+    <Description>MR1209</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2133</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2030" BrowseName="1:MR1210" ParentNodeId="ns=1;i=2133" DataType="Int64">
+    <DisplayName>MR1210</DisplayName>
+    <Description>MR1210</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2133</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2031" BrowseName="1:MR1211" ParentNodeId="ns=1;i=2133" DataType="Int64">
+    <DisplayName>MR1211</DisplayName>
+    <Description>MR1211</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2133</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2032" BrowseName="1:MR1212" ParentNodeId="ns=1;i=2133" DataType="Int64">
+    <DisplayName>MR1212</DisplayName>
+    <Description>MR1212</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2133</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2033" BrowseName="1:MR1213" ParentNodeId="ns=1;i=2133" DataType="Int64">
+    <DisplayName>MR1213</DisplayName>
+    <Description>MR1213</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2133</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2034" BrowseName="1:MR1214" ParentNodeId="ns=1;i=2133" DataType="Int64">
+    <DisplayName>MR1214</DisplayName>
+    <Description>MR1214</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2133</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2035" BrowseName="1:MR1215" ParentNodeId="ns=1;i=2133" DataType="Int64">
+    <DisplayName>MR1215</DisplayName>
+    <Description>MR1215</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2133</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2036" BrowseName="1:R200" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R200</DisplayName>
+    <Description>R200</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2037" BrowseName="1:R201" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R201</DisplayName>
+    <Description>R201</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2038" BrowseName="1:R202" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R202</DisplayName>
+    <Description>R202</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2039" BrowseName="1:R203" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R203</DisplayName>
+    <Description>R203</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2040" BrowseName="1:R204" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R204</DisplayName>
+    <Description>R204</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2041" BrowseName="1:R205" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R205</DisplayName>
+    <Description>R205</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2042" BrowseName="1:R206" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R206</DisplayName>
+    <Description>R206</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2043" BrowseName="1:R207" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R207</DisplayName>
+    <Description>R207</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2044" BrowseName="1:R208" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R208</DisplayName>
+    <Description>R208</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2045" BrowseName="1:R209" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R209</DisplayName>
+    <Description>R209</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2046" BrowseName="1:R210" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R210</DisplayName>
+    <Description>R210</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2047" BrowseName="1:R211" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R211</DisplayName>
+    <Description>R211</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2049" BrowseName="1:R212" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R212</DisplayName>
+    <Description>R212</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2050" BrowseName="1:R213" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R213</DisplayName>
+    <Description>R213</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2051" BrowseName="1:R214" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R214</DisplayName>
+    <Description>R214</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2052" BrowseName="1:R215" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R215</DisplayName>
+    <Description>R215</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2053" BrowseName="1:R300" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R300</DisplayName>
+    <Description>R300</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2054" BrowseName="1:R301" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R301</DisplayName>
+    <Description>R301</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2055" BrowseName="1:R302" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R302</DisplayName>
+    <Description>R302</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2056" BrowseName="1:R303" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R303</DisplayName>
+    <Description>R303</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2057" BrowseName="1:R304" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R304</DisplayName>
+    <Description>R304</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2058" BrowseName="1:R305" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R305</DisplayName>
+    <Description>R305</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2059" BrowseName="1:R306" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R306</DisplayName>
+    <Description>R306</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2060" BrowseName="1:R307" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R307</DisplayName>
+    <Description>R307</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2061" BrowseName="1:R308" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R308</DisplayName>
+    <Description>R308</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2062" BrowseName="1:R309" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R309</DisplayName>
+    <Description>R309</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2064" BrowseName="1:R310" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R310</DisplayName>
+    <Description>R310</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2065" BrowseName="1:R311" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R311</DisplayName>
+    <Description>R311</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2066" BrowseName="1:R312" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R312</DisplayName>
+    <Description>R312</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2067" BrowseName="1:R313" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R313</DisplayName>
+    <Description>R313</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2068" BrowseName="1:R314" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R314</DisplayName>
+    <Description>R314</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2069" BrowseName="1:R400" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R400</DisplayName>
+    <Description>R400</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2070" BrowseName="1:R401" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R401</DisplayName>
+    <Description>R401</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2071" BrowseName="1:R402" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R402</DisplayName>
+    <Description>R402</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2072" BrowseName="1:R403" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R403</DisplayName>
+    <Description>R403</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2073" BrowseName="1:R404" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R404</DisplayName>
+    <Description>R404</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2074" BrowseName="1:R405" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R405</DisplayName>
+    <Description>R405</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2075" BrowseName="1:R406" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R406</DisplayName>
+    <Description>R406</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2076" BrowseName="1:R407" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R407</DisplayName>
+    <Description>R407</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2077" BrowseName="1:R408" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R408</DisplayName>
+    <Description>R408</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2078" BrowseName="1:R409" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R409</DisplayName>
+    <Description>R409</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2079" BrowseName="1:R410" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R410</DisplayName>
+    <Description>R410</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2080" BrowseName="1:R411" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R411</DisplayName>
+    <Description>R411</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2081" BrowseName="1:R412" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R412</DisplayName>
+    <Description>R412</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2082" BrowseName="1:R413" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R413</DisplayName>
+    <Description>R413</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2083" BrowseName="1:R414" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R414</DisplayName>
+    <Description>R414</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2084" BrowseName="1:R415" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R415</DisplayName>
+    <Description>R415</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2085" BrowseName="1:R600" ParentNodeId="ns=1;i=2183" DataType="Int64">
+    <DisplayName>R600</DisplayName>
+    <Description>R600</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2183</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2086" BrowseName="1:R601" ParentNodeId="ns=1;i=2183" DataType="Int64">
+    <DisplayName>R601</DisplayName>
+    <Description>R601</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2183</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2087" BrowseName="1:R602" ParentNodeId="ns=1;i=2183" DataType="Int64">
+    <DisplayName>R602</DisplayName>
+    <Description>R602</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2183</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2088" BrowseName="1:R603" ParentNodeId="ns=1;i=2183" DataType="Int64">
+    <DisplayName>R603</DisplayName>
+    <Description>R603</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2183</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2089" BrowseName="1:R604" ParentNodeId="ns=1;i=2183" DataType="Int64">
+    <DisplayName>R604</DisplayName>
+    <Description>R604</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2183</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2090" BrowseName="1:R605" ParentNodeId="ns=1;i=2183" DataType="Int64">
+    <DisplayName>R605</DisplayName>
+    <Description>R605</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2183</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2091" BrowseName="1:R606" ParentNodeId="ns=1;i=2183" DataType="Int64">
+    <DisplayName>R606</DisplayName>
+    <Description>R606</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2183</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2092" BrowseName="1:R607" ParentNodeId="ns=1;i=2183" DataType="Int64">
+    <DisplayName>R607</DisplayName>
+    <Description>R607</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2183</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2093" BrowseName="1:R608" ParentNodeId="ns=1;i=2183" DataType="Int64">
+    <DisplayName>R608</DisplayName>
+    <Description>R608</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2183</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2094" BrowseName="1:R609" ParentNodeId="ns=1;i=2183" DataType="Int64">
+    <DisplayName>R609</DisplayName>
+    <Description>R609</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2183</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2095" BrowseName="1:R610" ParentNodeId="ns=1;i=2183" DataType="Int64">
+    <DisplayName>R610</DisplayName>
+    <Description>R610</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2183</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2096" BrowseName="1:R611" ParentNodeId="ns=1;i=2183" DataType="Int64">
+    <DisplayName>R611</DisplayName>
+    <Description>R611</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2183</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2097" BrowseName="1:R612" ParentNodeId="ns=1;i=2183" DataType="Int64">
+    <DisplayName>R612</DisplayName>
+    <Description>R612</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2183</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2098" BrowseName="1:R613" ParentNodeId="ns=1;i=2183" DataType="Int64">
+    <DisplayName>R613</DisplayName>
+    <Description>R613</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2183</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2099" BrowseName="1:R614" ParentNodeId="ns=1;i=2183" DataType="Int64">
+    <DisplayName>R614</DisplayName>
+    <Description>R614</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2183</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2100" BrowseName="1:R615" ParentNodeId="ns=1;i=2183" DataType="Int64">
+    <DisplayName>R615</DisplayName>
+    <Description>R615</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2183</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2101" BrowseName="1:R700" ParentNodeId="ns=1;i=2183" DataType="Int64">
+    <DisplayName>R700</DisplayName>
+    <Description>R700</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2183</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2102" BrowseName="1:R701" ParentNodeId="ns=1;i=2183" DataType="Int64">
+    <DisplayName>R701</DisplayName>
+    <Description>R701</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2183</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2103" BrowseName="1:R702" ParentNodeId="ns=1;i=2183" DataType="Int64">
+    <DisplayName>R702</DisplayName>
+    <Description>R702</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2183</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2104" BrowseName="1:R703" ParentNodeId="ns=1;i=2183" DataType="Int64">
+    <DisplayName>R703</DisplayName>
+    <Description>R703</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2183</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2105" BrowseName="1:R704" ParentNodeId="ns=1;i=2183" DataType="Int64">
+    <DisplayName>R704</DisplayName>
+    <Description>R704</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2183</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2106" BrowseName="1:R705" ParentNodeId="ns=1;i=2183" DataType="Int64">
+    <DisplayName>R705</DisplayName>
+    <Description>R705</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2183</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2107" BrowseName="1:R706" ParentNodeId="ns=1;i=2183" DataType="Int64">
+    <DisplayName>R706</DisplayName>
+    <Description>R706</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2183</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2108" BrowseName="1:R707" ParentNodeId="ns=1;i=2183" DataType="Int64">
+    <DisplayName>R707</DisplayName>
+    <Description>R707</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2183</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2109" BrowseName="1:R708" ParentNodeId="ns=1;i=2183" DataType="Int64">
+    <DisplayName>R708</DisplayName>
+    <Description>R708</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2183</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2110" BrowseName="1:R709" ParentNodeId="ns=1;i=2183" DataType="Int64">
+    <DisplayName>R709</DisplayName>
+    <Description>R709</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2183</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2111" BrowseName="1:R710" ParentNodeId="ns=1;i=2183" DataType="Int64">
+    <DisplayName>R710</DisplayName>
+    <Description>R710</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2183</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2112" BrowseName="1:R711" ParentNodeId="ns=1;i=2183" DataType="Int64">
+    <DisplayName>R711</DisplayName>
+    <Description>R711</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2183</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2113" BrowseName="1:R712" ParentNodeId="ns=1;i=2183" DataType="Int64">
+    <DisplayName>R712</DisplayName>
+    <Description>R712</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2183</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2114" BrowseName="1:R713" ParentNodeId="ns=1;i=2183" DataType="Int64">
+    <DisplayName>R713</DisplayName>
+    <Description>R713</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2183</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2115" BrowseName="1:R714" ParentNodeId="ns=1;i=2183" DataType="Int64">
+    <DisplayName>R714</DisplayName>
+    <Description>R714</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2183</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2116" BrowseName="1:R715" ParentNodeId="ns=1;i=2183" DataType="Int64">
+    <DisplayName>R715</DisplayName>
+    <Description>R715</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2183</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2019" BrowseName="1:R315" ParentNodeId="ns=1;i=2166" DataType="Int64">
+    <DisplayName>R315</DisplayName>
+    <Description>R315</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2166</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+</UANodeSet>

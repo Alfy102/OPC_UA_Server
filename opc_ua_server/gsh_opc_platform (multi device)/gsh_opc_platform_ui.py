@@ -7,7 +7,7 @@ from queue import Queue
 from pathlib import Path
 from functools import partial
 import gsh_opc_platform_server as gsh_server
-from io_layout_map import all_button_dict
+from io_layout_map import all_label_dict
 import logging
 logger = logging.getLogger('EVENT')
 logger_alarm = logging.getLogger('ALARM')
@@ -42,7 +42,7 @@ class button_window(QMainWindow):
     def __init__(self):
         super(button_window,self).__init__()
         self.inputs_queue = Queue()
-
+        self.label_dict =all_label_dict
 
 
         #-----------------------------------
@@ -141,9 +141,10 @@ class button_window(QMainWindow):
         logger.info(msg)
 
     def io_handler(self, data): 
-        print(data)
-
-
+        key = data[0]
+        value = data[1]
+        button = eval(f"self.{self.label_dict[key]}")
+        print(button.Text(), value)
 
 
              

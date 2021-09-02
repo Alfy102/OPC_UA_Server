@@ -34,9 +34,12 @@ class SubAlarmHandler(object):
             self.alarm_signal.emit((node.nodeid.Identifier, val))
 
 class SubIoHandler(object):
-    def __init__(self,data_signal):
+    def __init__(self,data_signal,io_dictionary):
         self.data_signal = data_signal
+        self.io_dictionary = io_dictionary
     async def datachange_notification(self, node, val, data):
+        #from_io_dict =  self.io_dictionary[node.nodeid.Identifier]
+        #from_io_dict[4] = val
         self.data_signal.emit((node.nodeid.Identifier, val))
 
 
@@ -124,7 +127,7 @@ class OpcServerThread(QObject):
         #load nodes structure from XML file path
         try:
             self.server_signal.emit("Loading Server Structure from file")
-            await server.import_xml(self.file_path.joinpath("standard_server_structure.xml"))
+            await server.import_xml(self.file_path.joinpath("standard_server_structure_3.xml"))
         except FileNotFoundError as e:
             self.server_signal.emit("Server Structure File not found")
         await server.load_data_type_definitions()
@@ -193,14 +196,13 @@ class OpcServerThread(QObject):
 
         #create io_dict to remove hmi and alarm from device structure for io operation
         io_dict = dict(filter(lambda elem: elem[1][2]!='hmi' ,self.device_structure.items()))
-        io_handler = SubIoHandler(self.data_signal)
+        io_handler = SubIoHandler(self.data_signal,io_dict)
         io_sub = await server.create_subscription(20, io_handler) 
         for key in io_dict.keys():
             io_var = server.get_node(f"ns={io_dict[key][0]};i={key}")
             await io_sub.subscribe_data_change(io_var,queuesize=1)
 
 
-        print(io_dict)
         self.server_signal.emit("Done Initializing Nodes for HMI")
         self.server_signal.emit("Starting server!")
         
