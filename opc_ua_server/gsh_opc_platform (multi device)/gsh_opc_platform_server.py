@@ -42,7 +42,7 @@ class SubIoHandler(object):
 
 class OpcServerThread(QObject):
     server_signal = pyqtSignal(str)
-    data_signal = pyqtSignal(dict)
+    data_signal = pyqtSignal(tuple)
     alarm_signal = pyqtSignal(tuple)
     hmi_signal = pyqtSignal(tuple)
     def __init__(self,input_q,current_file_path,parent=None,**kwargs):
@@ -71,6 +71,7 @@ class OpcServerThread(QObject):
             encapsulate = bytes(f"RDS {start_device[0]} {start_device[1]}\r\n","utf-8")
         elif mode == 'write':
             encapsulate = bytes(f"WRS {start_device[0]} {start_device[1]} {start_device[2]}\r\n",'utf-8')
+
         writer.write(encapsulate)
         await writer.drain()
         recv_value = await reader.readuntil(separator=b'\r\n') 
@@ -199,7 +200,7 @@ class OpcServerThread(QObject):
             await io_sub.subscribe_data_change(io_var,queuesize=1)
 
 
-
+        print(io_dict)
         self.server_signal.emit("Done Initializing Nodes for HMI")
         self.server_signal.emit("Starting server!")
         
