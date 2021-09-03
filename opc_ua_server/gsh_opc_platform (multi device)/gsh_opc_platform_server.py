@@ -52,7 +52,7 @@ class OpcServerThread(QObject):
         super().__init__(parent, **kwargs)
         self.input_queue = input_q
         self.device_structure={}
-        self.plc_ip_address={'PLC1':'127.0.0.1:8501','PLC2':'127.0.0.2:8501'}
+        self.plc_ip_address={'PLC1':'127.0.0.1:8501'}
         self.file_path = current_file_path
         self.server_class = Server()
     def run(self):
@@ -97,7 +97,7 @@ class OpcServerThread(QObject):
             node_id=server.get_node(ua.NodeId(cat_filter_keys[i], 2))
             data_value = ua.DataValue(ua.Variant(current_relay_list[i], ua.VariantType.Int64))
             await server.write_attribute_value(node_id.nodeid, data_value)
-            self.device_structure.update({cat_filter_keys[i]:from_filter})
+            #self.device_structure.update({cat_filter_keys[i]:from_filter})
 
     async def simple_write_to_opc(self,server,hmi_signal):
         node_id=server.get_node(ua.NodeId(hmi_signal[0], 2))
@@ -169,7 +169,7 @@ class OpcServerThread(QObject):
         #create hmi subscription handler and initialize it with current value of plc relay
         hmi_dict = dict(filter(lambda elem: elem[1][2]=='hmi',self.device_structure.items()))
         hmi_handler = SubHmiHandler(hmi_dict,self.plc_ip_address,self.hmi_signal,self.plc_tcp_socket_request)
-        hmi_sub = await server.create_subscription(20, hmi_handler)  
+        hmi_sub = await server.create_subscription(1, hmi_handler)  
         for key in hmi_dict.keys():
             hmi_var = server.get_node(f"ns={hmi_dict[key][0]};i={key}")
             await hmi_var.set_writable()
@@ -187,7 +187,7 @@ class OpcServerThread(QObject):
 
         #create alarm subscription handler and pass the self.alarm_signal
         alarm_handler = SubAlarmHandler(self.alarm_signal)
-        alarm_sub = await server.create_subscription(20, alarm_handler) 
+        alarm_sub = await server.create_subscription(1, alarm_handler) 
         alarm_dict = dict(filter(lambda elem: elem[1][2]== 'alarm' ,self.device_structure.items()))
         for key in alarm_dict.keys():
             alarm_var = server.get_node(f"ns={alarm_dict[key][0]};i={key}")
@@ -195,14 +195,15 @@ class OpcServerThread(QObject):
 
 
         #create io_dict to remove hmi and alarm from device structure for io operation
-        io_dict = dict(filter(lambda elem: elem[1][2]!='hmi' ,self.device_structure.items()))
+        io_dict = dict(filter(lambda elem: (elem[1][2]!='hmi') and (elem[1][2]!='alarm') ,self.device_structure.items()))
         io_handler = SubIoHandler(self.data_signal,io_dict)
-        io_sub = await server.create_subscription(20, io_handler) 
+        io_sub = await server.create_subscription(1, io_handler) 
         for key in io_dict.keys():
             io_var = server.get_node(f"ns={io_dict[key][0]};i={key}")
             await io_sub.subscribe_data_change(io_var,queuesize=1)
 
-
+        #combined the alarm and io dictionary for main operation
+        io_dict=alarm_dict|io_dict
         self.server_signal.emit("Done Initializing Nodes for HMI")
         self.server_signal.emit("Starting server!")
         
@@ -223,7 +224,7 @@ class OpcServerThread(QObject):
             while i <11:
                 while True:
                     tic = time.perf_counter()
-                    await asyncio.sleep(2)
+                    await asyncio.sleep(1)
                     try:
                         for k in range(len(ip_list)):
                             await asyncio.create_task(self.scan_loop_plc(server,coil_cat_dict_list[k],device_coil_list[k],ip_list[k]))
