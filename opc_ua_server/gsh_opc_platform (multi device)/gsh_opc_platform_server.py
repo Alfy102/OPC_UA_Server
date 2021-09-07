@@ -13,7 +13,6 @@ from asyncua.server.history_sql import HistorySQLite
 #{variables_id:[variables_ns, device_name, category_name,variable_name,0]}
 @uamethod
 def count(parent, x, y):
-    print("multiply method call with parameters: ", x, y)
     return x + y
 
 
