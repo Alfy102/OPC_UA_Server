@@ -1,4 +1,0 @@
-xml_file_path=C:/Users/aliff/Documents/OPC_UA_Server/standard_server_structure.xml
-plc_ip_address=192.168.0.11:8501;192.168.0.12:8501
-set_plc_time=False
-server_ip=localhost:4840

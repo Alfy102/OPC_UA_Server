@@ -33,10 +33,6 @@ class QTextEditLoggerAlarm(logging.Handler):
         msg = self.format(record)
         self.widget.appendPlainText(msg)
 
-
-
-
-
 class button_window(QMainWindow):
     
     def __init__(self):

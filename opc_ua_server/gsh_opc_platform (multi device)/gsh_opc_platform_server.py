@@ -6,6 +6,7 @@ import datetime
 import time
 from collections import Counter
 from asyncua import ua, Server, uamethod
+from asyncua.common import node
 import gsh_opc_platform_ui as gsh_ui
 from asyncua.server.history_sql import HistorySQLite
 
@@ -61,15 +62,6 @@ class OpcServerThread(QObject):
     def run(self):
         asyncio.run(self.opc_server())
 
-    async def plc_source_time(self,ipaddress):
-        recv_timestamp = await self.plc_tcp_socket_init(("CM700",6),ipaddress)
-        timestamp = [(f"{i:02}") for i in recv_timestamp]
-        timestamp = ''.join(timestamp)
-        timestamp = datetime.datetime.strptime(timestamp,"%y%m%d%H%M%S")
-
-        recv_timestamp = datetime.datetime.now() #place holder time method
-        return recv_timestamp
-
     async def plc_tcp_socket_request(self,start_device,ipaddress,mode):
         ipaddress = ipaddress.split(':')
         reader, writer = await asyncio.open_connection(ipaddress[0], ipaddress[1])
@@ -87,18 +79,20 @@ class OpcServerThread(QObject):
         return recv_value
 
     async def scan_loop_plc(self,server,coil_cat_dict_list,device_coil_list,ip_list):
+        source_time = datetime.datetime.now()
         for key,values in  coil_cat_dict_list.items():
             current_relay_list = await self.plc_tcp_socket_request(values,ip_list,'read')
             cat_filter = dict(filter(lambda elem: key in elem[1],device_coil_list.items()))
             cat_filter_keys = list(cat_filter.keys())
-            asyncio.ensure_future(self.write_to_opc(server,current_relay_list,cat_filter,cat_filter_keys))
+            asyncio.ensure_future(self.write_to_opc(server,current_relay_list,cat_filter,cat_filter_keys,source_time))
 
-    async def write_to_opc(self,server,current_relay_list,cat_filter_items,cat_filter_keys):
+    async def write_to_opc(self,server,current_relay_list,cat_filter_items,cat_filter_keys,source_time):
+        
         for i in range(len(current_relay_list)):
             from_filter = cat_filter_items[cat_filter_keys[i]]
             from_filter[4]=current_relay_list[i]
             node_id=server.get_node(ua.NodeId(cat_filter_keys[i], 2))
-            data_value = ua.DataValue(ua.Variant(current_relay_list[i], ua.VariantType.Int64))
+            data_value = ua.DataValue(ua.Variant(current_relay_list[i], ua.VariantType.Int64),SourceTimestamp=source_time, ServerTimestamp=source_time)
             await server.write_attribute_value(node_id.nodeid, data_value)
 
 
@@ -122,12 +116,12 @@ class OpcServerThread(QObject):
     async def opc_server(self):
 
         server = self.server_class
+        server.iserver.history_manager.set_storage(HistorySQLite(self.file_path.joinpath("my_datavalue_history.sql")))
         await server.init()
         endpoint = "localhost:4840"
         server.set_endpoint(f"opc.tcp://{endpoint}/gshopcua/server" )
         self.server_signal.emit(f"Establishing Server at {endpoint}/gshopcua/server")
 
-        server.iserver.history_manager.set_storage(HistorySQLite(self.file_path.joinpath("my_datavalue_history.sql")))
 
         
         #load nodes structure from XML file path
@@ -150,17 +144,17 @@ class OpcServerThread(QObject):
                 category_name = (await category.read_display_name()).Text
                 variables = await category.get_children()
                 for variables in variables:
-                    await server.historize_node_data_change(variables, period=None, count=100)
+                    #print(variables)
                     variables_id = variables.nodeid.Identifier
                     variables_ns = variables.nodeid.NamespaceIndex
                     variable_name = (await variables.read_display_name()).Text
                     self.device_structure.update({variables_id:[variables_ns, device_name, category_name,variable_name,0]})
         self.server_signal.emit("Done Initializing Nodes from XML")
-
-        #enable historizing all nodes
-
-
-
+         
+        #monitored_node = [2167,2168,2169]
+        #for key in monitored_node:
+        #    node_target = server.get_node(f"ns=2;i={key}")
+        #    await server.historize_node_data_change(node_target, period = None, count = 100)
 
         #check for connected device based on the nodes structure inside the loaded XML file
         for ip_address in self.plc_ip_address.values():
@@ -211,20 +205,12 @@ class OpcServerThread(QObject):
             io_var = server.get_node(f"ns={io_dict[key][0]};i={key}")
             await io_sub.subscribe_data_change(io_var,queuesize=1)
 
-
-
         objects = server.nodes.objects
         self.myobj = await objects.add_object(2, "server_method")
         await self.myobj.add_method(2, "count", count, [ua.VariantType.Int64, ua.VariantType.Int64], [ua.VariantType.Int64])
 
-
-
-
-        self.monitored_node = [2167, 2168, 2036]
-
         #combined the alarm and io dictionary for main operation
         io_dict=alarm_dict|io_dict
-        self.server_signal.emit("Done Initializing Nodes for HMI")
         self.server_signal.emit("Starting server!")
         
         ip_list = list(self.plc_ip_address.values())
@@ -240,16 +226,17 @@ class OpcServerThread(QObject):
                 coil_cat_dict.update({key:(value[3],coil_cat_dict[key])})
             coil_cat_dict_list.append(coil_cat_dict)
         i=1
-        
+
         async with server:
+
             while i <11:
                 while True:
                     tic = time.perf_counter()
-                    await asyncio.sleep(2)
+                    await asyncio.sleep(0.001)
                     try:
                         for k in range(len(ip_list)):
                             await asyncio.create_task(self.scan_loop_plc(server,coil_cat_dict_list[k],device_coil_list[k],ip_list[k]))
-                        #self.data_signal.emit(io_dict)
+
                         if not self.input_queue.empty():
                             hmi_signal = self.input_queue.get()
                             asyncio.ensure_future(self.simple_write_to_opc(server,hmi_signal))
