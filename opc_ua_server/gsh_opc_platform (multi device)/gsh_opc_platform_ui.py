@@ -7,6 +7,7 @@ from queue import Queue
 from pathlib import Path
 from functools import partial
 import gsh_opc_platform_server as gsh_server
+import gsh_opc_platform_client as gsh_client
 from io_layout_map import all_label_dict
 import logging
 logger = logging.getLogger('EVENT')
@@ -42,8 +43,6 @@ class button_window(QMainWindow):
 
 
         #-----------------------------------
-
-
         self.file_path = Path(__file__).parent.absolute()
         ui_path=self.file_path.joinpath("opc_ui.ui")
         loadUi(ui_path,self)
@@ -62,9 +61,9 @@ class button_window(QMainWindow):
         self.server_worker.moveToThread(self.server_thread)
         self.server_thread.started.connect(self.server_worker.run)
         self.server_worker.server_signal.connect(self.server_logger)
-        self.server_worker.alarm_signal.connect(self.alarm_handler)
         self.server_worker.hmi_signal.connect(self.hmi_handler)
         self.server_worker.data_signal.connect(self.io_handler)
+        self.server_worker.alarm_signal.connect(self.alarm_handler)
         logger.info("Launching Server!")
         self.server_thread.start()
 
@@ -108,6 +107,7 @@ class button_window(QMainWindow):
 
 
 
+
     def io_list_page_behaviour(self):
         self.stackedWidget.setCurrentIndex(4)
         self.input_stacked_widget.setCurrentIndex(0)
@@ -126,13 +126,22 @@ class button_window(QMainWindow):
         self.main_motor_station_stacked_widget.setCurrentIndex(0)
 
 
-
-
-
-
-
-
-
+    def io_handler(self, data):
+        key = data[0]
+        data_value = data[1]
+        from_data = self.label_dict[key]
+        for label in from_data:
+            indicator_label = eval(f"self.{label}")
+            if data_value == 1:
+                if 'x' in label:
+                    indicator_label.setStyleSheet("background-color: rgb(64, 255, 0);color: rgb(0, 0, 0);")
+                if 'y' in label:
+                    indicator_label.setStyleSheet("background-color: rgb(255, 20, 20);color: rgb(0, 0, 0);")
+            elif data_value == 0:
+                if 'x' in label:
+                    indicator_label.setStyleSheet("background-color: rgb(0, 80, 0);color: rgb(200, 200, 200);")
+                if 'y' in label:
+                    indicator_label.setStyleSheet("background-color: rgb(80, 0, 0);color: rgb(200, 200, 200);")
 
 
 
@@ -149,23 +158,6 @@ class button_window(QMainWindow):
     def hmi_handler(self,msg):
         logger.info(msg)
 
-    def io_handler(self, data): 
-        key = data[0]
-        value = data[1]
-        from_data = self.label_dict[key]
-        for label in from_data:
-            indicator_label = eval(f"self.{label}")
-            if value == 1:
-                if 'x' in label:
-                    indicator_label.setStyleSheet("background-color: rgb(64, 255, 0);color: rgb(0, 0, 0);")
-                if 'y' in label:
-                    indicator_label.setStyleSheet("background-color: rgb(255, 20, 20);color: rgb(0, 0, 0);")
-            elif value == 0:
-                if 'x' in label:
-                    indicator_label.setStyleSheet("background-color: rgb(0, 80, 0);color: rgb(200, 200, 200);")
-                if 'y' in label:
-                    indicator_label.setStyleSheet("background-color: rgb(80, 0, 0);color: rgb(200, 200, 200);")
-
     def send_data(self,data):
         button =  eval(f"self.{data[1][0]}")
         if button.isChecked():
@@ -174,9 +166,6 @@ class button_window(QMainWindow):
         else:
             message = (data[0],0)
             self.inputs_queue.put(message)
-
-
-
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

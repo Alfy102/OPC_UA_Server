@@ -45,13 +45,12 @@ class SubIoHandler(object):
     async def datachange_notification(self, node, val, data):
         self.data_signal.emit((node.nodeid.Identifier, val))
 
-
-
 class OpcServerThread(QObject):
     server_signal = pyqtSignal(str)
     data_signal = pyqtSignal(tuple)
     alarm_signal = pyqtSignal(tuple)
     hmi_signal = pyqtSignal(tuple)
+    client_start_signal = pyqtSignal(tuple)
     def __init__(self,input_q,current_file_path,parent=None,**kwargs):
         super().__init__(parent, **kwargs)
         self.input_queue = input_q
@@ -79,30 +78,26 @@ class OpcServerThread(QObject):
         return recv_value
 
     async def scan_loop_plc(self,server,coil_cat_dict_list,device_coil_list,ip_list):
-        source_time = datetime.datetime.now()
+        
         for key,values in  coil_cat_dict_list.items():
             current_relay_list = await self.plc_tcp_socket_request(values,ip_list,'read')
             cat_filter = dict(filter(lambda elem: key in elem[1],device_coil_list.items()))
             cat_filter_keys = list(cat_filter.keys())
-            asyncio.ensure_future(self.write_to_opc(server,current_relay_list,cat_filter,cat_filter_keys,source_time))
+            asyncio.ensure_future(self.write_to_opc(server,current_relay_list,cat_filter,cat_filter_keys))
 
-    async def write_to_opc(self,server,current_relay_list,cat_filter_items,cat_filter_keys,source_time):
-        
+    async def write_to_opc(self,server,current_relay_list,cat_filter_items,cat_filter_keys):
+        source_time = datetime.datetime.utcnow()    
         for i in range(len(current_relay_list)):
             from_filter = cat_filter_items[cat_filter_keys[i]]
             from_filter[4]=current_relay_list[i]
             node_id=server.get_node(ua.NodeId(cat_filter_keys[i], 2))
             data_value = ua.DataValue(ua.Variant(current_relay_list[i], ua.VariantType.Int64),SourceTimestamp=source_time, ServerTimestamp=source_time)
             await server.write_attribute_value(node_id.nodeid, data_value)
-
-
-
+            
     async def simple_write_to_opc(self,server,hmi_signal):
         node_id=server.get_node(ua.NodeId(hmi_signal[0], 2))
         data_value = ua.DataValue(ua.Variant(hmi_signal[1], ua.VariantType.Int64))
         await server.write_attribute_value(node_id.nodeid, data_value)
-
-
 
     async def is_connected(self,ipaddress):
         try:
@@ -116,13 +111,11 @@ class OpcServerThread(QObject):
     async def opc_server(self):
 
         server = self.server_class
-        server.iserver.history_manager.set_storage(HistorySQLite(self.file_path.joinpath("my_datavalue_history.sql")))
+        #server.iserver.history_manager.set_storage(HistorySQLite(self.file_path.joinpath("my_datavalue_history.sql")))
         await server.init()
-        endpoint = "localhost:4840"
-        server.set_endpoint(f"opc.tcp://{endpoint}/gshopcua/server" )
+        endpoint = "localhost:4840/gshopcua/server"
+        server.set_endpoint(f"opc.tcp://{endpoint}" )
         self.server_signal.emit(f"Establishing Server at {endpoint}/gshopcua/server")
-
-
         
         #load nodes structure from XML file path
         try:
@@ -150,24 +143,19 @@ class OpcServerThread(QObject):
                     variable_name = (await variables.read_display_name()).Text
                     self.device_structure.update({variables_id:[variables_ns, device_name, category_name,variable_name,0]})
         self.server_signal.emit("Done Initializing Nodes from XML")
-         
-        #monitored_node = [2167,2168,2169]
-        #for key in monitored_node:
-        #    node_target = server.get_node(f"ns=2;i={key}")
-        #    await server.historize_node_data_change(node_target, period = None, count = 100)
+        nodes = [2167,2168,2169]
+
 
         #check for connected device based on the nodes structure inside the loaded XML file
         for ip_address in self.plc_ip_address.values():
             self.server_signal.emit(f"Checking for device at {ip_address}")
             device_connection = await self.is_connected(ip_address.split(':'))
-            await asyncio.sleep(1)
+            await asyncio.sleep(0.5)
             if device_connection == True:
                 self.server_signal.emit(f"Successfully connected to device at {ip_address}!")
-
             else:
                 self.server_signal.emit(f"Failed to connect to device at {ip_address}. Cannot start Server!")
         self.server_signal.emit("Initializing Nodes for HMI")
-
 
         #create hmi subscription handler and initialize it with current value of plc relay
         hmi_dict = dict(filter(lambda elem: elem[1][2]=='hmi',self.device_structure.items()))
@@ -205,14 +193,12 @@ class OpcServerThread(QObject):
             io_var = server.get_node(f"ns={io_dict[key][0]};i={key}")
             await io_sub.subscribe_data_change(io_var,queuesize=1)
 
-        objects = server.nodes.objects
-        self.myobj = await objects.add_object(2, "server_method")
-        await self.myobj.add_method(2, "count", count, [ua.VariantType.Int64, ua.VariantType.Int64], [ua.VariantType.Int64])
 
         #combined the alarm and io dictionary for main operation
         io_dict=alarm_dict|io_dict
+
+
         self.server_signal.emit("Starting server!")
-        
         ip_list = list(self.plc_ip_address.values())
         device_coil_list = [dict(filter(lambda elem: key in elem[1],io_dict.items())) for key in self.plc_ip_address.keys()] #get list of keys in io_dict
         coil_cat_dict_list=[]
@@ -226,17 +212,14 @@ class OpcServerThread(QObject):
                 coil_cat_dict.update({key:(value[3],coil_cat_dict[key])})
             coil_cat_dict_list.append(coil_cat_dict)
         i=1
-
         async with server:
-
             while i <11:
                 while True:
                     tic = time.perf_counter()
-                    await asyncio.sleep(0.001)
+                    await asyncio.sleep(2)
                     try:
                         for k in range(len(ip_list)):
                             await asyncio.create_task(self.scan_loop_plc(server,coil_cat_dict_list[k],device_coil_list[k],ip_list[k]))
-
                         if not self.input_queue.empty():
                             hmi_signal = self.input_queue.get()
                             asyncio.ensure_future(self.simple_write_to_opc(server,hmi_signal))
