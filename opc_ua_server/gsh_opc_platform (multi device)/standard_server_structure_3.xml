@@ -2049,4 +2049,155 @@
       <uax:Int64>0</uax:Int64>
     </Value>
   </UAVariable>
+  <UAObject NodeId="ns=1;i=10000" BrowseName="1:server_variables" ParentNodeId="i=85">
+    <DisplayName>server_variables</DisplayName>
+    <References>
+      <Reference ReferenceType="Organizes" IsForward="false">i=85</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=58</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=10001</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=10002</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=10003</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=10004</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=10005</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=10006</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=10007</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=10008</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=10009</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=10010</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=10011</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=10012</Reference>
+    </References>
+  </UAObject>
+  <UAVariable NodeId="ns=1;i=10001" BrowseName="1:error_count" ParentNodeId="ns=1;i=10000" DataType="Int64">
+    <DisplayName>error_count</DisplayName>
+    <Description>error_count</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=10000</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=10002" BrowseName="1:barcode_fail_count" ParentNodeId="ns=1;i=10000" DataType="Int64">
+    <DisplayName>barcode_fail_count</DisplayName>
+    <Description>barcode_fail_count</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=10000</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=10003" BrowseName="1:barcode_pass_count" ParentNodeId="ns=1;i=10000" DataType="Int64">
+    <DisplayName>barcode_pass_count</DisplayName>
+    <Description>barcode_pass_count</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=10000</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=10004" BrowseName="1:total_quantity_in" ParentNodeId="ns=1;i=10000" DataType="Int64">
+    <DisplayName>total_quantity_in</DisplayName>
+    <Description>total_quantity_in</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=10000</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=10005" BrowseName="1:total_quantity_out" ParentNodeId="ns=1;i=10000" DataType="Int64">
+    <DisplayName>total_quantity_out</DisplayName>
+    <Description>total_quantity_out</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=10000</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=10006" BrowseName="1:total_passed" ParentNodeId="ns=1;i=10000" DataType="Int64">
+    <DisplayName>total_passed</DisplayName>
+    <Description>total_passed</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=10000</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=10007" BrowseName="1:total_failed" ParentNodeId="ns=1;i=10000" DataType="Int64">
+    <DisplayName>total_failed</DisplayName>
+    <Description>total_failed</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=10000</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=10008" BrowseName="1:soft_jam" ParentNodeId="ns=1;i=10000" DataType="Int64">
+    <DisplayName>soft_jam</DisplayName>
+    <Description>soft_jam</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=10000</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=10009" BrowseName="1:hard_jam" ParentNodeId="ns=1;i=10000" DataType="Int64">
+    <DisplayName>hard_jam</DisplayName>
+    <Description>hard_jam</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=10000</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=10010" BrowseName="1:mtbf" ParentNodeId="ns=1;i=10000" DataType="Int64">
+    <DisplayName>mtbf</DisplayName>
+    <Description>mtbf</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=10000</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=10011" BrowseName="1:mtba" ParentNodeId="ns=1;i=10000" DataType="Int64">
+    <DisplayName>mtba</DisplayName>
+    <Description>mtba</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=10000</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=10012" BrowseName="1:total_yield" ParentNodeId="ns=1;i=10000" DataType="Int64">
+    <DisplayName>total_yield</DisplayName>
+    <Description>total_yield</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=10000</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
 </UANodeSet>

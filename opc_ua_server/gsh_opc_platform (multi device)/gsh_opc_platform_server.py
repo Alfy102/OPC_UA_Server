@@ -5,12 +5,17 @@ from PyQt5.QtWidgets import *
 import datetime
 import time
 from collections import Counter
-from asyncua import ua, Server
+from asyncua import ua, Server, uamethod
 import gsh_opc_platform_ui as gsh_ui
-
+from asyncua.server.history_sql import HistorySQLite
 
 
 #{variables_id:[variables_ns, device_name, category_name,variable_name,0]}
+@uamethod
+def count(parent, x, y):
+    print("multiply method call with parameters: ", x, y)
+    return x + y
+
 
 class SubHmiHandler(object):
     def __init__(self,hmi_dictionary,plc_ip_address,hmi_signal,plc_tcp_socket_request):
@@ -38,9 +43,8 @@ class SubIoHandler(object):
         self.data_signal = data_signal
         self.io_dictionary = io_dictionary
     async def datachange_notification(self, node, val, data):
-        #from_io_dict =  self.io_dictionary[node.nodeid.Identifier]
-        #from_io_dict[4] = val
         self.data_signal.emit((node.nodeid.Identifier, val))
+
 
 
 class OpcServerThread(QObject):
@@ -97,7 +101,8 @@ class OpcServerThread(QObject):
             node_id=server.get_node(ua.NodeId(cat_filter_keys[i], 2))
             data_value = ua.DataValue(ua.Variant(current_relay_list[i], ua.VariantType.Int64))
             await server.write_attribute_value(node_id.nodeid, data_value)
-            #self.device_structure.update({cat_filter_keys[i]:from_filter})
+
+
 
     async def simple_write_to_opc(self,server,hmi_signal):
         node_id=server.get_node(ua.NodeId(hmi_signal[0], 2))
@@ -123,7 +128,9 @@ class OpcServerThread(QObject):
         server.set_endpoint(f"opc.tcp://{endpoint}/gshopcua/server" )
         self.server_signal.emit(f"Establishing Server at {endpoint}/gshopcua/server")
 
+        server.iserver.history_manager.set_storage(HistorySQLite(self.file_path.joinpath("my_datavalue_history.sql")))
 
+        
         #load nodes structure from XML file path
         try:
             self.server_signal.emit("Loading Server Structure from file")
@@ -144,11 +151,14 @@ class OpcServerThread(QObject):
                 category_name = (await category.read_display_name()).Text
                 variables = await category.get_children()
                 for variables in variables:
+                    await server.historize_node_data_change(variables, period=None, count=100)
                     variables_id = variables.nodeid.Identifier
                     variables_ns = variables.nodeid.NamespaceIndex
                     variable_name = (await variables.read_display_name()).Text
                     self.device_structure.update({variables_id:[variables_ns, device_name, category_name,variable_name,0]})
         self.server_signal.emit("Done Initializing Nodes from XML")
+
+        #enable historizing all nodes
 
 
 
@@ -202,6 +212,17 @@ class OpcServerThread(QObject):
             io_var = server.get_node(f"ns={io_dict[key][0]};i={key}")
             await io_sub.subscribe_data_change(io_var,queuesize=1)
 
+
+
+        objects = server.nodes.objects
+        self.myobj = await objects.add_object(2, "server_method")
+        await self.myobj.add_method(2, "count", count, [ua.VariantType.Int64, ua.VariantType.Int64], [ua.VariantType.Int64])
+
+
+
+
+        self.monitored_node = [2167, 2168, 2036]
+
         #combined the alarm and io dictionary for main operation
         io_dict=alarm_dict|io_dict
         self.server_signal.emit("Done Initializing Nodes for HMI")
@@ -220,11 +241,12 @@ class OpcServerThread(QObject):
                 coil_cat_dict.update({key:(value[3],coil_cat_dict[key])})
             coil_cat_dict_list.append(coil_cat_dict)
         i=1
+        
         async with server:
             while i <11:
                 while True:
                     tic = time.perf_counter()
-                    await asyncio.sleep(1)
+                    await asyncio.sleep(2)
                     try:
                         for k in range(len(ip_list)):
                             await asyncio.create_task(self.scan_loop_plc(server,coil_cat_dict_list[k],device_coil_list[k],ip_list[k]))
@@ -245,7 +267,7 @@ class OpcServerThread(QObject):
                             i=1
                     continue
             self.server_signal.emit("Server Has Stopped!")
-        
+            
 
 
         
