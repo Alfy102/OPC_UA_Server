@@ -1,10 +1,4 @@
 all_label_dict = {
-    2127: [],
-    2128: [],
-    2129: [],
-    2130: [],
-    2131: [],
-    2132: [],
     2167: ['label_x0000','io_module_label_x0000'],
     2168: ['label_x0001','io_module_label_x0001'],
     2169: ['label_x0002','io_module_label_x0002'],

@@ -1535,7 +1535,7 @@ QPushButton:checked
             <number>0</number>
            </property>
            <property name="currentIndex">
-            <number>3</number>
+            <number>2</number>
            </property>
            <widget class="QWidget" name="main_page">
             <widget class="QFrame" name="title_frame">
@@ -3143,7 +3143,7 @@ QPushButton:checked
                <item>
                 <widget class="QStackedWidget" name="input_stacked_widget">
                  <property name="currentIndex">
-                  <number>0</number>
+                  <number>1</number>
                  </property>
                  <widget class="QWidget" name="input_page_1">
                   <widget class="QFrame" name="frame_25">
@@ -4279,8 +4279,7 @@ QPushButton:checked
                            </font>
                           </property>
                           <property name="styleSheet">
-                           <string notr="true">background-color: rgb(104, 195, 54);
-</string>
+                           <string notr="true">background-color: rgb(0, 80, 0);color: rgb(200, 200, 200);</string>
                           </property>
                           <property name="frameShape">
                            <enum>QFrame::WinPanel</enum>
@@ -4306,7 +4305,7 @@ QPushButton:checked
                            </font>
                           </property>
                           <property name="styleSheet">
-                           <string notr="true">background-color: rgb(104, 195, 54);</string>
+                           <string notr="true">background-color: rgb(0, 80, 0);color: rgb(200, 200, 200);</string>
                           </property>
                           <property name="frameShape">
                            <enum>QFrame::WinPanel</enum>
@@ -4332,7 +4331,7 @@ QPushButton:checked
                            </font>
                           </property>
                           <property name="styleSheet">
-                           <string notr="true">background-color: rgb(104, 195, 54);</string>
+                           <string notr="true">background-color: rgb(0, 80, 0);color: rgb(200, 200, 200);</string>
                           </property>
                           <property name="frameShape">
                            <enum>QFrame::WinPanel</enum>
@@ -4358,7 +4357,7 @@ QPushButton:checked
                            </font>
                           </property>
                           <property name="styleSheet">
-                           <string notr="true">background-color: rgb(104, 195, 54);</string>
+                           <string notr="true">background-color: rgb(0, 80, 0);color: rgb(200, 200, 200);</string>
                           </property>
                           <property name="frameShape">
                            <enum>QFrame::WinPanel</enum>
@@ -4384,7 +4383,7 @@ QPushButton:checked
                            </font>
                           </property>
                           <property name="styleSheet">
-                           <string notr="true">background-color: rgb(104, 195, 54);</string>
+                           <string notr="true">background-color: rgb(0, 80, 0);color: rgb(200, 200, 200);</string>
                           </property>
                           <property name="frameShape">
                            <enum>QFrame::WinPanel</enum>
@@ -4410,7 +4409,7 @@ QPushButton:checked
                            </font>
                           </property>
                           <property name="styleSheet">
-                           <string notr="true">background-color: rgb(104, 195, 54);</string>
+                           <string notr="true">background-color: rgb(0, 80, 0);color: rgb(200, 200, 200);</string>
                           </property>
                           <property name="frameShape">
                            <enum>QFrame::WinPanel</enum>
@@ -4436,7 +4435,7 @@ QPushButton:checked
                            </font>
                           </property>
                           <property name="styleSheet">
-                           <string notr="true">background-color: rgb(104, 195, 54);</string>
+                           <string notr="true">background-color: rgb(0, 80, 0);color: rgb(200, 200, 200);</string>
                           </property>
                           <property name="frameShape">
                            <enum>QFrame::WinPanel</enum>
@@ -4462,7 +4461,7 @@ QPushButton:checked
                            </font>
                           </property>
                           <property name="styleSheet">
-                           <string notr="true">background-color: rgb(104, 195, 54);</string>
+                           <string notr="true">background-color: rgb(0, 80, 0);color: rgb(200, 200, 200);</string>
                           </property>
                           <property name="frameShape">
                            <enum>QFrame::WinPanel</enum>
@@ -4488,7 +4487,7 @@ QPushButton:checked
                            </font>
                           </property>
                           <property name="styleSheet">
-                           <string notr="true">background-color: rgb(104, 195, 54);</string>
+                           <string notr="true">background-color: rgb(0, 80, 0);color: rgb(200, 200, 200);</string>
                           </property>
                           <property name="frameShape">
                            <enum>QFrame::WinPanel</enum>
@@ -4514,7 +4513,7 @@ QPushButton:checked
                            </font>
                           </property>
                           <property name="styleSheet">
-                           <string notr="true">background-color: rgb(104, 195, 54);</string>
+                           <string notr="true">background-color: rgb(0, 80, 0);color: rgb(200, 200, 200);</string>
                           </property>
                           <property name="frameShape">
                            <enum>QFrame::WinPanel</enum>
@@ -4540,7 +4539,7 @@ QPushButton:checked
                            </font>
                           </property>
                           <property name="styleSheet">
-                           <string notr="true">background-color: rgb(104, 195, 54);</string>
+                           <string notr="true">background-color: rgb(0, 80, 0);color: rgb(200, 200, 200);</string>
                           </property>
                           <property name="frameShape">
                            <enum>QFrame::WinPanel</enum>
@@ -4566,7 +4565,7 @@ QPushButton:checked
                            </font>
                           </property>
                           <property name="styleSheet">
-                           <string notr="true">background-color: rgb(104, 195, 54);</string>
+                           <string notr="true">background-color: rgb(0, 80, 0);color: rgb(200, 200, 200);</string>
                           </property>
                           <property name="frameShape">
                            <enum>QFrame::WinPanel</enum>
@@ -4592,7 +4591,7 @@ QPushButton:checked
                            </font>
                           </property>
                           <property name="styleSheet">
-                           <string notr="true">background-color: rgb(104, 195, 54);</string>
+                           <string notr="true">background-color: rgb(0, 80, 0);color: rgb(200, 200, 200);</string>
                           </property>
                           <property name="frameShape">
                            <enum>QFrame::WinPanel</enum>
@@ -4618,7 +4617,7 @@ QPushButton:checked
                            </font>
                           </property>
                           <property name="styleSheet">
-                           <string notr="true">background-color: rgb(104, 195, 54);</string>
+                           <string notr="true">background-color: rgb(0, 80, 0);color: rgb(200, 200, 200);</string>
                           </property>
                           <property name="frameShape">
                            <enum>QFrame::WinPanel</enum>
@@ -4644,7 +4643,7 @@ QPushButton:checked
                            </font>
                           </property>
                           <property name="styleSheet">
-                           <string notr="true">background-color: rgb(104, 195, 54);</string>
+                           <string notr="true">background-color: rgb(0, 80, 0);color: rgb(200, 200, 200);</string>
                           </property>
                           <property name="frameShape">
                            <enum>QFrame::WinPanel</enum>
@@ -4670,7 +4669,7 @@ QPushButton:checked
                            </font>
                           </property>
                           <property name="styleSheet">
-                           <string notr="true">background-color: rgb(104, 195, 54);</string>
+                           <string notr="true">background-color: rgb(0, 80, 0);color: rgb(200, 200, 200);</string>
                           </property>
                           <property name="frameShape">
                            <enum>QFrame::WinPanel</enum>
@@ -4820,7 +4819,7 @@ QPushButton:checked
                            </font>
                           </property>
                           <property name="styleSheet">
-                           <string notr="true">background-color: rgb(104, 195, 54);</string>
+                           <string notr="true">background-color: rgb(0, 80, 0);color: rgb(200, 200, 200);</string>
                           </property>
                           <property name="frameShape">
                            <enum>QFrame::WinPanel</enum>
@@ -4846,7 +4845,7 @@ QPushButton:checked
                            </font>
                           </property>
                           <property name="styleSheet">
-                           <string notr="true">background-color: rgb(104, 195, 54);</string>
+                           <string notr="true">background-color: rgb(0, 80, 0);color: rgb(200, 200, 200);</string>
                           </property>
                           <property name="frameShape">
                            <enum>QFrame::WinPanel</enum>
@@ -4872,7 +4871,7 @@ QPushButton:checked
                            </font>
                           </property>
                           <property name="styleSheet">
-                           <string notr="true">background-color: rgb(104, 195, 54);</string>
+                           <string notr="true">background-color: rgb(0, 80, 0);color: rgb(200, 200, 200);</string>
                           </property>
                           <property name="frameShape">
                            <enum>QFrame::WinPanel</enum>
@@ -4898,7 +4897,7 @@ QPushButton:checked
                            </font>
                           </property>
                           <property name="styleSheet">
-                           <string notr="true">background-color: rgb(104, 195, 54);</string>
+                           <string notr="true">background-color: rgb(0, 80, 0);color: rgb(200, 200, 200);</string>
                           </property>
                           <property name="frameShape">
                            <enum>QFrame::WinPanel</enum>
@@ -4924,7 +4923,7 @@ QPushButton:checked
                            </font>
                           </property>
                           <property name="styleSheet">
-                           <string notr="true">background-color: rgb(104, 195, 54);</string>
+                           <string notr="true">background-color: rgb(0, 80, 0);color: rgb(200, 200, 200);</string>
                           </property>
                           <property name="frameShape">
                            <enum>QFrame::WinPanel</enum>
@@ -4950,7 +4949,7 @@ QPushButton:checked
                            </font>
                           </property>
                           <property name="styleSheet">
-                           <string notr="true">background-color: rgb(104, 195, 54);</string>
+                           <string notr="true">background-color: rgb(0, 80, 0);color: rgb(200, 200, 200);</string>
                           </property>
                           <property name="frameShape">
                            <enum>QFrame::WinPanel</enum>
@@ -4976,7 +4975,7 @@ QPushButton:checked
                            </font>
                           </property>
                           <property name="styleSheet">
-                           <string notr="true">background-color: rgb(104, 195, 54);</string>
+                           <string notr="true">background-color: rgb(0, 80, 0);color: rgb(200, 200, 200);</string>
                           </property>
                           <property name="frameShape">
                            <enum>QFrame::WinPanel</enum>
@@ -5002,7 +5001,7 @@ QPushButton:checked
                            </font>
                           </property>
                           <property name="styleSheet">
-                           <string notr="true">background-color: rgb(104, 195, 54);</string>
+                           <string notr="true">background-color: rgb(0, 80, 0);color: rgb(200, 200, 200);</string>
                           </property>
                           <property name="frameShape">
                            <enum>QFrame::WinPanel</enum>
@@ -5028,7 +5027,7 @@ QPushButton:checked
                            </font>
                           </property>
                           <property name="styleSheet">
-                           <string notr="true">background-color: rgb(104, 195, 54);</string>
+                           <string notr="true">background-color: rgb(0, 80, 0);color: rgb(200, 200, 200);</string>
                           </property>
                           <property name="frameShape">
                            <enum>QFrame::WinPanel</enum>
@@ -5054,7 +5053,7 @@ QPushButton:checked
                            </font>
                           </property>
                           <property name="styleSheet">
-                           <string notr="true">background-color: rgb(104, 195, 54);</string>
+                           <string notr="true">background-color: rgb(0, 80, 0);color: rgb(200, 200, 200);</string>
                           </property>
                           <property name="frameShape">
                            <enum>QFrame::WinPanel</enum>
@@ -5080,7 +5079,7 @@ QPushButton:checked
                            </font>
                           </property>
                           <property name="styleSheet">
-                           <string notr="true">background-color: rgb(104, 195, 54);</string>
+                           <string notr="true">background-color: rgb(0, 80, 0);color: rgb(200, 200, 200);</string>
                           </property>
                           <property name="frameShape">
                            <enum>QFrame::WinPanel</enum>
@@ -5106,7 +5105,7 @@ QPushButton:checked
                            </font>
                           </property>
                           <property name="styleSheet">
-                           <string notr="true">background-color: rgb(104, 195, 54);</string>
+                           <string notr="true">background-color: rgb(0, 80, 0);color: rgb(200, 200, 200);</string>
                           </property>
                           <property name="frameShape">
                            <enum>QFrame::WinPanel</enum>
@@ -5132,7 +5131,7 @@ QPushButton:checked
                            </font>
                           </property>
                           <property name="styleSheet">
-                           <string notr="true">background-color: rgb(104, 195, 54);</string>
+                           <string notr="true">background-color: rgb(0, 80, 0);color: rgb(200, 200, 200);</string>
                           </property>
                           <property name="frameShape">
                            <enum>QFrame::WinPanel</enum>
@@ -5158,7 +5157,7 @@ QPushButton:checked
                            </font>
                           </property>
                           <property name="styleSheet">
-                           <string notr="true">background-color: rgb(104, 195, 54);</string>
+                           <string notr="true">background-color: rgb(0, 80, 0);color: rgb(200, 200, 200);</string>
                           </property>
                           <property name="frameShape">
                            <enum>QFrame::WinPanel</enum>
@@ -5184,7 +5183,7 @@ QPushButton:checked
                            </font>
                           </property>
                           <property name="styleSheet">
-                           <string notr="true">background-color: rgb(104, 195, 54);</string>
+                           <string notr="true">background-color: rgb(0, 80, 0);color: rgb(200, 200, 200);</string>
                           </property>
                           <property name="frameShape">
                            <enum>QFrame::WinPanel</enum>
@@ -5210,7 +5209,7 @@ QPushButton:checked
                            </font>
                           </property>
                           <property name="styleSheet">
-                           <string notr="true">background-color: rgb(104, 195, 54);</string>
+                           <string notr="true">background-color: rgb(0, 80, 0);color: rgb(200, 200, 200);</string>
                           </property>
                           <property name="frameShape">
                            <enum>QFrame::WinPanel</enum>
@@ -13184,11 +13183,11 @@ QPushButton:checked
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="main_motor_page_button_group"/>
   <buttongroup name="io_module_button_group"/>
+  <buttongroup name="main_motor_page_button_group"/>
   <buttongroup name="output_list_page_button_group"/>
-  <buttongroup name="main_motor_module_button_group"/>
   <buttongroup name="navigation_button_group"/>
   <buttongroup name="input_list_page_button_group"/>
+  <buttongroup name="main_motor_module_button_group"/>
  </buttongroups>
 </ui>

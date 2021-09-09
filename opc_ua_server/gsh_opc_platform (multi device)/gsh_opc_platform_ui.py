@@ -9,9 +9,6 @@ import gsh_opc_platform_server as gsh_server
 from io_layout_map import all_label_dict
 import logging
 import qtrc
-import asyncio
-
-
 
 class QTextEditLogger(logging.Handler):
     def __init__(self,textEdit):
@@ -37,14 +34,13 @@ class button_window(QMainWindow):
     
     def __init__(self):
         super(button_window,self).__init__()
-        self.io_dict = {}
-        self.label_dict =all_label_dict
+
         #-----------------------------------
         self.file_path = Path(__file__).parent.absolute()
         ui_path=self.file_path.joinpath("opc_ui.ui")
         loadUi(ui_path,self)
 
-        
+
         self.stackedWidget.setCurrentIndex(0)
         self.main_page_button.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(0))
         self.lot_entry_button.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(1))
@@ -82,11 +78,6 @@ class button_window(QMainWindow):
         self.main_motor_page_1_button.clicked.connect(lambda: self.main_motor_station_stacked_widget.setCurrentIndex(0))
         self.main_motor_page_2_button.clicked.connect(lambda: self.main_motor_station_stacked_widget.setCurrentIndex(1))
 
-        self.server = server_start(self)
-        self.pushButton.clicked.connect(self.server.send_data)
-
-
-
     def io_list_page_behaviour(self):
         self.stackedWidget.setCurrentIndex(4)
         self.input_stacked_widget.setCurrentIndex(0)
@@ -104,31 +95,12 @@ class button_window(QMainWindow):
         self.main_motor_page_1_button.setChecked(True)
         self.main_motor_station_stacked_widget.setCurrentIndex(0)
 
-    def io_handler(self, data):
-        self.io_dict.update({data[0]:data[1]})
-
-    def label_updater(self):
-         for key,value in self.io_dict.items():
-            from_data = self.label_dict[key]
-            data_value = value
-            for label in from_data:
-                indicator_label = eval(f"self.{label}")
-                if data_value == 1:
-                    if 'x' in label:
-                        indicator_label.setStyleSheet("background-color: rgb(64, 255, 0);color: rgb(0, 0, 0);")
-                    if 'y' in label:
-                        indicator_label.setStyleSheet("background-color: rgb(255, 20, 20);color: rgb(0, 0, 0);")
-                elif data_value == 0:
-                    if 'x' in label:
-                        indicator_label.setStyleSheet("background-color: rgb(0, 80, 0);color: rgb(200, 200, 200);")
-                    if 'y' in label:
-                        indicator_label.setStyleSheet("background-color: rgb(80, 0, 0);color: rgb(200, 200, 200);")
-
-
-
 
 class server_start(object):   
     def __init__(self,gui):
+        self.io_dict = {}
+        self.hmi = button_window()
+        self.label_dict =all_label_dict
         self.hmi = gui
         self.input_queue = Queue()
         self.server_thread=QThread()
@@ -151,16 +123,14 @@ class server_start(object):
         self.server_thread.started.connect(self.server_worker.run)
         self.server_worker.server_logger_signal.connect(self.server_logger)
         self.server_worker.hmi_signal.connect(self.user_input_handler)
-        self.server_worker.data_signal.connect(self.hmi.io_handler)
-        self.server_worker.ui_refresh_signal.connect(self.hmi.label_updater)
+        self.server_worker.data_signal.connect(self.io_handler)
         self.server_worker.alarm_signal.connect(self.alarm_handler)
         self.logger.info("Launching Server!")
         self.server_thread.start()
 
     def send_data(self):
         self.input_queue.put("Test")
-        self.logger.info("button pushed")
-
+        
     def server_logger(self, msg):
         self.logger.info(msg)
 
@@ -171,6 +141,28 @@ class server_start(object):
         self.logger_alarm.info(msg)
 
 
+    def io_handler(self, data):
+        self.io_dict.update({data[0]:data[1]})
+
+    def label_updater(self):
+         for key,value in self.io_dict.items():
+            from_data = self.label_dict[key]
+            data_value = value
+            for label in from_data:
+                indicator_label = eval(f"self.hmi.{label}")
+                if data_value == 1:
+                    if 'x' in label:
+                        indicator_label.setStyleSheet("background-color: rgb(64, 255, 0);color: rgb(0, 0, 0);")
+                    if 'y' in label:
+                        indicator_label.setStyleSheet("background-color: rgb(255, 20, 20);color: rgb(0, 0, 0);")
+                elif data_value == 0:
+                    if 'x' in label:
+                        indicator_label.setStyleSheet("background-color: rgb(0, 80, 0);color: rgb(200, 200, 200);")
+                    if 'y' in label:
+                        indicator_label.setStyleSheet("background-color: rgb(80, 0, 0);color: rgb(200, 200, 200);")
+
+
+
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     hmi = button_window()
@@ -178,5 +170,9 @@ if __name__ == '__main__':
     hmi.showMaximized()
     server = server_start(hmi)
     server.start_server()
+    timer = QTimer()
+    timer.timeout.connect(server.label_updater)
+    timer.start(100)
+    hmi.pushButton.clicked.connect(server.send_data)
     sys.exit(app.exec_())
 
