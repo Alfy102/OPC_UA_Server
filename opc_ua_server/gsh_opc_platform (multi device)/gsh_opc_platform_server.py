@@ -5,7 +5,8 @@ from asyncua import ua, Server, uamethod
 from asyncua.common import node
 from datetime import datetime
 from asyncua.server.history_sql import HistorySQLite
-
+import sqlite3
+import pandas as pd
 
 #io_dict standard dictionary: {variables_id:[variables_ns, device_name, category_name,variable_name,0]}
 #hmi_signal standard: (node_id, namespace, data_value)
@@ -42,8 +43,16 @@ class SubIoHandler(object):
         self.data_signal.emit((node.nodeid.Identifier, val))
 
 class SubVarHandler(object):
+    def __init__(self,monitored_dict,count):
+        self.monitored_node = monitored_dict
+        self.count_node=count
     async def datachange_notification(self, node, val, data):
-        print(node, val)
+        node_identifier = node.nodeid.Identifier
+        if val >0:
+            value = self.monitored_node[node_identifier]
+            await self.count_node((value[0], value[1], val)) #(namespace, node id, amount)
+
+        
 
 class OpcServerThread(QObject):
     data_signal = pyqtSignal(tuple)
@@ -59,6 +68,12 @@ class OpcServerThread(QObject):
         self.file_path = current_file_path
         self.server = Server()
         self.endpoint = endpoint
+        self.monitored_node = {2167:(2,10004),2168:(2,10006),2169:(2,10007),2170:(2,10005)}
+        #{R100:Total quantity in, R101: Total Passed, R102: Total Failed, R103: Total Quantity Out}
+        self.database_file = "variable_history.sqlite3"
+        
+        
+
     def run(self):
         asyncio.run(self.opc_server())
 
@@ -84,23 +99,33 @@ class OpcServerThread(QObject):
             cat_filter_keys = list(cat_filter.keys())
             asyncio.ensure_future(self.write_to_opc(current_relay_list,cat_filter,cat_filter_keys))
 
-    async def write_to_opc(self,current_relay_list,cat_filter_items,cat_filter_keys):
-        source_time = datetime.now()    
+
+    async def write_to_opc(self,current_relay_list,cat_filter_items,cat_filter_keys):    
         for i in range(len(current_relay_list)):
             from_filter = cat_filter_items[cat_filter_keys[i]]
             from_filter[4]=current_relay_list[i]
             node_id=self.server.get_node(ua.NodeId(cat_filter_keys[i], 2))
-            data_value = ua.DataValue(ua.Variant(current_relay_list[i], ua.VariantType.Int64),SourceTimestamp=source_time, ServerTimestamp=source_time)
+            self.source_time = datetime.now()
+            data_value = ua.DataValue(ua.Variant(current_relay_list[i], ua.VariantType.Int64),SourceTimestamp=self.source_time, ServerTimestamp=self.source_time)
             await self.server.write_attribute_value(node_id.nodeid, data_value)
+            #if (cat_filter_keys[i] in self.monitored_node.keys()) and (current_relay_list[i] >0):
+            #    value = self.monitored_node[cat_filter_keys[i]]
+            #    await self.count_node((value[0], value[1], current_relay_list[i]))
 
-    async def simple_write_to_opc_array(self,hmi_signal):
-        node_id=self.server.get_node(ua.NodeId(hmi_signal[0], hmi_signal[1]))
-        data_value = ua.DataValue(ua.Variant(hmi_signal[2], ua.VariantType.Int64))
-        await self.server.write_attribute_value(node_id.nodeid, data_value)
+
+    async def count_node(self, data):
+        node_id= self.server.get_node(ua.NodeId(data[1], data[0])) 
+        current_value = await node_id.read_value()
+        #print(node_id , current_value)
+        new_value = current_value + data[2]
+        await self.simple_write_to_opc((data[0], data[1], new_value))
+
 
     async def simple_write_to_opc(self,hmi_signal):
-        node_id=self.server.get_node(ua.NodeId(hmi_signal[0], hmi_signal[1]))
-        data_value = ua.DataValue(ua.Variant(hmi_signal[2], ua.VariantType.Int64))
+        #hmi_signal = (namespace, node_id, data_value)
+        node_id=self.server.get_node(ua.NodeId(hmi_signal[1], hmi_signal[0]))
+        self.source_time = datetime.now()
+        data_value = ua.DataValue(ua.Variant(hmi_signal[2], ua.VariantType.Int64),SourceTimestamp=self.source_time, ServerTimestamp=self.source_time)
         await self.server.write_attribute_value(node_id.nodeid, data_value)
 
     async def is_connected(self,ipaddress):
@@ -114,7 +139,7 @@ class OpcServerThread(QObject):
 
     async def opc_server(self):
         #Configure server to use sqlite as history database (default is a simple memory dict)
-        self.server.iserver.history_manager.set_storage(HistorySQLite(self.file_path.joinpath("variable_history.sqlite3")))
+        self.server.iserver.history_manager.set_storage(HistorySQLite(self.file_path.joinpath(self.database_file)))
         await self.server.init()
         self.server.set_endpoint(f"opc.tcp://{self.endpoint}")        
         #load nodes structure from XML file path
@@ -147,7 +172,7 @@ class OpcServerThread(QObject):
         hmi_handler = SubHmiHandler(hmi_dict,self.plc_ip_address,self.hmi_signal,self.plc_tcp_socket_request)
         hmi_sub = await self.server.create_subscription(1, hmi_handler)  
         for key in hmi_dict.keys():
-            hmi_var = self.server.get_node(f"ns={hmi_dict[key][0]};i={key}")
+            hmi_var = self.server.get_node(ua.NodeId(key,hmi_dict[key][0]))
             await hmi_var.set_writable()
             from_hmi_dict = hmi_dict[key]
             hmi_relays = from_hmi_dict[3]
@@ -165,7 +190,7 @@ class OpcServerThread(QObject):
         alarm_sub = await self.server.create_subscription(50, alarm_handler) 
         alarm_dict = dict(filter(lambda elem: elem[1][2]== 'alarm' ,self.device_structure.items()))
         for key in alarm_dict.keys():
-            alarm_var = self.server.get_node(f"ns={alarm_dict[key][0]};i={key}")
+            alarm_var = self.server.get_node(ua.NodeId(key,alarm_dict[key][0]))
             await alarm_sub.subscribe_data_change(alarm_var,queuesize=1)
         
         
@@ -173,32 +198,43 @@ class OpcServerThread(QObject):
         io_handler = SubIoHandler(self.data_signal)
         io_sub = await self.server.create_subscription(50, io_handler) 
         for key in io_dict.keys():
-            io_var = self.server.get_node(f"ns={io_dict[key][0]};i={key}")
+            io_var = self.server.get_node(ua.NodeId(key,io_dict[key][0]))
             await io_sub.subscribe_data_change(io_var,queuesize=1)
 
         #combined the alarm and io dictionary for main operation
         io_dict=alarm_dict|io_dict
 
 
+        #create subscription for the monitored nodes and fill with last known data in database
+        var_handler = SubVarHandler(self.monitored_node,self.count_node)
+        var_sub = await self.server.create_subscription(50, var_handler) 
+        for key,value in self.monitored_node.items():
+            conn = sqlite3.connect (self.file_path.joinpath(self.database_file))
+            previous_data = pd.read_sql_query(f"SELECT Value FROM '{value[0]}_{value[1]}' ORDER BY _Id DESC LIMIT 1", conn)
+            #pd.read_sql_query(f"DELETE FROM '{value[0]}_{value[1]}' ORDER BY _Id DESC LIMIT 1", conn)
+            initial_value = previous_data.iloc[0]['Value']
+            await self.simple_write_to_opc((value[0], value[1], int(initial_value)))
+            monitored_var = self.server.get_node(ua.NodeId(key,value[0]))
+            await var_sub.subscribe_data_change(monitored_var,queuesize=1)
+            conn.close()
 
+
+        #create historizing database for server variables
         server_var_obj = await self.server.nodes.root.get_child(["0:Objects", "2:server_variables"])
         server_var_list = await server_var_obj.get_children()
         for node in server_var_list:
             await self.server.historize_node_data_change(node, period=None, count=100)
 
-        #test_var = self.server.get_node(f"ns=2;i=2167")
-        #await self.server.historize_node_data_change(test_var, period=50, count=100)
-        #create subcription for monitored variables
-        monitored_node = [2167,2168,2169,2170]
-        var_handler = SubVarHandler()
-        var_sub = await self.server.create_subscription(50, var_handler) 
-        for node_id in monitored_node:
-            ns = io_dict[node_id][0]
-            monitored_var = self.server.get_node(f"ns={ns};i={node_id}")
-            await var_sub.subscribe_data_change(monitored_var,queuesize=1)
 
 
 
+        for key,value in self.monitored_node.items():
+            conn = sqlite3.connect (self.file_path.joinpath(self.database_file))
+            crsr = conn.cursor()
+            table_name = f"{value[0]}_{value[1]}"
+            crsr.execute(f"DELETE FROM '{table_name}' WHERE _Id = (SELECT MAX(_Id) FROM '{table_name}');")
+            conn.commit()
+            conn.close()
 
 
         #self.server_signal.emit("Starting server!")
