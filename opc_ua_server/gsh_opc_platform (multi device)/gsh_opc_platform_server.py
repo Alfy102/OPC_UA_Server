@@ -3,16 +3,14 @@ from PyQt5.QtCore import QObject, pyqtSignal
 from collections import Counter
 from asyncua import ua, Server, uamethod
 from asyncua.common import node
-from datetime import datetime
+from datetime import timedelta, datetime
 from asyncua.server.history_sql import HistorySQLite
-import sqlite3
 import pandas as pd
-
+import sqlite3
+import time
 #io_dict standard dictionary: {variables_id:[variables_ns, device_name, category_name,variable_name,0]}
 #hmi_signal standard: (node_id, namespace, data_value)
-@uamethod
-def count(parent, x, y):
-    return x + y
+
 
 class SubHmiHandler(object):
     def __init__(self,hmi_dictionary,plc_ip_address,hmi_signal,plc_tcp_socket_request):
@@ -70,10 +68,10 @@ class OpcServerThread(QObject):
         self.endpoint = endpoint
         self.monitored_node = {2167:(2,10004),2168:(2,10006),2169:(2,10007),2170:(2,10005)}
         #{R100:Total quantity in, R101: Total Passed, R102: Total Failed, R103: Total Quantity Out}
-        self.database_file = "variable_history.sqlite3"
-        
-        
-
+        self.time_cleanup = timedelta(days=7) #the schedule database reset
+        self.stats_reset = timedelta(days=1)
+        self.sub_time = 50
+        self.hmi_sub = 10
     def run(self):
         asyncio.run(self.opc_server())
 
@@ -99,7 +97,6 @@ class OpcServerThread(QObject):
             cat_filter_keys = list(cat_filter.keys())
             asyncio.ensure_future(self.write_to_opc(current_relay_list,cat_filter,cat_filter_keys))
 
-
     async def write_to_opc(self,current_relay_list,cat_filter_items,cat_filter_keys):    
         for i in range(len(current_relay_list)):
             from_filter = cat_filter_items[cat_filter_keys[i]]
@@ -108,10 +105,6 @@ class OpcServerThread(QObject):
             self.source_time = datetime.now()
             data_value = ua.DataValue(ua.Variant(current_relay_list[i], ua.VariantType.Int64),SourceTimestamp=self.source_time, ServerTimestamp=self.source_time)
             await self.server.write_attribute_value(node_id.nodeid, data_value)
-            #if (cat_filter_keys[i] in self.monitored_node.keys()) and (current_relay_list[i] >0):
-            #    value = self.monitored_node[cat_filter_keys[i]]
-            #    await self.count_node((value[0], value[1], current_relay_list[i]))
-
 
     async def count_node(self, data):
         node_id= self.server.get_node(ua.NodeId(data[1], data[0])) 
@@ -119,7 +112,6 @@ class OpcServerThread(QObject):
         #print(node_id , current_value)
         new_value = current_value + data[2]
         await self.simple_write_to_opc((data[0], data[1], new_value))
-
 
     async def simple_write_to_opc(self,hmi_signal):
         #hmi_signal = (namespace, node_id, data_value)
@@ -137,7 +129,16 @@ class OpcServerThread(QObject):
             pass
         return False
 
+    async def history_database_cleaner(self,database_file,added_time,table_name):
+        conn = sqlite3.connect(self.file_path.joinpath(database_file))
+        crsr = conn.cursor()
+        crsr.execute(f"DELETE FROM '{table_name}' WHERE SourceTimestamp < '{added_time}';")
+        conn.commit()
+        conn.close()  
+
     async def opc_server(self):
+        self.database_file = "variable_history.sqlite3"
+        self.conn = sqlite3.connect(self.file_path.joinpath(self.database_file))
         #Configure server to use sqlite as history database (default is a simple memory dict)
         self.server.iserver.history_manager.set_storage(HistorySQLite(self.file_path.joinpath(self.database_file)))
         await self.server.init()
@@ -170,7 +171,7 @@ class OpcServerThread(QObject):
         #create hmi subscription handler and initialize it with current value of plc relay
         hmi_dict = dict(filter(lambda elem: elem[1][2]=='hmi',self.device_structure.items()))
         hmi_handler = SubHmiHandler(hmi_dict,self.plc_ip_address,self.hmi_signal,self.plc_tcp_socket_request)
-        hmi_sub = await self.server.create_subscription(1, hmi_handler)  
+        hmi_sub = await self.server.create_subscription(self.hmi_sub, hmi_handler)  
         for key in hmi_dict.keys():
             hmi_var = self.server.get_node(ua.NodeId(key,hmi_dict[key][0]))
             await hmi_var.set_writable()
@@ -187,7 +188,7 @@ class OpcServerThread(QObject):
 
         #create alarm subscription handler and pass the self.alarm_signal
         alarm_handler = SubAlarmHandler(self.alarm_signal)
-        alarm_sub = await self.server.create_subscription(50, alarm_handler) 
+        alarm_sub = await self.server.create_subscription(self.sub_time, alarm_handler) 
         alarm_dict = dict(filter(lambda elem: elem[1][2]== 'alarm' ,self.device_structure.items()))
         for key in alarm_dict.keys():
             alarm_var = self.server.get_node(ua.NodeId(key,alarm_dict[key][0]))
@@ -196,7 +197,7 @@ class OpcServerThread(QObject):
         
         io_dict = dict(filter(lambda elem: (elem[1][2]!='hmi') and (elem[1][2]!='alarm') ,self.device_structure.items()))
         io_handler = SubIoHandler(self.data_signal)
-        io_sub = await self.server.create_subscription(50, io_handler) 
+        io_sub = await self.server.create_subscription(self.sub_time, io_handler) 
         for key in io_dict.keys():
             io_var = self.server.get_node(ua.NodeId(key,io_dict[key][0]))
             await io_sub.subscribe_data_change(io_var,queuesize=1)
@@ -204,37 +205,35 @@ class OpcServerThread(QObject):
         #combined the alarm and io dictionary for main operation
         io_dict=alarm_dict|io_dict
 
-
         #create subscription for the monitored nodes and fill with last known data in database
         var_handler = SubVarHandler(self.monitored_node,self.count_node)
-        var_sub = await self.server.create_subscription(50, var_handler) 
+        var_sub = await self.server.create_subscription(self.sub_time, var_handler) 
         for key,value in self.monitored_node.items():
-            conn = sqlite3.connect (self.file_path.joinpath(self.database_file))
-            previous_data = pd.read_sql_query(f"SELECT Value FROM '{value[0]}_{value[1]}' ORDER BY _Id DESC LIMIT 1", conn)
-            #pd.read_sql_query(f"DELETE FROM '{value[0]}_{value[1]}' ORDER BY _Id DESC LIMIT 1", conn)
-            initial_value = previous_data.iloc[0]['Value']
-            await self.simple_write_to_opc((value[0], value[1], int(initial_value)))
+            
+            try:
+                previous_data = pd.read_sql_query(f"SELECT Value FROM '{value[0]}_{value[1]}' ORDER BY _Id DESC LIMIT 1", self.conn)
+                pd.read_sql_query(f"DELETE FROM '{value[0]}_{value[1]}' ORDER BY _Id DESC LIMIT 1", self.conn)
+                initial_value = previous_data.iloc[0]['Value']
+                await self.simple_write_to_opc((value[0], value[1], int(initial_value)))
+            except:
+                pass
             monitored_var = self.server.get_node(ua.NodeId(key,value[0]))
             await var_sub.subscribe_data_change(monitored_var,queuesize=1)
-            conn.close()
+
 
 
         #create historizing database for server variables
         server_var_obj = await self.server.nodes.root.get_child(["0:Objects", "2:server_variables"])
         server_var_list = await server_var_obj.get_children()
         for node in server_var_list:
-            await self.server.historize_node_data_change(node, period=None, count=100)
-
-
-
-
-        for key,value in self.monitored_node.items():
-            conn = sqlite3.connect (self.file_path.joinpath(self.database_file))
-            crsr = conn.cursor()
+            await self.server.historize_node_data_change(node, period=None, count=0)
+        #delete the record create from initializing the historizing nodes
+        crsr = self.conn.cursor()
+        for key,value in self.monitored_node.items():         
             table_name = f"{value[0]}_{value[1]}"
             crsr.execute(f"DELETE FROM '{table_name}' WHERE _Id = (SELECT MAX(_Id) FROM '{table_name}');")
-            conn.commit()
-            conn.close()
+        self.conn.commit()
+        self.conn.close()
 
 
         #self.server_signal.emit("Starting server!")
@@ -255,8 +254,11 @@ class OpcServerThread(QObject):
         async with self.server:
             self.server_logger_signal.emit("Server Launched!")
             while True:
-
-                await asyncio.sleep(1)
+                tic = time.perf_counter()
+                current_time = datetime.now().replace(microsecond=0, second=0, minute=0, hour=0)
+                scheduled_database_cleanup_time = current_time + self.time_cleanup
+                stats_reset_time = current_time + self.stats_reset
+                await asyncio.sleep(0.2)
                 for k in range(len(ip_list)):
                     await asyncio.create_task(self.scan_loop_plc(coil_cat_dict_list[k],device_coil_list[k],ip_list[k]))
                 #self.ui_refresh_signal.emit()
@@ -264,7 +266,14 @@ class OpcServerThread(QObject):
                     hmi_signal = self.input_queue.get()
                     #asyncio.ensure_future(self.simple_write_to_opc(hmi_signal))
                     self.server_logger_signal.emit(hmi_signal)
-
+                if datetime.now()>= scheduled_database_cleanup_time:
+                    for value in self.monitored_node.values():
+                        table_name = str(f"{value[0]}_{value[1]}")
+                        asyncio.create_task(self.history_database_cleaner(self.database_file,scheduled_database_cleanup_time,table_name))
+                if datetime.now()>= stats_reset_time:
+                    print(date.now())
+                toc = time.perf_counter()
+                self.server_logger_signal.emit(f"Loop executed in {toc - tic:0.4f} seconds")
 
             
 

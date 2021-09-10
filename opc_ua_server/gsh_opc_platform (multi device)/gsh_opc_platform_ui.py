@@ -9,6 +9,8 @@ import gsh_opc_platform_server as gsh_server
 from io_layout_map import all_label_dict
 import logging
 import qtrc
+from datetime import timedelta, datetime
+
 
 class QTextEditLogger(logging.Handler):
     def __init__(self,textEdit):
@@ -116,6 +118,7 @@ class server_start(object):
         logTextBox_2.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(message)s',"%d/%m/%Y - %H:%M:%S%p"))
         self.logger_alarm.addHandler(logTextBox_2)
         self.logger_alarm.setLevel(logging.INFO)
+        
 
     def start_server(self):
         self.server_worker = gsh_server.OpcServerThread(self.input_queue,self.file_path,self.endpoint)
@@ -144,6 +147,10 @@ class server_start(object):
     def io_handler(self, data):
         self.io_dict.update({data[0]:data[1]})
 
+
+    def history_db_updater(self,data):
+        print(data)
+
     def label_updater(self):
          for key,value in self.io_dict.items():
             from_data = self.label_dict[key]
@@ -169,10 +176,20 @@ if __name__ == '__main__':
     hmi.show()
     hmi.showMaximized()
     server = server_start(hmi)
-    server.start_server()
-    timer = QTimer()
-    timer.timeout.connect(server.label_updater)
-    timer.start(100)
     hmi.pushButton.clicked.connect(server.send_data)
+    server.start_server()
+
+    current_time = datetime.now()#.replace(microsecond=0, second=0, minute=0)
+    added_time = current_time + timedelta(minutes=1)
+    label_refresh_timer = QTimer()
+    label_refresh_timer.timeout.connect(server.label_updater)
+    #label_refresh_timer.timeout.connect(lambda: server.history_db_updater(added_time))
+    label_refresh_timer.start(100)
+
+
+    
+
+    
+    node_history_timer = QTimer()
     sys.exit(app.exec_())
 
