@@ -13,16 +13,15 @@ import sqlite3
 
 
 class SubHmiHandler(object):
-    def __init__(self,hmi_dictionary,plc_ip_address,hmi_signal,plc_tcp_socket_request):
+    def __init__(self,hmi_dictionary,plc_ip_address,plc_tcp_socket_request):
         self.hmi_structure = hmi_dictionary
         self.ip_address = plc_ip_address
-        self.hmi_signal = hmi_signal
         self.plc_send = plc_tcp_socket_request
     async def datachange_notification(self, node, val, data):
         node_identifier = node.nodeid.Identifier
         from_hmi_struct = self.hmi_structure[node_identifier]
         ip_address = self.ip_address[from_hmi_struct[1]]
-        self.hmi_signal.emit((from_hmi_struct[1], from_hmi_struct[3], val))
+        #self.hmi_signal.emit((from_hmi_struct[1], from_hmi_struct[3], val))
         await self.plc_send((from_hmi_struct[3],1,val),ip_address,'write')
 
 
@@ -56,9 +55,9 @@ class SubVarHandler(object):
 class OpcServerThread(QObject):
     data_signal = pyqtSignal(tuple)
     data_signal_2 = pyqtSignal(dict)
-    hmi_signal = pyqtSignal(tuple)
     alarm_signal = pyqtSignal(tuple)
     server_logger_signal = pyqtSignal(str)
+    variable_signal = pyqtSignal()
     #ui_refresh_signal = pyqtSignal()
     def __init__(self,input_q,current_file_path,endpoint,parent=None,**kwargs):
         super().__init__(parent, **kwargs)
@@ -173,21 +172,13 @@ class OpcServerThread(QObject):
 
         #create hmi subscription handler and initialize it with current value of plc relay
         hmi_dict = dict(filter(lambda elem: elem[1][2]=='hmi',self.device_structure.items()))
-        hmi_handler = SubHmiHandler(hmi_dict,self.plc_ip_address,self.hmi_signal,self.plc_tcp_socket_request)
+        hmi_handler = SubHmiHandler(hmi_dict,self.plc_ip_address,self.plc_tcp_socket_request)
         hmi_sub = await self.server.create_subscription(self.hmi_sub, hmi_handler)  
         for key in hmi_dict.keys():
             hmi_var = self.server.get_node(ua.NodeId(key,hmi_dict[key][0]))
             await hmi_var.set_writable()
-            from_hmi_dict = hmi_dict[key]
-            hmi_relays = from_hmi_dict[3]
-            plc_device = from_hmi_dict[1]
-            plc_address = self.plc_ip_address[plc_device]
-            hmi_plc_status = (await self.plc_tcp_socket_request((hmi_relays,1),plc_address,'read'))[0]
-            data_value = ua.DataValue(ua.Variant(hmi_plc_status, ua.VariantType.Int64))
-            await self.server.write_attribute_value(hmi_var.nodeid, data_value)
             await hmi_sub.subscribe_data_change(hmi_var,queuesize=1)
-            from_hmi_dict[4] = hmi_plc_status
-            hmi_dict.update({key:from_hmi_dict})
+
 
         #create alarm subscription handler and pass the self.alarm_signal
         alarm_handler = SubAlarmHandler(self.alarm_signal)
@@ -206,7 +197,7 @@ class OpcServerThread(QObject):
             await io_sub.subscribe_data_change(io_var,queuesize=1)
         self.data_signal_2.emit(io_dict)
 
-        
+
         #combined the alarm and io dictionary for main operation
         io_dict=alarm_dict|io_dict
 
@@ -214,14 +205,10 @@ class OpcServerThread(QObject):
         var_handler = SubVarHandler(self.monitored_node,self.count_node)
         var_sub = await self.server.create_subscription(self.sub_time, var_handler) 
         for key,value in self.monitored_node.items():
-            
-            try:
-                previous_data = pd.read_sql_query(f"SELECT Value FROM '{value[0]}_{value[1]}' ORDER BY _Id DESC LIMIT 1", self.conn)
-                pd.read_sql_query(f"DELETE FROM '{value[0]}_{value[1]}' ORDER BY _Id DESC LIMIT 1", self.conn)
-                initial_value = previous_data.iloc[0]['Value']
-                await self.simple_write_to_opc((value[0], value[1], int(initial_value)))
-            except:
-                pass
+            previous_data = pd.read_sql_query(f"SELECT Value FROM '{value[0]}_{value[1]}' ORDER BY _Id DESC LIMIT 1", self.conn)
+            #pd.read_sql_query(f"DELETE FROM '{value[0]}_{value[1]}' ORDER BY _Id DESC LIMIT 1", self.conn)
+            initial_value = previous_data.iloc[0]['Value']
+            await self.simple_write_to_opc((value[0], value[1], int(initial_value)))
             monitored_var = self.server.get_node(ua.NodeId(key,value[0]))
             await var_sub.subscribe_data_change(monitored_var,queuesize=1)
 

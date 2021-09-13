@@ -9,7 +9,8 @@ from io_layout_map import all_label_dict, all_hmi_dict
 import logging
 from datetime import timedelta, datetime
 import qtrc
-
+import pandas as pd
+import sqlite3
 
 class QTextEditLogger(logging.Handler):
     def __init__(self,textEdit):
@@ -38,7 +39,7 @@ class button_window(QMainWindow):
         self.file_path = Path(__file__).parent.absolute()
         ui_path=self.file_path.joinpath("opc_ui.ui")
         loadUi(ui_path,self)
-        
+        self.database_file = "variable_history.sqlite3"
         self.io_dict = {}
         #self.hmi = button_window()
         self.hmi_label = all_hmi_dict
@@ -62,7 +63,6 @@ class button_window(QMainWindow):
         self.server_worker.moveToThread(self.server_thread)
         self.server_thread.started.connect(self.server_worker.run)
         self.server_worker.server_logger_signal.connect(self.server_logger)
-        self.server_worker.hmi_signal.connect(self.user_input_handler)
         self.server_worker.data_signal.connect(self.io_handler)
         self.server_worker.data_signal_2.connect(self.io_handler_init)
         self.server_worker.alarm_signal.connect(self.alarm_handler)
@@ -106,21 +106,29 @@ class button_window(QMainWindow):
         self.main_motor_page_1_button.clicked.connect(lambda: self.main_motor_station_stacked_widget.setCurrentIndex(0))
         self.main_motor_page_2_button.clicked.connect(lambda: self.main_motor_station_stacked_widget.setCurrentIndex(1))
         
+        #main motor module signals
+        self.module_1_motor_1_button.clicked.connect(lambda: self.main_motor_control_stacked_widget.setCurrentIndex(0))
+        self.module_1_motor_2_button.clicked.connect(lambda: self.main_motor_control_stacked_widget.setCurrentIndex(1))
+
         self.hmi_dict = dict(filter(lambda elem: ('y' in elem[1][0]) , self.label_dict.items()))
         for labels in self.hmi_dict.values():
-            label_1 = labels[0]
-            indicator_label_1 = eval(f"self.{label_1}")
-            indicator_label_1.installEventFilter(self)
+            for items in labels:
+                label_1 = items
+                indicator_label_1 = eval(f"self.{label_1}")
+                indicator_label_1.installEventFilter(self)
+
 
         self.server_thread.start()
 
     def eventFilter(self, source, event):
-        for labels in self.hmi_dict.values():
-            label = labels[0]
-            indicator_label = eval(f"self.{label}")
-            if (event.type() == QEvent.MouseButtonDblClick and source is indicator_label):
-                msg = source.text()
-                self.send_data(msg)
+        if event.type() == QEvent.MouseButtonDblClick:
+            for labels in self.hmi_dict.values():
+                for items in labels:
+                    label = items
+                    indicator_label = eval(f"self.{label}")
+                    if source is indicator_label:
+                        msg = source.text()
+                        self.send_data(msg)
         return super(button_window, self).eventFilter(source, event)
 
     def io_list_page_behaviour(self):
@@ -139,17 +147,17 @@ class button_window(QMainWindow):
         self.stackedWidget.setCurrentIndex(6)
         self.main_motor_page_1_button.setChecked(True)
         self.main_motor_station_stacked_widget.setCurrentIndex(0)
+        self.main_motor_control_stacked_widget.setCurrentIndex(0)
 
     def send_data(self,label_text):
         from_hmi_label = self.hmi_label[label_text]
         current_value = self.io_dict[from_hmi_label[1]]
         current_value = 1-current_value
         self.input_queue.put((2,from_hmi_label[0], current_value))
-        
-    def server_logger(self, msg):
+        msg = str((from_hmi_label[0], current_value))
         self.logger.info(msg)
 
-    def user_input_handler(self,msg):
+    def server_logger(self, msg):
         self.logger.info(msg)
 
     def alarm_handler(self, msg):
@@ -162,8 +170,26 @@ class button_window(QMainWindow):
     def io_handler(self, data):
         self.io_dict.update({data[0]:data[1]})
 
-    def history_db_updater(self,data):
-        print(data)
+
+    def info_updater(self):
+        self.conn = sqlite3.connect(self.file_path.joinpath(self.database_file))
+        current_qty_in_data = pd.read_sql_query(f"SELECT Value FROM '2_10004' ORDER BY _Id DESC LIMIT 1", self.conn)
+        current_qty_in_data = current_qty_in_data.iloc[0]['Value']
+        current_qty_out_data = pd.read_sql_query(f"SELECT Value FROM '2_10005' ORDER BY _Id DESC LIMIT 1", self.conn)
+        current_qty_out_data = current_qty_out_data.iloc[0]['Value']
+        current_qty_passed_data = pd.read_sql_query(f"SELECT Value FROM '2_10006' ORDER BY _Id DESC LIMIT 1", self.conn)
+        current_qty_passed_data = current_qty_passed_data.iloc[0]['Value']
+        current_qty_failed_data = pd.read_sql_query(f"SELECT Value FROM '2_10007' ORDER BY _Id DESC LIMIT 1", self.conn)
+        current_qty_failed_data = current_qty_failed_data.iloc[0]['Value']
+
+        total_yield = abs((int(current_qty_passed_data)//int(current_qty_in_data))/100)
+        self.conn.close()
+        self.total_failed_label.setText(current_qty_failed_data)
+        self.total_passed_label.setText(current_qty_passed_data)
+        self.total_quantity_in_label.setText(current_qty_in_data)
+        self.total_quantity_out_label.setText(current_qty_out_data)
+        self.total_yield_label.setText(str(total_yield))
+
 
     def label_updater(self):
          for key,value in self.io_dict.items():
@@ -194,6 +220,7 @@ if __name__ == '__main__':
     added_time = current_time + timedelta(minutes=1)
     label_refresh_timer = QTimer()
     label_refresh_timer.timeout.connect(hmi.label_updater)
+    label_refresh_timer.timeout.connect(hmi.info_updater)
     label_refresh_timer.start(100)
     sys.exit(app.exec_())
 

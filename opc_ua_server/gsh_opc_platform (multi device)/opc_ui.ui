@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>1920</width>
-    <height>1035</height>
+    <height>1033</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -1535,7 +1535,7 @@ QPushButton:checked
             <number>0</number>
            </property>
            <property name="currentIndex">
-            <number>3</number>
+            <number>7</number>
            </property>
            <widget class="QWidget" name="main_page">
             <widget class="QFrame" name="title_frame">
@@ -1797,6 +1797,11 @@ QPushButton:checked
                       </item>
                       <item>
                        <widget class="QLabel" name="error_count_label">
+                        <property name="font">
+                         <font>
+                          <pointsize>20</pointsize>
+                         </font>
+                        </property>
                         <property name="text">
                          <string>-</string>
                         </property>
@@ -1832,6 +1837,11 @@ QPushButton:checked
                       </item>
                       <item>
                        <widget class="QLabel" name="barcode_fail_count_label">
+                        <property name="font">
+                         <font>
+                          <pointsize>20</pointsize>
+                         </font>
+                        </property>
                         <property name="text">
                          <string>-</string>
                         </property>
@@ -1867,6 +1877,11 @@ QPushButton:checked
                       </item>
                       <item>
                        <widget class="QLabel" name="barcode_pass_count_label">
+                        <property name="font">
+                         <font>
+                          <pointsize>20</pointsize>
+                         </font>
+                        </property>
                         <property name="text">
                          <string>-</string>
                         </property>
@@ -1902,6 +1917,11 @@ QPushButton:checked
                       </item>
                       <item>
                        <widget class="QLabel" name="total_quantity_in_label">
+                        <property name="font">
+                         <font>
+                          <pointsize>20</pointsize>
+                         </font>
+                        </property>
                         <property name="text">
                          <string>-</string>
                         </property>
@@ -1937,6 +1957,11 @@ QPushButton:checked
                       </item>
                       <item>
                        <widget class="QLabel" name="total_quantity_out_label">
+                        <property name="font">
+                         <font>
+                          <pointsize>20</pointsize>
+                         </font>
+                        </property>
                         <property name="text">
                          <string>-</string>
                         </property>
@@ -1972,6 +1997,11 @@ QPushButton:checked
                       </item>
                       <item>
                        <widget class="QLabel" name="total_passed_label">
+                        <property name="font">
+                         <font>
+                          <pointsize>20</pointsize>
+                         </font>
+                        </property>
                         <property name="text">
                          <string>-</string>
                         </property>
@@ -2007,6 +2037,11 @@ QPushButton:checked
                       </item>
                       <item>
                        <widget class="QLabel" name="total_failed_label">
+                        <property name="font">
+                         <font>
+                          <pointsize>20</pointsize>
+                         </font>
+                        </property>
                         <property name="text">
                          <string>-</string>
                         </property>
@@ -2042,6 +2077,11 @@ QPushButton:checked
                       </item>
                       <item>
                        <widget class="QLabel" name="soft_jam_label">
+                        <property name="font">
+                         <font>
+                          <pointsize>20</pointsize>
+                         </font>
+                        </property>
                         <property name="text">
                          <string>-</string>
                         </property>
@@ -2077,6 +2117,11 @@ QPushButton:checked
                       </item>
                       <item>
                        <widget class="QLabel" name="hard_jam_label">
+                        <property name="font">
+                         <font>
+                          <pointsize>20</pointsize>
+                         </font>
+                        </property>
                         <property name="text">
                          <string>-</string>
                         </property>
@@ -2112,6 +2157,11 @@ QPushButton:checked
                       </item>
                       <item>
                        <widget class="QLabel" name="mtbf_label">
+                        <property name="font">
+                         <font>
+                          <pointsize>20</pointsize>
+                         </font>
+                        </property>
                         <property name="text">
                          <string>-</string>
                         </property>
@@ -2147,6 +2197,11 @@ QPushButton:checked
                       </item>
                       <item>
                        <widget class="QLabel" name="mtba_label">
+                        <property name="font">
+                         <font>
+                          <pointsize>20</pointsize>
+                         </font>
+                        </property>
                         <property name="text">
                          <string>-</string>
                         </property>
@@ -2182,6 +2237,11 @@ QPushButton:checked
                       </item>
                       <item>
                        <widget class="QLabel" name="total_yield_label">
+                        <property name="font">
+                         <font>
+                          <pointsize>20</pointsize>
+                         </font>
+                        </property>
                         <property name="text">
                          <string>-</string>
                         </property>
@@ -10469,7 +10529,7 @@ Page 2</string>
                <item>
                 <widget class="QStackedWidget" name="main_motor_control_stacked_widget">
                  <property name="currentIndex">
-                  <number>0</number>
+                  <number>1</number>
                  </property>
                  <widget class="QWidget" name="page">
                   <layout class="QHBoxLayout" name="horizontalLayout_20" stretch="1">
@@ -10774,7 +10834,7 @@ border-color: rgb(222, 222, 222)</string>
                           <enum>QFrame::Raised</enum>
                          </property>
                          <property name="text">
-                          <string>Y6114</string>
+                          <string>Y6115</string>
                          </property>
                          <property name="alignment">
                           <set>Qt::AlignCenter</set>
@@ -10825,6 +10885,21 @@ border-color: rgb(222, 222, 222)</string>
                  </widget>
                  <widget class="QWidget" name="page_2">
                   <layout class="QHBoxLayout" name="horizontalLayout_27" stretch="1">
+                   <property name="spacing">
+                    <number>0</number>
+                   </property>
+                   <property name="leftMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>0</number>
+                   </property>
                    <item>
                     <widget class="QFrame" name="frame_64">
                      <property name="styleSheet">
@@ -12740,6 +12815,323 @@ QPushButton:checked
              <property name="frameShadow">
               <enum>QFrame::Raised</enum>
              </property>
+             <widget class="QGraphicsView" name="graphicsView_8">
+              <property name="geometry">
+               <rect>
+                <x>390</x>
+                <y>180</y>
+                <width>1121</width>
+                <height>491</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-image: url(:/module_image/HMI/General/TopView.png);</string>
+              </property>
+             </widget>
+             <widget class="QLabel" name="io_module_label_x0104_2">
+              <property name="geometry">
+               <rect>
+                <x>500</x>
+                <y>400</y>
+                <width>101</width>
+                <height>29</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <bold>true</bold>
+                <underline>false</underline>
+                <stylestrategy>PreferDefault</stylestrategy>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(0, 80, 0);color: rgb(200, 200, 200);</string>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::WinPanel</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Raised</enum>
+              </property>
+              <property name="text">
+               <string>Module 1</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+             <widget class="QLabel" name="io_module_label_x0104_3">
+              <property name="geometry">
+               <rect>
+                <x>750</x>
+                <y>530</y>
+                <width>101</width>
+                <height>29</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <bold>true</bold>
+                <underline>false</underline>
+                <stylestrategy>PreferDefault</stylestrategy>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(0, 80, 0);color: rgb(200, 200, 200);</string>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::WinPanel</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Raised</enum>
+              </property>
+              <property name="text">
+               <string>Module 2</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+             <widget class="QLabel" name="io_module_label_x0104_4">
+              <property name="geometry">
+               <rect>
+                <x>890</x>
+                <y>500</y>
+                <width>101</width>
+                <height>29</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <bold>true</bold>
+                <underline>false</underline>
+                <stylestrategy>PreferDefault</stylestrategy>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(0, 80, 0);color: rgb(200, 200, 200);</string>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::WinPanel</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Raised</enum>
+              </property>
+              <property name="text">
+               <string>Module 3</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+             <widget class="QLabel" name="io_module_label_x0104_5">
+              <property name="geometry">
+               <rect>
+                <x>1030</x>
+                <y>530</y>
+                <width>101</width>
+                <height>29</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <bold>true</bold>
+                <underline>false</underline>
+                <stylestrategy>PreferDefault</stylestrategy>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(0, 80, 0);color: rgb(200, 200, 200);</string>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::WinPanel</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Raised</enum>
+              </property>
+              <property name="text">
+               <string>Module 4</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+             <widget class="QLabel" name="io_module_label_x0104_6">
+              <property name="geometry">
+               <rect>
+                <x>730</x>
+                <y>240</y>
+                <width>101</width>
+                <height>29</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <bold>true</bold>
+                <underline>false</underline>
+                <stylestrategy>PreferDefault</stylestrategy>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(0, 80, 0);color: rgb(200, 200, 200);</string>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::WinPanel</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Raised</enum>
+              </property>
+              <property name="text">
+               <string>Module 5</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+             <widget class="QLabel" name="io_module_label_x0104_7">
+              <property name="geometry">
+               <rect>
+                <x>1200</x>
+                <y>500</y>
+                <width>101</width>
+                <height>29</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <bold>true</bold>
+                <underline>false</underline>
+                <stylestrategy>PreferDefault</stylestrategy>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(0, 80, 0);color: rgb(200, 200, 200);</string>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::WinPanel</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Raised</enum>
+              </property>
+              <property name="text">
+               <string>Module 6</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+             <widget class="QLabel" name="io_module_label_x0104_8">
+              <property name="geometry">
+               <rect>
+                <x>1360</x>
+                <y>510</y>
+                <width>101</width>
+                <height>29</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <bold>true</bold>
+                <underline>false</underline>
+                <stylestrategy>PreferDefault</stylestrategy>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(0, 80, 0);color: rgb(200, 200, 200);</string>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::WinPanel</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Raised</enum>
+              </property>
+              <property name="text">
+               <string>Module 6</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+             <widget class="QWidget" name="">
+              <property name="geometry">
+               <rect>
+                <x>210</x>
+                <y>270</y>
+                <width>138</width>
+                <height>311</height>
+               </rect>
+              </property>
+              <layout class="QVBoxLayout" name="verticalLayout_55">
+               <item>
+                <widget class="QLabel" name="label_5">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>12</pointsize>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>Machine Modules</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QCheckBox" name="checkBox">
+                 <property name="text">
+                  <string>Module 1</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QCheckBox" name="checkBox_2">
+                 <property name="text">
+                  <string>Module 2</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QCheckBox" name="checkBox_3">
+                 <property name="text">
+                  <string>Module 3</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QCheckBox" name="checkBox_4">
+                 <property name="text">
+                  <string>Module 4</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QCheckBox" name="checkBox_5">
+                 <property name="text">
+                  <string>Module 5</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QCheckBox" name="checkBox_6">
+                 <property name="text">
+                  <string>Module 6</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QCheckBox" name="checkBox_7">
+                 <property name="text">
+                  <string>Module 7</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
             </widget>
            </widget>
            <widget class="QWidget" name="misc_page">
@@ -13170,11 +13562,11 @@ QPushButton:checked
  </resources>
  <connections/>
  <buttongroups>
+  <buttongroup name="main_motor_module_button_group"/>
+  <buttongroup name="navigation_button_group"/>
+  <buttongroup name="main_motor_page_button_group"/>
   <buttongroup name="input_list_page_button_group"/>
   <buttongroup name="output_list_page_button_group"/>
-  <buttongroup name="main_motor_module_button_group"/>
   <buttongroup name="io_module_button_group"/>
-  <buttongroup name="main_motor_page_button_group"/>
-  <buttongroup name="navigation_button_group"/>
  </buttongroups>
 </ui>
