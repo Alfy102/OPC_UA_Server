@@ -8,7 +8,7 @@ import gsh_opc_platform_server as gsh_server
 from io_layout_map import all_label_dict, all_hmi_dict
 import logging
 from datetime import timedelta, datetime
-import qtrc
+import qtqr
 import pandas as pd
 import sqlite3
 
@@ -41,7 +41,6 @@ class button_window(QMainWindow):
         loadUi(ui_path,self)
         self.database_file = "variable_history.sqlite3"
         self.io_dict = {}
-        #self.hmi = button_window()
         self.hmi_label = all_hmi_dict
         self.label_dict =all_label_dict
         self.input_queue = Queue()
@@ -58,16 +57,6 @@ class button_window(QMainWindow):
         logTextBox_2.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(message)s',"%d/%m/%Y - %H:%M:%S%p"))
         self.logger_alarm.addHandler(logTextBox_2)
         self.logger_alarm.setLevel(logging.INFO)
-
-        self.server_worker = gsh_server.OpcServerThread(self.input_queue,self.file_path,self.endpoint)
-        self.server_worker.moveToThread(self.server_thread)
-        self.server_thread.started.connect(self.server_worker.run)
-        self.server_worker.server_logger_signal.connect(self.server_logger)
-        self.server_worker.data_signal.connect(self.io_handler)
-        self.server_worker.data_signal_2.connect(self.io_handler_init)
-        self.server_worker.alarm_signal.connect(self.alarm_handler)
-        self.logger.info("Launching Server!")
-        
 
         self.stackedWidget.setCurrentIndex(0)
         self.main_page_button.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(0))
@@ -118,7 +107,19 @@ class button_window(QMainWindow):
                 indicator_label_1.installEventFilter(self)
 
 
+        
+    def server_start(self):
+        self.server_worker = gsh_server.OpcServerThread(self.input_queue,self.file_path,self.endpoint)
+        self.server_worker.moveToThread(self.server_thread)
+        self.server_thread.started.connect(self.server_worker.run)
+        self.server_worker.server_logger_signal.connect(self.server_logger)
+        self.server_worker.data_signal.connect(self.io_handler)
+        self.server_worker.data_signal_2.connect(self.io_handler_init)
+        self.server_worker.alarm_signal.connect(self.alarm_handler)
+        self.logger.info("Launching Server!")
         self.server_thread.start()
+
+
 
     def eventFilter(self, source, event):
         if event.type() == QEvent.MouseButtonDblClick:
@@ -182,8 +183,9 @@ class button_window(QMainWindow):
         current_qty_failed_data = pd.read_sql_query(f"SELECT Value FROM '2_10007' ORDER BY _Id DESC LIMIT 1", self.conn)
         current_qty_failed_data = current_qty_failed_data.iloc[0]['Value']
 
-        total_yield = abs((int(current_qty_passed_data)//int(current_qty_in_data))/100)
+        
         self.conn.close()
+        total_yield = abs((int(current_qty_passed_data)//int(current_qty_in_data))/100)
         self.total_failed_label.setText(current_qty_failed_data)
         self.total_passed_label.setText(current_qty_passed_data)
         self.total_quantity_in_label.setText(current_qty_in_data)
@@ -216,8 +218,7 @@ if __name__ == '__main__':
     hmi = button_window()
     hmi.show()
     hmi.showMaximized()
-    current_time = datetime.now()#.replace(microsecond=0, second=0, minute=0)
-    added_time = current_time + timedelta(minutes=1)
+    #hmi.server_start() #Disable comment to start server
     label_refresh_timer = QTimer()
     label_refresh_timer.timeout.connect(hmi.label_updater)
     label_refresh_timer.timeout.connect(hmi.info_updater)

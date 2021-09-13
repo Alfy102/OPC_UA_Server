@@ -146,7 +146,7 @@ class OpcServerThread(QObject):
         await self.server.init()
         self.server.set_endpoint(f"opc.tcp://{self.endpoint}")        
         #load nodes structure from XML file path
-        await self.server.import_xml(self.file_path.joinpath("standard_server_structure_3.xml"))
+        await self.server.import_xml(self.file_path.joinpath("standard_server_structure.xml"))
         await self.server.load_data_type_definitions()
 
         #load all the nodes inside the XML file into a dictionary variables for easier data handling
@@ -212,8 +212,6 @@ class OpcServerThread(QObject):
             monitored_var = self.server.get_node(ua.NodeId(key,value[0]))
             await var_sub.subscribe_data_change(monitored_var,queuesize=1)
 
-
-        #WHERE STRFTIME('%H', SourceTimestamp) > '9'
         #create historizing database for server variables
         server_var_obj = await self.server.nodes.root.get_child(["0:Objects", "2:server_variables"])
         server_var_list = await server_var_obj.get_children()
@@ -246,7 +244,6 @@ class OpcServerThread(QObject):
         async with self.server:
             self.server_logger_signal.emit("Server Launched!")
             while True:
-                #tic = time.perf_counter()
                 current_time = datetime.now().replace(microsecond=0, second=0, minute=0, hour=0)
                 scheduled_database_cleanup_time = current_time + self.time_cleanup
                 stats_reset_time = current_time + self.stats_reset
@@ -263,8 +260,7 @@ class OpcServerThread(QObject):
                         asyncio.create_task(self.history_database_cleaner(self.database_file,scheduled_database_cleanup_time,table_name))
                 if datetime.now()>= stats_reset_time:
                     print(datetime.now())
-                #toc = time.perf_counter()
-                #self.server_logger_signal.emit(f"Loop executed in {toc - tic:0.4f} seconds")
+
 
             
 

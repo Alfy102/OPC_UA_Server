@@ -559,7 +559,7 @@
                <item>
                 <widget class="QGraphicsView" name="graphicsView_7">
                  <property name="styleSheet">
-                  <string notr="true">border-image: url(:/logo_image/GSH_LOGO.png);</string>
+                  <string notr="true">border-image: url(:/logo_image/logo.png)</string>
                  </property>
                 </widget>
                </item>
@@ -592,7 +592,7 @@
 	border: none;
 	margin: 0px;
 	padding: 0px;
-	icon:url(:/icon button/home.png) ;
+	icon:url(:/icon_button/home.png) ;
 	qproperty-iconSize: 30px;
 	text-align:left;
 }
@@ -655,7 +655,7 @@ QPushButton:checked
 	border: none;
 	margin: 0px;
 	padding: 0px;
-	icon: url(:/icon button/file.png);
+	icon: url(:/icon_button/file.png);
 	qproperty-iconSize: 30px;
 	text-align:left;
 }
@@ -717,7 +717,7 @@ QPushButton:checked
 	border: none;
 	margin: 0px;
 	padding: 0px;
-	icon: url(:/icon button/list.png);
+	icon: url(:/icon_button/list.png);
 	qproperty-iconSize: 30px;
 	text-align:left;
 }
@@ -779,7 +779,7 @@ QPushButton:checked
 	border: none;
 	margin: 0px;
 	padding: 0px;
-	icon: url(:/icon button/notebook.png);
+	icon: url(:/icon_button/notepad.png);
 	qproperty-iconSize: 30px;
 	text-align:left;
 }
@@ -841,7 +841,7 @@ QPushButton:checked
 	border: none;
 	margin: 0px;
 	padding: 0px;
-	icon: url(:/icon button/tabs.png);
+	icon: url(:/icon_button/tabs.png);
 	qproperty-iconSize: 30px;
 	text-align:left;
 }
@@ -903,7 +903,7 @@ QPushButton:checked
 	border: none;
 	margin: 0px;
 	padding: 0px;
-	icon: url(:/icon button/list-1.png);
+	icon:url(:/icon_button/list-1.png);
 	qproperty-iconSize: 30px;
 	text-align:left;
 }
@@ -965,7 +965,7 @@ QPushButton:checked
 	border: none;
 	margin: 0px;
 	padding: 0px;
-	icon: url(:/icon button/volume-control-1.png);
+	icon: url(:/icon_button/volume-control-1.png);
 	qproperty-iconSize: 30px;
 	text-align:left;
 }
@@ -1027,7 +1027,7 @@ QPushButton:checked
 	border: none;
 	margin: 0px;
 	padding: 0px;
-	icon: url(:/icon button/albums.png);
+	icon: url(:/icon_button/albums.png);
 	qproperty-iconSize: 30px;
 	text-align:left;
 }
@@ -1089,7 +1089,7 @@ QPushButton:checked
 	border: none;
 	margin: 0px;
 	padding: 0px;
-	icon: url(:/icon button/minus-1.png);
+	icon: url(:/icon_button/minus.png);
 	qproperty-iconSize: 30px;
 	text-align:left;
 }
@@ -1151,8 +1151,7 @@ QPushButton:checked
 	border: none;
 	margin: 0px;
 	padding: 0px;
-	icon: url(:/icon button/view.png);
-	qproperty-iconSize: 30px;
+	icon: url(:/icon_button/view.png);
 	text-align:left;
 }
 QPushButton:hover
@@ -1213,7 +1212,7 @@ QPushButton:checked
 	border: none;
 	margin: 0px;
 	padding: 0px;
-	icon: url(:/icon button/more-1.png);
+	icon: url(:/icon_button/more-1.png);
 	qproperty-iconSize: 30px;
 	text-align:left;
 }
@@ -1276,7 +1275,7 @@ QPushButton:checked
 	border: none;
 	margin: 0px;
 	padding: 0px;
-	icon: url(:/icon button/share-2.png);
+	icon: url(:/icon_button/share-2.png);
 	qproperty-iconSize: 30px;
 	text-align:left;
 }
@@ -1338,7 +1337,7 @@ QPushButton:checked
 	border: none;
 	margin: 0px;
 	padding: 0px;
-	icon: url(:/icon button/user.png);
+	icon: url(:/icon_button/user.png);
 	qproperty-iconSize: 30px;
 	text-align:left;
 }
@@ -1400,7 +1399,7 @@ QPushButton:checked
 	border: none;
 	margin: 0px;
 	padding: 0px;
-	icon: url(:/icon button/users.png);
+	icon: url(:/icon_button/users.png);
 	qproperty-iconSize: 30px;
 	text-align:left;
 }
@@ -1462,7 +1461,7 @@ QPushButton:checked
 	border: none;
 	margin: 0px;
 	padding: 0px;
-	icon: url(:/icon button/settings-5.png);
+	icon: url(:/icon_button/settings-5.png);
 	qproperty-iconSize: 30px;
 	text-align:left;
 }
@@ -1535,7 +1534,7 @@ QPushButton:checked
             <number>0</number>
            </property>
            <property name="currentIndex">
-            <number>7</number>
+            <number>5</number>
            </property>
            <widget class="QWidget" name="main_page">
             <widget class="QFrame" name="title_frame">
@@ -7161,7 +7160,7 @@ QPushButton:checked
                <string notr="true">background-color: rgb(194, 194, 194);</string>
               </property>
               <property name="currentIndex">
-               <number>4</number>
+               <number>3</number>
               </property>
               <widget class="QWidget" name="module_1">
                <widget class="QGraphicsView" name="graphicsView">
@@ -8227,7 +8226,7 @@ QPushButton:checked
                  </rect>
                 </property>
                 <property name="styleSheet">
-                 <string notr="true">background-image: url(:/module_image/HMI/FormDieset/ISOView.png);</string>
+                 <string notr="true">background-image:url(:/module_image/HMI/FormDieset/RightView.png)</string>
                 </property>
                </widget>
                <widget class="QFrame" name="frame_89">
@@ -8656,7 +8655,7 @@ QPushButton:checked
                  </rect>
                 </property>
                 <property name="styleSheet">
-                 <string notr="true">background-image: url(:/module_image/HMI/TrimDieset/ISO.png);</string>
+                 <string notr="true">background-image: url(:/module_image/HMI/TrimDieset/RightView.png)</string>
                 </property>
                </widget>
                <widget class="QFrame" name="frame_90">
@@ -12820,7 +12819,7 @@ QPushButton:checked
                <rect>
                 <x>390</x>
                 <y>180</y>
-                <width>1121</width>
+                <width>1111</width>
                 <height>491</height>
                </rect>
               </property>
@@ -13052,7 +13051,7 @@ QPushButton:checked
                <set>Qt::AlignCenter</set>
               </property>
              </widget>
-             <widget class="QWidget" name="">
+             <widget class="QWidget" name="layoutWidget">
               <property name="geometry">
                <rect>
                 <x>210</x>
@@ -13558,15 +13557,15 @@ QPushButton:checked
   </widget>
  </widget>
  <resources>
-  <include location="../../../../Pictures/icon packs/resources/qtr.qrc"/>
+  <include location="resources/qtr.qrc"/>
  </resources>
  <connections/>
  <buttongroups>
   <buttongroup name="main_motor_module_button_group"/>
-  <buttongroup name="navigation_button_group"/>
-  <buttongroup name="main_motor_page_button_group"/>
-  <buttongroup name="input_list_page_button_group"/>
-  <buttongroup name="output_list_page_button_group"/>
   <buttongroup name="io_module_button_group"/>
+  <buttongroup name="input_list_page_button_group"/>
+  <buttongroup name="navigation_button_group"/>
+  <buttongroup name="output_list_page_button_group"/>
+  <buttongroup name="main_motor_page_button_group"/>
  </buttongroups>
 </ui>
