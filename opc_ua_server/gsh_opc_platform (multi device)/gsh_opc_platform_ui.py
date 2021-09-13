@@ -1,12 +1,11 @@
 import sys
 from PyQt5.uic import loadUi
-from PyQt5.QtGui import * 
-from PyQt5.QtCore import *
-from PyQt5.QtWidgets import *
+from PyQt5.QtCore import  QThread,QEvent, QTimer
+from PyQt5.QtWidgets import QMainWindow, QApplication
 from queue import Queue
 from pathlib import Path
 import gsh_opc_platform_server as gsh_server
-from io_layout_map import all_label_dict
+from io_layout_map import all_label_dict, all_hmi_dict
 import logging
 from datetime import timedelta, datetime
 import qtrc
@@ -39,6 +38,35 @@ class button_window(QMainWindow):
         self.file_path = Path(__file__).parent.absolute()
         ui_path=self.file_path.joinpath("opc_ui.ui")
         loadUi(ui_path,self)
+        
+        self.io_dict = {}
+        #self.hmi = button_window()
+        self.hmi_label = all_hmi_dict
+        self.label_dict =all_label_dict
+        self.input_queue = Queue()
+        self.server_thread=QThread()
+        self.file_path = Path(__file__).parent.absolute()
+        self.endpoint = "localhost:4840/gshopcua/server"
+        self.logger = logging.getLogger('EVENT')
+        self.logger_alarm = logging.getLogger('ALARM')
+        logTextBox_1 = QTextEditLogger(self.plainTextEdit_1)
+        logTextBox_1.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s',"%d/%m/%Y %H:%M:%S%p"))
+        self.logger.addHandler(logTextBox_1)
+        self.logger.setLevel(logging.INFO)
+        logTextBox_2 = QTextEditLogger(self.plainTextEdit_2)
+        logTextBox_2.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(message)s',"%d/%m/%Y - %H:%M:%S%p"))
+        self.logger_alarm.addHandler(logTextBox_2)
+        self.logger_alarm.setLevel(logging.INFO)
+
+        self.server_worker = gsh_server.OpcServerThread(self.input_queue,self.file_path,self.endpoint)
+        self.server_worker.moveToThread(self.server_thread)
+        self.server_thread.started.connect(self.server_worker.run)
+        self.server_worker.server_logger_signal.connect(self.server_logger)
+        self.server_worker.hmi_signal.connect(self.user_input_handler)
+        self.server_worker.data_signal.connect(self.io_handler)
+        self.server_worker.data_signal_2.connect(self.io_handler_init)
+        self.server_worker.alarm_signal.connect(self.alarm_handler)
+        self.logger.info("Launching Server!")
         
 
         self.stackedWidget.setCurrentIndex(0)
@@ -78,13 +106,13 @@ class button_window(QMainWindow):
         self.main_motor_page_1_button.clicked.connect(lambda: self.main_motor_station_stacked_widget.setCurrentIndex(0))
         self.main_motor_page_2_button.clicked.connect(lambda: self.main_motor_station_stacked_widget.setCurrentIndex(1))
         
-        self.hmi_dict = dict(filter(lambda elem: ('y' in elem[1][0]) , all_label_dict.items()))
+        self.hmi_dict = dict(filter(lambda elem: ('y' in elem[1][0]) , self.label_dict.items()))
         for labels in self.hmi_dict.values():
             label_1 = labels[0]
             indicator_label_1 = eval(f"self.{label_1}")
             indicator_label_1.installEventFilter(self)
 
-
+        self.server_thread.start()
 
     def eventFilter(self, source, event):
         for labels in self.hmi_dict.values():
@@ -92,9 +120,8 @@ class button_window(QMainWindow):
             indicator_label = eval(f"self.{label}")
             if (event.type() == QEvent.MouseButtonDblClick and source is indicator_label):
                 msg = source.text()
-                (msg)
+                self.send_data(msg)
         return super(button_window, self).eventFilter(source, event)
-
 
     def io_list_page_behaviour(self):
         self.stackedWidget.setCurrentIndex(4)
@@ -113,46 +140,11 @@ class button_window(QMainWindow):
         self.main_motor_page_1_button.setChecked(True)
         self.main_motor_station_stacked_widget.setCurrentIndex(0)
 
-
-class server_start(object):  
-
-    def __enter__(self):
-        return self 
-    def __init__(self,gui):
-        self.io_dict = {}
-        self.hmi = button_window()
-        self.label_dict =all_label_dict
-        self.hmi = gui
-        self.input_queue = Queue()
-        self.server_thread=QThread()
-        self.file_path = Path(__file__).parent.absolute()
-        self.endpoint = "localhost:4840/gshopcua/server"
-        self.logger = logging.getLogger('EVENT')
-        self.logger_alarm = logging.getLogger('ALARM')
-        logTextBox_1 = QTextEditLogger(self.hmi.plainTextEdit_1)
-        logTextBox_1.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s',"%d/%m/%Y %H:%M:%S%p"))
-        self.logger.addHandler(logTextBox_1)
-        self.logger.setLevel(logging.INFO)
-        logTextBox_2 = QTextEditLogger(self.hmi.plainTextEdit_2)
-        logTextBox_2.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(message)s',"%d/%m/%Y - %H:%M:%S%p"))
-        self.logger_alarm.addHandler(logTextBox_2)
-        self.logger_alarm.setLevel(logging.INFO)
-        
-
-    def start_server(self):
-        self.server_worker = gsh_server.OpcServerThread(self.input_queue,self.file_path,self.endpoint)
-        self.server_worker.moveToThread(self.server_thread)
-        self.server_thread.started.connect(self.server_worker.run)
-        self.server_worker.server_logger_signal.connect(self.server_logger)
-        self.server_worker.hmi_signal.connect(self.user_input_handler)
-        self.server_worker.data_signal.connect(self.io_handler)
-        self.server_worker.alarm_signal.connect(self.alarm_handler)
-        self.logger.info("Launching Server!")
-        self.server_thread.start()
-
-    def send_data(self,data):
-        print("Sending data")
-        self.input_queue.put(data)
+    def send_data(self,label_text):
+        from_hmi_label = self.hmi_label[label_text]
+        current_value = self.io_dict[from_hmi_label[1]]
+        current_value = 1-current_value
+        self.input_queue.put((2,from_hmi_label[0], current_value))
         
     def server_logger(self, msg):
         self.logger.info(msg)
@@ -162,11 +154,13 @@ class server_start(object):
 
     def alarm_handler(self, msg):
         self.logger_alarm.info(msg)
-
+    
+    def io_handler_init(self, data):
+        for key,value in data.items():
+            self.io_dict.update({key:int(value[4])})
 
     def io_handler(self, data):
         self.io_dict.update({data[0]:data[1]})
-
 
     def history_db_updater(self,data):
         print(data)
@@ -176,7 +170,7 @@ class server_start(object):
             from_data = self.label_dict[key]
             data_value = value
             for label in from_data:
-                indicator_label = eval(f"self.hmi.{label}")
+                indicator_label = eval(f"self.{label}")
                 if data_value == 1:
                     if 'x' in label:
                         indicator_label.setStyleSheet("background-color: rgb(64, 255, 0);color: rgb(0, 0, 0);")
@@ -187,9 +181,8 @@ class server_start(object):
                         indicator_label.setStyleSheet("background-color: rgb(0, 80, 0);color: rgb(200, 200, 200);")
                     if 'y' in label:
                         indicator_label.setStyleSheet("background-color: rgb(80, 0, 0);color: rgb(200, 200, 200);")
-    
-    def __exit__(self, type, value, tb):
-        return self
+
+
 
 
 if __name__ == '__main__':
@@ -197,15 +190,10 @@ if __name__ == '__main__':
     hmi = button_window()
     hmi.show()
     hmi.showMaximized()
-    #server = server_start(hmi)
     current_time = datetime.now()#.replace(microsecond=0, second=0, minute=0)
     added_time = current_time + timedelta(minutes=1)
     label_refresh_timer = QTimer()
-    #label_refresh_timer.timeout.connect(lambda: server.history_db_updater(added_time))
+    label_refresh_timer.timeout.connect(hmi.label_updater)
     label_refresh_timer.start(100)
-    with server_start(hmi) as server:
-        server.start_server()
-        label_refresh_timer.timeout.connect(server.label_updater)
-        hmi.eventFilter.connect(server.send_data)
     sys.exit(app.exec_())
 

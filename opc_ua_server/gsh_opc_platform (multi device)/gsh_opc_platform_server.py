@@ -7,9 +7,9 @@ from datetime import timedelta, datetime
 from asyncua.server.history_sql import HistorySQLite
 import pandas as pd
 import sqlite3
-import time
+
 #io_dict standard dictionary: {variables_id:[variables_ns, device_name, category_name,variable_name,0]}
-#hmi_signal standard: (node_id, namespace, data_value)
+#hmi_signal standard: (namespace, nnode_id, data_value)
 
 
 class SubHmiHandler(object):
@@ -24,6 +24,7 @@ class SubHmiHandler(object):
         ip_address = self.ip_address[from_hmi_struct[1]]
         self.hmi_signal.emit((from_hmi_struct[1], from_hmi_struct[3], val))
         await self.plc_send((from_hmi_struct[3],1,val),ip_address,'write')
+
 
 class SubAlarmHandler(object):
     def __init__(self,alarm_signal):
@@ -54,6 +55,7 @@ class SubVarHandler(object):
 
 class OpcServerThread(QObject):
     data_signal = pyqtSignal(tuple)
+    data_signal_2 = pyqtSignal(dict)
     hmi_signal = pyqtSignal(tuple)
     alarm_signal = pyqtSignal(tuple)
     server_logger_signal = pyqtSignal(str)
@@ -119,6 +121,7 @@ class OpcServerThread(QObject):
         self.source_time = datetime.now()
         data_value = ua.DataValue(ua.Variant(hmi_signal[2], ua.VariantType.Int64),SourceTimestamp=self.source_time, ServerTimestamp=self.source_time)
         await self.server.write_attribute_value(node_id.nodeid, data_value)
+ 
 
     async def is_connected(self,ipaddress):
         try:
@@ -201,7 +204,9 @@ class OpcServerThread(QObject):
         for key in io_dict.keys():
             io_var = self.server.get_node(ua.NodeId(key,io_dict[key][0]))
             await io_sub.subscribe_data_change(io_var,queuesize=1)
+        self.data_signal_2.emit(io_dict)
 
+        
         #combined the alarm and io dictionary for main operation
         io_dict=alarm_dict|io_dict
 
@@ -249,7 +254,7 @@ class OpcServerThread(QObject):
                 value = list(test.values())[0]
                 coil_cat_dict.update({key:(value[3],coil_cat_dict[key])})
             coil_cat_dict_list.append(coil_cat_dict)
-
+        
         i=1
         async with self.server:
             self.server_logger_signal.emit("Server Launched!")
@@ -258,14 +263,13 @@ class OpcServerThread(QObject):
                 current_time = datetime.now().replace(microsecond=0, second=0, minute=0, hour=0)
                 scheduled_database_cleanup_time = current_time + self.time_cleanup
                 stats_reset_time = current_time + self.stats_reset
-                await asyncio.sleep(0.2)
+                await asyncio.sleep(1)
                 for k in range(len(ip_list)):
                     await asyncio.create_task(self.scan_loop_plc(coil_cat_dict_list[k],device_coil_list[k],ip_list[k]))
                 if not self.input_queue.empty():
-                    print("Receiving data")
                     hmi_signal = self.input_queue.get()
-                    #asyncio.ensure_future(self.simple_write_to_opc(hmi_signal))
-                    self.server_logger_signal.emit(hmi_signal)
+                    asyncio.create_task(self.simple_write_to_opc(hmi_signal))
+                    print(hmi_signal)
                 if datetime.now()>= scheduled_database_cleanup_time:
                     for value in self.monitored_node.values():
                         table_name = str(f"{value[0]}_{value[1]}")
