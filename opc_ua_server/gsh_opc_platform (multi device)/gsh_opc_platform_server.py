@@ -40,6 +40,7 @@ class SubIoHandler(object):
     async def datachange_notification(self, node, val, data):
         self.data_signal.emit((node.nodeid.Identifier, val))
 
+
 class SubVarHandler(object):
     def __init__(self,monitored_dict,count):
         self.monitored_node = monitored_dict
@@ -49,7 +50,6 @@ class SubVarHandler(object):
         if val >0:
             value = self.monitored_node[node_identifier]
             await self.count_node((value[0], value[1], val)) #(namespace, node id, amount)
-
         
 
 class OpcServerThread(QObject):
@@ -221,7 +221,7 @@ class OpcServerThread(QObject):
             await var_sub.subscribe_data_change(monitored_var,queuesize=1)
 
 
-
+        #WHERE STRFTIME('%H', SourceTimestamp) > '9'
         #create historizing database for server variables
         server_var_obj = await self.server.nodes.root.get_child(["0:Objects", "2:server_variables"])
         server_var_list = await server_var_obj.get_children()
@@ -254,15 +254,15 @@ class OpcServerThread(QObject):
         async with self.server:
             self.server_logger_signal.emit("Server Launched!")
             while True:
-                tic = time.perf_counter()
+                #tic = time.perf_counter()
                 current_time = datetime.now().replace(microsecond=0, second=0, minute=0, hour=0)
                 scheduled_database_cleanup_time = current_time + self.time_cleanup
                 stats_reset_time = current_time + self.stats_reset
                 await asyncio.sleep(0.2)
                 for k in range(len(ip_list)):
                     await asyncio.create_task(self.scan_loop_plc(coil_cat_dict_list[k],device_coil_list[k],ip_list[k]))
-                #self.ui_refresh_signal.emit()
                 if not self.input_queue.empty():
+                    print("Receiving data")
                     hmi_signal = self.input_queue.get()
                     #asyncio.ensure_future(self.simple_write_to_opc(hmi_signal))
                     self.server_logger_signal.emit(hmi_signal)
@@ -271,9 +271,9 @@ class OpcServerThread(QObject):
                         table_name = str(f"{value[0]}_{value[1]}")
                         asyncio.create_task(self.history_database_cleaner(self.database_file,scheduled_database_cleanup_time,table_name))
                 if datetime.now()>= stats_reset_time:
-                    print(date.now())
-                toc = time.perf_counter()
-                self.server_logger_signal.emit(f"Loop executed in {toc - tic:0.4f} seconds")
+                    print(datetime.now())
+                #toc = time.perf_counter()
+                #self.server_logger_signal.emit(f"Loop executed in {toc - tic:0.4f} seconds")
 
             
 

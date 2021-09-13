@@ -8,8 +8,8 @@ from pathlib import Path
 import gsh_opc_platform_server as gsh_server
 from io_layout_map import all_label_dict
 import logging
-import qtrc
 from datetime import timedelta, datetime
+import qtrc
 
 
 class QTextEditLogger(logging.Handler):
@@ -36,12 +36,10 @@ class button_window(QMainWindow):
     
     def __init__(self):
         super(button_window,self).__init__()
-
-        #-----------------------------------
         self.file_path = Path(__file__).parent.absolute()
         ui_path=self.file_path.joinpath("opc_ui.ui")
         loadUi(ui_path,self)
-
+        
 
         self.stackedWidget.setCurrentIndex(0)
         self.main_page_button.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(0))
@@ -79,6 +77,24 @@ class button_window(QMainWindow):
         self.main_motor_button.clicked.connect(self.main_motor_page_behaviour)
         self.main_motor_page_1_button.clicked.connect(lambda: self.main_motor_station_stacked_widget.setCurrentIndex(0))
         self.main_motor_page_2_button.clicked.connect(lambda: self.main_motor_station_stacked_widget.setCurrentIndex(1))
+        
+        self.hmi_dict = dict(filter(lambda elem: ('y' in elem[1][0]) , all_label_dict.items()))
+        for labels in self.hmi_dict.values():
+            label_1 = labels[0]
+            indicator_label_1 = eval(f"self.{label_1}")
+            indicator_label_1.installEventFilter(self)
+
+
+
+    def eventFilter(self, source, event):
+        for labels in self.hmi_dict.values():
+            label = labels[0]
+            indicator_label = eval(f"self.{label}")
+            if (event.type() == QEvent.MouseButtonDblClick and source is indicator_label):
+                msg = source.text()
+                (msg)
+        return super(button_window, self).eventFilter(source, event)
+
 
     def io_list_page_behaviour(self):
         self.stackedWidget.setCurrentIndex(4)
@@ -98,7 +114,10 @@ class button_window(QMainWindow):
         self.main_motor_station_stacked_widget.setCurrentIndex(0)
 
 
-class server_start(object):   
+class server_start(object):  
+
+    def __enter__(self):
+        return self 
     def __init__(self,gui):
         self.io_dict = {}
         self.hmi = button_window()
@@ -131,8 +150,9 @@ class server_start(object):
         self.logger.info("Launching Server!")
         self.server_thread.start()
 
-    def send_data(self):
-        self.input_queue.put("Test")
+    def send_data(self,data):
+        print("Sending data")
+        self.input_queue.put(data)
         
     def server_logger(self, msg):
         self.logger.info(msg)
@@ -167,7 +187,9 @@ class server_start(object):
                         indicator_label.setStyleSheet("background-color: rgb(0, 80, 0);color: rgb(200, 200, 200);")
                     if 'y' in label:
                         indicator_label.setStyleSheet("background-color: rgb(80, 0, 0);color: rgb(200, 200, 200);")
-
+    
+    def __exit__(self, type, value, tb):
+        return self
 
 
 if __name__ == '__main__':
@@ -175,21 +197,15 @@ if __name__ == '__main__':
     hmi = button_window()
     hmi.show()
     hmi.showMaximized()
-    server = server_start(hmi)
-    hmi.pushButton.clicked.connect(server.send_data)
-    server.start_server()
-
+    #server = server_start(hmi)
     current_time = datetime.now()#.replace(microsecond=0, second=0, minute=0)
     added_time = current_time + timedelta(minutes=1)
     label_refresh_timer = QTimer()
-    label_refresh_timer.timeout.connect(server.label_updater)
     #label_refresh_timer.timeout.connect(lambda: server.history_db_updater(added_time))
     label_refresh_timer.start(100)
-
-
-    
-
-    
-    node_history_timer = QTimer()
+    with server_start(hmi) as server:
+        server.start_server()
+        label_refresh_timer.timeout.connect(server.label_updater)
+        hmi.eventFilter.connect(server.send_data)
     sys.exit(app.exec_())
 

@@ -1535,7 +1535,7 @@ QPushButton:checked
             <number>0</number>
            </property>
            <property name="currentIndex">
-            <number>2</number>
+            <number>3</number>
            </property>
            <widget class="QWidget" name="main_page">
             <widget class="QFrame" name="title_frame">
@@ -2866,19 +2866,6 @@ QPushButton:checked
                 </property>
                </widget>
               </widget>
-             </widget>
-             <widget class="QPushButton" name="pushButton">
-              <property name="geometry">
-               <rect>
-                <x>1060</x>
-                <y>240</y>
-                <width>251</width>
-                <height>41</height>
-               </rect>
-              </property>
-              <property name="text">
-               <string>test input button</string>
-              </property>
              </widget>
             </widget>
            </widget>
@@ -13183,11 +13170,11 @@ QPushButton:checked
  </resources>
  <connections/>
  <buttongroups>
+  <buttongroup name="input_list_page_button_group"/>
+  <buttongroup name="output_list_page_button_group"/>
+  <buttongroup name="main_motor_module_button_group"/>
   <buttongroup name="io_module_button_group"/>
   <buttongroup name="main_motor_page_button_group"/>
-  <buttongroup name="output_list_page_button_group"/>
   <buttongroup name="navigation_button_group"/>
-  <buttongroup name="input_list_page_button_group"/>
-  <buttongroup name="main_motor_module_button_group"/>
  </buttongroups>
 </ui>
