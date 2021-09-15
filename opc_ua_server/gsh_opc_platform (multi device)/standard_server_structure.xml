@@ -2067,6 +2067,7 @@
       <Reference ReferenceType="HasComponent">ns=1;i=10010</Reference>
       <Reference ReferenceType="HasComponent">ns=1;i=10011</Reference>
       <Reference ReferenceType="HasComponent">ns=1;i=10012</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=10013</Reference>
     </References>
   </UAObject>
   <UAVariable NodeId="ns=1;i=10001" BrowseName="1:error_count" ParentNodeId="ns=1;i=10000" DataType="Int64" AccessLevel="3" UserAccessLevel="3">
@@ -2199,6 +2200,17 @@
     </References>
     <Value>
       <uax:Float>0.0</uax:Float>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=10013" BrowseName="1:operation_start_time" ParentNodeId="ns=1;i=10000" DataType="Int64" AccessLevel="3" UserAccessLevel="3">
+    <DisplayName>operation_start_time</DisplayName>
+    <Description>operation_start_time</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=10000</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
     </Value>
   </UAVariable>
 </UANodeSet>

@@ -270,15 +270,6 @@ class OpcServerThread(QObject):
         self.conn.close()
         self.server_logger_signal.emit(('log',"Data Loaded!"))
 
-
-        test_var2 = self.server.get_node(ua.NodeId(2184,2))
-        await self.server.historize_node_data_change(test_var2, period=None, count=0)
-
-
-
-
-
-
         #self.server_signal.emit("Starting server!")
         ip_list = list(self.plc_ip_address.values())
         device_coil_list = [dict(filter(lambda elem: key in elem[1],io_dict.items())) for key in self.plc_ip_address.keys()] #get list of keys in io_dict

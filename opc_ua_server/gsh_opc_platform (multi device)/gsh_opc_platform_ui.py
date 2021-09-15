@@ -179,31 +179,43 @@ class button_window(QMainWindow):
         uptime = datetime.now() - self.start_time
         uptime_text = (str(uptime).split('.', 2)[0])
         self.system_uptime_label.setText(uptime_text)
-
+        """            
+        if not variable.empty:    
+        timestamp = variable.iloc[0]['SourceTimestamp']
+        timestamp = datetime.strptime(timestamp, '%Y-%m-%d %H:%M:%S.%f')
+        """
+                
 
     def info_updater(self):
         self.conn = sqlite3.connect(self.file_path.joinpath(self.database_file))
+        table_list=[10001,10002,10003,10004,10005,10006,10007,10008,10009,10010,10011,10012]
         variable_list=[]
-
-        for i in range(1,13):
-            try:
-                variable = pd.read_sql_query(f"SELECT Value FROM '2_100{i:02d}' ORDER BY _Id DESC LIMIT 1", self.conn)
-                variable_list.append(variable.iloc[0]['Value'])
-            except: 
-                variable_list.append(str(0))
+        for items in table_list:
+            variable = pd.read_sql_query(f"SELECT Value,SourceTimestamp FROM '2_{items}' ORDER BY _Id DESC LIMIT 1", self.conn)
+            if not variable.empty:
+                last_variable = variable.iloc[0]['Value']
+                variable_list.append(last_variable)
+            else:
+                variable_list.append((str(0),str(0))) 
+        
         self.conn.close()
-        self.error_count_label.setText(variable_list[0])
-        self.barcode_fail_count_label.setText(variable_list[1])
-        self.barcode_pass_count_label.setText(variable_list[2])
-        self.total_quantity_in_label.setText(variable_list[3])
-        self.total_quantity_out_label.setText(variable_list[4])
-        self.total_passed_label.setText(variable_list[5])
-        self.total_failed_label.setText(variable_list[6])
-        self.soft_jam_label.setText(variable_list[7])
-        self.hard_jam_label.setText(variable_list[8])
-        self.mtbf_label.setText(variable_list[9])
-        self.mtba_label.setText(variable_list[10])
-        self.total_yield_label.setText(variable_list[11])
+        self.error_count_label.setText(variable_list[0][0])
+        self.barcode_fail_count_label.setText(variable_list[1][0])
+        self.barcode_pass_count_label.setText(variable_list[2][0])
+        self.total_quantity_in_label.setText(variable_list[3][0])
+        self.total_quantity_out_label.setText(variable_list[4][0])
+        self.total_passed_label.setText(variable_list[5][0])
+        self.total_failed_label.setText(variable_list[6][0])
+        self.soft_jam_label.setText(variable_list[7][0])
+        self.hard_jam_label.setText(variable_list[8][0])
+        self.mtbf_label.setText(variable_list[9][0])
+        self.mtba_label.setText(variable_list[10][0])
+        self.total_yield_label.setText(variable_list[11][0])
+
+
+
+        operation_time = datetime.now() - variable_list[12][1]
+        self.operation_time_label.setText(variable_list[12][1])
 
     def label_updater(self):
          for key,value in self.io_dict.items():
