@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>1920</width>
-    <height>1033</height>
+    <height>1034</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -1152,6 +1152,7 @@ QPushButton:checked
 	margin: 0px;
 	padding: 0px;
 	icon: url(:/icon_button/view.png);
+	qproperty-iconSize: 30px;
 	text-align:left;
 }
 QPushButton:hover
@@ -1534,7 +1535,7 @@ QPushButton:checked
             <number>0</number>
            </property>
            <property name="currentIndex">
-            <number>5</number>
+            <number>2</number>
            </property>
            <widget class="QWidget" name="main_page">
             <widget class="QFrame" name="title_frame">
@@ -2303,7 +2304,7 @@ QPushButton:checked
                     </widget>
                    </item>
                    <item row="2" column="1">
-                    <widget class="QLabel" name="system_up_time_label">
+                    <widget class="QLabel" name="system_uptime_label">
                      <property name="text">
                       <string>0</string>
                      </property>
@@ -2784,6 +2785,25 @@ QPushButton:checked
                 </widget>
                </item>
               </layout>
+             </widget>
+             <widget class="QFrame" name="frame_55">
+              <property name="geometry">
+               <rect>
+                <x>50</x>
+                <y>10</y>
+                <width>1681</width>
+                <height>441</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(248, 255, 250);</string>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::StyledPanel</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Raised</enum>
+              </property>
              </widget>
             </widget>
            </widget>
@@ -12827,7 +12847,7 @@ QPushButton:checked
                <string notr="true">background-image: url(:/module_image/HMI/General/TopView.png);</string>
               </property>
              </widget>
-             <widget class="QLabel" name="io_module_label_x0104_2">
+             <widget class="QLabel" name="module_1_label">
               <property name="geometry">
                <rect>
                 <x>500</x>
@@ -12844,7 +12864,7 @@ QPushButton:checked
                </font>
               </property>
               <property name="styleSheet">
-               <string notr="true">background-color: rgb(0, 80, 0);color: rgb(200, 200, 200);</string>
+               <string notr="true">background-color: rgb(80, 0, 0);color: rgb(200, 200, 200);</string>
               </property>
               <property name="frameShape">
                <enum>QFrame::WinPanel</enum>
@@ -12859,7 +12879,7 @@ QPushButton:checked
                <set>Qt::AlignCenter</set>
               </property>
              </widget>
-             <widget class="QLabel" name="io_module_label_x0104_3">
+             <widget class="QLabel" name="module_2_label">
               <property name="geometry">
                <rect>
                 <x>750</x>
@@ -12876,7 +12896,7 @@ QPushButton:checked
                </font>
               </property>
               <property name="styleSheet">
-               <string notr="true">background-color: rgb(0, 80, 0);color: rgb(200, 200, 200);</string>
+               <string notr="true">background-color: rgb(80, 0, 0);color: rgb(200, 200, 200);</string>
               </property>
               <property name="frameShape">
                <enum>QFrame::WinPanel</enum>
@@ -12891,7 +12911,7 @@ QPushButton:checked
                <set>Qt::AlignCenter</set>
               </property>
              </widget>
-             <widget class="QLabel" name="io_module_label_x0104_4">
+             <widget class="QLabel" name="module_3_label">
               <property name="geometry">
                <rect>
                 <x>890</x>
@@ -12908,7 +12928,7 @@ QPushButton:checked
                </font>
               </property>
               <property name="styleSheet">
-               <string notr="true">background-color: rgb(0, 80, 0);color: rgb(200, 200, 200);</string>
+               <string notr="true">background-color: rgb(80, 0, 0);color: rgb(200, 200, 200);</string>
               </property>
               <property name="frameShape">
                <enum>QFrame::WinPanel</enum>
@@ -12923,7 +12943,7 @@ QPushButton:checked
                <set>Qt::AlignCenter</set>
               </property>
              </widget>
-             <widget class="QLabel" name="io_module_label_x0104_5">
+             <widget class="QLabel" name="module_4_label">
               <property name="geometry">
                <rect>
                 <x>1030</x>
@@ -12940,7 +12960,7 @@ QPushButton:checked
                </font>
               </property>
               <property name="styleSheet">
-               <string notr="true">background-color: rgb(0, 80, 0);color: rgb(200, 200, 200);</string>
+               <string notr="true">background-color: rgb(80, 0, 0);color: rgb(200, 200, 200);</string>
               </property>
               <property name="frameShape">
                <enum>QFrame::WinPanel</enum>
@@ -12955,7 +12975,7 @@ QPushButton:checked
                <set>Qt::AlignCenter</set>
               </property>
              </widget>
-             <widget class="QLabel" name="io_module_label_x0104_6">
+             <widget class="QLabel" name="module_5_label">
               <property name="geometry">
                <rect>
                 <x>730</x>
@@ -12972,7 +12992,7 @@ QPushButton:checked
                </font>
               </property>
               <property name="styleSheet">
-               <string notr="true">background-color: rgb(0, 80, 0);color: rgb(200, 200, 200);</string>
+               <string notr="true">background-color: rgb(80, 0, 0);color: rgb(200, 200, 200);</string>
               </property>
               <property name="frameShape">
                <enum>QFrame::WinPanel</enum>
@@ -12987,7 +13007,7 @@ QPushButton:checked
                <set>Qt::AlignCenter</set>
               </property>
              </widget>
-             <widget class="QLabel" name="io_module_label_x0104_7">
+             <widget class="QLabel" name="module_6_label">
               <property name="geometry">
                <rect>
                 <x>1200</x>
@@ -13004,7 +13024,7 @@ QPushButton:checked
                </font>
               </property>
               <property name="styleSheet">
-               <string notr="true">background-color: rgb(0, 80, 0);color: rgb(200, 200, 200);</string>
+               <string notr="true">background-color: rgb(80, 0, 0);color: rgb(200, 200, 200);</string>
               </property>
               <property name="frameShape">
                <enum>QFrame::WinPanel</enum>
@@ -13019,7 +13039,7 @@ QPushButton:checked
                <set>Qt::AlignCenter</set>
               </property>
              </widget>
-             <widget class="QLabel" name="io_module_label_x0104_8">
+             <widget class="QLabel" name="module_7_label">
               <property name="geometry">
                <rect>
                 <x>1360</x>
@@ -13036,7 +13056,7 @@ QPushButton:checked
                </font>
               </property>
               <property name="styleSheet">
-               <string notr="true">background-color: rgb(0, 80, 0);color: rgb(200, 200, 200);</string>
+               <string notr="true">background-color: rgb(80, 0, 0);color: rgb(200, 200, 200);</string>
               </property>
               <property name="frameShape">
                <enum>QFrame::WinPanel</enum>
@@ -13045,7 +13065,7 @@ QPushButton:checked
                <enum>QFrame::Raised</enum>
               </property>
               <property name="text">
-               <string>Module 6</string>
+               <string>Module 7</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignCenter</set>
@@ -13308,6 +13328,705 @@ QPushButton:checked
              <property name="frameShadow">
               <enum>QFrame::Raised</enum>
              </property>
+             <widget class="QFrame" name="frame_56">
+              <property name="geometry">
+               <rect>
+                <x>60</x>
+                <y>70</y>
+                <width>361</width>
+                <height>211</height>
+               </rect>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::StyledPanel</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Raised</enum>
+              </property>
+              <layout class="QGridLayout" name="gridLayout">
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+               <property name="spacing">
+                <number>6</number>
+               </property>
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_16">
+                 <property name="text">
+                  <string>Condition</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QLabel" name="module_7_label_8">
+                 <property name="minimumSize">
+                  <size>
+                   <width>30</width>
+                   <height>30</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>20</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <bold>true</bold>
+                   <underline>false</underline>
+                   <stylestrategy>PreferDefault</stylestrategy>
+                  </font>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgb(85, 255, 0);</string>
+                 </property>
+                 <property name="frameShape">
+                  <enum>QFrame::WinPanel</enum>
+                 </property>
+                 <property name="frameShadow">
+                  <enum>QFrame::Raised</enum>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignCenter</set>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="2">
+                <widget class="QLabel" name="module_7_label_11">
+                 <property name="minimumSize">
+                  <size>
+                   <width>30</width>
+                   <height>30</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>20</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <bold>true</bold>
+                   <underline>false</underline>
+                   <stylestrategy>PreferDefault</stylestrategy>
+                  </font>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgb(255, 255, 0)</string>
+                 </property>
+                 <property name="frameShape">
+                  <enum>QFrame::WinPanel</enum>
+                 </property>
+                 <property name="frameShadow">
+                  <enum>QFrame::Raised</enum>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignCenter</set>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="3">
+                <widget class="QLabel" name="module_7_label_9">
+                 <property name="minimumSize">
+                  <size>
+                   <width>30</width>
+                   <height>30</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>20</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <bold>true</bold>
+                   <underline>false</underline>
+                   <stylestrategy>PreferDefault</stylestrategy>
+                  </font>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgb(255, 0, 0);</string>
+                 </property>
+                 <property name="frameShape">
+                  <enum>QFrame::WinPanel</enum>
+                 </property>
+                 <property name="frameShadow">
+                  <enum>QFrame::Raised</enum>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignCenter</set>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="4">
+                <widget class="QLabel" name="module_7_label_10">
+                 <property name="minimumSize">
+                  <size>
+                   <width>30</width>
+                   <height>30</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>20</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <bold>true</bold>
+                   <underline>false</underline>
+                   <stylestrategy>PreferDefault</stylestrategy>
+                  </font>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color:rgb(28, 83, 0)</string>
+                 </property>
+                 <property name="frameShape">
+                  <enum>QFrame::WinPanel</enum>
+                 </property>
+                 <property name="frameShadow">
+                  <enum>QFrame::Raised</enum>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignCenter</set>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="5">
+                <widget class="QLabel" name="module_7_label_13">
+                 <property name="minimumSize">
+                  <size>
+                   <width>30</width>
+                   <height>30</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>20</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <bold>true</bold>
+                   <underline>false</underline>
+                   <stylestrategy>PreferDefault</stylestrategy>
+                  </font>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color:rgb(136, 136, 0)</string>
+                 </property>
+                 <property name="frameShape">
+                  <enum>QFrame::WinPanel</enum>
+                 </property>
+                 <property name="frameShadow">
+                  <enum>QFrame::Raised</enum>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignCenter</set>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="6">
+                <widget class="QLabel" name="module_7_label_12">
+                 <property name="minimumSize">
+                  <size>
+                   <width>30</width>
+                   <height>30</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>20</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <bold>true</bold>
+                   <underline>false</underline>
+                   <stylestrategy>PreferDefault</stylestrategy>
+                  </font>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color:rgb(139, 0, 0);</string>
+                 </property>
+                 <property name="frameShape">
+                  <enum>QFrame::WinPanel</enum>
+                 </property>
+                 <property name="frameShadow">
+                  <enum>QFrame::Raised</enum>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignCenter</set>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QLabel" name="label_72">
+                 <property name="text">
+                  <string>Machine Running</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QCheckBox" name="checkBox_40">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="2">
+                <widget class="QCheckBox" name="checkBox_47">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="3">
+                <widget class="QCheckBox" name="checkBox_54">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="4">
+                <widget class="QCheckBox" name="checkBox_61">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="5">
+                <widget class="QCheckBox" name="checkBox_68">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="6">
+                <widget class="QCheckBox" name="checkBox_87">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="layoutDirection">
+                  <enum>Qt::LeftToRight</enum>
+                 </property>
+                 <property name="autoFillBackground">
+                  <bool>false</bool>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="label_73">
+                 <property name="text">
+                  <string>Machine Stop</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <widget class="QCheckBox" name="checkBox_41">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="2">
+                <widget class="QCheckBox" name="checkBox_48">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="3">
+                <widget class="QCheckBox" name="checkBox_55">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="4">
+                <widget class="QCheckBox" name="checkBox_62">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="5">
+                <widget class="QCheckBox" name="checkBox_69">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="6">
+                <widget class="QCheckBox" name="checkBox_83">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="0">
+                <widget class="QLabel" name="label_70">
+                 <property name="text">
+                  <string>Machine Alarm</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="1">
+                <widget class="QCheckBox" name="checkBox_42">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="2">
+                <widget class="QCheckBox" name="checkBox_49">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="3">
+                <widget class="QCheckBox" name="checkBox_56">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="4">
+                <widget class="QCheckBox" name="checkBox_63">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="5">
+                <widget class="QCheckBox" name="checkBox_70">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="6">
+                <widget class="QCheckBox" name="checkBox_84">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="0">
+                <widget class="QLabel" name="label_71">
+                 <property name="text">
+                  <string>No Material</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="1">
+                <widget class="QCheckBox" name="checkBox_43">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="2">
+                <widget class="QCheckBox" name="checkBox_50">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="3">
+                <widget class="QCheckBox" name="checkBox_57">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="4">
+                <widget class="QCheckBox" name="checkBox_64">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="5">
+                <widget class="QCheckBox" name="checkBox_71">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="6">
+                <widget class="QCheckBox" name="checkBox_85">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="5" column="0">
+                <widget class="QLabel" name="label_14">
+                 <property name="text">
+                  <string>Door Bypass</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="5" column="1">
+                <widget class="QCheckBox" name="checkBox_44">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="5" column="2">
+                <widget class="QCheckBox" name="checkBox_51">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="5" column="3">
+                <widget class="QCheckBox" name="checkBox_58">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="5" column="4">
+                <widget class="QCheckBox" name="checkBox_65">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="5" column="5">
+                <widget class="QCheckBox" name="checkBox_72">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="5" column="6">
+                <widget class="QCheckBox" name="checkBox_86">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
             </widget>
            </widget>
            <widget class="QWidget" name="life_cycle_page">
@@ -13544,6 +14263,19 @@ QPushButton:checked
              <property name="frameShadow">
               <enum>QFrame::Raised</enum>
              </property>
+             <widget class="QPushButton" name="start_server_button">
+              <property name="geometry">
+               <rect>
+                <x>130</x>
+                <y>90</y>
+                <width>75</width>
+                <height>24</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Start Server</string>
+              </property>
+             </widget>
             </widget>
            </widget>
           </widget>
@@ -13561,11 +14293,11 @@ QPushButton:checked
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="main_motor_module_button_group"/>
-  <buttongroup name="io_module_button_group"/>
-  <buttongroup name="input_list_page_button_group"/>
-  <buttongroup name="navigation_button_group"/>
   <buttongroup name="output_list_page_button_group"/>
+  <buttongroup name="io_module_button_group"/>
   <buttongroup name="main_motor_page_button_group"/>
+  <buttongroup name="navigation_button_group"/>
+  <buttongroup name="input_list_page_button_group"/>
+  <buttongroup name="main_motor_module_button_group"/>
  </buttongroups>
 </ui>

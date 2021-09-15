@@ -5,6 +5,7 @@
   </NamespaceUris>
   <Aliases>
     <Alias Alias="Int64">i=8</Alias>
+    <Alias Alias="Float">i=10</Alias>
     <Alias Alias="Organizes">i=35</Alias>
     <Alias Alias="HasTypeDefinition">i=40</Alias>
     <Alias Alias="HasComponent">i=47</Alias>
@@ -2079,7 +2080,7 @@
       <uax:Int64>0</uax:Int64>
     </Value>
   </UAVariable>
-  <UAVariable NodeId="ns=1;i=10002" BrowseName="1:barcode_fail_count" ParentNodeId="ns=1;i=10000" DataType="Int64" AccessLevel="75" UserAccessLevel="3" Historizing="true">
+  <UAVariable NodeId="ns=1;i=10002" BrowseName="1:barcode_fail_count" ParentNodeId="ns=1;i=10000" DataType="Int64" AccessLevel="75" UserAccessLevel="3">
     <DisplayName>barcode_fail_count</DisplayName>
     <Description>barcode_fail_count</Description>
     <References>
@@ -2101,7 +2102,7 @@
       <uax:Int64>0</uax:Int64>
     </Value>
   </UAVariable>
-  <UAVariable NodeId="ns=1;i=10004" BrowseName="1:total_quantity_in" ParentNodeId="ns=1;i=10000" DataType="Int64" AccessLevel="75" UserAccessLevel="3" Historizing="true">
+  <UAVariable NodeId="ns=1;i=10004" BrowseName="1:total_quantity_in" ParentNodeId="ns=1;i=10000" DataType="Int64" AccessLevel="75" UserAccessLevel="3">
     <DisplayName>total_quantity_in</DisplayName>
     <Description>total_quantity_in</Description>
     <References>
@@ -2112,7 +2113,7 @@
       <uax:Int64>0</uax:Int64>
     </Value>
   </UAVariable>
-  <UAVariable NodeId="ns=1;i=10005" BrowseName="1:total_quantity_out" ParentNodeId="ns=1;i=10000" DataType="Int64" AccessLevel="75" UserAccessLevel="3" Historizing="true">
+  <UAVariable NodeId="ns=1;i=10005" BrowseName="1:total_quantity_out" ParentNodeId="ns=1;i=10000" DataType="Int64" AccessLevel="75" UserAccessLevel="3">
     <DisplayName>total_quantity_out</DisplayName>
     <Description>total_quantity_out</Description>
     <References>
@@ -2189,7 +2190,7 @@
       <uax:Int64>0</uax:Int64>
     </Value>
   </UAVariable>
-  <UAVariable NodeId="ns=1;i=10012" BrowseName="1:total_yield" ParentNodeId="ns=1;i=10000" DataType="Int64" AccessLevel="75" UserAccessLevel="3" Historizing="true">
+  <UAVariable NodeId="ns=1;i=10012" BrowseName="1:total_yield" ParentNodeId="ns=1;i=10000" DataType="Float">
     <DisplayName>total_yield</DisplayName>
     <Description>total_yield</Description>
     <References>
@@ -2197,7 +2198,7 @@
       <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
     </References>
     <Value>
-      <uax:Int64>0</uax:Int64>
+      <uax:Float>0.0</uax:Float>
     </Value>
   </UAVariable>
 </UANodeSet>

@@ -7,7 +7,7 @@ from pathlib import Path
 import gsh_opc_platform_server as gsh_server
 from io_layout_map import all_label_dict, all_hmi_dict
 import logging
-from datetime import timedelta, datetime
+from datetime import datetime
 import qtqr
 import pandas as pd
 import sqlite3
@@ -57,6 +57,16 @@ class button_window(QMainWindow):
         logTextBox_2.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(message)s',"%d/%m/%Y - %H:%M:%S%p"))
         self.logger_alarm.addHandler(logTextBox_2)
         self.logger_alarm.setLevel(logging.INFO)
+        self.start_time = datetime.now()
+
+        self.server_worker = gsh_server.OpcServerThread(self.input_queue,self.file_path,self.endpoint)
+        self.server_worker.moveToThread(self.server_thread)
+        self.server_thread.started.connect(self.server_worker.run)
+        self.server_worker.server_logger_signal.connect(self.server_logger_handler)
+        self.server_worker.data_signal.connect(self.io_handler)
+        self.server_worker.data_signal_2.connect(self.io_handler_init)
+        self.server_worker.exit_signal.connect(self.server_close)
+
 
         self.stackedWidget.setCurrentIndex(0)
         self.main_page_button.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(0))
@@ -106,20 +116,12 @@ class button_window(QMainWindow):
                 indicator_label_1 = eval(f"self.{label_1}")
                 indicator_label_1.installEventFilter(self)
 
-
-        
     def server_start(self):
-        self.server_worker = gsh_server.OpcServerThread(self.input_queue,self.file_path,self.endpoint)
-        self.server_worker.moveToThread(self.server_thread)
-        self.server_thread.started.connect(self.server_worker.run)
-        self.server_worker.server_logger_signal.connect(self.server_logger)
-        self.server_worker.data_signal.connect(self.io_handler)
-        self.server_worker.data_signal_2.connect(self.io_handler_init)
-        self.server_worker.alarm_signal.connect(self.alarm_handler)
-        self.logger.info("Launching Server!")
         self.server_thread.start()
 
-
+    def server_close(self):
+        self.server_thread.exit()
+        sys.exit()
 
     def eventFilter(self, source, event):
         if event.type() == QEvent.MouseButtonDblClick:
@@ -158,12 +160,14 @@ class button_window(QMainWindow):
         msg = str((from_hmi_label[0], current_value))
         self.logger.info(msg)
 
-    def server_logger(self, msg):
-        self.logger.info(msg)
+    def server_logger_handler(self, emit_data):
+        if emit_data[0] =='log':
+            msg = emit_data[1]
+            self.logger.info(msg)
+        elif emit_data[0] == 'alarm':
+            msg = emit_data[1]
+            self.logger_alarm.info(msg)
 
-    def alarm_handler(self, msg):
-        self.logger_alarm.info(msg)
-    
     def io_handler_init(self, data):
         for key,value in data.items():
             self.io_dict.update({key:int(value[4])})
@@ -171,27 +175,35 @@ class button_window(QMainWindow):
     def io_handler(self, data):
         self.io_dict.update({data[0]:data[1]})
 
+    def uptime(self):
+        uptime = datetime.now() - self.start_time
+        uptime_text = (str(uptime).split('.', 2)[0])
+        self.system_uptime_label.setText(uptime_text)
+
 
     def info_updater(self):
         self.conn = sqlite3.connect(self.file_path.joinpath(self.database_file))
-        current_qty_in_data = pd.read_sql_query(f"SELECT Value FROM '2_10004' ORDER BY _Id DESC LIMIT 1", self.conn)
-        current_qty_in_data = current_qty_in_data.iloc[0]['Value']
-        current_qty_out_data = pd.read_sql_query(f"SELECT Value FROM '2_10005' ORDER BY _Id DESC LIMIT 1", self.conn)
-        current_qty_out_data = current_qty_out_data.iloc[0]['Value']
-        current_qty_passed_data = pd.read_sql_query(f"SELECT Value FROM '2_10006' ORDER BY _Id DESC LIMIT 1", self.conn)
-        current_qty_passed_data = current_qty_passed_data.iloc[0]['Value']
-        current_qty_failed_data = pd.read_sql_query(f"SELECT Value FROM '2_10007' ORDER BY _Id DESC LIMIT 1", self.conn)
-        current_qty_failed_data = current_qty_failed_data.iloc[0]['Value']
+        variable_list=[]
 
-        
+        for i in range(1,13):
+            try:
+                variable = pd.read_sql_query(f"SELECT Value FROM '2_100{i:02d}' ORDER BY _Id DESC LIMIT 1", self.conn)
+                variable_list.append(variable.iloc[0]['Value'])
+            except: 
+                variable_list.append(str(0))
         self.conn.close()
-        total_yield = abs((int(current_qty_passed_data)//int(current_qty_in_data))/100)
-        self.total_failed_label.setText(current_qty_failed_data)
-        self.total_passed_label.setText(current_qty_passed_data)
-        self.total_quantity_in_label.setText(current_qty_in_data)
-        self.total_quantity_out_label.setText(current_qty_out_data)
-        self.total_yield_label.setText(str(total_yield))
-
+        self.error_count_label.setText(variable_list[0])
+        self.barcode_fail_count_label.setText(variable_list[1])
+        self.barcode_pass_count_label.setText(variable_list[2])
+        self.total_quantity_in_label.setText(variable_list[3])
+        self.total_quantity_out_label.setText(variable_list[4])
+        self.total_passed_label.setText(variable_list[5])
+        self.total_failed_label.setText(variable_list[6])
+        self.soft_jam_label.setText(variable_list[7])
+        self.hard_jam_label.setText(variable_list[8])
+        self.mtbf_label.setText(variable_list[9])
+        self.mtba_label.setText(variable_list[10])
+        self.total_yield_label.setText(variable_list[11])
 
     def label_updater(self):
          for key,value in self.io_dict.items():
@@ -218,10 +230,13 @@ if __name__ == '__main__':
     hmi = button_window()
     hmi.show()
     hmi.showMaximized()
-    #hmi.server_start() #Disable comment to start server
-    label_refresh_timer = QTimer()
-    label_refresh_timer.timeout.connect(hmi.label_updater)
-    label_refresh_timer.timeout.connect(hmi.info_updater)
-    label_refresh_timer.start(100)
+    hmi.server_start() #Disable comment to start server
+    ms100_timer = QTimer()
+    ms1000_timer = QTimer()
+    ms100_timer.timeout.connect(hmi.label_updater)
+    ms100_timer.timeout.connect(hmi.info_updater)
+    ms1000_timer.timeout.connect(hmi.uptime)
+    ms100_timer.start(100)
+    ms1000_timer.start(1000)
     sys.exit(app.exec_())
 
