@@ -1,17 +1,23 @@
-from datetime import datetime, timedelta
-week_test = datetime.today().month
+import asyncio
+import sys
+# sys.path.insert(0, "..")
+import logging
+from asyncua import Client, Node, ua
+from datetime import datetime
+logging.basicConfig(level=logging.INFO)
+_logger = logging.getLogger('asyncua')
 
-print(week_test)
 
-"""
-            try:
-                last_known_timestamp = previous_data.iloc[0]['SourceTimestamp']
-                last_known_timestamp = datetime.strptime(last_known_timestamp, '%Y-%m-%d %H:%M:%S.%f')
-                previous_month = last_known_timestamp.month
-            except:
-                previous_ww = datetime.today().isocalendar()[1]
-            if previous_ww != datetime.today().isocalendar()[1]:
-                initial_value = 0
-                crsr.execute(f"DELETE FROM '{value[0]}_{value[1]}';")
-                self.server_logger_signal.emit(('log',"Executing database cleanup!"))
-            else:"""
+async def main():
+    url = 'opc.tcp://localhost:4840/gshopcua/server'
+    # url = 'opc.tcp://commsvr.com:51234/UA/CAS_UA_Server'
+    async with Client(url=url) as client:
+        data = 1
+        source_time = datetime.utcnow()
+        var = client.get_node(ua.NodeId(2048, 2))
+        data_value = ua.DataValue(ua.Variant(data, ua.VariantType.Int64),SourceTimestamp=source_time, ServerTimestamp=source_time)
+        await var.write_value(data_value)
+       
+
+if __name__ == '__main__':
+    asyncio.run(main())

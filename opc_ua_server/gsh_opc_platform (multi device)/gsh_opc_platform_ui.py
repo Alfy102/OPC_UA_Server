@@ -6,9 +6,9 @@ from queue import Queue
 from pathlib import Path
 import gsh_opc_platform_server as gsh_server
 import gsh_opc_platform_client as gsh_client
-from io_layout_map import all_label_dict, all_hmi_dict, all_alarm_dict
+from io_layout_map import all_label_dict, all_hmi_dict, all_alarm_dict, info_layout_node, monitored_time_node
 import logging
-from datetime import datetime
+from datetime import date, datetime
 from time import sleep
 import qtqr
 import pandas as pd
@@ -47,7 +47,8 @@ class button_window(QMainWindow):
         self.plc_address = {'PLC1':'127.0.0.1:8501'}
         self.io_dict = {}
         self.hmi_label = all_hmi_dict
-        self.label_dict =all_label_dict
+        self.label_dict = all_label_dict
+        self.start_time = datetime.now()
         self.input_queue = Queue()
         self.file_path = Path(__file__).parent.absolute()
         self.endpoint = "localhost:4840/gshopcua/server"
@@ -63,18 +64,19 @@ class button_window(QMainWindow):
         self.logger_alarm.setLevel(logging.INFO)
         self.server_process = Process(target=gsh_server.OpcServerThread, args=(self.plc_address,self.file_path,self.endpoint, ))
         self.server_process.daemon = True    
-
+        self.time_node = dict((v[1],k) for k,v in monitored_time_node.items())
 
 
 
         self.client_thread=QThread()
-        self.client_worker = gsh_client.OpcClientThread(self.input_queue,self.file_path,self.endpoint,all_label_dict, all_alarm_dict)
+        self.client_worker = gsh_client.OpcClientThread(self.input_queue,self.start_time,self.endpoint,all_label_dict, all_alarm_dict)
         self.client_worker.moveToThread(self.client_thread)
         self.client_thread.started.connect(self.client_worker.run)
         self.client_worker.server_logger_signal.connect(self.server_logger_handler)
         self.client_worker.data_signal.connect(self.io_handler)
+        self.client_worker.info_signal.connect(self.info_handler)
         self.client_worker.ui_refresh_signal.connect(self.label_updater)
-        #self.client_worker.ui_refresh_signal.connect(self.info_updater)
+        self.client_worker.ui_refresh_signal.connect(self.uptime)
 
 
         self.stackedWidget.setCurrentIndex(0)
@@ -184,6 +186,15 @@ class button_window(QMainWindow):
     def io_handler(self, data):
         self.io_dict.update({data[0]:data[1]})
 
+
+    def info_handler(self, data):
+        info_label = info_layout_node[data[0]]
+        info_label = eval(f"self.{info_label}")
+        if isinstance(data[1], int):
+            info_label.setText(str(data[1]))
+        elif isinstance(data[1], float):
+            info_label.setText(f"{data[1]:.2f}")
+
     def uptime(self):
         uptime = datetime.now() - self.start_time
         uptime_text = (str(uptime).split('.', 2)[0])
@@ -206,8 +217,8 @@ class button_window(QMainWindow):
                     if 'y' in label:
                         indicator_label.setStyleSheet("background-color: rgb(80, 0, 0);color: rgb(200, 200, 200);")
 
-    def lot_into_updater(self):
-        print("Update info")
+
+
 
         
 if __name__ == '__main__':

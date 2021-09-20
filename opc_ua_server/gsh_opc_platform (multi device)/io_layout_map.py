@@ -110,7 +110,8 @@ all_label_dict = {
     2113: ['label_y6212'],
     2114: ['label_y6213'],
     2115: ['label_y6214'],
-    2116: ['label_y6215']
+    2116: ['label_y6215'],
+    2048: ['label_y7100']
     }
 
 all_alarm_dict={
@@ -171,7 +172,8 @@ all_hmi_dict = {
     'Y6212': [2032,2113],
     'Y6213': [2033,2114],
     'Y6214': [2034,2115],
-    'Y6215': [2035,2116],  
+    'Y6215': [2035,2116],
+    'Y7100': [2048,2048]
 }
 
 monitored_node = {
@@ -184,6 +186,31 @@ monitored_node = {
     2173:(2,10007),
     2174:(2,10008),
     2175:(2,10009),
-    #2184:(2,10015)
-    
 }
+
+monitored_time_node={
+    2048:(2,10100),
+    2063:(2,10101),
+    2117:(2,10102),
+}
+
+info_layout_node={
+    10001: 'error_count_label',
+    10002: 'barcode_fail_count_label',
+    10003: 'barcode_pass_count_label',
+    10004: 'total_quantity_in_label',
+    10005: 'total_quantity_out_label',
+    10006: 'total_passed_label',
+    10007: 'total_failed_label',
+    10008: 'soft_jam_label',
+    10009: 'hard_jam_label',
+    10010: 'mtbf_label',
+    10011: 'mtba_label',
+    10012: 'total_yield_label',
+    10100: 'operation_time_label', #placeholder for system up time
+    10101: 'down_time_label', #placeholder for system up time
+    10102: 'idling_time_label', #placeholder for system up time
+
+
+}
+

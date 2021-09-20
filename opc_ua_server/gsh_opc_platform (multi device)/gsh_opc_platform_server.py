@@ -7,7 +7,7 @@ from asyncua.server.history_sql import HistorySQLite
 from asyncua.ua.uatypes import String
 import pandas as pd
 import sqlite3
-from io_layout_map import monitored_node
+from io_layout_map import monitored_node, monitored_time_node
 #io_dict standard dictionary: {variables_id:[variables_ns, device_name, category_name,variable_name,0]}
 #hmi_signal standard: (namespace, nnode_id, data_value)
 
@@ -24,14 +24,21 @@ class SubHmiHandler(object):
         await self.plc_send((from_hmi_struct[3],1,val),ip_address,'write')
 
 class SubVarHandler(object):
-    def __init__(self,monitored_dict,count):
+    def __init__(self,monitored_dict,count,write_to_opc):
         self.monitored_node = monitored_dict
+        self.write_to_opc = write_to_opc
         self.count_node=count
     async def datachange_notification(self, node, val, data):
         node_identifier = node.nodeid.Identifier
-        if val >0:
-            value = self.monitored_node[node_identifier]
-            await self.count_node((value[0], value[1], val)) #(namespace, node id, amount)
+        items = self.monitored_node[node_identifier]
+        asyncio.create_task(self.count_node((items[0], items[1], val))) #(namespace, node id, amount)
+
+class SubTimeHandler(object):
+    async def datachange_notification(self, node, val, data):
+        node_id = node.nodeid.Identifier
+        test = data.monitored_item.Value.SourceTimestamp
+        print(f"{node_id}, {val}: {test}")
+
 
 class OpcServerThread(object):
     def __init__(self,plc_address,current_file_path,endpoint,parent=None,**kwargs):
@@ -43,6 +50,7 @@ class OpcServerThread(object):
         #node dictionary pointing which node will connect to which node
         #{R100:Total quantity in, R101: Total Passed, R102: Total Failed, R103: Total Quantity Out}
         self.monitored_node = monitored_node
+        #self.time_node = monitored_time_node
         #the scheduled database full cleanup
         self.time_cleanup = timedelta(days=7)
         #the schedule database reset
@@ -68,6 +76,7 @@ class OpcServerThread(object):
         total_yield = (new_value/div_value)*100
         total_yield = round(total_yield, 2)
         return total_yield
+
     async def plc_tcp_socket_request(self,start_device,ipaddress,mode):
         ipaddress = ipaddress.split(':')
         reader, writer = await asyncio.open_connection(ipaddress[0], ipaddress[1])
@@ -102,7 +111,7 @@ class OpcServerThread(object):
     async def simple_write_to_opc(self, data):
         #hmi_signal = (namespace, node_id, data_value)
         node_id=self.server.get_node(ua.NodeId(data[1], data[0]))
-        self.source_time = datetime.now()
+        self.source_time = datetime.utcnow()
         value = data[2]
         if isinstance(value,int):
             data_value = ua.DataValue(ua.Variant(value, ua.VariantType.Int64),SourceTimestamp=self.source_time, ServerTimestamp=self.source_time)
@@ -178,16 +187,28 @@ class OpcServerThread(object):
         io_dict = dict(filter(lambda elem: (elem[1][2]!='hmi') ,self.device_structure.items()))
 
         #create subscription for the monitored nodes and fill with last known data in database
-        var_handler = SubVarHandler(self.monitored_node,self.count_node)
+        var_handler = SubVarHandler(self.monitored_node,self.count_node,self.simple_write_to_opc)
         var_sub = await self.server.create_subscription(self.sub_time, var_handler) 
 
         for key,value in self.monitored_node.items():
-            previous_data = pd.read_sql_query(f"SELECT Value, SourceTimestamp FROM '{value[0]}_{value[1]}' ORDER BY _Id DESC LIMIT 1", self.conn)
-            initial_value = previous_data.iloc[0]['Value']
+            try:
+                previous_data = pd.read_sql_query(f"SELECT Value, SourceTimestamp FROM '{value[0]}_{value[1]}' ORDER BY _Id DESC LIMIT 1", self.conn)
+                initial_value = previous_data.iloc[0]['Value']
+            except:
+                initial_value = 0
+            #initial_value = previous_data.iloc[0]['Value']
             await self.simple_write_to_opc((value[0], value[1], int(initial_value)))
             monitored_var = self.server.get_node(ua.NodeId(key,value[0]))
             await var_sub.subscribe_data_change(monitored_var,queuesize=1)
+        
+        #for key in self.time_node.keys():
+        #    var = self.server.get_node(ua.NodeId(key, 2))
+        #    await var_sub.subscribe_data_change(var,queuesize=1)
 
+
+
+
+        self.conn.close()
         #create historizing database for server variables
         server_var_obj = await self.server.nodes.root.get_child(["0:Objects", "2:server_variables"])
         server_var_list = await server_var_obj.get_children()
@@ -195,7 +216,7 @@ class OpcServerThread(object):
             await self.server.historize_node_data_change(node, period=None, count=0)
             
         #delete the record create from initializing the historizing nodes
-        self.conn.close()
+        
 
         #self.server_signal.emit("Starting server!")
         ip_list = list(self.plc_ip_address.values())
@@ -216,7 +237,7 @@ class OpcServerThread(object):
                 await asyncio.sleep(2)
                 for k in range(len(ip_list)):
                     await asyncio.create_task(self.scan_loop_plc(coil_cat_dict_list[k],device_coil_list[k],ip_list[k]))
-
+        
 
 
 

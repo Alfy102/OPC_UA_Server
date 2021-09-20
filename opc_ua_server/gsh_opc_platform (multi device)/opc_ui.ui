@@ -1535,7 +1535,7 @@ QPushButton:checked
             <number>0</number>
            </property>
            <property name="currentIndex">
-            <number>2</number>
+            <number>3</number>
            </property>
            <widget class="QWidget" name="main_page">
             <widget class="QFrame" name="title_frame">
@@ -2945,6 +2945,38 @@ QPushButton:checked
                 </property>
                </widget>
               </widget>
+             </widget>
+             <widget class="QLabel" name="label_y7100">
+              <property name="geometry">
+               <rect>
+                <x>940</x>
+                <y>260</y>
+                <width>39</width>
+                <height>30</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <bold>true</bold>
+                <underline>false</underline>
+                <stylestrategy>PreferDefault</stylestrategy>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(80, 0, 0);color: rgb(200, 200, 200);</string>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::WinPanel</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Raised</enum>
+              </property>
+              <property name="text">
+               <string>Y7100</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
              </widget>
             </widget>
            </widget>
@@ -14293,11 +14325,11 @@ QPushButton:checked
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="output_list_page_button_group"/>
   <buttongroup name="io_module_button_group"/>
   <buttongroup name="main_motor_page_button_group"/>
   <buttongroup name="navigation_button_group"/>
   <buttongroup name="input_list_page_button_group"/>
   <buttongroup name="main_motor_module_button_group"/>
+  <buttongroup name="output_list_page_button_group"/>
  </buttongroups>
 </ui>
