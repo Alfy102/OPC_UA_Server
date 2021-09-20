@@ -5,12 +5,16 @@ from PyQt5.QtWidgets import QMainWindow, QApplication
 from queue import Queue
 from pathlib import Path
 import gsh_opc_platform_server as gsh_server
-from io_layout_map import all_label_dict, all_hmi_dict
+import gsh_opc_platform_client as gsh_client
+from io_layout_map import all_label_dict, all_hmi_dict, all_alarm_dict
 import logging
 from datetime import datetime
+from time import sleep
 import qtqr
 import pandas as pd
 import sqlite3
+from multiprocessing import Process,Queue
+
 
 class QTextEditLogger(logging.Handler):
     def __init__(self,textEdit):
@@ -40,11 +44,11 @@ class button_window(QMainWindow):
         ui_path=self.file_path.joinpath("opc_ui.ui")
         loadUi(ui_path,self)
         self.database_file = "variable_history.sqlite3"
+        self.plc_address = {'PLC1':'127.0.0.1:8501'}
         self.io_dict = {}
         self.hmi_label = all_hmi_dict
         self.label_dict =all_label_dict
         self.input_queue = Queue()
-        self.server_thread=QThread()
         self.file_path = Path(__file__).parent.absolute()
         self.endpoint = "localhost:4840/gshopcua/server"
         self.logger = logging.getLogger('EVENT')
@@ -57,15 +61,20 @@ class button_window(QMainWindow):
         logTextBox_2.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(message)s',"%d/%m/%Y - %H:%M:%S%p"))
         self.logger_alarm.addHandler(logTextBox_2)
         self.logger_alarm.setLevel(logging.INFO)
-        self.start_time = datetime.now()
+        self.server_process = Process(target=gsh_server.OpcServerThread, args=(self.plc_address,self.file_path,self.endpoint, ))
+        self.server_process.daemon = True    
 
-        self.server_worker = gsh_server.OpcServerThread(self.input_queue,self.file_path,self.endpoint)
-        self.server_worker.moveToThread(self.server_thread)
-        self.server_thread.started.connect(self.server_worker.run)
-        self.server_worker.server_logger_signal.connect(self.server_logger_handler)
-        self.server_worker.data_signal.connect(self.io_handler)
-        self.server_worker.data_signal_2.connect(self.io_handler_init)
-        self.server_worker.exit_signal.connect(self.server_close)
+
+
+
+        self.client_thread=QThread()
+        self.client_worker = gsh_client.OpcClientThread(self.input_queue,self.file_path,self.endpoint,all_label_dict, all_alarm_dict)
+        self.client_worker.moveToThread(self.client_thread)
+        self.client_thread.started.connect(self.client_worker.run)
+        self.client_worker.server_logger_signal.connect(self.server_logger_handler)
+        self.client_worker.data_signal.connect(self.io_handler)
+        self.client_worker.ui_refresh_signal.connect(self.label_updater)
+        #self.client_worker.ui_refresh_signal.connect(self.info_updater)
 
 
         self.stackedWidget.setCurrentIndex(0)
@@ -116,11 +125,15 @@ class button_window(QMainWindow):
                 indicator_label_1 = eval(f"self.{label_1}")
                 indicator_label_1.installEventFilter(self)
 
+
     def server_start(self):
-        self.server_thread.start()
+        self.logger.info("Launching Server!")
+        self.server_process.start()
+        sleep(3)
+        self.client_thread.start()
 
     def server_close(self):
-        self.server_thread.exit()
+        self.server_process.terminate()
         sys.exit()
 
     def eventFilter(self, source, event):
@@ -168,10 +181,6 @@ class button_window(QMainWindow):
             msg = emit_data[1]
             self.logger_alarm.info(msg)
 
-    def io_handler_init(self, data):
-        for key,value in data.items():
-            self.io_dict.update({key:int(value[4])})
-
     def io_handler(self, data):
         self.io_dict.update({data[0]:data[1]})
 
@@ -179,43 +188,6 @@ class button_window(QMainWindow):
         uptime = datetime.now() - self.start_time
         uptime_text = (str(uptime).split('.', 2)[0])
         self.system_uptime_label.setText(uptime_text)
-        """            
-        if not variable.empty:    
-        timestamp = variable.iloc[0]['SourceTimestamp']
-        timestamp = datetime.strptime(timestamp, '%Y-%m-%d %H:%M:%S.%f')
-        """
-                
-
-    def info_updater(self):
-        self.conn = sqlite3.connect(self.file_path.joinpath(self.database_file))
-        table_list=[10001,10002,10003,10004,10005,10006,10007,10008,10009,10010,10011,10012]
-        variable_list=[]
-        for items in table_list:
-            variable = pd.read_sql_query(f"SELECT Value,SourceTimestamp FROM '2_{items}' ORDER BY _Id DESC LIMIT 1", self.conn)
-            if not variable.empty:
-                last_variable = variable.iloc[0]['Value']
-                variable_list.append(last_variable)
-            else:
-                variable_list.append((str(0),str(0))) 
-        
-        self.conn.close()
-        self.error_count_label.setText(variable_list[0][0])
-        self.barcode_fail_count_label.setText(variable_list[1][0])
-        self.barcode_pass_count_label.setText(variable_list[2][0])
-        self.total_quantity_in_label.setText(variable_list[3][0])
-        self.total_quantity_out_label.setText(variable_list[4][0])
-        self.total_passed_label.setText(variable_list[5][0])
-        self.total_failed_label.setText(variable_list[6][0])
-        self.soft_jam_label.setText(variable_list[7][0])
-        self.hard_jam_label.setText(variable_list[8][0])
-        self.mtbf_label.setText(variable_list[9][0])
-        self.mtba_label.setText(variable_list[10][0])
-        self.total_yield_label.setText(variable_list[11][0])
-
-
-
-        operation_time = datetime.now() - variable_list[12][1]
-        self.operation_time_label.setText(variable_list[12][1])
 
     def label_updater(self):
          for key,value in self.io_dict.items():
@@ -234,21 +206,15 @@ class button_window(QMainWindow):
                     if 'y' in label:
                         indicator_label.setStyleSheet("background-color: rgb(80, 0, 0);color: rgb(200, 200, 200);")
 
+    def lot_into_updater(self):
+        print("Update info")
 
-
-
+        
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     hmi = button_window()
     hmi.show()
     hmi.showMaximized()
     hmi.server_start() #Disable comment to start server
-    ms100_timer = QTimer()
-    ms1000_timer = QTimer()
-    ms100_timer.timeout.connect(hmi.label_updater)
-    ms100_timer.timeout.connect(hmi.info_updater)
-    ms1000_timer.timeout.connect(hmi.uptime)
-    ms100_timer.start(100)
-    ms1000_timer.start(1000)
     sys.exit(app.exec_())
 
