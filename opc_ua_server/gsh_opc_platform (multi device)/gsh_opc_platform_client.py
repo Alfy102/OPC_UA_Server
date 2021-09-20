@@ -66,12 +66,12 @@ class OpcClientThread(QObject):
                 alarm_var = client.get_node(f"ns=2;i={node}")
                 await alarm_sub.subscribe_data_change(alarm_var,queuesize=1)
 
-            server_var_obj = await self.server.nodes.root.get_child(["0:Objects", "2:server_variables"])
+            server_var_obj = await client.nodes.root.get_child(["0:Objects", "2:server_variables"])
             server_var_list = await server_var_obj.get_children()
-
+            self.server_logger_signal.emit((('log',server_var_list)))
             
-            for node in server_var_list:
-                await var_sub.subscribe_data_change(node,queuesize=1)
+            #for node in server_var_list:
+            #    await var_sub.subscribe_data_change(node,queuesize=1)
 
             while True:
                 await asyncio.sleep(0.5)

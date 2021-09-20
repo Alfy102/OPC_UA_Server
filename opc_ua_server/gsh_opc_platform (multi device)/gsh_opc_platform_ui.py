@@ -74,7 +74,7 @@ class button_window(QMainWindow):
         self.client_worker.server_logger_signal.connect(self.server_logger_handler)
         self.client_worker.data_signal.connect(self.io_handler)
         self.client_worker.ui_refresh_signal.connect(self.label_updater)
-        self.client_worker.ui_refresh_signal.connect(self.info_updater)
+        #self.client_worker.ui_refresh_signal.connect(self.info_updater)
 
 
         self.stackedWidget.setCurrentIndex(0)
@@ -206,6 +206,10 @@ class button_window(QMainWindow):
                     if 'y' in label:
                         indicator_label.setStyleSheet("background-color: rgb(80, 0, 0);color: rgb(200, 200, 200);")
 
+    def lot_into_updater(self):
+        print("Update info")
+
+        
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     hmi = button_window()
