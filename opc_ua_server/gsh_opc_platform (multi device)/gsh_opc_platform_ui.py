@@ -6,7 +6,7 @@ from queue import Queue
 from pathlib import Path
 import gsh_opc_platform_server as gsh_server
 import gsh_opc_platform_client as gsh_client
-from io_layout_map import all_label_dict, all_hmi_dict, all_alarm_dict, info_layout_node, monitored_time_node
+import io_layout_map as iomp
 import logging
 from datetime import date, datetime
 from time import sleep
@@ -46,8 +46,9 @@ class button_window(QMainWindow):
         self.database_file = "variable_history.sqlite3"
         self.plc_address = {'PLC1':'127.0.0.1:8501'}
         self.io_dict = {}
-        self.hmi_label = all_hmi_dict
-        self.label_dict = all_label_dict
+        self.hmi_label = iomp.all_hmi_dict
+        self.label_dict = iomp.all_label_dict
+        self.alarmn_dict = iomp.all_alarm_dict
         self.start_time = datetime.now()
         self.input_queue = Queue()
         self.file_path = Path(__file__).parent.absolute()
@@ -64,12 +65,12 @@ class button_window(QMainWindow):
         self.logger_alarm.setLevel(logging.INFO)
         self.server_process = Process(target=gsh_server.OpcServerThread, args=(self.plc_address,self.file_path,self.endpoint, ))
         self.server_process.daemon = True    
-        self.time_node = dict((v[1],k) for k,v in monitored_time_node.items())
-
+        self.time_info_layout = iomp.time_info_layout_node
+        self.info_layout_node = iomp.info_layout_node
 
 
         self.client_thread=QThread()
-        self.client_worker = gsh_client.OpcClientThread(self.input_queue,self.start_time,self.endpoint,all_label_dict, all_alarm_dict)
+        self.client_worker = gsh_client.OpcClientThread(self.input_queue,self.start_time,self.endpoint,self.label_dict, self.alarmn_dict)
         self.client_worker.moveToThread(self.client_thread)
         self.client_thread.started.connect(self.client_worker.run)
         self.client_worker.server_logger_signal.connect(self.server_logger_handler)
@@ -77,6 +78,7 @@ class button_window(QMainWindow):
         self.client_worker.info_signal.connect(self.info_handler)
         self.client_worker.ui_refresh_signal.connect(self.label_updater)
         self.client_worker.ui_refresh_signal.connect(self.uptime)
+        self.client_worker.time_data_signal.connect(self.time_calc)
 
 
         self.stackedWidget.setCurrentIndex(0)
@@ -186,9 +188,16 @@ class button_window(QMainWindow):
     def io_handler(self, data):
         self.io_dict.update({data[0]:data[1]})
 
+    def time_calc(self, data):
+        for values in data.values():
+            time_reading = values[2]
+            label = self.time_info_layout[values[1]]
+            time_label = eval(f"self.{label}")
+            time_label.setText(values[2])
+
 
     def info_handler(self, data):
-        info_label = info_layout_node[data[0]]
+        info_label = self.info_layout_node[data[0]]
         info_label = eval(f"self.{info_label}")
         if isinstance(data[1], int):
             info_label.setText(str(data[1]))
@@ -199,6 +208,9 @@ class button_window(QMainWindow):
         uptime = datetime.now() - self.start_time
         uptime_text = (str(uptime).split('.', 2)[0])
         self.system_uptime_label.setText(uptime_text)
+
+
+
 
     def label_updater(self):
          for key,value in self.io_dict.items():

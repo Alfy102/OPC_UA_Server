@@ -2068,9 +2068,10 @@
       <Reference ReferenceType="HasComponent">ns=1;i=10010</Reference>
       <Reference ReferenceType="HasComponent">ns=1;i=10011</Reference>
       <Reference ReferenceType="HasComponent">ns=1;i=10012</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=10100</Reference>
       <Reference ReferenceType="HasComponent">ns=1;i=10101</Reference>
       <Reference ReferenceType="HasComponent">ns=1;i=10102</Reference>
-      <Reference ReferenceType="HasComponent">ns=1;i=10100</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=10103</Reference>
     </References>
   </UAObject>
   <UAVariable NodeId="ns=1;i=10001" BrowseName="1:error_count" ParentNodeId="ns=1;i=10000" DataType="Int64" AccessLevel="3" UserAccessLevel="3">
@@ -2205,31 +2206,9 @@
       <uax:Float>0.0</uax:Float>
     </Value>
   </UAVariable>
-  <UAVariable NodeId="ns=1;i=10101" BrowseName="1:down_time" ParentNodeId="ns=1;i=10000" DataType="Int64" AccessLevel="3" UserAccessLevel="3">
-    <DisplayName>down_time</DisplayName>
-    <Description>down_time</Description>
-    <References>
-      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=10000</Reference>
-      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
-    </References>
-    <Value>
-      <uax:Int64>0</uax:Int64>
-    </Value>
-  </UAVariable>
-  <UAVariable NodeId="ns=1;i=10102" BrowseName="1:idling_time" ParentNodeId="ns=1;i=10000" DataType="Int64" AccessLevel="3" UserAccessLevel="3">
-    <DisplayName>idling_time</DisplayName>
-    <Description>idling_time</Description>
-    <References>
-      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=10000</Reference>
-      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
-    </References>
-    <Value>
-      <uax:Int64>0</uax:Int64>
-    </Value>
-  </UAVariable>
-  <UAVariable NodeId="ns=1;i=2048" BrowseName="1:test_node_1" ParentNodeId="i=85" DataType="Int64" AccessLevel="3" UserAccessLevel="3">
-    <DisplayName>test_node_1</DisplayName>
-    <Description>test_node_1</Description>
+  <UAVariable NodeId="ns=1;i=2048" BrowseName="1:downtime_flag" ParentNodeId="i=85" DataType="Int64" AccessLevel="3" UserAccessLevel="3">
+    <DisplayName>downtime_flag</DisplayName>
+    <Description>downtime_flag</Description>
     <References>
       <Reference ReferenceType="HasComponent" IsForward="false">i=85</Reference>
       <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
@@ -2238,9 +2217,9 @@
       <uax:Int64>0</uax:Int64>
     </Value>
   </UAVariable>
-  <UAVariable NodeId="ns=1;i=2117" BrowseName="1:test_node_3" ParentNodeId="i=85" DataType="Int64" AccessLevel="3" UserAccessLevel="3">
-    <DisplayName>test_node_3</DisplayName>
-    <Description>test_node_3</Description>
+  <UAVariable NodeId="ns=1;i=2117" BrowseName="1:idling_time_flag" ParentNodeId="i=85" DataType="Int64" AccessLevel="3" UserAccessLevel="3">
+    <DisplayName>idling_time_flag</DisplayName>
+    <Description>idling_time_flag</Description>
     <References>
       <Reference ReferenceType="HasComponent" IsForward="false">i=85</Reference>
       <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
@@ -2260,15 +2239,59 @@
       <uax:String>Null</uax:String>
     </Value>
   </UAVariable>
-  <UAVariable NodeId="ns=1;i=2119" BrowseName="1:test_node_4" ParentNodeId="i=85" DataType="String" AccessLevel="3" UserAccessLevel="3">
-    <DisplayName>test_node_4</DisplayName>
-    <Description>test_node_4</Description>
+  <UAVariable NodeId="ns=1;i=2063" BrowseName="1:operation_time_flag" ParentNodeId="i=85" DataType="Int64" AccessLevel="3" UserAccessLevel="3">
+    <DisplayName>operation_time_flag</DisplayName>
+    <Description>operation_time_flag</Description>
     <References>
       <Reference ReferenceType="HasComponent" IsForward="false">i=85</Reference>
       <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
     </References>
     <Value>
-      <uax:String>Null</uax:String>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=10101" BrowseName="1:down_time" ParentNodeId="ns=1;i=10000" DataType="String" AccessLevel="3" UserAccessLevel="3">
+    <DisplayName>down_time</DisplayName>
+    <Description>down_time</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=10000</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:String>0:00:00</uax:String>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=10102" BrowseName="1:idling_time" ParentNodeId="ns=1;i=10000" DataType="String" AccessLevel="3" UserAccessLevel="3">
+    <DisplayName>idling_time</DisplayName>
+    <Description>idling_time</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=10000</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:String>0:00:00</uax:String>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=10103" BrowseName="1:maint_time" ParentNodeId="ns=1;i=10000" DataType="String" AccessLevel="3" UserAccessLevel="3">
+    <DisplayName>maint_time</DisplayName>
+    <Description>maint_time</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=10000</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:String>0:00:00</uax:String>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2118" BrowseName="1:maint_time_flag" ParentNodeId="i=85" DataType="Int64" AccessLevel="3" UserAccessLevel="3">
+    <DisplayName>maint_time_flag</DisplayName>
+    <Description>maint_time_flag</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">i=85</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
     </Value>
   </UAVariable>
 </UANodeSet>
