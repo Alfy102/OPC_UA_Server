@@ -1,13 +1,12 @@
 import asyncio
 from collections import Counter
 from asyncua import ua, Server
-from asyncua.common import node
 from datetime import timedelta, datetime
 from asyncua.server.history_sql import HistorySQLite
-from asyncua.ua.uatypes import String
 import pandas as pd
 import sqlite3
-from io_layout_map import monitored_node, monitored_time_node
+import io_layout_map as iomp
+import time
 #io_dict standard dictionary: {variables_id:[variables_ns, device_name, category_name,variable_name,0]}
 #hmi_signal standard: (namespace, nnode_id, data_value)
 
@@ -42,8 +41,10 @@ class OpcServerThread(object):
         self.endpoint = endpoint
         #node dictionary pointing which node will connect to which node
         #{R100:Total quantity in, R101: Total Passed, R102: Total Failed, R103: Total Quantity Out}
-        self.monitored_node = monitored_node
-        self.time_node = monitored_time_node
+        self.monitored_node = iomp.monitored_node
+        self.time_node = iomp.monitored_time_node
+        self.io_list = list(iomp.all_label_dict.keys())
+        self.alarm_list = list(iomp.all_alarm_list)
         #the scheduled database full cleanup
         self.time_cleanup = timedelta(days=7)
         #the schedule database reset
@@ -115,18 +116,18 @@ class OpcServerThread(object):
         await self.server.write_attribute_value(node_id.nodeid, data_value)
 
     async def is_connected(self,ipaddress):
-        try:
-            r, w = await asyncio.open_connection(ipaddress[0], ipaddress[1])
-            w.close()
-            return True
-        except:
-            #self.server_logger_signal.emit(('log',"Device Not Connected\n Closing application in 10 seconds"))
-            await asyncio.sleep(10)
-            #self.exit_signal.emit()
-        return False
+        r, w = await asyncio.open_connection(ipaddress[0], ipaddress[1])
+        w.close()
 
+    async def history_database_cleaner(self,database_file,table_name):
+        conn = sqlite3.connect(self.file_path.joinpath(database_file))
+        crsr = conn.cursor()
+        crsr.execute(f"DELETE FROM '{table_name}';")
+        conn.commit()
+        conn.close()  
 
     async def opc_server(self):
+        tic = time.perf_counter()
         self.database_file = "variable_history.sqlite3"
         self.conn = sqlite3.connect(self.file_path.joinpath(self.database_file))
         #Configure server to use sqlite as history database (default is a simple memory dict)
@@ -158,8 +159,9 @@ class OpcServerThread(object):
         for ip_address in self.plc_ip_address.values():
             await self.is_connected(ip_address.split(':'))
             await asyncio.sleep(0.5)
-            #self.server_logger_signal.emit(('log',"Device Connected"))
 
+        toc = time.perf_counter()
+        print(f"Program executed for {toc - tic:0.4f} seconds")
         #create hmi subscription handler and initialize it with current value of plc relay
         hmi_dict = dict(filter(lambda elem: elem[1][2]=='hmi',self.device_structure.items()))
         hmi_handler = SubHmiHandler(hmi_dict,self.plc_ip_address,self.plc_tcp_socket_request)
@@ -168,13 +170,15 @@ class OpcServerThread(object):
             hmi_var = self.server.get_node(ua.NodeId(key,hmi_dict[key][0]))
             await hmi_var.set_writable()
             await hmi_sub.subscribe_data_change(hmi_var,queuesize=1)
-        #self.server_logger_signal.emit(('log',"Subscribed to HMI Inputs!"))
+    
         
         io_dict = dict(filter(lambda elem: (elem[1][2]!='hmi') ,self.device_structure.items()))
 
         #create subscription for the monitored nodes and fill with last known data in database
         var_handler = SubVarHandler(self.monitored_node,self.count_node,self.simple_write_to_opc)
         var_sub = await self.server.create_subscription(self.sub_time, var_handler) 
+
+
         #initiate infos from database
         for key,value in self.monitored_node.items():
             try:
@@ -186,6 +190,8 @@ class OpcServerThread(object):
             await self.simple_write_to_opc((value[0], value[1], int(initial_value)))
             monitored_var = self.server.get_node(ua.NodeId(key,value[0]))
             await var_sub.subscribe_data_change(monitored_var,queuesize=1)
+            await self.server.historize_node_data_change(monitored_var, period=None, count=0)
+
 
         #initiate time from database
         for value in self.time_node.values():
@@ -195,17 +201,10 @@ class OpcServerThread(object):
             except:
                 initial_value = '0:00:00'
             await self.simple_write_to_opc((value[0], value[1], initial_value))
-
+            time_var = self.server.get_node(ua.NodeId(value[1],value[0]))
+            await self.server.historize_node_data_change(time_var, period=None, count=100)
 
         self.conn.close()
-        
-        #create historizing database for server variables
-        server_var_obj = await self.server.nodes.root.get_child(["0:Objects", "2:server_variables"])
-        server_var_list = await server_var_obj.get_children()
-
-        for node in server_var_list:
-            await self.server.historize_node_data_change(node, period=None, count=0)
-
 
         #self.server_signal.emit("Starting server!")
         ip_list = list(self.plc_ip_address.values())
@@ -221,13 +220,10 @@ class OpcServerThread(object):
                 coil_cat_dict.update({key:(value[3],coil_cat_dict[key])})
             coil_cat_dict_list.append(coil_cat_dict)
 
-
-
         async with self.server:
             self.server_start_time = datetime.now()
             while True:
-                await asyncio.sleep(0.01)
-                
+                await asyncio.sleep(0.1)
                 for k in range(len(ip_list)):
                     await asyncio.create_task(self.scan_loop_plc(coil_cat_dict_list[k],device_coil_list[k],ip_list[k]))
         
