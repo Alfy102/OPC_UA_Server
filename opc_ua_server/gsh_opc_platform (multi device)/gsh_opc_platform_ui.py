@@ -1,6 +1,6 @@
 import sys
 from PyQt5.uic import loadUi
-from PyQt5.QtCore import  QThread,QEvent, QTimer
+from PyQt5.QtCore import  QThread,QEvent
 from PyQt5.QtWidgets import QMainWindow, QApplication
 from queue import Queue
 from pathlib import Path
@@ -8,11 +8,9 @@ import gsh_opc_platform_server as gsh_server
 import gsh_opc_platform_client as gsh_client
 import io_layout_map as iomp
 import logging
-from datetime import date, datetime
+from datetime import datetime
 from time import sleep
 import qtqr
-import pandas as pd
-import sqlite3
 from multiprocessing import Process,Queue
 
 
@@ -48,7 +46,6 @@ class button_window(QMainWindow):
         self.io_dict = {}
         self.hmi_label = iomp.all_hmi_dict
         self.label_dict = iomp.all_label_dict
-        self.alarmn_dict = iomp.all_alarm_dict
         self.start_time = datetime.now()
         self.input_queue = Queue()
         self.file_path = Path(__file__).parent.absolute()
@@ -70,7 +67,7 @@ class button_window(QMainWindow):
 
 
         self.client_thread=QThread()
-        self.client_worker = gsh_client.OpcClientThread(self.input_queue,self.start_time,self.endpoint,self.label_dict, self.alarmn_dict)
+        self.client_worker = gsh_client.OpcClientThread(self.input_queue,self.endpoint,self.label_dict)
         self.client_worker.moveToThread(self.client_thread)
         self.client_thread.started.connect(self.client_worker.run)
         self.client_worker.server_logger_signal.connect(self.server_logger_handler)
@@ -133,8 +130,8 @@ class button_window(QMainWindow):
     def server_start(self):
         self.logger.info("Launching Server!")
         self.server_process.start()
-        sleep(3)
-        self.client_thread.start()
+
+        #self.client_thread.start()
 
     def server_close(self):
         self.server_process.terminate()
@@ -171,8 +168,8 @@ class button_window(QMainWindow):
 
     def send_data(self,label_text):
         from_hmi_label = self.hmi_label[label_text]
-        current_value = self.io_dict[from_hmi_label[1]]
-        current_value = 1-current_value
+        current_value = 1- self.io_dict[from_hmi_label[1]]
+        #current_value = 1-current_value
         self.input_queue.put((2,from_hmi_label[0], current_value))
         msg = str((from_hmi_label[0], current_value))
         self.logger.info(msg)
@@ -209,9 +206,6 @@ class button_window(QMainWindow):
         uptime_text = (str(uptime).split('.', 2)[0])
         self.system_uptime_label.setText(uptime_text)
 
-
-
-
     def label_updater(self):
          for key,value in self.io_dict.items():
             from_data = self.label_dict[key]
@@ -228,11 +222,7 @@ class button_window(QMainWindow):
                         indicator_label.setStyleSheet("background-color: rgb(0, 80, 0);color: rgb(200, 200, 200);")
                     if 'y' in label:
                         indicator_label.setStyleSheet("background-color: rgb(80, 0, 0);color: rgb(200, 200, 200);")
-
-
-
-
-        
+    
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     hmi = button_window()
