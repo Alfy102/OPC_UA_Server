@@ -77,7 +77,7 @@ class OpcClientThread(QObject):
 
     @pyqtSlot()
     async def client_start(self):
-        await asyncio.sleep(4)
+        await asyncio.sleep(5)
         async with self.client as client:
 
             io_handler = SubIoHandler(self.data_signal)
@@ -91,9 +91,6 @@ class OpcClientThread(QObject):
             for node in self.alarm_list:
                 var = client.get_node(f"ns=2;i={node}")
                 await alarm_sub.subscribe_data_change(var,queuesize=1)
-
-            
-            #self.server_logger_signal.emit((('log',server_var_list)))
             
             info_handler = SubInfoHandler(self.info_signal)
             info_sub = await client.create_subscription(self.sub_time, info_handler) 

@@ -130,8 +130,7 @@ class button_window(QMainWindow):
     def server_start(self):
         self.logger.info("Launching Server!")
         self.server_process.start()
-
-        #self.client_thread.start()
+        self.client_thread.start()
 
     def server_close(self):
         self.server_process.terminate()
@@ -169,7 +168,6 @@ class button_window(QMainWindow):
     def send_data(self,label_text):
         from_hmi_label = self.hmi_label[label_text]
         current_value = 1- self.io_dict[from_hmi_label[1]]
-        #current_value = 1-current_value
         self.input_queue.put((2,from_hmi_label[0], current_value))
         msg = str((from_hmi_label[0], current_value))
         self.logger.info(msg)
