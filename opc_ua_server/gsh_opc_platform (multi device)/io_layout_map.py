@@ -118,15 +118,17 @@ all_label_dict = {
 
     }
 
-all_alarm_dict={
-    2127: [],
-    2128: [],
-    2129: [],
-    2130: [],
-    2131: [],
-    2132: [],
-}
+all_alarm_list=[
+    2127,
+    2128,
+    2129,
+    2130,
+    2131,
+    2132
+]
 
+#'button label': [send to signal, check current value of output]
+#send 1 if output is 0, send 0 if output is 1
 
 all_hmi_dict = {
     'Y6000': [2155,2184],
@@ -195,13 +197,6 @@ monitored_node = {
     2175:(2,10009),
 }
 
-monitored_time_node={
-    2048:(2,10100,''),
-    2063:(2,10101,''),
-    2117:(2,10102,''),
-    2118:(2,10103,'')
-}
-
 info_layout_node={
     10001: 'error_count_label',
     10002: 'barcode_fail_count_label',
@@ -217,6 +212,12 @@ info_layout_node={
     10012: 'total_yield_label',
 }
 
+monitored_time_node={
+    2048:(2,10100),
+    2063:(2,10101),
+    2117:(2,10102),
+    2118:(2,10103)
+}
 time_info_layout_node={
     10100: 'operation_time_label',
     10101: 'down_time_label',
