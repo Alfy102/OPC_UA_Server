@@ -1535,7 +1535,7 @@ QPushButton:checked
             <number>0</number>
            </property>
            <property name="currentIndex">
-            <number>2</number>
+            <number>10</number>
            </property>
            <widget class="QWidget" name="main_page">
             <widget class="QFrame" name="title_frame">
@@ -8796,10 +8796,10 @@ QPushButton:checked
                <widget class="QGraphicsView" name="graphicsView_4">
                 <property name="geometry">
                  <rect>
-                  <x>230</x>
-                  <y>0</y>
-                  <width>671</width>
-                  <height>761</height>
+                  <x>310</x>
+                  <y>70</y>
+                  <width>531</width>
+                  <height>611</height>
                  </rect>
                 </property>
                 <property name="styleSheet">
@@ -13461,8 +13461,8 @@ QPushButton:checked
                <rect>
                 <x>60</x>
                 <y>70</y>
-                <width>361</width>
-                <height>211</height>
+                <width>341</width>
+                <height>311</height>
                </rect>
               </property>
               <property name="frameShape">
