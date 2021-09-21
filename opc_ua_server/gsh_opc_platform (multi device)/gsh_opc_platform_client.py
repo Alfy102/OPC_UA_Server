@@ -1,10 +1,8 @@
 
 from asyncua import Client, ua
 import asyncio
-from queue import Queue
-from pathlib import Path
 from PyQt5.QtCore import QObject, pyqtSignal, pyqtSlot
-from io_layout_map import monitored_time_node, info_layout_node
+import io_layout_map as iomp
 from datetime import datetime, timedelta
 
 
@@ -40,16 +38,16 @@ class OpcClientThread(QObject):
     info_signal = pyqtSignal(tuple)
     ui_refresh_signal=pyqtSignal()
     server_logger_signal=pyqtSignal(tuple)
-    def __init__(self,input_q,start_time,endpoint,label_dict, alarm_dict,parent=None,**kwargs):
+    def __init__(self,input_q,endpoint,label_dict,parent=None,**kwargs):
         super().__init__(parent, **kwargs)
         self.input_queue = input_q
         self.url = endpoint
         self.io_list = list(label_dict.keys())
-        self.alarm_list = list(alarm_dict.keys())
+        self.alarm_list = iomp.all_alarm_list
         self.sub_time = 50
-        self.time_node = monitored_time_node
-        self.info_node = info_layout_node
-        #self.start_time = start_time
+        self.time_node = iomp.monitored_time_node
+        self.info_node = iomp.info_layout_node
+
         url = f"opc.tcp://{self.url}"
         self.client = Client(url=url)
     def run(self):
@@ -63,7 +61,6 @@ class OpcClientThread(QObject):
             flag_node_id = self.client.get_node(ua.NodeId(flag_node, node_ns)) #the trigger flag relay
             time_var_node_id = self.client.get_node(ua.NodeId(time_var_node, node_ns)) #the stored pasued time in OPC
             flag_value = await flag_node_id.read_value()
-
             if flag_value == 1:
                 t = await time_var_node_id.read_data_value()
                 t2 = t.SourceTimestamp #get time the flag triggered
@@ -77,6 +74,7 @@ class OpcClientThread(QObject):
                 current_time_value = values[2]
                 await time_var_node_id.write_value(ua.Variant(current_time_value, ua.VariantType.String))
         return time_dict
+
     @pyqtSlot()
     async def client_start(self):
         await asyncio.sleep(4)
@@ -87,6 +85,7 @@ class OpcClientThread(QObject):
             for nodes in self.io_list:
                 var = client.get_node(f"ns=2;i={nodes}")
                 await io_sub.subscribe_data_change(var,queuesize=1)
+
             alarm_handler = SubAlarmHandler(self.server_logger_signal)  
             alarm_sub = await client.create_subscription(self.sub_time, alarm_handler) 
             for node in self.alarm_list:
@@ -114,7 +113,7 @@ class OpcClientThread(QObject):
 
             while True:
                 self.ui_refresh_signal.emit()
-                await asyncio.sleep(0.1)
+                await asyncio.sleep(0.05)
                 self.time_node = await self.watch_timer(self.time_node)
                 self.time_data_signal.emit(self.time_node)
                 if not self.input_queue.empty():
