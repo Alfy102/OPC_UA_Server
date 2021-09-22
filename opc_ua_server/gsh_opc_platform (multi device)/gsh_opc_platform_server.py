@@ -1,84 +1,81 @@
 import asyncio
-from PyQt5.QtGui import * 
-from PyQt5.QtCore import *
-from PyQt5.QtWidgets import *
-import datetime
-import time
 from collections import Counter
-from asyncua import ua, Server, uamethod
-import gsh_opc_platform_ui as gsh_ui
+from asyncua import ua, Server
+from datetime import timedelta, datetime
 from asyncua.server.history_sql import HistorySQLite
-
-
-#{variables_id:[variables_ns, device_name, category_name,variable_name,0]}
-@uamethod
-def count(parent, x, y):
-    print("multiply method call with parameters: ", x, y)
-    return x + y
+import pandas as pd
+import sqlite3
+import io_layout_map as iomp
+import time
+#io_dict standard dictionary: {variables_id:[device_ip, variables_ns, device_name, category_name,variable_name,0]}
+#hmi_signal standard: (namespace, node_id, data_value)
 
 
 class SubHmiHandler(object):
-    def __init__(self,hmi_dictionary,plc_ip_address,hmi_signal,plc_tcp_socket_request):
+    def __init__(self,hmi_dictionary,plc_tcp_socket_request):
         self.hmi_structure = hmi_dictionary
-        self.ip_address = plc_ip_address
-        self.hmi_signal = hmi_signal
         self.plc_send = plc_tcp_socket_request
     async def datachange_notification(self, node, val, data):
         node_identifier = node.nodeid.Identifier
         from_hmi_struct = self.hmi_structure[node_identifier]
-        ip_address = self.ip_address[from_hmi_struct[1]]
-        self.hmi_signal.emit((from_hmi_struct[1], from_hmi_struct[3], val))
-        await self.plc_send((from_hmi_struct[3],1,val),ip_address,'write')
+        ip_address = from_hmi_struct[0]
+        await self.plc_send(from_hmi_struct[4],val,ip_address,'write')
 
-class SubAlarmHandler(object):
-    def __init__(self,alarm_signal):
-        self.alarm_signal = alarm_signal
-
+class SubVarHandler(object):
+    def __init__(self,monitored_dict,count,write_to_opc):
+        self.monitored_node = monitored_dict
+        self.write_to_opc = write_to_opc
+        self.count_node=count
     async def datachange_notification(self, node, val, data):
-        if val >0:
-            self.alarm_signal.emit((node.nodeid.Identifier, val))
+        node_identifier = node.nodeid.Identifier
+        items = self.monitored_node[node_identifier]
+        asyncio.create_task(self.count_node(items[0], items[1], val)) #(namespace, node id, amount)
 
-class SubIoHandler(object):
-    def __init__(self,data_signal,io_dictionary):
-        self.data_signal = data_signal
-        self.io_dictionary = io_dictionary
-    async def datachange_notification(self, node, val, data):
-        self.data_signal.emit((node.nodeid.Identifier, val))
-
-
-
-class OpcServerThread(QObject):
-    server_signal = pyqtSignal(str)
-    data_signal = pyqtSignal(tuple)
-    alarm_signal = pyqtSignal(tuple)
-    hmi_signal = pyqtSignal(tuple)
-    def __init__(self,input_q,current_file_path,parent=None,**kwargs):
-        super().__init__(parent, **kwargs)
-        self.input_queue = input_q
-        self.device_structure={}
-        self.plc_ip_address={'PLC1':'127.0.0.1:8501'}
+class OpcServerThread(object):
+    def __init__(self,plc_address,current_file_path,endpoint,namespace,parent=None,**kwargs):
+        self.plc_ip_address=plc_address
         self.file_path = current_file_path
-        self.server_class = Server()
-    def run(self):
+        self.server = Server()
+        self.endpoint = endpoint
+        #node dictionary pointing which node will connect to which node
+        #{R100:Total quantity in, R101: Total Passed, R102: Total Failed, R103: Total Quantity Out}
+        self.monitored_node = iomp.monitored_node
+        self.time_node = iomp.monitored_time_node
+        self.io_list = list(iomp.all_label_dict.keys())
+        self.alarm_list = list(iomp.all_alarm_list)
+        self.hmi_list = [item[0] for item in list(iomp.all_hmi_dict.values())]
+        #the scheduled database full cleanup
+        self.time_cleanup = timedelta(days=7)
+        #the schedule database reset
+        self.stats_reset = timedelta(days=1)
+        #delay of subscribtion time in ms. reducing this value will cause server lag.
+        self.sub_time = 50
+        self.hmi_sub = 10
         asyncio.run(self.opc_server())
 
-    async def plc_source_time(self,ipaddress):
-        recv_timestamp = await self.plc_tcp_socket_init(("CM700",6),ipaddress)
-        timestamp = [(f"{i:02}") for i in recv_timestamp]
-        timestamp = ''.join(timestamp)
-        timestamp = datetime.datetime.strptime(timestamp,"%y%m%d%H%M%S")
+    async def count_node(self, name_space,node_id,data_value):
+        node = self.server.get_node(ua.NodeId(node_id, name_space)) 
+        current_value = await node.read_value()
+        new_value = current_value + data_value
+        asyncio.create_task(self.simple_write_to_opc(name_space, node_id, new_value))
+        if node_id == 10006:
+            qty_in_node_id = self.server.get_node(ua.NodeId(10004, 2)) 
+            qty_in_value = await qty_in_node_id.read_value()
+            total_yield = self.yield_calculation(new_value, qty_in_value)
+            asyncio.create_task(self.simple_write_to_opc(2, 10012, total_yield))
+ 
+    def yield_calculation(self,new_value,div_value):
+        total_yield = (new_value/div_value)*100
+        total_yield = round(total_yield, 2)
+        return total_yield
 
-        recv_timestamp = datetime.datetime.now() #place holder time method
-        return recv_timestamp
-
-    async def plc_tcp_socket_request(self,start_device,ipaddress,mode):
+    async def plc_tcp_socket_request(self,start_device,number_of_device,ipaddress,mode):
         ipaddress = ipaddress.split(':')
         reader, writer = await asyncio.open_connection(ipaddress[0], ipaddress[1])
         if mode == 'read':
-            encapsulate = bytes(f"RDS {start_device[0]} {start_device[1]}\r\n","utf-8")
+            encapsulate = bytes(f"RDS {start_device} {number_of_device}\r\n","utf-8")
         elif mode == 'write':
-            encapsulate = bytes(f"WRS {start_device[0]} {start_device[1]} {start_device[2]}\r\n",'utf-8')
-
+            encapsulate = bytes(f"WR {start_device} {number_of_device}\r\n",'utf-8')
         writer.write(encapsulate)
         await writer.drain()
         recv_value = await reader.readuntil(separator=b'\r\n') 
@@ -87,188 +84,138 @@ class OpcServerThread(QObject):
         writer.close()
         return recv_value
 
-    async def scan_loop_plc(self,server,coil_cat_dict_list,device_coil_list,ip_list):
-        for key,values in  coil_cat_dict_list.items():
-            current_relay_list = await self.plc_tcp_socket_request(values,ip_list,'read')
-            cat_filter = dict(filter(lambda elem: key in elem[1],device_coil_list.items()))
-            cat_filter_keys = list(cat_filter.keys())
-            asyncio.ensure_future(self.write_to_opc(server,current_relay_list,cat_filter,cat_filter_keys))
+    async def scan_loop_plc(self,io_dict):
+        group_list = [item[3] for item in list(io_dict.values())]
+        group_item = list(set(group_list))
+        io_dict_list = [dict(filter(lambda elem: elem[1][3]==group,io_dict.items())) for group in group_item]
+        for io_dict in io_dict_list:
+            lead_data = list(io_dict.values())[0]
+            lead_device = lead_data[4]
+            ip_address = lead_data[0]
+            device_size = len(io_dict)
+            current_relay_list = await self.plc_tcp_socket_request(lead_device,device_size,ip_address,'read')
+            i=0
+            for key,value in io_dict.items():
+                value[5]=current_relay_list[i]
+                asyncio.create_task(self.simple_write_to_opc(value[1],key,value[5]))
+                i+=1
 
-    async def write_to_opc(self,server,current_relay_list,cat_filter_items,cat_filter_keys):
-        for i in range(len(current_relay_list)):
-            from_filter = cat_filter_items[cat_filter_keys[i]]
-            from_filter[4]=current_relay_list[i]
-            node_id=server.get_node(ua.NodeId(cat_filter_keys[i], 2))
-            data_value = ua.DataValue(ua.Variant(current_relay_list[i], ua.VariantType.Int64))
-            await server.write_attribute_value(node_id.nodeid, data_value)
+    async def simple_write_to_opc(self, namespace, node_id, data_value):
+        node_id=self.server.get_node(ua.NodeId(node_id, namespace))
+        self.source_time = datetime.utcnow()
+        if isinstance(data_value,int):
+            data_value = ua.DataValue(ua.Variant(data_value, ua.VariantType.Int64),SourceTimestamp=self.source_time, ServerTimestamp=self.source_time)
+        elif isinstance(data_value,float):
+            data_value = ua.DataValue(ua.Variant(data_value, ua.VariantType.Float),SourceTimestamp=self.source_time, ServerTimestamp=self.source_time)
+        elif isinstance(data_value,str):
+            data_value = ua.DataValue(ua.Variant(data_value, ua.VariantType.String),SourceTimestamp=self.source_time, ServerTimestamp=self.source_time)
+        await self.server.write_attribute_value(node_id.nodeid, data_value)
 
+    async def history_database_cleaner(self,database_file,table_name):
+        conn = sqlite3.connect(self.file_path.joinpath(database_file))
+        crsr = conn.cursor()
+        crsr.execute(f"DELETE FROM '{table_name}';")
+        conn.commit()
+        conn.close()  
 
+    async def initialization_nodes(self, dictionary):
+        node_dict={}
+        node_dict.clear()
+        for nodes in dictionary:
+            var = self.server.get_node(ua.NodeId(nodes, 2))
+            var_name = await var.read_display_name()
+            parent_node = await var.get_parent()
+            parent_name = await parent_node.read_display_name()
+            device_node = await parent_node.get_parent()
+            device_name = await device_node.read_display_name()
+            device_ip = self.plc_ip_address[device_name.Text]
+            current_value = await var.read_value()          
+            node_dict.update({nodes:[device_ip, 2, device_name.Text,parent_name.Text,var_name.Text,current_value]})
 
-    async def simple_write_to_opc(self,server,hmi_signal):
-        node_id=server.get_node(ua.NodeId(hmi_signal[0], 2))
-        data_value = ua.DataValue(ua.Variant(hmi_signal[1], ua.VariantType.Int64))
-        await server.write_attribute_value(node_id.nodeid, data_value)
+        return node_dict
 
+    async def initialization_nodes_2(self, list_of_nodes):
+        node_dict={}
+        node_dict.clear()
+        for nodes in list_of_nodes:
+            var = self.server.get_node(ua.NodeId(nodes, 2))
+            var_name = await var.read_display_name()
+            parent_node = await var.get_parent()
+            parent_name = await parent_node.read_display_name()
+            device_node = await parent_node.get_parent()
+            device_name = await device_node.read_display_name()
+            device_ip = self.plc_ip_address[device_name.Text]
+            current_value = await var.read_value()          
+            node_dict.update({nodes:[device_ip, 2, device_name.Text,parent_name.Text,var_name.Text,current_value]})
 
+        return node_dict
 
-    async def is_connected(self,ipaddress):
-        try:
-            r, w = await asyncio.open_connection(ipaddress[0], ipaddress[1])
-            w.close()
-            return True
-        except:
-            pass
-        return False
 
     async def opc_server(self):
-
-        server = self.server_class
-        await server.init()
-        endpoint = "localhost:4840"
-        server.set_endpoint(f"opc.tcp://{endpoint}/gshopcua/server" )
-        self.server_signal.emit(f"Establishing Server at {endpoint}/gshopcua/server")
-
-        server.iserver.history_manager.set_storage(HistorySQLite(self.file_path.joinpath("my_datavalue_history.sql")))
-
-        
+        self.database_file = "variable_history.sqlite3"
+        self.conn = sqlite3.connect(self.file_path.joinpath(self.database_file))
+        #Configure server to use sqlite as history database (default is a simple memory dict)
+        self.server.iserver.history_manager.set_storage(HistorySQLite(self.file_path.joinpath(self.database_file)))
+        await self.server.init()
+        self.server.set_endpoint(f"opc.tcp://{self.endpoint}") 
+     
         #load nodes structure from XML file path
-        try:
-            self.server_signal.emit("Loading Server Structure from file")
-            await server.import_xml(self.file_path.joinpath("standard_server_structure_3.xml"))
-        except FileNotFoundError as e:
-            self.server_signal.emit("Server Structure File not found")
-        await server.load_data_type_definitions()
-        self.server_signal.emit("Loading Server Structure to OPC Server!")
-
+        #await self.server.import_xml(self.file_path.joinpath("standard_server_structure.xml"))
+        #await self.server.load_data_type_definitions()
 
         #load all the nodes inside the XML file into a dictionary variables for easier data handling
-        root_obj = await server.nodes.root.get_child(["0:Objects", "2:Device"])
-        connected_devices = await root_obj.get_children()
-        for devices in connected_devices:
-            device_name = (await devices.read_display_name()).Text
-            device_category = await devices.get_children()
-            for category in device_category:
-                category_name = (await category.read_display_name()).Text
-                variables = await category.get_children()
-                for variables in variables:
-                    await server.historize_node_data_change(variables, period=None, count=100)
-                    variables_id = variables.nodeid.Identifier
-                    variables_ns = variables.nodeid.NamespaceIndex
-                    variable_name = (await variables.read_display_name()).Text
-                    self.device_structure.update({variables_id:[variables_ns, device_name, category_name,variable_name,0]})
-        self.server_signal.emit("Done Initializing Nodes from XML")
+        #io_dict standard dictionary: {io_id:[device_ip, variables_ns, device_name, category_name,variable_name,0]}
+        io_dict = await self.initialization_nodes_2(self.io_list)
+        #alarm_dict = await self.initialization_nodes(self.alarm_list)
+        #hmi_dict = await self.initialization_nodes(self.hmi_list)
+        #var_dict = await self.initialization_nodes(self.hmi_list)
 
-        #enable historizing all nodes
-
-
-
-
-        #check for connected device based on the nodes structure inside the loaded XML file
-        for ip_address in self.plc_ip_address.values():
-            self.server_signal.emit(f"Checking for device at {ip_address}")
-            device_connection = await self.is_connected(ip_address.split(':'))
-            await asyncio.sleep(1)
-            if device_connection == True:
-                self.server_signal.emit(f"Successfully connected to device at {ip_address}!")
-
-            else:
-                self.server_signal.emit(f"Failed to connect to device at {ip_address}. Cannot start Server!")
-        self.server_signal.emit("Initializing Nodes for HMI")
-
-
-        #create hmi subscription handler and initialize it with current value of plc relay
-        hmi_dict = dict(filter(lambda elem: elem[1][2]=='hmi',self.device_structure.items()))
-        hmi_handler = SubHmiHandler(hmi_dict,self.plc_ip_address,self.hmi_signal,self.plc_tcp_socket_request)
-        hmi_sub = await server.create_subscription(1, hmi_handler)  
-        for key in hmi_dict.keys():
-            hmi_var = server.get_node(f"ns={hmi_dict[key][0]};i={key}")
+        """
+        #create hmi subscription handler and initialize it with current value of plc relay     
+        hmi_handler = SubHmiHandler(hmi_dict,self.plc_tcp_socket_request)
+        hmi_sub = await self.server.create_subscription(self.hmi_sub, hmi_handler)  
+        for key,value in hmi_dict.items():
+            hmi_var = self.server.get_node(ua.NodeId(key,value[1]))
             await hmi_var.set_writable()
-            from_hmi_dict = hmi_dict[key]
-            hmi_relays = from_hmi_dict[3]
-            plc_device = from_hmi_dict[1]
-            plc_address = self.plc_ip_address[plc_device]
-            hmi_plc_status = (await self.plc_tcp_socket_request((hmi_relays,1),plc_address,'read'))[0]
-            data_value = ua.DataValue(ua.Variant(hmi_plc_status, ua.VariantType.Int64))
-            await server.write_attribute_value(hmi_var.nodeid, data_value)
             await hmi_sub.subscribe_data_change(hmi_var,queuesize=1)
-            from_hmi_dict[4] = hmi_plc_status
-            hmi_dict.update({key:from_hmi_dict})
-        
+    
+        #create subscription for the monitored nodes and fill with last known data in database
+        var_handler = SubVarHandler(self.monitored_node,self.count_node,self.simple_write_to_opc)
+        var_sub = await self.server.create_subscription(self.sub_time, var_handler) 
+        #initiate infos from database
+        for key,value in self.monitored_node.items():
+            try:
+                previous_data = pd.read_sql_query(f"SELECT Value FROM '{value[0]}_{value[1]}' ORDER BY _Id DESC LIMIT 1", self.conn)
+                initial_value = previous_data.iloc[0]['Value']
+            except:
+                initial_value = 0
 
-        #create alarm subscription handler and pass the self.alarm_signal
-        alarm_handler = SubAlarmHandler(self.alarm_signal)
-        alarm_sub = await server.create_subscription(1, alarm_handler) 
-        alarm_dict = dict(filter(lambda elem: elem[1][2]== 'alarm' ,self.device_structure.items()))
-        for key in alarm_dict.keys():
-            alarm_var = server.get_node(f"ns={alarm_dict[key][0]};i={key}")
-            await alarm_sub.subscribe_data_change(alarm_var,queuesize=1)
+            asyncio.create_task(self.simple_write_to_opc(value[0], value[1], int(initial_value)))
+            monitored_var = self.server.get_node(ua.NodeId(key,value[0]))
+            await var_sub.subscribe_data_change(monitored_var,queuesize=1)
+            await self.server.historize_node_data_change(monitored_var, period=None, count=0)
 
+        #initiate time from database, no subscription is needed. Only last 100 items rememebered
+        for value in self.time_node.values():
+            try:
+                previous_data = pd.read_sql_query(f"SELECT Value FROM '{value[0]}_{value[1]}' ORDER BY _Id DESC LIMIT 1", self.conn)
+                initial_value = previous_data.iloc[0]['Value']
+            except:
+                initial_value = '0:00:00'
+            asyncio.create_task(self.simple_write_to_opc(value[0], value[1], initial_value))
+            time_var = self.server.get_node(ua.NodeId(value[1],value[0]))
+            await self.server.historize_node_data_change(time_var, period=None, count=100)
+        self.conn.close()
 
-        #create io_dict to remove hmi and alarm from device structure for io operation
-        io_dict = dict(filter(lambda elem: (elem[1][2]!='hmi') and (elem[1][2]!='alarm') ,self.device_structure.items()))
-        io_handler = SubIoHandler(self.data_signal,io_dict)
-        io_sub = await server.create_subscription(1, io_handler) 
-        for key in io_dict.keys():
-            io_var = server.get_node(f"ns={io_dict[key][0]};i={key}")
-            await io_sub.subscribe_data_change(io_var,queuesize=1)
+        combined_dict = io_dict|alarm_dict"""
 
-
-
-        objects = server.nodes.objects
-        self.myobj = await objects.add_object(2, "server_method")
-        await self.myobj.add_method(2, "count", count, [ua.VariantType.Int64, ua.VariantType.Int64], [ua.VariantType.Int64])
-
-
-
-
-        self.monitored_node = [2167, 2168, 2036]
-
-        #combined the alarm and io dictionary for main operation
-        io_dict=alarm_dict|io_dict
-        self.server_signal.emit("Done Initializing Nodes for HMI")
-        self.server_signal.emit("Starting server!")
-        
-        ip_list = list(self.plc_ip_address.values())
-        device_coil_list = [dict(filter(lambda elem: key in elem[1],io_dict.items())) for key in self.plc_ip_address.keys()] #get list of keys in io_dict
-        coil_cat_dict_list=[]
-        for i in range(len(ip_list)):
-            value_list = list(device_coil_list[i].values())
-            coil_cat_list = [value_list[i][2] for i in range(len(value_list))]
-            coil_cat_dict= dict(Counter(coil_cat_list))
-            for key in coil_cat_dict.keys():
-                test = dict(filter(lambda elem: key in elem[1],io_dict.items()))
-                value = list(test.values())[0]
-                coil_cat_dict.update({key:(value[3],coil_cat_dict[key])})
-            coil_cat_dict_list.append(coil_cat_dict)
-        i=1
-        
-        async with server:
-            while i <11:
-                while True:
-                    tic = time.perf_counter()
-                    await asyncio.sleep(2)
-                    try:
-                        for k in range(len(ip_list)):
-                            await asyncio.create_task(self.scan_loop_plc(server,coil_cat_dict_list[k],device_coil_list[k],ip_list[k]))
-                        #self.data_signal.emit(io_dict)
-                        if not self.input_queue.empty():
-                            hmi_signal = self.input_queue.get()
-                            asyncio.ensure_future(self.simple_write_to_opc(server,hmi_signal))
-                        toc = time.perf_counter()
-                        print(f"Executed loop in {toc - tic:0.4f} seconds")
-                    except:
-                        self.server_signal.emit(f"Server Exception Occured, Retrying Attempt {i} in 10s!")
-                        await asyncio.sleep(10)
-                        i+=1
-                        break
-                    else:
-                        if i>1:
-                            self.server_signal.emit("Resuming Server Operation!")
-                            i=1
-                    continue
-            self.server_signal.emit("Server Has Stopped!")
-            
+        async with self.server:
+            while True:
+                await asyncio.sleep(0.1)
+                #await asyncio.create_task(self.scan_loop_plc(combined_dict))
 
 
-        
+
+
+
 

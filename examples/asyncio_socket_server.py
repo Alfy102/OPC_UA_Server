@@ -13,9 +13,8 @@ async def handle_echo(reader, writer):
     recv_value2=str1.join(recv_value)
 
     encapsulate = bytes(f"{recv_value2}\r\n",'utf-8')
-    #print(encapsulate)
     writer.write(encapsulate)
-    #writer.close()
+
 
 async def main():
     server = await asyncio.start_server(handle_echo, '127.0.0.1', 8501)
@@ -24,9 +23,6 @@ async def main():
     print(f'Serving on {addr}')
 
     async with server:
-        while True:
-            await asyncio.sleep(1 )
-        
             await server.serve_forever()
 
 asyncio.run(main())

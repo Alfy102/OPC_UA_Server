@@ -1,0 +1,1 @@
+pyrcc5 -o qtqr.py qtr.qrc
