@@ -1,3 +1,9 @@
+#io_dict standard dictionary: {
+# variables_id:[device_ip, 
+# variables_ns, device_name, 
+# category_name,variable_name,
+# initial_value]}
+
 all_label_dict = {
     2167: ['label_x0000','io_module_label_x0000'],
     2168: ['label_x0001','io_module_label_x0001'],
@@ -118,6 +124,9 @@ all_label_dict = {
 
     }
 
+
+
+
 all_alarm_list=[
     2127,
     2128,
@@ -127,7 +136,8 @@ all_alarm_list=[
     2132
 ]
 
-#'button label': [send to signal, check current value of output]
+
+#'button label': [send to signal, key for value of output]
 #send 1 if output is 0, send 0 if output is 1
 
 all_hmi_dict = {
@@ -199,16 +209,16 @@ monitored_node = {
 
 info_layout_node={
     10001: 'error_count_label',
-    10002: 'barcode_fail_count_label',
-    10003: 'barcode_pass_count_label',
-    10004: 'total_quantity_in_label',
-    10005: 'total_quantity_out_label',
-    10006: 'total_passed_label',
-    10007: 'total_failed_label',
-    10008: 'soft_jam_label',
-    10009: 'hard_jam_label',
-    10010: 'mtbf_label',
-    10011: 'mtba_label',
+    10002: 'barcode_fail_count_label', #
+    10003: 'barcode_pass_count_label', #
+    10004: 'total_quantity_in_label', #
+    10005: 'total_quantity_out_label', #
+    10006: 'total_passed_label', #
+    10007: 'total_failed_label', #
+    10008: 'soft_jam_label', #
+    10009: 'hard_jam_label', #
+    10010: 'mtbf_label', #
+    10011: 'mtba_label', #
     10012: 'total_yield_label',
 }
 
@@ -223,4 +233,105 @@ time_info_layout_node={
     10101: 'down_time_label',
     10102: 'idling_time_label',
     10103: 'maintenance_time_label'
+}
+
+
+
+node_structure = {
+10000:{ 'name': 'barcode_fail_count',
+        'label_point':['barcode_fail_count_label'],
+        'node_property':{'device': 'PLC1', 'data_type': 'Int32', 'category': 'server_variables','rw': 'rw', 'initial_value': 0},
+        'hmi_point': {'hmi_relay': '', 'hmi_node': '', 'hmi_label': ''}},
+
+10001:{ 'name': 'barcode_pass_count',
+        'label_point':['barcode_pass_count_label'],
+        'node_property':{'device': 'PLC1', 'data_type': 'Int32', 'category': 'server_variables','rw': 'rw', 'initial_value': 0},
+        'hmi_point': {'hmi_relay': '', 'hmi_node': '', 'hmi_label': ''}},
+
+10002:{ 'name': 'total_quantity_in',
+        'label_point':['total_quantity_in_label'],
+        'node_property':{'device': 'PLC1', 'data_type': 'Int32', 'category': 'server_variables','rw': 'rw', 'initial_value': 0},
+        'hmi_point': {'hmi_relay': '', 'hmi_node': '', 'hmi_label': ''}},
+
+10003:{ 'name': 'total_quantity_out',
+        'label_point':['total_quantity_out_label'],
+        'node_property':{'device': 'PLC1', 'data_type': 'Int32', 'category': 'server_variables','rw': 'rw', 'initial_value': 0},
+        'hmi_point': {'hmi_relay': '', 'hmi_node': '', 'hmi_label': ''}},
+
+10004:{ 'name': 'total_pass',
+        'label_point':['total_passed_label'],
+        'node_property':{'device': 'PLC1', 'data_type': 'Int32', 'category': 'server_variables','rw': 'rw', 'initial_value': 0},
+        'hmi_point': {'hmi_relay': '', 'hmi_node': '', 'hmi_label': ''}},
+
+10005:{ 'name': 'total_fail',
+        'label_point':['total_failed_label'],
+        'node_property':{'device': 'PLC1', 'data_type': 'Int32', 'category': 'server_variables','rw': 'rw', 'initial_value': 0},
+        'hmi_point': {'hmi_relay': '', 'hmi_node': '', 'hmi_label': ''}},
+
+10006:{ 'name': 'soft_jam',
+        'label_point':['soft_jam_label'],
+        'node_property':{'device': 'PLC1', 'data_type': 'Int32', 'category': 'server_variables','rw': 'rw', 'initial_value': 0},
+        'hmi_point': {'hmi_relay': '', 'hmi_node': '', 'hmi_label': ''}},
+
+10007:{ 'name': 'hard_jam',
+        'label_point':['hard_jam_label'],
+        'node_property':{'device': 'PLC1', 'data_type': 'Int32', 'category': 'server_variables','rw': 'rw', 'initial_value': 0},
+        'hmi_point': {'hmi_relay': '', 'hmi_node': '', 'hmi_label': ''}},
+
+10008:{ 'name': 'mtbf',
+        'label_point':['mtbf_label'],
+        'node_property':{'device': 'PLC1', 'data_type': 'Int32', 'category': 'server_variables','rw': 'rw', 'initial_value': 0},
+        'hmi_point': {'hmi_relay': '', 'hmi_node': '', 'hmi_label': ''}},
+
+10009:{ 'name': 'mtba',
+        'label_point':['mtba_label'],
+        'node_property':{'device': 'PLC1', 'data_type': 'Int32', 'category': 'server_variables','rw': 'rw', 'initial_value': 0},
+        'hmi_point': {'hmi_relay': '', 'hmi_node': '', 'hmi_label': ''}},
+
+10010:{ 'name': 'error_count',
+        'label_point':['error_count_label'],
+        'node_property':{'device': 'PLC1', 'data_type': 'Int32', 'category': 'server_variables','rw': 'rw', 'initial_value': 0},
+        'hmi_point': {'hmi_relay': '', 'hmi_node': '', 'hmi_label': ''}},
+
+10011:{ 'name': 'total_yield',
+        'label_point':['total_yield_label'],
+        'node_property':{'device': 'PLC1', 'data_type': 'Float', 'category': 'server_variables','rw': 'rw', 'initial_value': 0.0},
+        'hmi_point': {'hmi_relay': '', 'hmi_node': '', 'hmi_label': ''}},
+
+10100:{ 'name': 'DM3000',
+        'label_point':[],
+        'node_property':{'device': 'PLC1', 'data_type': 'Int16', 'category': 'alarm','rw': 'r', 'initial_value': 0},
+        'hmi_point': {'hmi_relay': '', 'hmi_node': '', 'hmi_label': ''}},
+
+10101:{ 'name': 'DM3001',
+        'label_point':[],
+        'node_property':{'device': 'PLC1', 'data_type': 'Int16', 'category': 'alarm','rw': 'r', 'initial_value': 0},
+        'hmi_point': {'hmi_relay': '', 'hmi_node': '', 'hmi_label': ''}},
+
+10102:{ 'name': 'DM3002',
+        'label_point':[],
+        'node_property':{'device': 'PLC1', 'data_type': 'Int16', 'category': 'alarm','rw': 'r', 'initial_value': 0},
+        'hmi_point': {'hmi_relay': '', 'hmi_node': '', 'hmi_label': ''}},
+
+10103:{ 'name': 'DM3003',
+        'label_point':[],
+        'node_property':{'device': 'PLC1', 'data_type': 'Int16', 'category': 'alarm','rw': 'r', 'initial_value': 0},
+        'hmi_point': {'hmi_relay': '', 'hmi_node': '', 'hmi_label': ''}},
+
+10104:{ 'name': 'DM3004',
+        'label_point':[],
+        'node_property':{'device': 'PLC1', 'data_type': 'Int16', 'category': 'alarm','rw': 'r', 'initial_value': 0},
+        'hmi_point': {'hmi_relay': '', 'hmi_node': '', 'hmi_label': ''}},
+
+10105:{ 'name': 'DM3005',
+        'label_point':[],
+        'node_property':{'device': 'PLC1', 'data_type': 'Int16', 'category': 'alarm','rw': 'r', 'initial_value': 0},
+        'hmi_point': {'hmi_relay': '', 'hmi_node': '', 'hmi_label': ''}},
+
+10105:{ 'name': 'R100',
+        'label_point':[],
+        'node_property':{'device': 'PLC1', 'data_type': 'Int16', 'category': 'relay','rw': 'r', 'initial_value': 0},
+        'hmi_point': {'hmi_relay': '', 'hmi_node': '', 'hmi_label': ''}},
+
+
 }

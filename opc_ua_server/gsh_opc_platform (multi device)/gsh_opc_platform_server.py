@@ -32,7 +32,7 @@ class SubVarHandler(object):
         asyncio.create_task(self.count_node(items[0], items[1], val)) #(namespace, node id, amount)
 
 class OpcServerThread(object):
-    def __init__(self,plc_address,current_file_path,endpoint,parent=None,**kwargs):
+    def __init__(self,plc_address,current_file_path,endpoint,namespace,parent=None,**kwargs):
         self.plc_ip_address=plc_address
         self.file_path = current_file_path
         self.server = Server()
@@ -134,6 +134,23 @@ class OpcServerThread(object):
 
         return node_dict
 
+    async def initialization_nodes_2(self, list_of_nodes):
+        node_dict={}
+        node_dict.clear()
+        for nodes in list_of_nodes:
+            var = self.server.get_node(ua.NodeId(nodes, 2))
+            var_name = await var.read_display_name()
+            parent_node = await var.get_parent()
+            parent_name = await parent_node.read_display_name()
+            device_node = await parent_node.get_parent()
+            device_name = await device_node.read_display_name()
+            device_ip = self.plc_ip_address[device_name.Text]
+            current_value = await var.read_value()          
+            node_dict.update({nodes:[device_ip, 2, device_name.Text,parent_name.Text,var_name.Text,current_value]})
+
+        return node_dict
+
+
     async def opc_server(self):
         self.database_file = "variable_history.sqlite3"
         self.conn = sqlite3.connect(self.file_path.joinpath(self.database_file))
@@ -143,15 +160,17 @@ class OpcServerThread(object):
         self.server.set_endpoint(f"opc.tcp://{self.endpoint}") 
      
         #load nodes structure from XML file path
-        await self.server.import_xml(self.file_path.joinpath("standard_server_structure.xml"))
-        await self.server.load_data_type_definitions()
+        #await self.server.import_xml(self.file_path.joinpath("standard_server_structure.xml"))
+        #await self.server.load_data_type_definitions()
 
         #load all the nodes inside the XML file into a dictionary variables for easier data handling
         #io_dict standard dictionary: {io_id:[device_ip, variables_ns, device_name, category_name,variable_name,0]}
-        io_dict = await self.initialization_nodes(self.io_list)
-        alarm_dict = await self.initialization_nodes(self.alarm_list)
-        hmi_dict = await self.initialization_nodes(self.hmi_list)
+        io_dict = await self.initialization_nodes_2(self.io_list)
+        #alarm_dict = await self.initialization_nodes(self.alarm_list)
+        #hmi_dict = await self.initialization_nodes(self.hmi_list)
+        #var_dict = await self.initialization_nodes(self.hmi_list)
 
+        """
         #create hmi subscription handler and initialize it with current value of plc relay     
         hmi_handler = SubHmiHandler(hmi_dict,self.plc_tcp_socket_request)
         hmi_sub = await self.server.create_subscription(self.hmi_sub, hmi_handler)  
@@ -188,12 +207,12 @@ class OpcServerThread(object):
             await self.server.historize_node_data_change(time_var, period=None, count=100)
         self.conn.close()
 
-        combined_dict = io_dict|alarm_dict
+        combined_dict = io_dict|alarm_dict"""
 
         async with self.server:
             while True:
                 await asyncio.sleep(0.1)
-                await asyncio.create_task(self.scan_loop_plc(combined_dict))
+                #await asyncio.create_task(self.scan_loop_plc(combined_dict))
 
 
 

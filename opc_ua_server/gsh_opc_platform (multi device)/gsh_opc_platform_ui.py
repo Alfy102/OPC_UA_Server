@@ -60,7 +60,7 @@ class button_window(QMainWindow):
         logTextBox_2.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(message)s',"%d/%m/%Y - %H:%M:%S%p"))
         self.logger_alarm.addHandler(logTextBox_2)
         self.logger_alarm.setLevel(logging.INFO)
-        self.server_process = Process(target=gsh_server.OpcServerThread, args=(self.plc_address,self.file_path,self.endpoint, ))
+        self.server_process = Process(target=gsh_server.OpcServerThread, args=(self.plc_address,self.file_path,self.endpoint,self.namespace, ))
         self.server_process.daemon = True    
         self.time_info_layout = iomp.time_info_layout_node
         self.info_layout_node = iomp.info_layout_node
@@ -130,7 +130,7 @@ class button_window(QMainWindow):
     def server_start(self):
         self.logger.info("Launching Server!")
         self.server_process.start()
-        self.client_thread.start()
+        #self.client_thread.start()
 
     def server_close(self):
         self.server_process.terminate()
