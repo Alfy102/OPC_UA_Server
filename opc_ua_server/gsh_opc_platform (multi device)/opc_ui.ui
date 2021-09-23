@@ -1535,7 +1535,7 @@ QPushButton:checked
             <number>0</number>
            </property>
            <property name="currentIndex">
-            <number>2</number>
+            <number>4</number>
            </property>
            <widget class="QWidget" name="main_page">
             <widget class="QFrame" name="title_frame">
@@ -5426,7 +5426,7 @@ QPushButton:checked
                <item>
                 <widget class="QStackedWidget" name="output_stacked_widget">
                  <property name="currentIndex">
-                  <number>0</number>
+                  <number>1</number>
                  </property>
                  <widget class="QWidget" name="output_page_1">
                   <widget class="QFrame" name="frame_29">
@@ -14405,11 +14405,11 @@ background-color: rgba(229, 229, 229, 247)
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="main_motor_page_button_group"/>
-  <buttongroup name="io_module_button_group"/>
   <buttongroup name="input_list_page_button_group"/>
+  <buttongroup name="main_motor_module_button_group"/>
   <buttongroup name="output_list_page_button_group"/>
   <buttongroup name="navigation_button_group"/>
-  <buttongroup name="main_motor_module_button_group"/>
+  <buttongroup name="io_module_button_group"/>
+  <buttongroup name="main_motor_page_button_group"/>
  </buttongroups>
 </ui>

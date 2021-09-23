@@ -42,6 +42,7 @@ class button_window(QMainWindow):
         ui_path=self.file_path.joinpath("opc_ui.ui")
         loadUi(ui_path,self)
         self.database_file = "variable_history.sqlite3"
+        self.uri = "PLC_Server"
         self.plc_address = {'PLC1':'127.0.0.1:8501'}
         self.io_dict = {}
         self.hmi_label = iomp.all_hmi_dict
@@ -60,7 +61,7 @@ class button_window(QMainWindow):
         logTextBox_2.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(message)s',"%d/%m/%Y - %H:%M:%S%p"))
         self.logger_alarm.addHandler(logTextBox_2)
         self.logger_alarm.setLevel(logging.INFO)
-        self.server_process = Process(target=gsh_server.OpcServerThread, args=(self.plc_address,self.file_path,self.endpoint,self.namespace, ))
+        self.server_process = Process(target=gsh_server.OpcServerThread, args=(self.plc_address,self.file_path,self.endpoint,self.uri))
         self.server_process.daemon = True    
         self.time_info_layout = iomp.time_info_layout_node
         self.info_layout_node = iomp.info_layout_node

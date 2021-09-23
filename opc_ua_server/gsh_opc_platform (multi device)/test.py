@@ -1,9 +1,12 @@
-import io_layout_map as iomp
+from io_layout_map import node_structure
+import time
 
 
-test_dict = iomp.node_structure
+tic = time.perf_counter()
+#test_string = dict((key, item) for key,item in node_structure.items())
 
 
-test_string = test_dict[10000]['node_property']['data_type']
-
-print(test_string)
+category_list = {key:value for key,value in node_structure.items() if value['node_property']['category']=='hmi'}
+toc = time.perf_counter()
+print(f'{toc - tic:.10f}')
+print(bool(1))
