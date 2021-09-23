@@ -1,16 +1,11 @@
 import asyncio
-from collections import Counter
-from asyncua import server, ua, Server
+from asyncua import ua, Server
 from datetime import timedelta, datetime
-import asyncua
-from asyncua.common import node
-from asyncua.common.ua_utils import data_type_to_string
 from asyncua.server.history_sql import HistorySQLite
-from asyncua.ua.uatypes import Boolean, UInt16
 import pandas as pd
 import sqlite3
 from io_layout_map import node_structure
-import time
+import collections
 #io_dict standard dictionary: {variables_id:[device_ip, variables_ns, device_name, category_name,variable_name,0]}
 #hmi_signal standard: (namespace, node_id, data_value)
 
@@ -97,21 +92,18 @@ class OpcServerThread(object):
         writer.close()
         return recv_value
 
-    async def scan_loop_plc(self,io_dict):
-        group_list = [item[3] for item in list(io_dict.values())]
-        group_item = list(set(group_list))
-        io_dict_list = [dict(filter(lambda elem: elem[1][3]==group,io_dict.items())) for group in group_item]
-        for io_dict in io_dict_list:
-            lead_data = list(io_dict.values())[0]
-            lead_device = lead_data[4]
-            ip_address = lead_data[0]
-            device_size = len(io_dict)
-            #current_relay_list = await self.plc_tcp_socket_request(lead_device,device_size,ip_address,'read')
-            i=0
-            for key,value in io_dict.items():
-                #alue[5]=current_relay_list[i]
-                #asyncio.create_task(self.simple_write_to_opc(value[1],key,value[5]))
-                i+=1
+    async def scan_loop_plc(self,io_dict,namespace_index):
+        lead_data = io_dict[list(io_dict.keys())[0]]
+        lead_device = lead_data['name']
+        hardware_name = lead_data['node_property']['device']
+        device_size = len(io_dict)
+        current_relay_list = await self.plc_tcp_socket_request(lead_device,device_size,hardware_name,'read')
+        i=0
+        for key,value in io_dict.items():
+            node_id = key
+            data_type = value['node_property']['data_type']
+            asyncio.create_task(self.simple_write_to_opc(namespace_index, key, current_relay_list[i], data_type))
+            i+=1
 
     def ua_variant_data_type(self, data_type, data_value):
         if data_type == 'UInt16':
@@ -160,11 +152,9 @@ class OpcServerThread(object):
     def checkTableExists(self,dbcon, tablename):
         dbcur = dbcon.cursor()
         dbcur.execute(f"SELECT name FROM sqlite_master WHERE type='table' AND name='{tablename}';")
-
         if dbcur.fetchone()[0] == tablename:
             dbcur.close()
             return True
-
         dbcur.close()
         return False
 
@@ -219,12 +209,15 @@ class OpcServerThread(object):
 
 
 
-        combined_dict = self.
-
+        
+        alarm_dict = collections.OrderedDict(sorted(self.alarm_dict.items()))
+        io_dict = collections.OrderedDict(sorted(self.io_dict.items()))
         async with self.server:
             while True:
                 await asyncio.sleep(0.1)
-                #await asyncio.create_task(self.scan_loop_plc(combined_dict))
+                await self.scan_loop_plc(alarm_dict,namespace_index)
+                await self.scan_loop_plc(io_dict,namespace_index)
+
 
 
 

@@ -1535,7 +1535,7 @@ QPushButton:checked
             <number>0</number>
            </property>
            <property name="currentIndex">
-            <number>4</number>
+            <number>3</number>
            </property>
            <widget class="QWidget" name="main_page">
             <widget class="QFrame" name="title_frame">
@@ -2883,7 +2883,7 @@ QPushButton:checked
                <attribute name="title">
                 <string>Event Log</string>
                </attribute>
-               <widget class="QPlainTextEdit" name="plainTextEdit_1">
+               <widget class="QPlainTextEdit" name="event_log_text_edit">
                 <property name="geometry">
                  <rect>
                   <x>0</x>
@@ -2922,7 +2922,7 @@ QPushButton:checked
                <attribute name="title">
                 <string>Alarm Log</string>
                </attribute>
-               <widget class="QPlainTextEdit" name="plainTextEdit_2">
+               <widget class="QPlainTextEdit" name="alarm_log_text_edit">
                 <property name="geometry">
                  <rect>
                   <x>0</x>
@@ -14405,9 +14405,9 @@ background-color: rgba(229, 229, 229, 247)
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="input_list_page_button_group"/>
-  <buttongroup name="main_motor_module_button_group"/>
   <buttongroup name="output_list_page_button_group"/>
+  <buttongroup name="main_motor_module_button_group"/>
+  <buttongroup name="input_list_page_button_group"/>
   <buttongroup name="navigation_button_group"/>
   <buttongroup name="io_module_button_group"/>
   <buttongroup name="main_motor_page_button_group"/>
