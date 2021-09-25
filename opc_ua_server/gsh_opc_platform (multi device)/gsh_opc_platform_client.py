@@ -3,7 +3,7 @@ from asyncua import Client, ua
 import asyncio
 from PyQt5.QtCore import QObject, pyqtSignal, pyqtSlot
 from io_layout_map import node_structure
-from datetime import datetime, timedelta
+from datetime import datetime
 
 
 class SubAlarmHandler(object):
@@ -24,7 +24,7 @@ class SubIoHandler(object):
         self.data_signal.emit((int(val), label_list))
 
 class SubInfoHandler(object):
-    def __init__(self,info_signal,info_dict):#,time_node):
+    def __init__(self,info_signal,info_dict):
         self.info_signal = info_signal
         self.info_dict = info_dict
     async def datachange_notification(self, node, val, data):
@@ -32,16 +32,33 @@ class SubInfoHandler(object):
         label_list = self.info_dict[node_id]['label_point']
         self.info_signal.emit((val,label_list))
 
+class SubTimerHandler(object):
+    def __init__(self,time_signal,time_dict,read_time):
+        self.time_signal = time_signal
+        self.time_dict = time_dict
+        self.read_time = read_time
+    async def datachange_notification(self, node, val, data):
+        node_identifier = node.nodeid.Identifier
+        namespace_index = node.nodeid.NamespaceIndex
+        SourceTime = data.monitored_item.Value.SourceTimestamp
+        corr_time_node = [key for key,value in self.time_dict.items() if value['monitored_node']==node_identifier][0]
+        stored_time = await self.read_time(namespace_index, corr_time_node)
+        label = self.time_dict[corr_time_node]['label_point'][0]
+        #self.time_signal.emit((corr_time_node, val ,SourceTime, stored_time,label))
+
+
+
 class OpcClientThread(QObject):
     data_signal=pyqtSignal(tuple)
-    time_data_signal=pyqtSignal(dict)
+    time_data_signal=pyqtSignal(tuple)
     info_signal = pyqtSignal(tuple)
     ui_refresh_signal=pyqtSignal()
     logger_signal=pyqtSignal(tuple)
-    def __init__(self,input_q,endpoint,uri,parent=None,**kwargs):
+    def __init__(self,input_q,endpoint,uri,client_refresh_rate,parent=None,**kwargs):
         super().__init__(parent, **kwargs)
         self.input_queue = input_q
         self.sub_time = 50
+        self.client_refresh_rate = client_refresh_rate
         self.monitored_node = {key:value for key,value in node_structure.items() if value['node_property']['category']=='server_variables'}
         self.io_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='relay'}
         self.alarm_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='alarm'}
@@ -50,34 +67,33 @@ class OpcClientThread(QObject):
         url = f"opc.tcp://{endpoint}"
         self.client = Client(url=url)
         self.uri = uri
+    
     def run(self):
         asyncio.run(self.client_start())
 
-    async def watch_timer(self, time_dict, namespace_index):
-        for key,value in time_dict.items():
-            node_ns = namespace_index
-            time_var_node = key
-            flag_node = value['monitored_node']
-            flag_node_id = self.client.get_node(ua.NodeId(flag_node, node_ns)) #the trigger flag relay
-            time_var_node_id = self.client.get_node(ua.NodeId(time_var_node, node_ns)) #the stored pasued time in OPC
-            flag_value = await flag_node_id.read_value()
-            if flag_value == 1:
-                t = await time_var_node_id.read_data_value()
-                t2 = t.SourceTimestamp #get time the flag triggered
-                last_known_time = await time_var_node_id.read_value()
-                time_var = datetime.strptime(last_known_time,"%H:%M:%S")
-                delta = timedelta(hours=time_var.hour, minutes=time_var.minute, seconds=time_var.second)
-                duration = datetime.utcnow() - t2 + delta
-                time_string = str(duration).split(".")[0]
-                time_dict.update ({flag_node: (node_ns, time_var_node, time_string)})
-            elif flag_value == 0:
-                current_time_value = value[2]
-                await time_var_node_id.write_value(ua.Variant(current_time_value, ua.VariantType.String))
-        return time_dict
+    def ua_variant_data_type(self, data_type, data_value):
+        if data_type == 'UInt16':
+            ua_var = ua.Variant(int(data_value), ua.VariantType.UInt16)
+        elif data_type == 'UInt32':
+            ua_var = ua.Variant(int(data_value), ua.VariantType.UInt32)
+        elif data_type == 'UInt64':    
+            ua_var = ua.Variant(int(data_value), ua.VariantType.UInt64)
+        elif data_type == 'String':
+            ua_var = ua.Variant(str(data_value), ua.VariantType.String)
+        elif data_type == 'Boolean':
+            ua_var = ua.Variant(bool(data_value), ua.VariantType.Boolean)
+        elif data_type == 'Float':
+            ua_var = ua.Variant(float(data_value), ua.VariantType.Float)
+        return ua_var
+
+    async def read_time(self, namespace_index, node_id):
+        var = self.client.get_node((ua.NodeId(node_id, namespace_index)))
+        data_value = await var.read_value()
+        return data_value
 
     @pyqtSlot()
     async def client_start(self):
-        await asyncio.sleep(1.5)
+        await asyncio.sleep(2)
         
         async with self.client as client:
             namespace_index = await client.get_namespace_index(self.uri)
@@ -100,13 +116,32 @@ class OpcClientThread(QObject):
                 var = client.get_node((ua.NodeId(node, namespace_index)))
                 await alarm_sub.subscribe_data_change(var,queuesize=1)
 
+            
+            timer_handler = SubTimerHandler(self.time_data_signal,self.time_dict,self.read_time)  
+            time_sub = await client.create_subscription(self.sub_time, timer_handler) 
+
+            for node,value in self.time_dict.items():
+                #var = client.get_node((ua.NodeId(node, namespace_index)))
+                #opc_stored_time = await var.read_value()
+                #value['node_property']['initial_value'] = opc_stored_time
+                self.time_dict.update({node:value})
+                node = value['monitored_node']
+                var_2 = client.get_node((ua.NodeId(node, namespace_index)))
+                await time_sub.subscribe_data_change(var_2,queuesize=1)
+
+
+
+
+
             while True:
-                await asyncio.sleep(0.2)
-                #self.time_dict = await self.watch_timer(self.time_dict, namespace_index)
-                #self.time_data_signal.emit(self.time_node)
+                await asyncio.sleep(self.client_refresh_rate)
+                self.ui_refresh_signal.emit()
                 if not self.input_queue.empty():
                     hmi_signal = self.input_queue.get()
-                    test_node = client.get_node(ua.NodeId(hmi_signal[1], 2))
-                    await test_node.write_value(ua.Variant(hmi_signal[2], ua.VariantType.Int64))
+                    hmi_node_id = hmi_signal[0]
+                    data_value = hmi_signal[1]
+                    data_type = hmi_signal[2]
+                    input_node = client.get_node(ua.NodeId(hmi_node_id, namespace_index))
+                    await input_node.write_value(self.ua_variant_data_type(data_type,data_value))
                 
 

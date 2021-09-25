@@ -12,9 +12,8 @@ async def main():
     url = 'opc.tcp://localhost:4840/gshopcua/server'
     # url = 'opc.tcp://commsvr.com:51234/UA/CAS_UA_Server'
     async with Client(url=url) as client:
-        var = client.get_node(ua.NodeId(2167, 2))
-        test = await var.get_parent()
-        print(await test.read_browse_name())
+        var = client.get_node(ua.NodeId(13049, 2))
+        await var.write_value(ua.Variant(int(1), ua.VariantType.Boolean))
        
 
 if __name__ == '__main__':

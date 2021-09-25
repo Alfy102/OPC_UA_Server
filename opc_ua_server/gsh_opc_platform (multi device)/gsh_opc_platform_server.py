@@ -6,6 +6,7 @@ import pandas as pd
 import sqlite3
 from io_layout_map import node_structure
 import collections
+import psutil
 #io_dict standard dictionary: {variables_id:[device_ip, variables_ns, device_name, category_name,variable_name,0]}
 #hmi_signal standard: (namespace, node_id, data_value)
 
@@ -33,17 +34,20 @@ class SubVarHandler(object):
         asyncio.create_task(self.count_node(namespace_index, corr_var_node, data_value, data_type)) #(namespace, node id, amount)
 
 class OpcServerThread(object):
-    def __init__(self,plc_address,current_file_path,endpoint,uri,parent=None,**kwargs):
+    def __init__(self,plc_address,current_file_path,endpoint,server_refresh_rate,uri,parent=None,**kwargs):
         self.plc_ip_address=plc_address
         self.file_path = current_file_path
         self.server = Server()
         self.endpoint = endpoint
         self.uri = uri
+  
 
+        self.server_refresh_rate = server_refresh_rate
         self.monitored_node = {key:value for key,value in node_structure.items() if value['node_property']['category']=='server_variables'}
         self.io_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='relay'}
         self.alarm_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='alarm'}
         self.hmi_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='hmi'}
+
 
         self.node_structure = node_structure
         #the scheduled database full cleanup
@@ -151,13 +155,15 @@ class OpcServerThread(object):
      
     def checkTableExists(self,dbcon, tablename):
         dbcur = dbcon.cursor()
-        dbcur.execute(f"SELECT name FROM sqlite_master WHERE type='table' AND name='{tablename}';")
-        if dbcur.fetchone()[0] == tablename:
+        dbcur.execute(f"SELECT * FROM sqlite_master WHERE type='table' AND name='{tablename}';")
+        table = dbcur.fetchone()
+        if table is not None:
+            if tablename in table:
+                dbcur.close()
+                return True
+        else:   
             dbcur.close()
-            return True
-        dbcur.close()
-        return False
-
+            return False
 
     async def opc_server(self):
         self.database_file = "variable_history.sqlite3"
@@ -197,7 +203,7 @@ class OpcServerThread(object):
                     if category == 'hmi':
                         await hmi_sub.subscribe_data_change(server_var,queuesize=1)
                     if historizing:
-                        await self.server.historize_node_data_change(server_var, period=None, count=10000)
+                        await self.server.historize_node_data_change(server_var, period=None, count=100)
 
         self.conn.close()
 
@@ -206,19 +212,17 @@ class OpcServerThread(object):
             if node_id != None:
                 server_var = self.server.get_node(ua.NodeId(node_id, namespace_index))
                 await var_sub.subscribe_data_change(server_var,queuesize=1)
-
-
-
         
         alarm_dict = collections.OrderedDict(sorted(self.alarm_dict.items()))
         io_dict = collections.OrderedDict(sorted(self.io_dict.items()))
         async with self.server:
             while True:
-                await asyncio.sleep(0.1)
+                await asyncio.sleep(self.server_refresh_rate)
                 await self.scan_loop_plc(alarm_dict,namespace_index)
                 await self.scan_loop_plc(io_dict,namespace_index)
+ 
 
-
+    
 
 
 

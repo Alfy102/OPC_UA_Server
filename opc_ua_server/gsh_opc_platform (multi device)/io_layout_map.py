@@ -1,3 +1,6 @@
+from asyncua.ua.uatypes import flatten_and_get_shape
+
+
 node_structure = {
 10000:{ 'name': 'barcode_fail_count',
         'label_point':['barcode_fail_count_label'],

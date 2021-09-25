@@ -9,11 +9,10 @@ import gsh_opc_platform_client as gsh_client
 from gsh_opc_platform_gui import Ui_MainWindow
 from io_layout_map import node_structure
 from datetime import datetime
-import time
 from multiprocessing import Process,Queue
-#import qtqr
+from datetime import timedelta,datetime
 
-class MainWindow(Ui_MainWindow):
+class MainWindow(QMainWindow, Ui_MainWindow):
     
     def __init__(self):
         super(MainWindow,self).__init__()
@@ -24,21 +23,28 @@ class MainWindow(Ui_MainWindow):
         self.start_time = datetime.now()
         self.input_queue = Queue()
         file_path = Path(__file__).parent.absolute()
-        endpoint = "localhost:4840/gshopcua/server"       
-        self.server_process = Process(target=gsh_server.OpcServerThread, args=(plc_address,file_path,endpoint,self.uri))
+        endpoint = "localhost:4840/gshopcua/server"
+        server_refresh_rate = 0.1
+        client_refresh_rate = 1
+        self.server_process = Process(target=gsh_server.OpcServerThread, args=(plc_address,file_path,endpoint,server_refresh_rate,self.uri))
         self.server_process.daemon = True    
-        
-
+        self.io_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='relay'}
+        self.hmi_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='hmi'}
+        self.ui_time_dict = {}
         self.client_thread=QThread()
-        self.client_worker = gsh_client.OpcClientThread(self.input_queue,endpoint,self.uri)
+        self.client_worker = gsh_client.OpcClientThread(self.input_queue,endpoint,self.uri,client_refresh_rate)
         self.client_worker.moveToThread(self.client_thread)
         self.client_thread.started.connect(self.client_worker.run)
         self.client_worker.logger_signal.connect(self.logger_handler)
         self.client_worker.data_signal.connect(self.io_handler)
         self.client_worker.info_signal.connect(self.info_handler)
         self.client_worker.ui_refresh_signal.connect(self.uptime)
-        self.client_worker.time_data_signal.connect(self.time_calc)
-        
+        self.client_worker.time_data_signal.connect(self.time_placeholder)
+        self.rgb_value_input_on = "64, 255, 0"
+        self.rgb_value_input_off = "0, 80, 0"
+        self.rgb_value_output_on = "255, 20, 20"
+        self.rgb_value_output_off = "80, 0, 0"
+
 
     def setupUi(self, MainFrame):
         super(MainWindow, self).setupUi(MainFrame)
@@ -83,34 +89,36 @@ class MainWindow(Ui_MainWindow):
         #main motor module signals
         self.module_1_motor_1_button.clicked.connect(lambda: self.main_motor_control_stacked_widget.setCurrentIndex(0))
         self.module_1_motor_2_button.clicked.connect(lambda: self.main_motor_control_stacked_widget.setCurrentIndex(1))
-        
-        self.hmi_dict = dict(filter(lambda elem: ('y' in elem[1][0]) , self.label_dict.items()))
-        for labels in self.hmi_dict.values():
-            for items in labels:
-                label_1 = items
-                indicator_label_1 = eval(f"self.{label_1}")
-                indicator_label_1.installEventFilter(self)
 
-
+        for value in self.io_dict.values():
+            if 'y' in value['label_point'][0]:
+                for label in value['label_point']:                
+                    indicator_label = eval(f"self.{label}")
+                    indicator_label.installEventFilter(self)
 
     def server_start(self):
         self.server_process.start()
         self.client_thread.start()
 
-    def server_close(self):
-        self.server_process.terminate()
-        sys.exit()
-
     def eventFilter(self, source, event):
         if event.type() == QEvent.MouseButtonDblClick:
-            for labels in self.hmi_dict.values():
-                for items in labels:
-                    label = items
-                    indicator_label = eval(f"self.{label}")
-                    if source is indicator_label:
-                        msg = source.text()
-                        self.send_data(msg)
+            label_object_name = source.objectName()
+            label_object_text = source.text()
+            stylesheet = source.styleSheet()
+            rgb_value = self.stylesheet_extractor(stylesheet)
+            if rgb_value == self.rgb_value_output_on:
+                #if output label is ON, send OFF to OPC
+                self.send_data(label_object_name, label_object_text, True)
+            elif rgb_value == self.rgb_value_output_off:
+                #if output label is OFF, send ON to OPC
+                self.send_data(label_object_name, label_object_text, False)
         return super(MainWindow, self).eventFilter(source, event)
+
+    def stylesheet_extractor(self, stylesheet_string):
+        stylesheet_list = stylesheet_string.split(';')
+        background_color_property = [elem for idx, elem in enumerate(stylesheet_list) if 'background' in elem][0]
+        rgb_value = background_color_property[background_color_property.find("(")+1:background_color_property.find(")")]
+        return rgb_value
 
     def io_list_page_behaviour(self):
         self.stackedWidget.setCurrentIndex(4)
@@ -130,12 +138,16 @@ class MainWindow(Ui_MainWindow):
         self.main_motor_station_stacked_widget.setCurrentIndex(0)
         self.main_motor_control_stacked_widget.setCurrentIndex(0)
 
-    def send_data(self,label_text):
-        from_hmi_label = self.hmi_label[label_text]
-        current_value = 1- self.io_dict[from_hmi_label[1]]
-        #self.input_queue.put((2,from_hmi_label[0], current_value))
-        msg = str((from_hmi_label[0], current_value))
-        self.logger_handler(('INFO', datetime.now(), msg))
+    def send_data(self,label_object_name,label_object_text, data_value):
+        hmi_node = [(key,value) for key,value in self.hmi_dict.items() if label_object_name in value['label_point']][0]
+        hmi_node_id = hmi_node[1]
+        data_type = hmi_node[1]['node_property']['data_type']
+        current_value = 1- data_value
+        self.input_queue.put((hmi_node_id, current_value, data_type))
+        if current_value == 1:
+            self.logger_handler(('INFO', datetime.now() , f"{label_object_text} is switched ON"))
+        elif current_value == 0:
+            self.logger_handler(('INFO', datetime.now() , f"{label_object_text} is switched OFF"))
 
     def logger_handler(self, data):
         handler_type = data[0]
@@ -147,13 +159,6 @@ class MainWindow(Ui_MainWindow):
         elif handler_type=='INFO':
             self.event_log_text_edit.appendPlainText(msg)
 
-    def time_calc(self, data):
-        for values in data.values():
-            time_reading = values[2]
-            label = self.time_info_layout[values[1]]
-            time_label = eval(f"self.{label}")
-            time_label.setText(values[2])
-
     def info_handler(self, data):
         data_value = data[0]
         info_label = eval(f"self.{data[1][0]}")
@@ -162,11 +167,6 @@ class MainWindow(Ui_MainWindow):
         elif isinstance(data_value, float):
             info_label.setText(f"{data_value:.2f}")
 
-    def uptime(self):
-        uptime = datetime.now() - self.start_time
-        uptime_text = (str(uptime).split('.', 2)[0])
-        self.system_uptime_label.setText(uptime_text)
-
     def io_handler(self, data):
         label_list = data[1]
         data_value = data[0]
@@ -174,14 +174,29 @@ class MainWindow(Ui_MainWindow):
             indicator_label = eval(f"self.{label}")
             if data_value == 1:
                 if 'x' in label:
-                    indicator_label.setStyleSheet("background-color: rgb(64, 255, 0);color: rgb(0, 0, 0);")
+                    indicator_label.setStyleSheet(f"background-color: rgb({self.rgb_value_input_on});color: rgb(0, 0, 0);")
                 if 'y' in label:
-                    indicator_label.setStyleSheet("background-color: rgb(255, 20, 20);color: rgb(0, 0, 0);")
+                    indicator_label.setStyleSheet(f"background-color: rgb({self.rgb_value_output_on});color: rgb(0, 0, 0);")
             elif data_value == 0:
                 if 'x' in label:
-                    indicator_label.setStyleSheet("background-color: rgb(0, 80, 0);color: rgb(200, 200, 200);")
+                    indicator_label.setStyleSheet(f"background-color: rgb({self.rgb_value_input_off});color: rgb(200, 200, 200);")
                 if 'y' in label:
-                    indicator_label.setStyleSheet("background-color: rgb(80, 0, 0);color: rgb(200, 200, 200);")
+                    indicator_label.setStyleSheet(f"background-color: rgb({self.rgb_value_output_off});color: rgb(200, 200, 200);")
+
+    def uptime(self):
+        uptime = datetime.now() - self.start_time
+        uptime_text = (str(uptime).split('.', 2)[0])
+        self.system_uptime_label.setText(uptime_text)
+
+                    
+
+    def convert_timedelta_string(self, time_string):
+        time_var = datetime.strptime(time_string,"%H:%M:%S")
+        delta = timedelta(hours=time_var.hour, minutes=time_var.minute, seconds=time_var.second)
+        return delta
+
+
+
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
