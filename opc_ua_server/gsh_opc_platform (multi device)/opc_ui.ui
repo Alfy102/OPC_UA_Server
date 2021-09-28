@@ -3091,23 +3091,26 @@ QPushButton:checked
                </item>
               </layout>
              </widget>
-             <widget class="QFrame" name="graph_frame">
+             <widget class="MplWidget" name="MplWidget" native="true">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
               <property name="geometry">
                <rect>
                 <x>50</x>
                 <y>10</y>
-                <width>1681</width>
+                <width>1671</width>
                 <height>441</height>
                </rect>
               </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                <horstretch>1</horstretch>
+                <verstretch>1</verstretch>
+               </sizepolicy>
+              </property>
               <property name="styleSheet">
-               <string notr="true">background-color: rgb(248, 255, 250);</string>
-              </property>
-              <property name="frameShape">
-               <enum>QFrame::StyledPanel</enum>
-              </property>
-              <property name="frameShadow">
-               <enum>QFrame::Raised</enum>
+               <string notr="true"/>
               </property>
              </widget>
             </widget>
@@ -14704,6 +14707,14 @@ background-color: rgba(229, 229, 229, 247)
    </widget>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>MplWidget</class>
+   <extends>QWidget</extends>
+   <header location="global">mplwidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="resources/qtr.qrc"/>
  </resources>

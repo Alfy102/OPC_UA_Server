@@ -31,7 +31,6 @@ class SubInfoHandler(object):
         label_list = self.info_dict[node_id]['label_point']
         self.info_signal.emit((val,label_list))
 
-
 class SubTimerHandler(object):
     def __init__(self,time_signal,time_dict):
         self.time_signal = time_signal
@@ -41,13 +40,22 @@ class SubTimerHandler(object):
         time_label = self.time_dict[node_identifier]['label_point']
         self.time_signal.emit((time_label, val))
 
+class SubUPHHandler(object):
+    def __init__(self,uph_signal):
+        self.uph_signal = uph_signal
+
+    async def datachange_notification(self, node, val, data):
+        node_identifier = node.nodeid.Identifier
+        time_label = self.time_dict[node_identifier]['label_point']
+        self.uph_signal.emit()
+
 class OpcClientThread(QObject):
     data_signal=pyqtSignal(tuple)
     time_data_signal=pyqtSignal(tuple)
     info_signal = pyqtSignal(tuple)
     ui_refresh_signal=pyqtSignal()
     logger_signal=pyqtSignal(tuple)
-    uph_signal = pyqtSignal(tuple)
+    uph_signal = pyqtSignal()
     def __init__(self,input_q,endpoint,uri,client_refresh_rate,parent=None,**kwargs):
         super().__init__(parent, **kwargs)
         self.input_queue = input_q
@@ -116,10 +124,14 @@ class OpcClientThread(QObject):
                 var = client.get_node((ua.NodeId(node, namespace_index)))
                 await time_sub.subscribe_data_change(var,queuesize=1)
             
-            
+            #uph_handler = SubUPHHandler(self.uph_signal)  
+            #uph_sub = await client.create_subscription(self.sub_time, timer_handler) 
+            #for node in self.time_dict.keys():
+            #    var = client.get_node((ua.NodeId(node, namespace_index)))
+            #    await time_sub.subscribe_data_change(var,queuesize=1)
 
             
-
+            self.uph_signal.emit()
             while True:
 
                 await asyncio.sleep(self.client_refresh_rate)
@@ -131,7 +143,7 @@ class OpcClientThread(QObject):
                     data_value = hmi_signal[1]
                     data_type = hmi_signal[2]
                     input_node = client.get_node(ua.NodeId(hmi_node_id, namespace_index))
-                    print(f"From client {input_node},{data_type},{data_value}")
+                    #print(f"From client {input_node},{data_type},{data_value}")
                     await input_node.write_value(self.ua_variant_data_type(data_type,data_value))
 
 

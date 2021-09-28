@@ -21,7 +21,7 @@ class SubHmiHandler(object):
         node_identifier = node.nodeid.Identifier
         relay_name= self.hmi_structure[node_identifier]['name']
         device = self.hmi_structure[node_identifier]['node_property']['device']
-        print(f"from server {relay_name},{val},{device}")
+        #print(f"from server {relay_name},{val},{device}")
         await self.plc_send(relay_name,val,device,'write')
 
 class SubVarHandler(object):
@@ -112,24 +112,18 @@ class OpcServerThread(object):
         qty_in_value = await qty_in_var.read_value()
         self.uph_list.append(qty_in_value)
         self.uph_list.pop(0)
-        current_hour = datetime.now().replace(microsecond=0, second=0,minute=0)
-        current_hour = current_hour.hour
-        slot_name = f"uph_{current_hour}"
+        current_hour = datetime.now().replace(microsecond=0, second=0)
+        slot_name = f"uph_{current_hour.hour:02}_{current_hour.minute:02}"
+
         uph = (self.uph_list[1]-self.uph_list[0])*60
         asyncio.create_task(self.simple_write_to_opc(namespace_index,10016,uph,'UInt16'))
+        self.uph_array.append(uph)
         for key, value in self.uph_dict.items():
             if slot_name == value['name']:
-                if len(self.uph_array)<61:
-                    self.uph_array.append(uph)
-                elif len(self.uph_array)==60:
-                    self.uph_array.clear()
-                    self.uph_array.append(uph)
                 average_uph = sum(self.uph_array) / len(self.uph_array)
                 data_type = value['node_property']['data_type']
+                self.uph_array.clear()
                 asyncio.create_task(self.simple_write_to_opc(namespace_index, key, average_uph, data_type))
-        
-
-
     
     async def yield_calculation(self,new_value,name_space):
         qty_in_node_id = [key for key,value in self.monitored_node.items() if value['name']=='total_quantity_in'][0]
@@ -153,7 +147,6 @@ class OpcServerThread(object):
         elif mode == 'write':
             message = f"WR {start_device} {int(number_of_device)}\r\n"
             encapsulate = bytes(message,'utf-8')
-            print(encapsulate)
         writer.write(encapsulate)
         await writer.drain()
         recv_value = await reader.readuntil(separator=b'\r\n') 
@@ -263,8 +256,8 @@ class OpcServerThread(object):
                         else:
                             initial_value = value['node_property']['initial_value']
                     else:
-                        initial_value = value['node_property']['initial_value']              
-                    server_var = await server_obj.add_variable(ua.NodeId(node_id,namespace_index), variable_name, self.ua_variant_data_type(data_type,initial_value))
+                        initial_value = value['node_property']['initial_value']           
+                    server_var = await server_obj.add_variable(ua.NodeId(node_id,namespace_index), str(variable_name), self.ua_variant_data_type(data_type,initial_value))
                     if rw_status:
                         await server_var.set_writable()
                     if category == 'hmi':
@@ -296,14 +289,14 @@ class OpcServerThread(object):
         alarm_dict = collections.OrderedDict(sorted(self.alarm_dict.items()))
         io_dict = collections.OrderedDict(sorted(self.io_dict.items()))
         next_minute = (datetime.now().replace(microsecond=0, second=0)) + timedelta(minutes=1)
-        next_hour = (datetime.now().replace(microsecond=0, second=0)) + timedelta(hours=1)
+        next_half_hour = (datetime.now().replace(microsecond=0, second=0)) + timedelta(minutes=30)
         async with self.server:
             while True:
-                tic = time.perf_counter()
+                #tic = time.perf_counter()
                 current_time = datetime.now().replace(microsecond=0, second=0)
-                if current_time == next_hour:
-                    self.uph_list.clear()
-                    next_hour = current_time + timedelta(hours=1)
+                if current_time == next_half_hour:
+                    self.uph_array.clear()
+                    next_half_hour = current_time + timedelta(minutes=30)
                 if current_time == next_minute:
                     await self.uph_calculation(qty_in_var,namespace_index)
                     next_minute = current_time + timedelta(minutes=1)
@@ -311,7 +304,7 @@ class OpcServerThread(object):
                 await self.scan_loop_plc(alarm_dict,namespace_index)
                 await self.scan_loop_plc(io_dict,namespace_index)
                 asyncio.create_task(self.watch_timer(namespace_index))
-                toc = time.perf_counter()
+                #toc = time.perf_counter()
                 #print(f"{toc - tic:.9f}")
 
 

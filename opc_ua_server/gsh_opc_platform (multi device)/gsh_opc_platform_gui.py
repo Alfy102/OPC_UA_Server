@@ -1588,12 +1588,16 @@ class Ui_MainWindow(object):
         self.shift_oee_info_group.addWidget(self.Down_Time_2, 3, 0, 1, 1)
         self.shift_oee_info_group.setColumnStretch(0, 1)
         self.verticalLayout_54.addWidget(self.Shift_OEE_group)
-        self.graph_frame = QtWidgets.QFrame(self.frame_13)
-        self.graph_frame.setGeometry(QtCore.QRect(50, 10, 1681, 441))
-        self.graph_frame.setStyleSheet("background-color: rgb(248, 255, 250);")
-        self.graph_frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.graph_frame.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.graph_frame.setObjectName("graph_frame")
+        self.MplWidget = MplWidget(self.frame_13)
+        self.MplWidget.setEnabled(True)
+        self.MplWidget.setGeometry(QtCore.QRect(50, 10, 1671, 441))
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(1)
+        sizePolicy.setVerticalStretch(1)
+        sizePolicy.setHeightForWidth(self.MplWidget.sizePolicy().hasHeightForWidth())
+        self.MplWidget.setSizePolicy(sizePolicy)
+        self.MplWidget.setStyleSheet("")
+        self.MplWidget.setObjectName("MplWidget")
         self.stackedWidget.addWidget(self.lot_info_page)
         self.event_log_page = QtWidgets.QWidget()
         self.event_log_page.setStyleSheet("")
@@ -7480,6 +7484,7 @@ class Ui_MainWindow(object):
         self.label_41.setText(_translate("MainWindow", "USER AREA"))
         self.label_42.setText(_translate("MainWindow", "USER ACCESS"))
         self.label_43.setText(_translate("MainWindow", "SETTINGS"))
+from mplwidget import MplWidget
 import qtqr
 
 

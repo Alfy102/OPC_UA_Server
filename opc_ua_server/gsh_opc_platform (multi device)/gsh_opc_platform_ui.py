@@ -7,10 +7,10 @@ from pathlib import Path
 import gsh_opc_platform_server as gsh_server
 import gsh_opc_platform_client as gsh_client
 from gsh_opc_platform_gui import Ui_MainWindow
-from io_layout_map import node_structure
+from io_layout_map import node_structure,time_series_axis
 from datetime import datetime
 from multiprocessing import Process,Queue
-from datetime import datetime
+import collections
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     
@@ -24,8 +24,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.input_queue = Queue()
         file_path = Path(__file__).parent.absolute()
         endpoint = "localhost:4840/gshopcua/server"
-        server_refresh_rate = 0.1
-        client_refresh_rate = 0.01
+        server_refresh_rate = 0.05
+        client_refresh_rate = 0.1
         self.server_process = Process(target=gsh_server.OpcServerThread, args=(plc_address,file_path,endpoint,server_refresh_rate,self.uri))
         self.server_process.daemon = True    
         self.io_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='relay'}
@@ -39,11 +39,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.client_worker.data_signal.connect(self.io_handler)
         self.client_worker.info_signal.connect(self.info_handler)
         self.client_worker.ui_refresh_signal.connect(self.uptime)
+        self.client_worker.uph_signal.connect(self.update_plot)
         self.client_worker.time_data_signal.connect(self.time_label_update)
         self.rgb_value_input_on = "64, 255, 0"
         self.rgb_value_input_off = "0, 80, 0"
         self.rgb_value_output_on = "255, 20, 20"
         self.rgb_value_output_off = "80, 0, 0"
+        self.x = time_series_axis
+        uph_filter = {key:value for key,value in node_structure.items() if value['node_property']['category']=='uph_variables'}
+        self.uph_dict = collections.OrderedDict(sorted(uph_filter.items()))
+        self.y = [value['node_property']['initial_value'] for value in self.uph_dict.values()] #
 
     def setupUi(self, MainFrame):
         super(MainWindow, self).setupUi(MainFrame)
@@ -90,11 +95,36 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.module_1_motor_1_button.clicked.connect(lambda: self.main_motor_control_stacked_widget.setCurrentIndex(0))
         self.module_1_motor_2_button.clicked.connect(lambda: self.main_motor_control_stacked_widget.setCurrentIndex(1))
 
+
+        self.MplWidget.canvas.plt.xticks(rotation=45)
+        self.MplWidget.canvas.ax.spines['top'].set_visible(False)
+        self.MplWidget.canvas.ax.spines['right'].set_visible(False)
+        self.MplWidget.canvas.ax.set_axisbelow(True)
+        self.MplWidget.canvas.ax.tick_params(axis='x', labelsize=8)
+        self.MplWidget.canvas.ax.tick_params(axis='y', labelsize=6)
+        self.MplWidget.canvas.ax.yaxis.grid(color='gray', linestyle='dashed')
+
         for value in self.io_dict.values():
             if 'y' in value['label_point'][0]:
                 for label in value['label_point']:                
                     indicator_label = eval(f"self.{label}")
                     indicator_label.installEventFilter(self)
+
+    def closeEvent(self, event):
+        print("Close event trigger")
+
+    def update_plot(self):
+        self.MplWidget.canvas.ax.bar(self.x,self.y,align='edge',width=0.95)
+        for i, v in enumerate(self.y):
+            self.MplWidget.canvas.ax.text(i + 0.1, v + 0.25, str(v), color='blue', fontweight='bold')
+        self.MplWidget.canvas.draw()
+
+
+    def deltatime(self,start, end, delta):
+        current = start
+        while current < end:
+            yield current
+            current += delta
 
     def server_start(self):
         self.server_process.start()
@@ -138,9 +168,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.module_1_motor_1_button.setChecked(True)
         self.main_motor_station_stacked_widget.setCurrentIndex(0)
         self.main_motor_control_stacked_widget.setCurrentIndex(0)
-
-
-
 
     def send_data(self,label_object_name,label_object_text, data_value):
         hmi_node = [(key,value) for key,value in self.hmi_dict.items() if label_object_name in value['label_point']][0]

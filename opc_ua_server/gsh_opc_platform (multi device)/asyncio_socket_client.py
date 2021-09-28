@@ -10,11 +10,11 @@ async def tcp_echo_client(message):
     writer.close()
 
 async def main():
-    #while True:
+    while True:
         await asyncio.sleep(random.randrange(10,100)/100)
-        await tcp_echo_client("WR R500 1\r\n")
-        #await asyncio.sleep(random.randrange(10,100)/100)
-        #await tcp_echo_client("WR R103 0\r\n")
+        await tcp_echo_client("WR R103 1\r\n")
+        await asyncio.sleep(random.randrange(10,100)/100)
+        await tcp_echo_client("WR R103 0\r\n")
 
 
 asyncio.run(main())
