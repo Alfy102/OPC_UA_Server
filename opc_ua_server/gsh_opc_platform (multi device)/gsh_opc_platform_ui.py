@@ -1,83 +1,54 @@
 import sys
-from PyQt5.uic import loadUi
+from PyQt5 import QtWidgets, QtGui
 from PyQt5.QtCore import  QThread,QEvent
-from PyQt5.QtWidgets import QMainWindow, QApplication
+from PyQt5.QtWidgets import QMainWindow
 from queue import Queue
 from pathlib import Path
 import gsh_opc_platform_server as gsh_server
 import gsh_opc_platform_client as gsh_client
-import io_layout_map as iomp
-import logging
+from gsh_opc_platform_gui import Ui_MainWindow
+from io_layout_map import node_structure
 from datetime import datetime
-from time import sleep
-import qtqr
 from multiprocessing import Process,Queue
+from datetime import datetime
 
-
-class QTextEditLogger(logging.Handler):
-    def __init__(self,textEdit):
-        super(QTextEditLogger, self).__init__()
-        self.widget = textEdit
-        self.widget.setReadOnly(True)
-
-    def emit(self, record):
-        msg = self.format(record)
-        self.widget.appendPlainText(msg)
-
-class QTextEditLoggerAlarm(logging.Handler):
-    def __init__(self,textEdit):
-        super(QTextEditLoggerAlarm, self).__init__()
-        self.widget = textEdit
-        self.widget.setReadOnly(True)
-
-    def emit(self, record):
-        msg = self.format(record)
-        self.widget.appendPlainText(msg)
-
-class button_window(QMainWindow):
+class MainWindow(QMainWindow, Ui_MainWindow):
     
     def __init__(self):
-        super(button_window,self).__init__()
-        self.file_path = Path(__file__).parent.absolute()
-        ui_path=self.file_path.joinpath("opc_ui.ui")
-        loadUi(ui_path,self)
+        super(MainWindow,self).__init__()
+        self.title = 'GSH OPC Software'
         self.database_file = "variable_history.sqlite3"
-        self.plc_address = {'PLC1':'127.0.0.1:8501'}
-        self.io_dict = {}
-        self.hmi_label = iomp.all_hmi_dict
-        self.label_dict = iomp.all_label_dict
+        self.uri = "PLC_Server"
+        plc_address = {'PLC1':'127.0.0.1:8501'}
         self.start_time = datetime.now()
         self.input_queue = Queue()
-        self.file_path = Path(__file__).parent.absolute()
-        self.endpoint = "localhost:4840/gshopcua/server"
-        self.logger = logging.getLogger('EVENT')
-        self.logger_alarm = logging.getLogger('ALARM')
-        logTextBox_1 = QTextEditLogger(self.plainTextEdit_1)
-        logTextBox_1.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s',"%d/%m/%Y %H:%M:%S%p"))
-        self.logger.addHandler(logTextBox_1)
-        self.logger.setLevel(logging.INFO)
-        logTextBox_2 = QTextEditLogger(self.plainTextEdit_2)
-        logTextBox_2.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(message)s',"%d/%m/%Y - %H:%M:%S%p"))
-        self.logger_alarm.addHandler(logTextBox_2)
-        self.logger_alarm.setLevel(logging.INFO)
-        self.server_process = Process(target=gsh_server.OpcServerThread, args=(self.plc_address,self.file_path,self.endpoint,self.namespace, ))
+        file_path = Path(__file__).parent.absolute()
+        endpoint = "localhost:4840/gshopcua/server"
+        server_refresh_rate = 0.1
+        client_refresh_rate = 0.01
+        self.server_process = Process(target=gsh_server.OpcServerThread, args=(plc_address,file_path,endpoint,server_refresh_rate,self.uri))
         self.server_process.daemon = True    
-        self.time_info_layout = iomp.time_info_layout_node
-        self.info_layout_node = iomp.info_layout_node
-
-
+        self.io_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='relay'}
+        self.hmi_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='hmi'}
+        self.ui_time_dict = {}
         self.client_thread=QThread()
-        self.client_worker = gsh_client.OpcClientThread(self.input_queue,self.endpoint,self.label_dict)
+        self.client_worker = gsh_client.OpcClientThread(self.input_queue,endpoint,self.uri,client_refresh_rate)
         self.client_worker.moveToThread(self.client_thread)
         self.client_thread.started.connect(self.client_worker.run)
-        self.client_worker.server_logger_signal.connect(self.server_logger_handler)
+        self.client_worker.logger_signal.connect(self.logger_handler)
         self.client_worker.data_signal.connect(self.io_handler)
         self.client_worker.info_signal.connect(self.info_handler)
-        self.client_worker.ui_refresh_signal.connect(self.label_updater)
         self.client_worker.ui_refresh_signal.connect(self.uptime)
-        self.client_worker.time_data_signal.connect(self.time_calc)
+        self.client_worker.time_data_signal.connect(self.time_label_update)
+        self.rgb_value_input_on = "64, 255, 0"
+        self.rgb_value_input_off = "0, 80, 0"
+        self.rgb_value_output_on = "255, 20, 20"
+        self.rgb_value_output_off = "80, 0, 0"
 
-
+    def setupUi(self, MainFrame):
+        super(MainWindow, self).setupUi(MainFrame)
+        self.alarm_log_text_edit.setReadOnly(True)
+        self.event_log_text_edit.setReadOnly(True)
         self.stackedWidget.setCurrentIndex(0)
         self.main_page_button.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(0))
         self.lot_entry_button.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(1))
@@ -119,33 +90,35 @@ class button_window(QMainWindow):
         self.module_1_motor_1_button.clicked.connect(lambda: self.main_motor_control_stacked_widget.setCurrentIndex(0))
         self.module_1_motor_2_button.clicked.connect(lambda: self.main_motor_control_stacked_widget.setCurrentIndex(1))
 
-        self.hmi_dict = dict(filter(lambda elem: ('y' in elem[1][0]) , self.label_dict.items()))
-        for labels in self.hmi_dict.values():
-            for items in labels:
-                label_1 = items
-                indicator_label_1 = eval(f"self.{label_1}")
-                indicator_label_1.installEventFilter(self)
-
+        for value in self.io_dict.values():
+            if 'y' in value['label_point'][0]:
+                for label in value['label_point']:                
+                    indicator_label = eval(f"self.{label}")
+                    indicator_label.installEventFilter(self)
 
     def server_start(self):
-        self.logger.info("Launching Server!")
         self.server_process.start()
-        #self.client_thread.start()
-
-    def server_close(self):
-        self.server_process.terminate()
-        sys.exit()
+        self.client_thread.start()
 
     def eventFilter(self, source, event):
         if event.type() == QEvent.MouseButtonDblClick:
-            for labels in self.hmi_dict.values():
-                for items in labels:
-                    label = items
-                    indicator_label = eval(f"self.{label}")
-                    if source is indicator_label:
-                        msg = source.text()
-                        self.send_data(msg)
-        return super(button_window, self).eventFilter(source, event)
+            label_object_name = source.objectName()
+            label_object_text = source.text()
+            stylesheet = source.styleSheet()
+            rgb_value = self.stylesheet_extractor(stylesheet)
+            if rgb_value == self.rgb_value_output_on:
+                #if output label is ON, send OFF to OPC
+                self.send_data(label_object_name, label_object_text, True)
+            elif rgb_value == self.rgb_value_output_off:
+                #if output label is OFF, send ON to OPC
+                self.send_data(label_object_name, label_object_text, False)
+        return super(MainWindow, self).eventFilter(source, event)
+
+    def stylesheet_extractor(self, stylesheet_string):
+        stylesheet_list = stylesheet_string.split(';')
+        background_color_property = [elem for idx, elem in enumerate(stylesheet_list) if 'background' in elem][0]
+        rgb_value = background_color_property[background_color_property.find("(")+1:background_color_property.find(")")]
+        return rgb_value
 
     def io_list_page_behaviour(self):
         self.stackedWidget.setCurrentIndex(4)
@@ -162,70 +135,84 @@ class button_window(QMainWindow):
     def main_motor_page_behaviour(self):
         self.stackedWidget.setCurrentIndex(6)
         self.main_motor_page_1_button.setChecked(True)
+        self.module_1_motor_1_button.setChecked(True)
         self.main_motor_station_stacked_widget.setCurrentIndex(0)
         self.main_motor_control_stacked_widget.setCurrentIndex(0)
 
-    def send_data(self,label_text):
-        from_hmi_label = self.hmi_label[label_text]
-        current_value = 1- self.io_dict[from_hmi_label[1]]
-        self.input_queue.put((2,from_hmi_label[0], current_value))
-        msg = str((from_hmi_label[0], current_value))
-        self.logger.info(msg)
 
-    def server_logger_handler(self, emit_data):
-        if emit_data[0] =='log':
-            msg = emit_data[1]
-            self.logger.info(msg)
-        elif emit_data[0] == 'alarm':
-            msg = emit_data[1]
-            self.logger_alarm.info(msg)
 
-    def io_handler(self, data):
-        self.io_dict.update({data[0]:data[1]})
 
-    def time_calc(self, data):
-        for values in data.values():
-            time_reading = values[2]
-            label = self.time_info_layout[values[1]]
-            time_label = eval(f"self.{label}")
-            time_label.setText(values[2])
+    def send_data(self,label_object_name,label_object_text, data_value):
+        hmi_node = [(key,value) for key,value in self.hmi_dict.items() if label_object_name in value['label_point']][0]
+        hmi_node_id = hmi_node[0]
+        data_type = hmi_node[1]['node_property']['data_type']
+        current_value = 1- data_value
+        self.input_queue.put((hmi_node_id, current_value, data_type))
+        if current_value == 1:
+            self.logger_handler(('INFO', datetime.now() , f"{label_object_text} is switched ON"))
+        elif current_value == 0:
+            self.logger_handler(('INFO', datetime.now() , f"{label_object_text} is switched OFF"))
 
+    def logger_handler(self, data):
+        handler_type = data[0]
+        time = (data[1].strftime("%d-%m-%Y | %H:%M:%S.%f")).split('.')[0]
+        data_value = data[2]
+        msg = f"{time} | {handler_type} | {data_value}"
+        if handler_type=='ALARM':
+            self.alarm_log_text_edit.appendPlainText(msg)
+        elif handler_type=='INFO':
+            self.event_log_text_edit.appendPlainText(msg)
 
     def info_handler(self, data):
-        info_label = self.info_layout_node[data[0]]
-        info_label = eval(f"self.{info_label}")
-        if isinstance(data[1], int):
-            info_label.setText(str(data[1]))
-        elif isinstance(data[1], float):
-            info_label.setText(f"{data[1]:.2f}")
+        data_value = data[0]
+        label_list = data[1]
+        if data_value:
+            for label in label_list:
+                info_label = eval(f"self.{label}")
+                if isinstance(data_value, int):
+                    info_label.setText(str(data_value))
+                elif isinstance(data_value, float):
+                    info_label.setText(f"{data_value:.2f}")
+
+    def io_handler(self, data):
+        label_list = data[1]
+        data_value = data[0]
+        for label in label_list:
+            indicator_label = eval(f"self.{label}")
+            if data_value == 1:
+                if 'x' in label:
+                    indicator_label.setStyleSheet(f"background-color: rgb({self.rgb_value_input_on});color: rgb(0, 0, 0);")
+                if 'y' in label:
+                    indicator_label.setStyleSheet(f"background-color: rgb({self.rgb_value_output_on});color: rgb(0, 0, 0);")
+            elif data_value == 0:
+                if 'x' in label:
+                    indicator_label.setStyleSheet(f"background-color: rgb({self.rgb_value_input_off});color: rgb(200, 200, 200);")
+                if 'y' in label:
+                    indicator_label.setStyleSheet(f"background-color: rgb({self.rgb_value_output_off});color: rgb(200, 200, 200);")
 
     def uptime(self):
         uptime = datetime.now() - self.start_time
         uptime_text = (str(uptime).split('.', 2)[0])
         self.system_uptime_label.setText(uptime_text)
 
-    def label_updater(self):
-         for key,value in self.io_dict.items():
-            from_data = self.label_dict[key]
-            data_value = value
-            for label in from_data:
-                indicator_label = eval(f"self.{label}")
-                if data_value == 1:
-                    if 'x' in label:
-                        indicator_label.setStyleSheet("background-color: rgb(64, 255, 0);color: rgb(0, 0, 0);")
-                    if 'y' in label:
-                        indicator_label.setStyleSheet("background-color: rgb(255, 20, 20);color: rgb(0, 0, 0);")
-                elif data_value == 0:
-                    if 'x' in label:
-                        indicator_label.setStyleSheet("background-color: rgb(0, 80, 0);color: rgb(200, 200, 200);")
-                    if 'y' in label:
-                        indicator_label.setStyleSheet("background-color: rgb(80, 0, 0);color: rgb(200, 200, 200);")
-    
+    def time_label_update(self,data):
+        label = data[0]
+        time_string = data[1].split('.')[0]
+        for label in label:
+            time_label = eval(f"self.{label}")
+            time_label.setText(time_string)
+
+
+
 if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    hmi = button_window()
-    hmi.show()
-    hmi.showMaximized()
-    hmi.server_start() #Disable comment to start server
+    app = QtWidgets.QApplication(sys.argv)
+    Main_UI = QtWidgets.QMainWindow()
+    ui = MainWindow()
+    ui.setupUi(Main_UI)
+    ui.server_start()
+    Main_UI.show()
+    Main_UI.showMaximized()
     sys.exit(app.exec_())
+    
+
 

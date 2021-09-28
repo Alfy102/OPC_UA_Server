@@ -301,7 +301,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="label_24">
+           <widget class="QLabel" name="alarm_label">
             <property name="text">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:36pt; color:#ff0004;&quot;&gt;#1234 - ALARM SAMPLE TEXT&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
@@ -419,9 +419,15 @@
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label_28">
+             <widget class="QLabel" name="production_uph_label">
+              <property name="font">
+               <font>
+                <pointsize>15</pointsize>
+                <bold>true</bold>
+               </font>
+              </property>
               <property name="text">
-               <string>SampleText</string>
+               <string>0</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignCenter</set>
@@ -466,9 +472,15 @@
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label_30">
+             <widget class="QLabel" name="sprint_uph_label">
+              <property name="font">
+               <font>
+                <pointsize>15</pointsize>
+                <bold>true</bold>
+               </font>
+              </property>
               <property name="text">
-               <string>SampleText</string>
+               <string>0</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignCenter</set>
@@ -1600,6 +1612,196 @@ QPushButton:checked
              <property name="lineWidth">
               <number>0</number>
              </property>
+             <widget class="QGroupBox" name="groupBox">
+              <property name="geometry">
+               <rect>
+                <x>20</x>
+                <y>20</y>
+                <width>261</width>
+                <height>191</height>
+               </rect>
+              </property>
+              <property name="title">
+               <string>Lot Info</string>
+              </property>
+              <widget class="QWidget" name="layoutWidget">
+               <property name="geometry">
+                <rect>
+                 <x>10</x>
+                 <y>20</y>
+                 <width>231</width>
+                 <height>161</height>
+                </rect>
+               </property>
+               <layout class="QHBoxLayout" name="horizontalLayout_36">
+                <item>
+                 <layout class="QVBoxLayout" name="verticalLayout_57">
+                  <item>
+                   <widget class="QLabel" name="label_6">
+                    <property name="text">
+                     <string>Lot ID</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_9">
+                    <property name="text">
+                     <string>Operator ID</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_10">
+                    <property name="text">
+                     <string>Package Name</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_11">
+                    <property name="text">
+                     <string>Device ID</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_12">
+                    <property name="text">
+                     <string>Quantity In</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <layout class="QVBoxLayout" name="verticalLayout_58">
+                  <item>
+                   <widget class="QLabel" name="label_13">
+                    <property name="text">
+                     <string>TEST</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_28">
+                    <property name="text">
+                     <string>TEST</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_30">
+                    <property name="text">
+                     <string>PDIP</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_74">
+                    <property name="text">
+                     <string>DEVICE</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_75">
+                    <property name="text">
+                     <string>1</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </widget>
+             </widget>
+             <widget class="QGroupBox" name="groupBox_2">
+              <property name="geometry">
+               <rect>
+                <x>20</x>
+                <y>220</y>
+                <width>261</width>
+                <height>461</height>
+               </rect>
+              </property>
+              <property name="title">
+               <string>Station Status</string>
+              </property>
+              <widget class="QWidget" name="layoutWidget_4">
+               <property name="geometry">
+                <rect>
+                 <x>10</x>
+                 <y>20</y>
+                 <width>231</width>
+                 <height>431</height>
+                </rect>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_59">
+                <item>
+                 <widget class="QCheckBox" name="checkBox_9">
+                  <property name="text">
+                   <string>Module 1</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="checkBox_10">
+                  <property name="text">
+                   <string>Module 2</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="checkBox_11">
+                  <property name="text">
+                   <string>Module 3</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="checkBox_12">
+                  <property name="text">
+                   <string>Module 4</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="checkBox_13">
+                  <property name="text">
+                   <string>Module 5</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="checkBox_14">
+                  <property name="text">
+                   <string>Module 6</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="checkBox_15">
+                  <property name="text">
+                   <string>Module 7</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </widget>
+             <widget class="QGraphicsView" name="graphicsView_9">
+              <property name="geometry">
+               <rect>
+                <x>330</x>
+                <y>100</y>
+                <width>1111</width>
+                <height>491</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-image: url(:/module_image/HMI/General/TopView.png);</string>
+              </property>
+             </widget>
             </widget>
            </widget>
            <widget class="QWidget" name="lot_entry_page">
@@ -1659,6 +1861,109 @@ QPushButton:checked
              <property name="frameShadow">
               <enum>QFrame::Raised</enum>
              </property>
+             <widget class="QGroupBox" name="groupBox_3">
+              <property name="geometry">
+               <rect>
+                <x>70</x>
+                <y>40</y>
+                <width>261</width>
+                <height>191</height>
+               </rect>
+              </property>
+              <property name="title">
+               <string>Lot Info</string>
+              </property>
+              <widget class="QWidget" name="layoutWidget_6">
+               <property name="geometry">
+                <rect>
+                 <x>10</x>
+                 <y>20</y>
+                 <width>231</width>
+                 <height>161</height>
+                </rect>
+               </property>
+               <layout class="QHBoxLayout" name="horizontalLayout_38">
+                <item>
+                 <layout class="QVBoxLayout" name="verticalLayout_60">
+                  <item>
+                   <widget class="QLabel" name="label_24">
+                    <property name="text">
+                     <string>Lot ID</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_118">
+                    <property name="text">
+                     <string>Operator ID</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_126">
+                    <property name="text">
+                     <string>Package Name</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_127">
+                    <property name="text">
+                     <string>Device ID</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_128">
+                    <property name="text">
+                     <string>Lot Start Date</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <layout class="QVBoxLayout" name="verticalLayout_61">
+                  <item>
+                   <widget class="QLabel" name="label_129">
+                    <property name="text">
+                     <string>TEST</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_130">
+                    <property name="text">
+                     <string>TEST</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_131">
+                    <property name="text">
+                     <string>PDIP</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_132">
+                    <property name="text">
+                     <string>DEVICE</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_133">
+                    <property name="text">
+                     <string>Start Datetime</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </widget>
+             </widget>
             </widget>
            </widget>
            <widget class="QWidget" name="lot_info_page">
@@ -2786,7 +3091,7 @@ QPushButton:checked
                </item>
               </layout>
              </widget>
-             <widget class="QFrame" name="frame_55">
+             <widget class="QFrame" name="graph_frame">
               <property name="geometry">
                <rect>
                 <x>50</x>
@@ -2883,7 +3188,7 @@ QPushButton:checked
                <attribute name="title">
                 <string>Event Log</string>
                </attribute>
-               <widget class="QPlainTextEdit" name="plainTextEdit_1">
+               <widget class="QPlainTextEdit" name="event_log_text_edit">
                 <property name="geometry">
                  <rect>
                   <x>0</x>
@@ -2922,7 +3227,7 @@ QPushButton:checked
                <attribute name="title">
                 <string>Alarm Log</string>
                </attribute>
-               <widget class="QPlainTextEdit" name="plainTextEdit_2">
+               <widget class="QPlainTextEdit" name="alarm_log_text_edit">
                 <property name="geometry">
                  <rect>
                   <x>0</x>
@@ -3012,194 +3317,6 @@ QPushButton:checked
               <property name="geometry">
                <rect>
                 <x>20</x>
-                <y>690</y>
-                <width>431</width>
-                <height>42</height>
-               </rect>
-              </property>
-              <layout class="QHBoxLayout" name="horizontalLayout_23">
-               <item>
-                <widget class="QPushButton" name="input_page_1_button">
-                 <property name="minimumSize">
-                  <size>
-                   <width>100</width>
-                   <height>40</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>100</width>
-                   <height>40</height>
-                  </size>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">QPushButton
-{
-background-color: rgb(247, 247, 247);
-}
-QPushButton:checked
-{
-	background-color: rgb(0, 255, 255);
-}</string>
-                 </property>
-                 <property name="text">
-                  <string>X0000 - X0115</string>
-                 </property>
-                 <property name="checkable">
-                  <bool>true</bool>
-                 </property>
-                 <property name="autoExclusive">
-                  <bool>true</bool>
-                 </property>
-                 <property name="autoDefault">
-                  <bool>false</bool>
-                 </property>
-                 <property name="default">
-                  <bool>false</bool>
-                 </property>
-                 <attribute name="buttonGroup">
-                  <string notr="true">input_list_page_button_group</string>
-                 </attribute>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="input_page_2_button">
-                 <property name="minimumSize">
-                  <size>
-                   <width>100</width>
-                   <height>40</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>100</width>
-                   <height>40</height>
-                  </size>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">QPushButton
-{
-background-color: rgb(247, 247, 247);
-}
-QPushButton:checked
-{
-	background-color: rgb(0, 255, 255);
-}</string>
-                 </property>
-                 <property name="text">
-                  <string>X0200 - X0315</string>
-                 </property>
-                 <property name="checkable">
-                  <bool>true</bool>
-                 </property>
-                 <property name="autoExclusive">
-                  <bool>true</bool>
-                 </property>
-                 <property name="autoDefault">
-                  <bool>false</bool>
-                 </property>
-                 <property name="default">
-                  <bool>false</bool>
-                 </property>
-                 <attribute name="buttonGroup">
-                  <string notr="true">input_list_page_button_group</string>
-                 </attribute>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="output_page_1_button">
-                 <property name="minimumSize">
-                  <size>
-                   <width>100</width>
-                   <height>40</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>100</width>
-                   <height>40</height>
-                  </size>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">QPushButton
-{
-background-color: rgb(247, 247, 247);
-}
-QPushButton:checked
-{
-	background-color: rgb(0, 255, 255);
-}</string>
-                 </property>
-                 <property name="text">
-                  <string>Y6000 - Y6115</string>
-                 </property>
-                 <property name="checkable">
-                  <bool>true</bool>
-                 </property>
-                 <property name="autoExclusive">
-                  <bool>true</bool>
-                 </property>
-                 <property name="autoDefault">
-                  <bool>false</bool>
-                 </property>
-                 <property name="default">
-                  <bool>false</bool>
-                 </property>
-                 <attribute name="buttonGroup">
-                  <string notr="true">output_list_page_button_group</string>
-                 </attribute>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="output_page_2_button">
-                 <property name="minimumSize">
-                  <size>
-                   <width>100</width>
-                   <height>40</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>100</width>
-                   <height>40</height>
-                  </size>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">QPushButton
-{
-background-color: rgb(247, 247, 247);
-}
-QPushButton:checked
-{
-	background-color: rgb(0, 255, 255);
-}</string>
-                 </property>
-                 <property name="text">
-                  <string>Y6200 - Y6315</string>
-                 </property>
-                 <property name="checkable">
-                  <bool>true</bool>
-                 </property>
-                 <property name="autoExclusive">
-                  <bool>true</bool>
-                 </property>
-                 <property name="autoDefault">
-                  <bool>false</bool>
-                 </property>
-                 <property name="default">
-                  <bool>false</bool>
-                 </property>
-                 <attribute name="buttonGroup">
-                  <string notr="true">output_list_page_button_group</string>
-                 </attribute>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-             <widget class="QWidget" name="layoutWidget">
-              <property name="geometry">
-               <rect>
-                <x>20</x>
                 <y>70</y>
                 <width>1701</width>
                 <height>611</height>
@@ -3209,7 +3326,7 @@ QPushButton:checked
                <item>
                 <widget class="QStackedWidget" name="input_stacked_widget">
                  <property name="currentIndex">
-                  <number>1</number>
+                  <number>0</number>
                  </property>
                  <widget class="QWidget" name="input_page_1">
                   <widget class="QFrame" name="frame_25">
@@ -5426,7 +5543,7 @@ QPushButton:checked
                <item>
                 <widget class="QStackedWidget" name="output_stacked_widget">
                  <property name="currentIndex">
-                  <number>0</number>
+                  <number>1</number>
                  </property>
                  <widget class="QWidget" name="output_page_1">
                   <widget class="QFrame" name="frame_29">
@@ -7104,6 +7221,206 @@ QPushButton:checked
                    </layout>
                   </widget>
                  </widget>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="layoutWidget">
+              <property name="geometry">
+               <rect>
+                <x>21</x>
+                <y>691</y>
+                <width>208</width>
+                <height>42</height>
+               </rect>
+              </property>
+              <layout class="QHBoxLayout" name="horizontalLayout_23">
+               <item>
+                <widget class="QPushButton" name="input_page_1_button">
+                 <property name="minimumSize">
+                  <size>
+                   <width>100</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>100</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton
+{
+background-color: rgb(247, 247, 247);
+}
+QPushButton:checked
+{
+	background-color: rgb(0, 255, 255);
+}</string>
+                 </property>
+                 <property name="text">
+                  <string>X0000 - X0115</string>
+                 </property>
+                 <property name="checkable">
+                  <bool>true</bool>
+                 </property>
+                 <property name="autoExclusive">
+                  <bool>true</bool>
+                 </property>
+                 <property name="autoDefault">
+                  <bool>false</bool>
+                 </property>
+                 <property name="default">
+                  <bool>false</bool>
+                 </property>
+                 <attribute name="buttonGroup">
+                  <string notr="true">input_list_page_button_group</string>
+                 </attribute>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="input_page_2_button">
+                 <property name="minimumSize">
+                  <size>
+                   <width>100</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>100</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton
+{
+background-color: rgb(247, 247, 247);
+}
+QPushButton:checked
+{
+	background-color: rgb(0, 255, 255);
+}</string>
+                 </property>
+                 <property name="text">
+                  <string>X0200 - X0315</string>
+                 </property>
+                 <property name="checkable">
+                  <bool>true</bool>
+                 </property>
+                 <property name="autoExclusive">
+                  <bool>true</bool>
+                 </property>
+                 <property name="autoDefault">
+                  <bool>false</bool>
+                 </property>
+                 <property name="default">
+                  <bool>false</bool>
+                 </property>
+                 <attribute name="buttonGroup">
+                  <string notr="true">input_list_page_button_group</string>
+                 </attribute>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="layoutWidget">
+              <property name="geometry">
+               <rect>
+                <x>880</x>
+                <y>690</y>
+                <width>208</width>
+                <height>42</height>
+               </rect>
+              </property>
+              <layout class="QHBoxLayout" name="horizontalLayout_39">
+               <item>
+                <widget class="QPushButton" name="output_page_1_button">
+                 <property name="minimumSize">
+                  <size>
+                   <width>100</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>100</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton
+{
+background-color: rgb(247, 247, 247);
+}
+QPushButton:checked
+{
+	background-color: rgb(0, 255, 255);
+}</string>
+                 </property>
+                 <property name="text">
+                  <string>Y6000 - Y6115</string>
+                 </property>
+                 <property name="checkable">
+                  <bool>true</bool>
+                 </property>
+                 <property name="autoExclusive">
+                  <bool>true</bool>
+                 </property>
+                 <property name="autoDefault">
+                  <bool>false</bool>
+                 </property>
+                 <property name="default">
+                  <bool>false</bool>
+                 </property>
+                 <attribute name="buttonGroup">
+                  <string notr="true">output_list_page_button_group</string>
+                 </attribute>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="output_page_2_button">
+                 <property name="minimumSize">
+                  <size>
+                   <width>100</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>100</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton
+{
+background-color: rgb(247, 247, 247);
+}
+QPushButton:checked
+{
+	background-color: rgb(0, 255, 255);
+}</string>
+                 </property>
+                 <property name="text">
+                  <string>Y6200 - Y6315</string>
+                 </property>
+                 <property name="checkable">
+                  <bool>true</bool>
+                 </property>
+                 <property name="autoExclusive">
+                  <bool>true</bool>
+                 </property>
+                 <property name="autoDefault">
+                  <bool>false</bool>
+                 </property>
+                 <property name="default">
+                  <bool>false</bool>
+                 </property>
+                 <attribute name="buttonGroup">
+                  <string notr="true">output_list_page_button_group</string>
+                 </attribute>
                 </widget>
                </item>
               </layout>
@@ -14375,19 +14692,6 @@ background-color: rgba(229, 229, 229, 247)
              <property name="frameShadow">
               <enum>QFrame::Raised</enum>
              </property>
-             <widget class="QPushButton" name="start_server_button">
-              <property name="geometry">
-               <rect>
-                <x>130</x>
-                <y>90</y>
-                <width>75</width>
-                <height>24</height>
-               </rect>
-              </property>
-              <property name="text">
-               <string>Start Server</string>
-              </property>
-             </widget>
             </widget>
            </widget>
           </widget>
@@ -14405,11 +14709,11 @@ background-color: rgba(229, 229, 229, 247)
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="main_motor_page_button_group"/>
-  <buttongroup name="io_module_button_group"/>
-  <buttongroup name="input_list_page_button_group"/>
-  <buttongroup name="output_list_page_button_group"/>
   <buttongroup name="navigation_button_group"/>
+  <buttongroup name="main_motor_page_button_group"/>
   <buttongroup name="main_motor_module_button_group"/>
+  <buttongroup name="output_list_page_button_group"/>
+  <buttongroup name="input_list_page_button_group"/>
+  <buttongroup name="io_module_button_group"/>
  </buttongroups>
 </ui>
