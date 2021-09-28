@@ -1,9 +1,8 @@
-
 from asyncua import Client, ua
 import asyncio
 from PyQt5.QtCore import QObject, pyqtSignal, pyqtSlot
 from io_layout_map import node_structure
-from datetime import datetime
+from datetime import datetime,timedelta
 
 
 class SubAlarmHandler(object):
@@ -32,21 +31,15 @@ class SubInfoHandler(object):
         label_list = self.info_dict[node_id]['label_point']
         self.info_signal.emit((val,label_list))
 
+
 class SubTimerHandler(object):
-    def __init__(self,time_signal,time_dict,read_time):
+    def __init__(self,time_signal,time_dict):
         self.time_signal = time_signal
         self.time_dict = time_dict
-        self.read_time = read_time
     async def datachange_notification(self, node, val, data):
         node_identifier = node.nodeid.Identifier
-        namespace_index = node.nodeid.NamespaceIndex
-        SourceTime = data.monitored_item.Value.SourceTimestamp
-        corr_time_node = [key for key,value in self.time_dict.items() if value['monitored_node']==node_identifier][0]
-        stored_time = await self.read_time(namespace_index, corr_time_node)
-        label = self.time_dict[corr_time_node]['label_point'][0]
-        #self.time_signal.emit((corr_time_node, val ,SourceTime, stored_time,label))
-
-
+        time_label = self.time_dict[node_identifier]['label_point']
+        self.time_signal.emit((time_label, val))
 
 class OpcClientThread(QObject):
     data_signal=pyqtSignal(tuple)
@@ -54,6 +47,7 @@ class OpcClientThread(QObject):
     info_signal = pyqtSignal(tuple)
     ui_refresh_signal=pyqtSignal()
     logger_signal=pyqtSignal(tuple)
+    uph_signal = pyqtSignal(tuple)
     def __init__(self,input_q,endpoint,uri,client_refresh_rate,parent=None,**kwargs):
         super().__init__(parent, **kwargs)
         self.input_queue = input_q
@@ -67,6 +61,7 @@ class OpcClientThread(QObject):
         url = f"opc.tcp://{endpoint}"
         self.client = Client(url=url)
         self.uri = uri
+        
     
     def run(self):
         asyncio.run(self.client_start())
@@ -86,14 +81,12 @@ class OpcClientThread(QObject):
             ua_var = ua.Variant(float(data_value), ua.VariantType.Float)
         return ua_var
 
-    async def read_time(self, namespace_index, node_id):
-        var = self.client.get_node((ua.NodeId(node_id, namespace_index)))
-        data_value = await var.read_value()
-        return data_value
+
+        
 
     @pyqtSlot()
     async def client_start(self):
-        await asyncio.sleep(2)
+        await asyncio.sleep(3)
         
         async with self.client as client:
             namespace_index = await client.get_namespace_index(self.uri)
@@ -117,31 +110,30 @@ class OpcClientThread(QObject):
                 await alarm_sub.subscribe_data_change(var,queuesize=1)
 
             
-            timer_handler = SubTimerHandler(self.time_data_signal,self.time_dict,self.read_time)  
+            timer_handler = SubTimerHandler(self.time_data_signal,self.time_dict)  
             time_sub = await client.create_subscription(self.sub_time, timer_handler) 
+            for node in self.time_dict.keys():
+                var = client.get_node((ua.NodeId(node, namespace_index)))
+                await time_sub.subscribe_data_change(var,queuesize=1)
+            
+            
 
-            for node,value in self.time_dict.items():
-                #var = client.get_node((ua.NodeId(node, namespace_index)))
-                #opc_stored_time = await var.read_value()
-                #value['node_property']['initial_value'] = opc_stored_time
-                self.time_dict.update({node:value})
-                node = value['monitored_node']
-                var_2 = client.get_node((ua.NodeId(node, namespace_index)))
-                await time_sub.subscribe_data_change(var_2,queuesize=1)
-
-
-
-
+            
 
             while True:
+
                 await asyncio.sleep(self.client_refresh_rate)
                 self.ui_refresh_signal.emit()
+                
                 if not self.input_queue.empty():
                     hmi_signal = self.input_queue.get()
                     hmi_node_id = hmi_signal[0]
                     data_value = hmi_signal[1]
                     data_type = hmi_signal[2]
                     input_node = client.get_node(ua.NodeId(hmi_node_id, namespace_index))
+                    print(f"From client {input_node},{data_type},{data_value}")
                     await input_node.write_value(self.ua_variant_data_type(data_type,data_value))
+
+
                 
 

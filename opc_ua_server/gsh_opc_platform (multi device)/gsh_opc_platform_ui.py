@@ -1,5 +1,5 @@
 import sys
-from PyQt5 import QtWidgets
+from PyQt5 import QtWidgets, QtGui
 from PyQt5.QtCore import  QThread,QEvent
 from PyQt5.QtWidgets import QMainWindow
 from queue import Queue
@@ -10,7 +10,7 @@ from gsh_opc_platform_gui import Ui_MainWindow
 from io_layout_map import node_structure
 from datetime import datetime
 from multiprocessing import Process,Queue
-from datetime import timedelta,datetime
+from datetime import datetime
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     
@@ -25,7 +25,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         file_path = Path(__file__).parent.absolute()
         endpoint = "localhost:4840/gshopcua/server"
         server_refresh_rate = 0.1
-        client_refresh_rate = 1
+        client_refresh_rate = 0.01
         self.server_process = Process(target=gsh_server.OpcServerThread, args=(plc_address,file_path,endpoint,server_refresh_rate,self.uri))
         self.server_process.daemon = True    
         self.io_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='relay'}
@@ -39,16 +39,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.client_worker.data_signal.connect(self.io_handler)
         self.client_worker.info_signal.connect(self.info_handler)
         self.client_worker.ui_refresh_signal.connect(self.uptime)
-        self.client_worker.time_data_signal.connect(self.time_placeholder)
+        self.client_worker.time_data_signal.connect(self.time_label_update)
         self.rgb_value_input_on = "64, 255, 0"
         self.rgb_value_input_off = "0, 80, 0"
         self.rgb_value_output_on = "255, 20, 20"
         self.rgb_value_output_off = "80, 0, 0"
 
-
     def setupUi(self, MainFrame):
         super(MainWindow, self).setupUi(MainFrame)
         self.alarm_log_text_edit.setReadOnly(True)
+        self.event_log_text_edit.setReadOnly(True)
         self.stackedWidget.setCurrentIndex(0)
         self.main_page_button.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(0))
         self.lot_entry_button.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(1))
@@ -135,12 +135,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def main_motor_page_behaviour(self):
         self.stackedWidget.setCurrentIndex(6)
         self.main_motor_page_1_button.setChecked(True)
+        self.module_1_motor_1_button.setChecked(True)
         self.main_motor_station_stacked_widget.setCurrentIndex(0)
         self.main_motor_control_stacked_widget.setCurrentIndex(0)
 
+
+
+
     def send_data(self,label_object_name,label_object_text, data_value):
         hmi_node = [(key,value) for key,value in self.hmi_dict.items() if label_object_name in value['label_point']][0]
-        hmi_node_id = hmi_node[1]
+        hmi_node_id = hmi_node[0]
         data_type = hmi_node[1]['node_property']['data_type']
         current_value = 1- data_value
         self.input_queue.put((hmi_node_id, current_value, data_type))
@@ -161,11 +165,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def info_handler(self, data):
         data_value = data[0]
-        info_label = eval(f"self.{data[1][0]}")
-        if isinstance(data_value, int):
-            info_label.setText(str(data_value))
-        elif isinstance(data_value, float):
-            info_label.setText(f"{data_value:.2f}")
+        label_list = data[1]
+        if data_value:
+            for label in label_list:
+                info_label = eval(f"self.{label}")
+                if isinstance(data_value, int):
+                    info_label.setText(str(data_value))
+                elif isinstance(data_value, float):
+                    info_label.setText(f"{data_value:.2f}")
 
     def io_handler(self, data):
         label_list = data[1]
@@ -188,13 +195,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         uptime_text = (str(uptime).split('.', 2)[0])
         self.system_uptime_label.setText(uptime_text)
 
-                    
-
-    def convert_timedelta_string(self, time_string):
-        time_var = datetime.strptime(time_string,"%H:%M:%S")
-        delta = timedelta(hours=time_var.hour, minutes=time_var.minute, seconds=time_var.second)
-        return delta
-
+    def time_label_update(self,data):
+        label = data[0]
+        time_string = data[1].split('.')[0]
+        for label in label:
+            time_label = eval(f"self.{label}")
+            time_label.setText(time_string)
 
 
 
@@ -203,7 +209,7 @@ if __name__ == '__main__':
     Main_UI = QtWidgets.QMainWindow()
     ui = MainWindow()
     ui.setupUi(Main_UI)
-    ui.server_start() #Disable comment to start server
+    ui.server_start()
     Main_UI.show()
     Main_UI.showMaximized()
     sys.exit(app.exec_())
