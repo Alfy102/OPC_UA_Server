@@ -12,7 +12,7 @@ matplotlib.use('QT5Agg')
 
 class MplCanvas(Canvas):
     def __init__(self):
-        self.fig = plt.figure(constrained_layout=True)  
+        self.fig = plt.figure()  
         self.plt = plt
         self.ax = self.fig.add_subplot(111)
 

@@ -118,6 +118,7 @@ class OpcServerThread(object):
         uph = (self.uph_list[1]-self.uph_list[0])*60
         asyncio.create_task(self.simple_write_to_opc(namespace_index,10016,uph,'UInt16'))
         self.uph_array.append(uph)
+        print(self.uph_array)
         for key, value in self.uph_dict.items():
             if slot_name == value['name']:
                 average_uph = sum(self.uph_array) / len(self.uph_array)
@@ -289,14 +290,10 @@ class OpcServerThread(object):
         alarm_dict = collections.OrderedDict(sorted(self.alarm_dict.items()))
         io_dict = collections.OrderedDict(sorted(self.io_dict.items()))
         next_minute = (datetime.now().replace(microsecond=0, second=0)) + timedelta(minutes=1)
-        next_half_hour = (datetime.now().replace(microsecond=0, second=0)) + timedelta(minutes=30)
         async with self.server:
             while True:
                 #tic = time.perf_counter()
                 current_time = datetime.now().replace(microsecond=0, second=0)
-                if current_time == next_half_hour:
-                    self.uph_array.clear()
-                    next_half_hour = current_time + timedelta(minutes=30)
                 if current_time == next_minute:
                     await self.uph_calculation(qty_in_var,namespace_index)
                     next_minute = current_time + timedelta(minutes=1)

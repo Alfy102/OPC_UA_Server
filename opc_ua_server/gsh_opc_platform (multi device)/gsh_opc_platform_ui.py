@@ -1,21 +1,24 @@
 import sys
-from PyQt5 import QtWidgets, QtGui
+from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtCore import  QThread,QEvent
 from PyQt5.QtWidgets import QMainWindow
 from queue import Queue
 from pathlib import Path
 import gsh_opc_platform_server as gsh_server
 import gsh_opc_platform_client as gsh_client
-from gsh_opc_platform_gui import Ui_MainWindow
+from gsh_opc_platform_gui import Ui_MainWindow as gui
 from io_layout_map import node_structure,time_series_axis
 from datetime import datetime
 from multiprocessing import Process,Queue
 import collections
 
-class MainWindow(QMainWindow, Ui_MainWindow):
+
+
+
+class Ui_MainWindow(QMainWindow,gui):
     
     def __init__(self):
-        super(MainWindow,self).__init__()
+        super(Ui_MainWindow,self).__init__()
         self.title = 'GSH OPC Software'
         self.database_file = "variable_history.sqlite3"
         self.uri = "PLC_Server"
@@ -39,6 +42,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.client_worker.data_signal.connect(self.io_handler)
         self.client_worker.info_signal.connect(self.info_handler)
         self.client_worker.ui_refresh_signal.connect(self.uptime)
+        self.client_worker.init_uph_signal.connect(self.init_plot)
         self.client_worker.uph_signal.connect(self.update_plot)
         self.client_worker.time_data_signal.connect(self.time_label_update)
         self.rgb_value_input_on = "64, 255, 0"
@@ -48,10 +52,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.x = time_series_axis
         uph_filter = {key:value for key,value in node_structure.items() if value['node_property']['category']=='uph_variables'}
         self.uph_dict = collections.OrderedDict(sorted(uph_filter.items()))
-        self.y = [value['node_property']['initial_value'] for value in self.uph_dict.values()] #
-
+        self.y = [0 for value in self.uph_dict.values()] #
+        self.plot_bar = ''
+        self.setupUi(self)
+        
     def setupUi(self, MainFrame):
-        super(MainWindow, self).setupUi(MainFrame)
+        super(Ui_MainWindow, self).setupUi(MainFrame)
         self.alarm_log_text_edit.setReadOnly(True)
         self.event_log_text_edit.setReadOnly(True)
         self.stackedWidget.setCurrentIndex(0)
@@ -103,22 +109,46 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.MplWidget.canvas.ax.tick_params(axis='x', labelsize=8)
         self.MplWidget.canvas.ax.tick_params(axis='y', labelsize=6)
         self.MplWidget.canvas.ax.yaxis.grid(color='gray', linestyle='dashed')
+        self.plot_bar = self.MplWidget.canvas.ax.bar(self.x,self.y,align='edge',width=0.95,color=(0.2, 0.4, 0.6, 0.6))
+        #for i, v in enumerate(self.y):
+            #self.MplWidget.canvas.ax.text(i + 0.1, v + 0.25, str(v), color='red', fontsize=6)
+        self.MplWidget.canvas.draw()
+        self.MplWidget.canvas.flush_events()
 
         for value in self.io_dict.values():
             if 'y' in value['label_point'][0]:
                 for label in value['label_point']:                
                     indicator_label = eval(f"self.{label}")
                     indicator_label.installEventFilter(self)
+        #MainFrame.show()
 
-    def closeEvent(self, event):
-        print("Close event trigger")
-
-    def update_plot(self):
-        self.MplWidget.canvas.ax.bar(self.x,self.y,align='edge',width=0.95)
-        for i, v in enumerate(self.y):
-            self.MplWidget.canvas.ax.text(i + 0.1, v + 0.25, str(v), color='blue', fontweight='bold')
+    def init_plot(self, data):
+        uph_data_client = collections.OrderedDict(sorted(data.items()))
+        self.y = [value['node_property']['initial_value'] for value in uph_data_client.values()]
+        print(self.y)
+        self.plot_bar.remove()
+        self.MplWidget.canvas.ax.bar(self.x,self.y,align='edge',width=0.95,color=(0.2, 0.4, 0.6, 0.6))
+        #for i, v in enumerate(self.y):
+            #self.MplWidget.canvas.ax.text(i + 0.1, v + 0.25, str(v), color='red', fontsize=6)
         self.MplWidget.canvas.draw()
+        self.MplWidget.canvas.flush_events()
 
+    def update_plot(self, data):
+        print(data)
+        node_id = data[0]
+        data_value = data[1]
+        node_property = self.uph_dict[node_id]
+        node_property['node_property']['initial_value']=data_value
+        self.uph_dict.update({node_id:node_property})
+        self.y = [value['node_property']['initial_value'] for value in self.uph_dict.values()]
+        print(self.y)
+        for rect_plot, h in zip(self.plot_bar, self.y):
+            rect_plot.set_height(h)
+        
+        #for i, v in enumerate(self.y):
+        #    self.MplWidget.canvas.ax.text(i + 0.1, v + 0.25, str(v), color='red', fontsize=6)
+        self.MplWidget.canvas.draw()
+        self.MplWidget.canvas.flush_events()
 
     def deltatime(self,start, end, delta):
         current = start
@@ -142,7 +172,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             elif rgb_value == self.rgb_value_output_off:
                 #if output label is OFF, send ON to OPC
                 self.send_data(label_object_name, label_object_text, False)
-        return super(MainWindow, self).eventFilter(source, event)
+        return super(Ui_MainWindow, self).eventFilter(source, event)
 
     def stylesheet_extractor(self, stylesheet_string):
         stylesheet_list = stylesheet_string.split(';')
@@ -170,6 +200,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.main_motor_control_stacked_widget.setCurrentIndex(0)
 
     def send_data(self,label_object_name,label_object_text, data_value):
+        print("trigger")
         hmi_node = [(key,value) for key,value in self.hmi_dict.items() if label_object_name in value['label_point']][0]
         hmi_node_id = hmi_node[0]
         data_type = hmi_node[1]['node_property']['data_type']
@@ -229,17 +260,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             time_label = eval(f"self.{label}")
             time_label.setText(time_string)
 
+    def closeEvent(self,event):
+        print("Close event trigger")
+        
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
+    import sys
     app = QtWidgets.QApplication(sys.argv)
-    Main_UI = QtWidgets.QMainWindow()
-    ui = MainWindow()
-    ui.setupUi(Main_UI)
-    ui.server_start()
-    Main_UI.show()
-    Main_UI.showMaximized()
+    main_window = Ui_MainWindow()
+    main_window.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint | QtCore.Qt.FramelessWindowHint)
+    main_window.server_start()
+    main_window.show()
+    main_window.showMaximized()
     sys.exit(app.exec_())
-    
-
-
