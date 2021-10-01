@@ -274,6 +274,9 @@ class OpcServerThread(object):
                         self.uph_list.pop(0)
 
 
+        test_array = await server_obj.add_variable(ua.Nodeid(5000,namespace_index),'array_test',ua.Variant(None, ua.VariantType.UInt16, is_array = True))
+        await test_array.set_writable()
+
         self.conn.close()
         for value in self.time_dict.values():
             monitored_node = value['monitored_node']

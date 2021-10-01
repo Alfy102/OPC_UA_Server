@@ -16,7 +16,6 @@ import collections
 
 
 class Ui_MainWindow(QMainWindow,gui):
-    
     def __init__(self):
         super(Ui_MainWindow,self).__init__()
         self.title = 'GSH OPC Software'
@@ -26,7 +25,7 @@ class Ui_MainWindow(QMainWindow,gui):
         self.start_time = datetime.now()
         self.input_queue = Queue()
         file_path = Path(__file__).parent.absolute()
-        endpoint = "localhost:4840/gshopcua/server"
+        endpoint = "localhost:4845/gshopcua/server"
         server_refresh_rate = 0.05
         client_refresh_rate = 0.1
         self.server_process = Process(target=gsh_server.OpcServerThread, args=(plc_address,file_path,endpoint,server_refresh_rate,self.uri))
@@ -42,8 +41,8 @@ class Ui_MainWindow(QMainWindow,gui):
         self.client_worker.data_signal.connect(self.io_handler)
         self.client_worker.info_signal.connect(self.info_handler)
         self.client_worker.ui_refresh_signal.connect(self.uptime)
-        self.client_worker.init_uph_signal.connect(self.init_plot)
-        self.client_worker.uph_signal.connect(self.update_plot)
+        self.client_worker.uph_signal.connect(self.update_plot_data)
+        self.client_worker.init_uph_signal.connect(self.update_plot)
         self.client_worker.time_data_signal.connect(self.time_label_update)
         self.rgb_value_input_on = "64, 255, 0"
         self.rgb_value_input_off = "0, 80, 0"
@@ -52,8 +51,12 @@ class Ui_MainWindow(QMainWindow,gui):
         self.x = time_series_axis
         uph_filter = {key:value for key,value in node_structure.items() if value['node_property']['category']=='uph_variables'}
         self.uph_dict = collections.OrderedDict(sorted(uph_filter.items()))
-        self.y = [0 for value in self.uph_dict.values()] #
+        self.y = [0 for _ in self.uph_dict.values()] 
         self.plot_bar = ''
+        #self.timer = QtCore.QTimer()
+        #self.timer.setInterval(5000)
+        #self.timer.timeout.connect(self.update_plot)
+        #self.timer.start()
         self.setupUi(self)
         
     def setupUi(self, MainFrame):
@@ -101,7 +104,7 @@ class Ui_MainWindow(QMainWindow,gui):
         self.module_1_motor_1_button.clicked.connect(lambda: self.main_motor_control_stacked_widget.setCurrentIndex(0))
         self.module_1_motor_2_button.clicked.connect(lambda: self.main_motor_control_stacked_widget.setCurrentIndex(1))
 
-
+  
         self.MplWidget.canvas.plt.xticks(rotation=45)
         self.MplWidget.canvas.ax.spines['top'].set_visible(False)
         self.MplWidget.canvas.ax.spines['right'].set_visible(False)
@@ -109,46 +112,40 @@ class Ui_MainWindow(QMainWindow,gui):
         self.MplWidget.canvas.ax.tick_params(axis='x', labelsize=8)
         self.MplWidget.canvas.ax.tick_params(axis='y', labelsize=6)
         self.MplWidget.canvas.ax.yaxis.grid(color='gray', linestyle='dashed')
-        self.plot_bar = self.MplWidget.canvas.ax.bar(self.x,self.y,align='edge',width=0.95,color=(0.2, 0.4, 0.6, 0.6))
+        self.plot_bar = self.MplWidget.canvas.ax.bar(self.x,self.y,align='edge',width=0.95,color=(0.2, 0.4, 0.6, 0.6),  edgecolor='blue')
+        self.MplWidget.canvas.draw()
         #for i, v in enumerate(self.y):
             #self.MplWidget.canvas.ax.text(i + 0.1, v + 0.25, str(v), color='red', fontsize=6)
-        self.MplWidget.canvas.draw()
-        self.MplWidget.canvas.flush_events()
-
+        #self.MplWidget.canvas.draw()
+        #self.MplWidget.canvas.flush_events()
+        #print(self.plot_bar)
         for value in self.io_dict.values():
             if 'y' in value['label_point'][0]:
                 for label in value['label_point']:                
                     indicator_label = eval(f"self.{label}")
                     indicator_label.installEventFilter(self)
-        #MainFrame.show()
 
-    def init_plot(self, data):
-        uph_data_client = collections.OrderedDict(sorted(data.items()))
-        self.y = [value['node_property']['initial_value'] for value in uph_data_client.values()]
-        print(self.y)
-        self.plot_bar.remove()
-        self.MplWidget.canvas.ax.bar(self.x,self.y,align='edge',width=0.95,color=(0.2, 0.4, 0.6, 0.6))
-        #for i, v in enumerate(self.y):
-            #self.MplWidget.canvas.ax.text(i + 0.1, v + 0.25, str(v), color='red', fontsize=6)
+
+    def update_plot(self):
+        y = [value['node_property']['initial_value'] for value in self.uph_dict.values()]
+        print(y)
+
+        for rect, h in zip(self.plot_bar, y):
+            rect.set_height(h)
+        self.MplWidget.canvas.ax.relim()# recompute the ax.dataLim
+        # update ax.viewLim using the new dataLim
+        self.MplWidget.canvas.ax.autoscale_view()
         self.MplWidget.canvas.draw()
-        self.MplWidget.canvas.flush_events()
 
-    def update_plot(self, data):
-        print(data)
+
+    def update_plot_data(self, data):
         node_id = data[0]
         data_value = data[1]
         node_property = self.uph_dict[node_id]
         node_property['node_property']['initial_value']=data_value
         self.uph_dict.update({node_id:node_property})
-        self.y = [value['node_property']['initial_value'] for value in self.uph_dict.values()]
-        print(self.y)
-        for rect_plot, h in zip(self.plot_bar, self.y):
-            rect_plot.set_height(h)
         
-        #for i, v in enumerate(self.y):
-        #    self.MplWidget.canvas.ax.text(i + 0.1, v + 0.25, str(v), color='red', fontsize=6)
-        self.MplWidget.canvas.draw()
-        self.MplWidget.canvas.flush_events()
+
 
     def deltatime(self,start, end, delta):
         current = start
@@ -269,8 +266,9 @@ if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
     main_window = Ui_MainWindow()
-    main_window.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint | QtCore.Qt.FramelessWindowHint)
+    main_window.setWindowFlags(QtCore.Qt.FramelessWindowHint)# | QtCore.Qt.WindowStaysOnTopHint)
     main_window.server_start()
     main_window.show()
     main_window.showMaximized()
+    #main_window.showFullScreen()
     sys.exit(app.exec_())

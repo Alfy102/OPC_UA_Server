@@ -5,12 +5,15 @@
   <property name="windowModality">
    <enum>Qt::WindowModal</enum>
   </property>
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>1920</width>
-    <height>1034</height>
+    <height>1074</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -1597,7 +1600,7 @@ QPushButton:checked
                <x>0</x>
                <y>40</y>
                <width>1801</width>
-               <height>851</height>
+               <height>871</height>
               </rect>
              </property>
              <property name="styleSheet">
@@ -1849,7 +1852,7 @@ QPushButton:checked
                <x>0</x>
                <y>40</y>
                <width>1801</width>
-               <height>851</height>
+               <height>871</height>
               </rect>
              </property>
              <property name="styleSheet">
@@ -2011,7 +2014,7 @@ QPushButton:checked
                <x>0</x>
                <y>40</y>
                <width>1801</width>
-               <height>851</height>
+               <height>871</height>
               </rect>
              </property>
              <property name="styleSheet">
@@ -14720,11 +14723,11 @@ background-color: rgba(229, 229, 229, 247)
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="navigation_button_group"/>
+  <buttongroup name="io_module_button_group"/>
   <buttongroup name="main_motor_page_button_group"/>
+  <buttongroup name="input_list_page_button_group"/>
+  <buttongroup name="navigation_button_group"/>
   <buttongroup name="main_motor_module_button_group"/>
   <buttongroup name="output_list_page_button_group"/>
-  <buttongroup name="input_list_page_button_group"/>
-  <buttongroup name="io_module_button_group"/>
  </buttongroups>
 </ui>
