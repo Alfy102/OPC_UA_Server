@@ -1,8 +1,9 @@
 import asyncio
-from asyncua import ua, Server
+from asyncua import ua, Server, uamethod
 from datetime import timedelta, datetime
 from asyncua.server.history_sql import HistorySQLite
 from asyncua.ua.uaprotocol_auto import TimeZoneDataType
+from asyncua.ua.uatypes import ValueRank
 
 import pandas as pd
 import sqlite3
@@ -12,6 +13,14 @@ import time
 #io_dict standard dictionary: {variables_id:[device_ip, variables_ns, device_name, category_name,variable_name,0]}
 #hmi_signal standard: (namespace, node_id, data_value)
 
+@uamethod
+def say_hello_array(parent, happy):
+    if happy:
+        result = "I'm happy"
+    else:
+        result = "I'm not happy"
+    print(result)
+    return [result, "Actually I am"]
 
 class SubHmiHandler(object):
     def __init__(self,hmi_dictionary,plc_tcp_socket_request):
@@ -272,10 +281,6 @@ class OpcServerThread(object):
                         last_in_value = await qty_in_var.read_value()
                         self.uph_list.append(last_in_value)
                         self.uph_list.pop(0)
-
-
-        test_array = await server_obj.add_variable(ua.Nodeid(5000,namespace_index),'array_test',ua.Variant(None, ua.VariantType.UInt16, is_array = True))
-        await test_array.set_writable()
 
         self.conn.close()
         for value in self.time_dict.values():

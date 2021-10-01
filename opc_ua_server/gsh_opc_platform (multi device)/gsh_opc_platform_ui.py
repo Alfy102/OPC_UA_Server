@@ -42,7 +42,7 @@ class Ui_MainWindow(QMainWindow,gui):
         self.client_worker.info_signal.connect(self.info_handler)
         self.client_worker.ui_refresh_signal.connect(self.uptime)
         self.client_worker.uph_signal.connect(self.update_plot_data)
-        self.client_worker.init_uph_signal.connect(self.update_plot)
+
         self.client_worker.time_data_signal.connect(self.time_label_update)
         self.rgb_value_input_on = "64, 255, 0"
         self.rgb_value_input_off = "0, 80, 0"
@@ -53,10 +53,6 @@ class Ui_MainWindow(QMainWindow,gui):
         self.uph_dict = collections.OrderedDict(sorted(uph_filter.items()))
         self.y = [0 for _ in self.uph_dict.values()] 
         self.plot_bar = ''
-        #self.timer = QtCore.QTimer()
-        #self.timer.setInterval(5000)
-        #self.timer.timeout.connect(self.update_plot)
-        #self.timer.start()
         self.setupUi(self)
         
     def setupUi(self, MainFrame):
@@ -112,7 +108,7 @@ class Ui_MainWindow(QMainWindow,gui):
         self.MplWidget.canvas.ax.tick_params(axis='x', labelsize=8)
         self.MplWidget.canvas.ax.tick_params(axis='y', labelsize=6)
         self.MplWidget.canvas.ax.yaxis.grid(color='gray', linestyle='dashed')
-        self.plot_bar = self.MplWidget.canvas.ax.bar(self.x,self.y,align='edge',width=0.95,color=(0.2, 0.4, 0.6, 0.6),  edgecolor='blue')
+        self.plot_bar = self.MplWidget.canvas.ax.bar(self.x,self.y,align='edge',width=1,color=(0.2, 0.4, 0.6, 0.6),  edgecolor='blue')
         self.MplWidget.canvas.draw()
         #for i, v in enumerate(self.y):
             #self.MplWidget.canvas.ax.text(i + 0.1, v + 0.25, str(v), color='red', fontsize=6)
@@ -128,7 +124,7 @@ class Ui_MainWindow(QMainWindow,gui):
 
     def update_plot(self):
         y = [value['node_property']['initial_value'] for value in self.uph_dict.values()]
-        print(y)
+        #print(y)
 
         for rect, h in zip(self.plot_bar, y):
             rect.set_height(h)
@@ -144,7 +140,7 @@ class Ui_MainWindow(QMainWindow,gui):
         node_property = self.uph_dict[node_id]
         node_property['node_property']['initial_value']=data_value
         self.uph_dict.update({node_id:node_property})
-        
+        self.update_plot()
 
 
     def deltatime(self,start, end, delta):
@@ -269,6 +265,6 @@ if __name__ == "__main__":
     main_window.setWindowFlags(QtCore.Qt.FramelessWindowHint)# | QtCore.Qt.WindowStaysOnTopHint)
     main_window.server_start()
     main_window.show()
-    main_window.showMaximized()
-    #main_window.showFullScreen()
+    #main_window.showMaximized()
+    main_window.showFullScreen()
     sys.exit(app.exec_())

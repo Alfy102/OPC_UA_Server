@@ -13,7 +13,7 @@
     <x>0</x>
     <y>0</y>
     <width>1920</width>
-    <height>1074</height>
+    <height>1155</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -46,6 +46,18 @@
      <verstretch>0</verstretch>
     </sizepolicy>
    </property>
+   <property name="minimumSize">
+    <size>
+     <width>1920</width>
+     <height>1080</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>1920</width>
+     <height>1080</height>
+    </size>
+   </property>
    <property name="styleSheet">
     <string notr="true">background-color: rgb(96, 100, 112);</string>
    </property>
@@ -55,7 +67,7 @@
       <x>0</x>
       <y>0</y>
       <width>1921</width>
-      <height>1051</height>
+      <height>1081</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_24" stretch="0,1">
@@ -1550,7 +1562,7 @@ QPushButton:checked
             <number>0</number>
            </property>
            <property name="currentIndex">
-            <number>2</number>
+            <number>6</number>
            </property>
            <widget class="QWidget" name="main_page">
             <widget class="QFrame" name="title_frame">
@@ -1600,7 +1612,7 @@ QPushButton:checked
                <x>0</x>
                <y>40</y>
                <width>1801</width>
-               <height>871</height>
+               <height>931</height>
               </rect>
              </property>
              <property name="styleSheet">
@@ -1852,7 +1864,7 @@ QPushButton:checked
                <x>0</x>
                <y>40</y>
                <width>1801</width>
-               <height>871</height>
+               <height>931</height>
               </rect>
              </property>
              <property name="styleSheet">
@@ -2014,7 +2026,7 @@ QPushButton:checked
                <x>0</x>
                <y>40</y>
                <width>1801</width>
-               <height>871</height>
+               <height>941</height>
               </rect>
              </property>
              <property name="styleSheet">
@@ -2030,7 +2042,7 @@ QPushButton:checked
               <property name="geometry">
                <rect>
                 <x>50</x>
-                <y>460</y>
+                <y>520</y>
                 <width>1681</width>
                 <height>361</height>
                </rect>
@@ -3103,7 +3115,7 @@ QPushButton:checked
                 <x>50</x>
                 <y>10</y>
                 <width>1671</width>
-                <height>441</height>
+                <height>501</height>
                </rect>
               </property>
               <property name="sizePolicy">
@@ -3166,7 +3178,7 @@ QPushButton:checked
                <x>0</x>
                <y>40</y>
                <width>1801</width>
-               <height>851</height>
+               <height>921</height>
               </rect>
              </property>
              <property name="styleSheet">
@@ -3304,7 +3316,7 @@ QPushButton:checked
                <x>0</x>
                <y>40</y>
                <width>1801</width>
-               <height>851</height>
+               <height>931</height>
               </rect>
              </property>
              <property name="styleSheet">
@@ -3325,7 +3337,7 @@ QPushButton:checked
                 <x>20</x>
                 <y>70</y>
                 <width>1701</width>
-                <height>611</height>
+                <height>701</height>
                </rect>
               </property>
               <layout class="QHBoxLayout" name="horizontalLayout_37" stretch="3,0,3">
@@ -3341,7 +3353,7 @@ QPushButton:checked
                      <x>0</x>
                      <y>0</y>
                      <width>841</width>
-                     <height>601</height>
+                     <height>701</height>
                     </rect>
                    </property>
                    <property name="frameShape">
@@ -4444,7 +4456,7 @@ QPushButton:checked
                      <x>0</x>
                      <y>0</y>
                      <width>841</width>
-                     <height>601</height>
+                     <height>701</height>
                     </rect>
                    </property>
                    <property name="frameShape">
@@ -5549,7 +5561,7 @@ QPushButton:checked
                <item>
                 <widget class="QStackedWidget" name="output_stacked_widget">
                  <property name="currentIndex">
-                  <number>1</number>
+                  <number>0</number>
                  </property>
                  <widget class="QWidget" name="output_page_1">
                   <widget class="QFrame" name="frame_29">
@@ -5558,7 +5570,7 @@ QPushButton:checked
                      <x>0</x>
                      <y>0</y>
                      <width>841</width>
-                     <height>601</height>
+                     <height>691</height>
                     </rect>
                    </property>
                    <property name="frameShape">
@@ -6661,7 +6673,7 @@ QPushButton:checked
                      <x>0</x>
                      <y>0</y>
                      <width>841</width>
-                     <height>601</height>
+                     <height>691</height>
                     </rect>
                    </property>
                    <property name="frameShape">
@@ -7234,8 +7246,8 @@ QPushButton:checked
              <widget class="QWidget" name="layoutWidget">
               <property name="geometry">
                <rect>
-                <x>21</x>
-                <y>691</y>
+                <x>10</x>
+                <y>800</y>
                 <width>208</width>
                 <height>42</height>
                </rect>
@@ -7334,8 +7346,8 @@ QPushButton:checked
              <widget class="QWidget" name="layoutWidget">
               <property name="geometry">
                <rect>
-                <x>880</x>
-                <y>690</y>
+                <x>890</x>
+                <y>790</y>
                 <width>208</width>
                 <height>42</height>
                </rect>
@@ -10732,7 +10744,7 @@ QPushButton:checked
                <x>0</x>
                <y>40</y>
                <width>1801</width>
-               <height>851</height>
+               <height>931</height>
               </rect>
              </property>
              <property name="styleSheet">
@@ -10864,7 +10876,7 @@ Page 2</string>
                 <x>30</x>
                 <y>50</y>
                 <width>1581</width>
-                <height>761</height>
+                <height>821</height>
                </rect>
               </property>
               <layout class="QHBoxLayout" name="horizontalLayout_29" stretch="3,8,3,0">
@@ -11601,7 +11613,7 @@ border-color: rgb(222, 222, 222)</string>
                     <x>520</x>
                     <y>10</y>
                     <width>271</width>
-                    <height>711</height>
+                    <height>801</height>
                    </rect>
                   </property>
                   <property name="styleSheet">
@@ -13145,7 +13157,7 @@ QPushButton:checked
                <x>0</x>
                <y>40</y>
                <width>1801</width>
-               <height>851</height>
+               <height>921</height>
               </rect>
              </property>
              <property name="styleSheet">
@@ -13521,7 +13533,7 @@ QPushButton:checked
                <x>0</x>
                <y>40</y>
                <width>1801</width>
-               <height>841</height>
+               <height>921</height>
               </rect>
              </property>
              <property name="styleSheet">
@@ -13580,7 +13592,7 @@ QPushButton:checked
                <x>0</x>
                <y>40</y>
                <width>1801</width>
-               <height>851</height>
+               <height>921</height>
               </rect>
              </property>
              <property name="styleSheet">
@@ -13639,7 +13651,7 @@ QPushButton:checked
                <x>0</x>
                <y>40</y>
                <width>1801</width>
-               <height>851</height>
+               <height>921</height>
               </rect>
              </property>
              <property name="styleSheet">
@@ -14509,7 +14521,7 @@ background-color: rgba(229, 229, 229, 247)
                <x>0</x>
                <y>40</y>
                <width>1801</width>
-               <height>851</height>
+               <height>921</height>
               </rect>
              </property>
              <property name="styleSheet">
@@ -14568,7 +14580,7 @@ background-color: rgba(229, 229, 229, 247)
                <x>0</x>
                <y>40</y>
                <width>1801</width>
-               <height>851</height>
+               <height>921</height>
               </rect>
              </property>
              <property name="styleSheet">
@@ -14627,7 +14639,7 @@ background-color: rgba(229, 229, 229, 247)
                <x>0</x>
                <y>40</y>
                <width>1801</width>
-               <height>851</height>
+               <height>921</height>
               </rect>
              </property>
              <property name="styleSheet">
@@ -14686,7 +14698,7 @@ background-color: rgba(229, 229, 229, 247)
                <x>0</x>
                <y>40</y>
                <width>1801</width>
-               <height>851</height>
+               <height>931</height>
               </rect>
              </property>
              <property name="styleSheet">
@@ -14723,11 +14735,11 @@ background-color: rgba(229, 229, 229, 247)
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="io_module_button_group"/>
-  <buttongroup name="main_motor_page_button_group"/>
   <buttongroup name="input_list_page_button_group"/>
   <buttongroup name="navigation_button_group"/>
+  <buttongroup name="main_motor_page_button_group"/>
   <buttongroup name="main_motor_module_button_group"/>
+  <buttongroup name="io_module_button_group"/>
   <buttongroup name="output_list_page_button_group"/>
  </buttongroups>
 </ui>

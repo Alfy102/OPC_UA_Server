@@ -60,7 +60,7 @@ class OpcClientThread(QObject):
     ui_refresh_signal=pyqtSignal()
     logger_signal=pyqtSignal(tuple)
     uph_signal = pyqtSignal(tuple)
-    init_uph_signal = pyqtSignal()
+
     def __init__(self,input_q,endpoint,uri,client_refresh_rate,parent=None,**kwargs):
         super().__init__(parent, **kwargs)
         self.input_queue = input_q
@@ -145,8 +145,7 @@ class OpcClientThread(QObject):
                 var = client.get_node((ua.NodeId(node, namespace_index)))
                 await uph_sub.subscribe_data_change(var,queuesize=1)
             
-            
-            self.init_uph_signal.emit()
+
             while True:
 
                 await asyncio.sleep(self.client_refresh_rate)
