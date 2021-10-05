@@ -13,19 +13,13 @@
     <x>0</x>
     <y>0</y>
     <width>1920</width>
-    <height>1155</height>
+    <height>1080</height>
    </rect>
   </property>
-  <property name="sizePolicy">
-   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-    <horstretch>0</horstretch>
-    <verstretch>0</verstretch>
-   </sizepolicy>
-  </property>
-  <property name="minimumSize">
+  <property name="maximumSize">
    <size>
     <width>1920</width>
-    <height>1000</height>
+    <height>1080</height>
    </size>
   </property>
   <property name="font">
@@ -40,12 +34,6 @@
    <double>1.000000000000000</double>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <property name="sizePolicy">
-    <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
-     <horstretch>0</horstretch>
-     <verstretch>0</verstretch>
-    </sizepolicy>
-   </property>
    <property name="minimumSize">
     <size>
      <width>1920</width>
@@ -66,7 +54,7 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>1921</width>
+      <width>1924</width>
       <height>1081</height>
      </rect>
     </property>
@@ -74,13 +62,13 @@
      <property name="spacing">
       <number>2</number>
      </property>
-     <property name="sizeConstraint">
-      <enum>QLayout::SetMaximumSize</enum>
-     </property>
      <item>
       <layout class="QHBoxLayout" name="top_info_bar" stretch="0,1,7,0,0">
+       <property name="spacing">
+        <number>4</number>
+       </property>
        <property name="sizeConstraint">
-        <enum>QLayout::SetMinAndMaxSize</enum>
+        <enum>QLayout::SetDefaultConstraint</enum>
        </property>
        <property name="leftMargin">
         <number>2</number>
@@ -89,7 +77,7 @@
         <number>4</number>
        </property>
        <property name="rightMargin">
-        <number>2</number>
+        <number>4</number>
        </property>
        <property name="bottomMargin">
         <number>4</number>
@@ -484,6 +472,9 @@
               <property name="text">
                <string>SPRINT UPH</string>
               </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
              </widget>
             </item>
             <item>
@@ -510,15 +501,18 @@
       </layout>
      </item>
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout_14" stretch="0">
+      <layout class="QVBoxLayout" name="verticalLayout_14" stretch="1,0">
        <property name="spacing">
         <number>0</number>
        </property>
        <property name="sizeConstraint">
-        <enum>QLayout::SetMinAndMaxSize</enum>
+        <enum>QLayout::SetDefaultConstraint</enum>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
        </property>
        <item>
-        <layout class="QHBoxLayout" name="page_layout" stretch="2,21">
+        <layout class="QHBoxLayout" name="page_layout" stretch="1,21">
          <property name="spacing">
           <number>0</number>
          </property>
@@ -527,6 +521,12 @@
          </property>
          <item>
           <widget class="QFrame" name="frame_2">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="styleSheet">
             <string notr="true">background-color: rgb(116, 218, 198)
 </string>
@@ -561,13 +561,13 @@
               <property name="minimumSize">
                <size>
                 <width>165</width>
-                <height>931</height>
+                <height>886</height>
                </size>
               </property>
               <property name="maximumSize">
                <size>
                 <width>165</width>
-                <height>931</height>
+                <height>886</height>
                </size>
               </property>
               <property name="frameShape">
@@ -579,7 +579,7 @@
               <property name="lineWidth">
                <number>0</number>
               </property>
-              <layout class="QVBoxLayout" name="verticalLayout_3" stretch="1,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,0">
+              <layout class="QVBoxLayout" name="verticalLayout_3" stretch="1,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10">
                <property name="spacing">
                 <number>0</number>
                </property>
@@ -1534,19 +1534,6 @@ QPushButton:checked
                  </attribute>
                 </widget>
                </item>
-               <item>
-                <spacer name="verticalSpacer">
-                 <property name="orientation">
-                  <enum>Qt::Vertical</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>20</width>
-                   <height>40</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
               </layout>
              </widget>
             </item>
@@ -1555,6 +1542,15 @@ QPushButton:checked
          </item>
          <item>
           <widget class="QStackedWidget" name="stackedWidget">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="autoFillBackground">
             <bool>false</bool>
            </property>
@@ -1568,7 +1564,7 @@ QPushButton:checked
             <number>0</number>
            </property>
            <property name="currentIndex">
-            <number>3</number>
+            <number>4</number>
            </property>
            <widget class="QWidget" name="main_page">
             <widget class="QFrame" name="title_frame">
@@ -1618,7 +1614,7 @@ QPushButton:checked
                <x>0</x>
                <y>40</y>
                <width>1801</width>
-               <height>931</height>
+               <height>891</height>
               </rect>
              </property>
              <property name="styleSheet">
@@ -2054,7 +2050,7 @@ QPushButton:checked
               <property name="geometry">
                <rect>
                 <x>50</x>
-                <y>520</y>
+                <y>480</y>
                 <width>1681</width>
                 <height>361</height>
                </rect>
@@ -2079,6 +2075,12 @@ QPushButton:checked
                     <width>1451</width>
                     <height>151</height>
                    </rect>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>1451</width>
+                    <height>151</height>
+                   </size>
                   </property>
                   <property name="styleSheet">
                    <string notr="true">background-color: rgb(194, 194, 194);</string>
@@ -2108,12 +2110,6 @@ QPushButton:checked
                    <item>
                     <widget class="QFrame" name="frame_31">
                      <property name="minimumSize">
-                      <size>
-                       <width>117</width>
-                       <height>145</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
                       <size>
                        <width>117</width>
                        <height>145</height>
@@ -2165,12 +2161,6 @@ QPushButton:checked
                        <height>145</height>
                       </size>
                      </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>117</width>
-                       <height>145</height>
-                      </size>
-                     </property>
                      <property name="styleSheet">
                       <string notr="true">background-color: rgb(255, 255, 255);</string>
                      </property>
@@ -2212,12 +2202,6 @@ QPushButton:checked
                    <item>
                     <widget class="QFrame" name="frame_42">
                      <property name="minimumSize">
-                      <size>
-                       <width>117</width>
-                       <height>145</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
                       <size>
                        <width>117</width>
                        <height>145</height>
@@ -2269,12 +2253,6 @@ QPushButton:checked
                        <height>145</height>
                       </size>
                      </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>117</width>
-                       <height>145</height>
-                      </size>
-                     </property>
                      <property name="styleSheet">
                       <string notr="true">background-color: rgb(255, 255, 255);</string>
                      </property>
@@ -2321,12 +2299,6 @@ QPushButton:checked
                        <height>145</height>
                       </size>
                      </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>117</width>
-                       <height>145</height>
-                      </size>
-                     </property>
                      <property name="styleSheet">
                       <string notr="true">background-color: rgb(255, 255, 255);</string>
                      </property>
@@ -2368,12 +2340,6 @@ QPushButton:checked
                    <item>
                     <widget class="QFrame" name="frame_35">
                      <property name="minimumSize">
-                      <size>
-                       <width>117</width>
-                       <height>145</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
                       <size>
                        <width>117</width>
                        <height>145</height>
@@ -2477,12 +2443,6 @@ QPushButton:checked
                        <height>145</height>
                       </size>
                      </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>117</width>
-                       <height>145</height>
-                      </size>
-                     </property>
                      <property name="styleSheet">
                       <string notr="true">background-color: rgb(255, 255, 255);</string>
                      </property>
@@ -2524,12 +2484,6 @@ QPushButton:checked
                    <item>
                     <widget class="QFrame" name="frame_38">
                      <property name="minimumSize">
-                      <size>
-                       <width>117</width>
-                       <height>145</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
                       <size>
                        <width>117</width>
                        <height>145</height>
@@ -2581,12 +2535,6 @@ QPushButton:checked
                        <height>145</height>
                       </size>
                      </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>117</width>
-                       <height>145</height>
-                      </size>
-                     </property>
                      <property name="styleSheet">
                       <string notr="true">background-color: rgb(255, 255, 255);</string>
                      </property>
@@ -2633,12 +2581,6 @@ QPushButton:checked
                        <height>145</height>
                       </size>
                      </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>117</width>
-                       <height>145</height>
-                      </size>
-                     </property>
                      <property name="styleSheet">
                       <string notr="true">background-color: rgb(255, 255, 255);</string>
                      </property>
@@ -2680,12 +2622,6 @@ QPushButton:checked
                    <item>
                     <widget class="QFrame" name="frame_40">
                      <property name="minimumSize">
-                      <size>
-                       <width>117</width>
-                       <height>145</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
                       <size>
                        <width>117</width>
                        <height>145</height>
@@ -3367,7 +3303,7 @@ QPushButton:checked
                 <x>50</x>
                 <y>10</y>
                 <width>1671</width>
-                <height>501</height>
+                <height>461</height>
                </rect>
               </property>
               <property name="sizePolicy">
@@ -3430,7 +3366,7 @@ QPushButton:checked
                <x>0</x>
                <y>40</y>
                <width>1801</width>
-               <height>921</height>
+               <height>821</height>
               </rect>
              </property>
              <property name="styleSheet">
@@ -3520,25 +3456,6 @@ QPushButton:checked
                 </property>
                </widget>
               </widget>
-             </widget>
-             <widget class="QFrame" name="bottom_frame">
-              <property name="geometry">
-               <rect>
-                <x>1430</x>
-                <y>360</y>
-                <width>120</width>
-                <height>80</height>
-               </rect>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">background-color: rgb(255, 255, 0);</string>
-              </property>
-              <property name="frameShape">
-               <enum>QFrame::StyledPanel</enum>
-              </property>
-              <property name="frameShadow">
-               <enum>QFrame::Raised</enum>
-              </property>
              </widget>
             </widget>
            </widget>
@@ -14969,7 +14886,7 @@ background-color: rgba(229, 229, 229, 247)
                <x>0</x>
                <y>40</y>
                <width>1801</width>
-               <height>931</height>
+               <height>861</height>
               </rect>
              </property>
              <property name="styleSheet">
@@ -14986,6 +14903,89 @@ background-color: rgba(229, 229, 229, 247)
           </widget>
          </item>
         </layout>
+       </item>
+       <item>
+        <widget class="QFrame" name="bottom_frame">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>1920</width>
+           <height>40</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>1920</width>
+           <height>40</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(116, 218, 198)</string>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_40" stretch="1,0">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <property name="sizeConstraint">
+           <enum>QLayout::SetDefaultConstraint</enum>
+          </property>
+          <property name="leftMargin">
+           <number>9</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <spacer name="horizontalSpacer_4">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QLabel" name="datetime_label">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>13</pointsize>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">color: rgb(255, 255, 0);</string>
+            </property>
+            <property name="text">
+             <string>Date TIme</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
        </item>
       </layout>
      </item>

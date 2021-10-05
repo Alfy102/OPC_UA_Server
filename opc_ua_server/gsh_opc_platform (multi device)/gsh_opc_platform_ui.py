@@ -1,33 +1,33 @@
 import sys
-from PyQt5 import QtWidgets, QtGui
+from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtCore import  QThread,QEvent
 from PyQt5.QtWidgets import QMainWindow
 from queue import Queue
-from pathlib import Path
-import gsh_opc_platform_server as gsh_server
 import gsh_opc_platform_client as gsh_client
-from gsh_opc_platform_gui import Ui_MainWindow
-from io_layout_map import node_structure
+from gsh_opc_platform_gui import Ui_MainWindow as gui
+from io_layout_map import node_structure,time_series_axis
 from datetime import datetime
-from multiprocessing import Process,Queue
-from datetime import datetime
+from multiprocessing import Queue
+import collections
 
-class MainWindow(QMainWindow, Ui_MainWindow):
-    
+
+
+
+class Ui_MainWindow(QMainWindow,gui):
     def __init__(self):
-        super(MainWindow,self).__init__()
+        super(Ui_MainWindow,self).__init__()
         self.title = 'GSH OPC Software'
         self.database_file = "variable_history.sqlite3"
         self.uri = "PLC_Server"
-        plc_address = {'PLC1':'127.0.0.1:8501'}
+        #plc_address = {'PLC1':'127.0.0.1:8501'}
         self.start_time = datetime.now()
         self.input_queue = Queue()
-        file_path = Path(__file__).parent.absolute()
-        endpoint = "localhost:4840/gshopcua/server"
-        server_refresh_rate = 0.1
-        client_refresh_rate = 0.01
-        self.server_process = Process(target=gsh_server.OpcServerThread, args=(plc_address,file_path,endpoint,server_refresh_rate,self.uri))
-        self.server_process.daemon = True    
+        #file_path = Path(__file__).parent.absolute()
+        endpoint = "localhost:4845/gshopcua/server"
+        #server_refresh_rate = 0.05
+        client_refresh_rate = 0.1
+        #self.server_process = Process(target=gsh_server.OpcServerThread, args=(plc_address,file_path,endpoint,server_refresh_rate,self.uri))
+        #self.server_process.daemon = True    
         self.io_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='relay'}
         self.hmi_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='hmi'}
         self.ui_time_dict = {}
@@ -39,14 +39,24 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.client_worker.data_signal.connect(self.io_handler)
         self.client_worker.info_signal.connect(self.info_handler)
         self.client_worker.ui_refresh_signal.connect(self.uptime)
+        self.client_worker.uph_signal.connect(self.update_plot)
+        self.client_worker.init_plot.connect(self.init_bar_plot)
+
         self.client_worker.time_data_signal.connect(self.time_label_update)
         self.rgb_value_input_on = "64, 255, 0"
         self.rgb_value_input_off = "0, 80, 0"
         self.rgb_value_output_on = "255, 20, 20"
         self.rgb_value_output_off = "80, 0, 0"
-
+        self.x = time_series_axis
+        uph_filter = {key:value for key,value in node_structure.items() if value['node_property']['category']=='uph_variables'}
+        self.uph_dict = collections.OrderedDict(sorted(uph_filter.items()))
+        self.y = [0 for _ in self.uph_dict.values()] 
+        self.plot_bar = ''
+        self.plot_text =''
+        self.setupUi(self)
+        
     def setupUi(self, MainFrame):
-        super(MainWindow, self).setupUi(MainFrame)
+        super(Ui_MainWindow, self).setupUi(MainFrame)
         self.alarm_log_text_edit.setReadOnly(True)
         self.event_log_text_edit.setReadOnly(True)
         self.stackedWidget.setCurrentIndex(0)
@@ -90,14 +100,60 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.module_1_motor_1_button.clicked.connect(lambda: self.main_motor_control_stacked_widget.setCurrentIndex(0))
         self.module_1_motor_2_button.clicked.connect(lambda: self.main_motor_control_stacked_widget.setCurrentIndex(1))
 
+  
+        self.MplWidget.canvas.plt.xticks(rotation=45)
+        self.MplWidget.canvas.ax.spines['top'].set_visible(False)
+        self.MplWidget.canvas.ax.spines['right'].set_visible(False)
+        self.MplWidget.canvas.ax.set_axisbelow(True)
+        self.MplWidget.canvas.ax.tick_params(axis='x', labelsize=8)
+        self.MplWidget.canvas.ax.tick_params(axis='y', labelsize=6)
+        self.MplWidget.canvas.ax.yaxis.grid(color='gray', linestyle='dashed')
+        self.plot_bar = self.MplWidget.canvas.ax.bar(self.x,self.y,align='center',width=1,color=(0.2, 0.4, 0.6, 1),  edgecolor='blue')
+        self.MplWidget.canvas.draw()
+        #for i, v in enumerate(self.y):
+        #    self.MplWidget.canvas.ax.text(i + 0.1, v + 0.25, str(v), color='red', fontsize=6)
+        #self.MplWidget.canvas.draw()
+        #self.MplWidget.canvas.flush_events()
+
+
         for value in self.io_dict.values():
             if 'y' in value['label_point'][0]:
                 for label in value['label_point']:                
                     indicator_label = eval(f"self.{label}")
                     indicator_label.installEventFilter(self)
 
-    def server_start(self):
-        self.server_process.start()
+
+    def init_bar_plot(self, uph_dict):
+        self.uph_dict = uph_dict
+        self.update_plot()
+
+
+    def update_plot(self):
+        y = [value['node_property']['initial_value'] for value in self.uph_dict.values()]
+        
+
+        for rect, h in zip(self.plot_bar, y):
+            rect.set_height(h)
+        if len(self.plot_text) !=0:
+            for text in self.plot_text:
+                del text
+        for i, v in enumerate(y):
+            self.plot_text = self.MplWidget.canvas.ax.text(i - 0.3 , v + 0.25, str(v), color='red', fontsize=6)
+        
+        self.MplWidget.canvas.ax.relim()# recompute the ax.dataLim
+        # update ax.viewLim using the new dataLim
+        self.MplWidget.canvas.ax.autoscale_view()
+        self.MplWidget.canvas.draw()
+        
+
+    def deltatime(self,start, end, delta):
+        current = start
+        while current < end:
+            yield current
+            current += delta
+
+    def client_start(self):
+        #self.server_process.start()
         self.client_thread.start()
 
     def eventFilter(self, source, event):
@@ -112,7 +168,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             elif rgb_value == self.rgb_value_output_off:
                 #if output label is OFF, send ON to OPC
                 self.send_data(label_object_name, label_object_text, False)
-        return super(MainWindow, self).eventFilter(source, event)
+        return super(Ui_MainWindow, self).eventFilter(source, event)
 
     def stylesheet_extractor(self, stylesheet_string):
         stylesheet_list = stylesheet_string.split(';')
@@ -139,10 +195,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.main_motor_station_stacked_widget.setCurrentIndex(0)
         self.main_motor_control_stacked_widget.setCurrentIndex(0)
 
-
-
-
     def send_data(self,label_object_name,label_object_text, data_value):
+        print("trigger")
         hmi_node = [(key,value) for key,value in self.hmi_dict.items() if label_object_name in value['label_point']][0]
         hmi_node_id = hmi_node[0]
         data_type = hmi_node[1]['node_property']['data_type']
@@ -194,6 +248,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         uptime = datetime.now() - self.start_time
         uptime_text = (str(uptime).split('.', 2)[0])
         self.system_uptime_label.setText(uptime_text)
+        current_date_time = (datetime.now().strftime("%d-%m-%Y | %H:%M:%S.%f")).split('.')[0]
+        self.datetime_label.setText(current_date_time)
 
     def time_label_update(self,data):
         label = data[0]
@@ -202,17 +258,20 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             time_label = eval(f"self.{label}")
             time_label.setText(time_string)
 
+    def closeEvent(self,event):
+        print("Close event trigger")
+        
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
+    import sys
+    #w = 1920; h = 1080
+
     app = QtWidgets.QApplication(sys.argv)
-    Main_UI = QtWidgets.QMainWindow()
-    ui = MainWindow()
-    ui.setupUi(Main_UI)
-    ui.server_start()
-    Main_UI.show()
-    Main_UI.showMaximized()
+    main_window = Ui_MainWindow()
+    main_window.setWindowFlags(QtCore.Qt.FramelessWindowHint)# | QtCore.Qt.WindowStaysOnTopHint)
+    main_window.client_start()
+    #main_window.resize(w, h)
+    main_window.show()
+    main_window.showFullScreen()
     sys.exit(app.exec_())
-    
-
-
