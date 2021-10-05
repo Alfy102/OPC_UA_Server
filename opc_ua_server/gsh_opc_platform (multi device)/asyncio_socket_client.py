@@ -8,13 +8,17 @@ async def tcp_echo_client(message):
     data = await reader.readuntil(separator=b'\n')
     test = data.decode('UTF-8').split()
     writer.close()
+    print(test)
 
 async def main():
-    while True:
-        await asyncio.sleep(random.randrange(10,100)/100)
-        await tcp_echo_client("WR R103 1\r\n")
-        await asyncio.sleep(random.randrange(10,100)/100)
-        await tcp_echo_client("WR R103 0\r\n")
+    await tcp_echo_client("RDS CM700 6\r\n")
+    #while True:
+    #    await asyncio.sleep(random.randrange(10,100)/100)
+    #    #print("ON")
+    #    await tcp_echo_client("WR R104 1\r\n")
+    #    await asyncio.sleep(random.randrange(10,100)/100)
+    #    await tcp_echo_client("WR R104 0\r\n")
+        #print("OFF")
 
 
 asyncio.run(main())

@@ -60,13 +60,13 @@ class OpcClientThread(QObject):
     ui_refresh_signal=pyqtSignal()
     logger_signal=pyqtSignal(tuple)
     uph_signal = pyqtSignal(tuple)
-
+    init_plot = pyqtSignal(dict)
     def __init__(self,input_q,endpoint,uri,client_refresh_rate,parent=None,**kwargs):
         super().__init__(parent, **kwargs)
         self.input_queue = input_q
         self.sub_time = 50
         self.client_refresh_rate = client_refresh_rate
-        self.monitored_node = {key:value for key,value in node_structure.items() if value['node_property']['category']=='server_variables'}
+        self.monitored_node = {key:value for key,value in node_structure.items() if value['node_property']['category']=='server_variables' or value['node_property']['category']=='shift_server_variables'}
         self.io_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='relay'}
         self.alarm_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='alarm'}
         self.hmi_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='hmi'}
@@ -75,7 +75,6 @@ class OpcClientThread(QObject):
         url = f"opc.tcp://{endpoint}"
         self.client = Client(url=url)
         self.uri = uri
-        
     
     def run(self):
         asyncio.run(self.client_start())
@@ -100,7 +99,7 @@ class OpcClientThread(QObject):
 
     @pyqtSlot()
     async def client_start(self):
-        await asyncio.sleep(3)
+        #await asyncio.sleep(3)
         
         async with self.client as client:
             namespace_index = await client.get_namespace_index(self.uri)
@@ -137,8 +136,9 @@ class OpcClientThread(QObject):
                 current_value = await var.read_value()
                 value['node_property']['initial_value'] = current_value
                 self.uph_dict.update({node:value})
-                self.uph_signal.emit((node,current_value))
+                #self.uph_signal.emit((node,current_value))
 
+            self.init_plot.emit(self.uph_dict)
             uph_handler = SubUPHHandler(self.uph_signal,self.uph_dict)  
             uph_sub = await client.create_subscription(self.sub_time, uph_handler) 
             for node,value in self.uph_dict.items():
@@ -147,7 +147,6 @@ class OpcClientThread(QObject):
             
 
             while True:
-
                 await asyncio.sleep(self.client_refresh_rate)
                 self.ui_refresh_signal.emit()
                 
