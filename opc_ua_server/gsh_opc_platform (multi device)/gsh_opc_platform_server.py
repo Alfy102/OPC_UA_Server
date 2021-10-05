@@ -60,28 +60,13 @@ class SubShiftVarHandler(object):
         data_type = self.monitored_node[corr_var_node]['node_property']['data_type']
         data_value = int(val)
         new_value = await self.count_node(corr_var_node, data_value, data_type) #(namespace, node id, amount)
-        if corr_var_node == 10071:
+        if corr_var_node == 10022:
             out_value = new_value
-            in_value_node = self.get_node(10069)
+            in_value_node = self.get_node(10021) #get value of qty in
             in_value_data = await in_value_node.read_value()
-            data_type = self.monitored_node[10077]['node_property']['data_type']
+            data_type = self.monitored_node[10031]['node_property']['data_type'] #get yield data type
             total_yield = self.yield_calculation(in_value_data, out_value)
-            asyncio.create_task(self.write_to_opc(10077, total_yield, data_type))
-
-"""class SubTimerHandler(object):
-    def __init__(self,time_dict,update_time_dict):
-        self.time_dict = time_dict
-        self.update_time_dict = update_time_dict
-    
-    async def datachange_notification(self, node, val, data):
-        node_identifier = node.nodeid.Identifier
-        corr_time_node = [key for key,value in self.time_dict.items() if value['monitored_node']==node_identifier][0]
-        value = self.time_dict[corr_time_node]
-        time_trigger = data.monitored_item.Value.SourceTimestamp
-        time_trigger = time_trigger.strftime("%Y-%d-%m %H:%M:%S.%f")
-        value['node_property']['initial_value'] = time_trigger
-        value.update({'monitored_node_status':val})        
-        await self.update_time_dict(corr_time_node, value)"""
+            asyncio.create_task(self.write_to_opc(10031, total_yield, data_type))
 
 class SubDeviceModeHandler(object):
     def __init__(self,mode_dict,mode_update):
@@ -170,8 +155,7 @@ class OpcServerThread(object):
         new_value = current_value + data_value
         asyncio.create_task(self.simple_write_to_opc(node_id, new_value, data_type))
         return new_value
-        #if self.monitored_node[node_id]['name']=='total_pass':
-        #    await self.yield_calculation(new_value)
+
 
     def yield_calculation(self,in_value, out_value):
         if in_value == 0 or out_value==0:
@@ -199,8 +183,6 @@ class OpcServerThread(object):
                     value['node_property']['initial_value']= await node_id.read_value()         
                 self.lot_time_dict.update({key:value})
  
-
-
     async def watch_timer(self, time_dict):
         for node_id,value in time_dict.items():
             corr_flag_node = value['monitored_node']
@@ -210,7 +192,7 @@ class OpcServerThread(object):
                 flag_time = self.mode_dict[corr_flag_node]['flag_time']
                 delta_time = self.convert_string_to_datetime(value['node_property']['initial_value'])
                 duration = datetime.now() - flag_time + delta_time
-                asyncio.create_task(self.simple_write_to_opc(node_id,duration[0],data_type))
+                asyncio.create_task(self.simple_write_to_opc(node_id,duration,data_type))
 
     def convert_string_to_datetime(self,time_string):
         delta_time = datetime.strptime(time_string,"%H:%M:%S.%f")
@@ -220,6 +202,49 @@ class OpcServerThread(object):
     def get_node(self, node_id):
         node =  self.server.get_node(ua.NodeId(node_id, self.namespace_index))
         return node
+    
+    def ua_variant_data_type(self, data_type, data_value):
+        if data_type == 'UInt16':
+            ua_var = ua.Variant(int(data_value), ua.VariantType.UInt16)
+        elif data_type == 'UInt32':
+            ua_var = ua.Variant(int(data_value), ua.VariantType.UInt32)
+        elif data_type == 'UInt64':    
+            ua_var = ua.Variant(int(data_value), ua.VariantType.UInt64)
+        elif data_type == 'String':
+            ua_var = ua.Variant(str(data_value), ua.VariantType.String)
+        elif data_type == 'Boolean':
+            ua_var = ua.Variant(bool(data_value), ua.VariantType.Boolean)
+        elif data_type == 'Float':
+            ua_var = ua.Variant(float(data_value), ua.VariantType.Float)
+            
+        return ua_var
+
+    def data_type_conversion(self, data_type, data_value):
+        if data_type == 'UInt16':
+            data_value = int(data_value)
+        elif data_type == 'UInt32':
+            data_value = int(data_value)
+        elif data_type == 'UInt64':    
+            data_value = int(data_value)
+        elif data_type == 'String':
+            data_value = str(data_value)
+        elif data_type == 'Boolean':
+            data_value = bool(data_value)
+        elif data_type == 'Float':
+            data_value = float(data_value)
+        return data_value
+
+    def checkTableExists(self,dbcon, tablename):
+        dbcur = dbcon.cursor()
+        dbcur.execute(f"SELECT * FROM sqlite_master WHERE type='table' AND name='{tablename}';")
+        table = dbcur.fetchone()
+        if table is not None:
+            if tablename in table:
+                dbcur.close()
+                return True
+        else:   
+            dbcur.close()
+            return False
 
     async def plc_tcp_socket_request(self,start_device,number_of_device,device,mode):
         ipaddress = self.plc_ip_address[device]
@@ -252,64 +277,11 @@ class OpcServerThread(object):
             asyncio.create_task(self.simple_write_to_opc(node_id, current_relay_list[i], data_type))
             i+=1
 
-    def ua_variant_data_type(self, data_type, data_value):
-        if data_type == 'UInt16':
-            ua_var = ua.Variant(int(data_value), ua.VariantType.UInt16)
-        elif data_type == 'UInt32':
-            ua_var = ua.Variant(int(data_value), ua.VariantType.UInt32)
-        elif data_type == 'UInt64':    
-            ua_var = ua.Variant(int(data_value), ua.VariantType.UInt64)
-        elif data_type == 'String':
-            ua_var = ua.Variant(str(data_value), ua.VariantType.String)
-        elif data_type == 'Boolean':
-            ua_var = ua.Variant(bool(data_value), ua.VariantType.Boolean)
-        elif data_type == 'Float':
-            ua_var = ua.Variant(float(data_value), ua.VariantType.Float)
-            
-        return ua_var
-
-    def data_type_conversion(self, data_type, data_value):
-        if data_type == 'UInt16':
-            data_value = int(data_value)
-        elif data_type == 'UInt32':
-            data_value = int(data_value)
-        elif data_type == 'UInt64':    
-            data_value = int(data_value)
-        elif data_type == 'String':
-            data_value = str(data_value)
-        elif data_type == 'Boolean':
-            data_value = bool(data_value)
-        elif data_type == 'Float':
-            data_value = float(data_value)
-        return data_value
-
     async def simple_write_to_opc(self, node_id, data_value, data_type):
         node_id=self.get_node(node_id)
         self.source_time = datetime.now()
         data_value = ua.DataValue(self.ua_variant_data_type(data_type, data_value),SourceTimestamp=self.source_time, ServerTimestamp=self.source_time)
         await self.server.write_attribute_value(node_id.nodeid, data_value)
-
-    def checkTableExists(self,dbcon, tablename):
-        dbcur = dbcon.cursor()
-        dbcur.execute(f"SELECT * FROM sqlite_master WHERE type='table' AND name='{tablename}';")
-        table = dbcur.fetchone()
-        if table is not None:
-            if tablename in table:
-                dbcur.close()
-                return True
-        else:   
-            dbcur.close()
-            return False
-
-
-    #depreciated
-    async def update_system_time(self,plc_clock):
-        time_int_list = []
-        for key in plc_clock.keys():
-            node_id = self.get_node(key)
-            value = await node_id.read_value()
-            time_int_list.append(value)
-        self.system_clock = datetime(time_int_list[0], time_int_list[1], time_int_list[2], time_int_list[3], time_int_list[4], time_int_list[5])
 
     async def opc_server(self):
         self.database_file = "variable_history.sqlite3"
@@ -335,15 +307,6 @@ class OpcServerThread(object):
 
         hmi_handler = SubHmiHandler(self.hmi_dict,self.plc_tcp_socket_request)
         hmi_sub = await self.server.create_subscription(self.hmi_sub, hmi_handler)
-
-        var_handler = SubVarHandler(self.monitored_node,self.count_node,self.get_node,self.yield_calculation,self.simple_write_to_opc)
-        var_sub = await self.server.create_subscription(self.sub_time, var_handler)
-
-        shift_var_handler = SubShiftVarHandler(self.shift_monitored_node,self.count_node,self.get_node,self.yield_calculation,self.simple_write_to_opc)
-        shift_var_sub = await self.server.create_subscription(self.sub_time, shift_var_handler)
-
-
-
 
         node_category = [item['node_property']['category'] for item in node_structure.values()]
         node_category = list(set(node_category))
@@ -382,17 +345,22 @@ class OpcServerThread(object):
         minute_var_sub = await self.server.create_subscription(self.sub_time, minute_handler)
         await minute_var_sub.subscribe_data_change(self.get_node(10054),queuesize=1)
 
-        #for key, value in self.monitored_node.items():
-        #    node_id = value['monitored_node']
-        #    if node_id != None:
-        #        server_var = self.server.get_node(self.get_node(node_id))
-        #        await var_sub.subscribe_data_change(server_var,queuesize=1)
-        
-        #for key, value in self.shift_monitored_node.items():
-        #    node_id = value['monitored_node']
-        #    if node_id != None:
-        #        server_var = self.server.get_node(self.get_node(node_id))
-        #        await shift_var_sub.subscribe_data_change(server_var,queuesize=1)
+
+        var_handler = SubVarHandler(self.monitored_node,self.count_node,self.get_node,self.yield_calculation,self.simple_write_to_opc)
+        var_sub = await self.server.create_subscription(self.sub_time, var_handler)
+        for key, value in self.monitored_node.items():
+            node_id = value['monitored_node']
+            if node_id != None:
+                server_var = self.server.get_node(self.get_node(node_id))
+                await var_sub.subscribe_data_change(server_var,queuesize=1)
+
+        shift_var_handler = SubShiftVarHandler(self.shift_monitored_node,self.count_node,self.get_node,self.yield_calculation,self.simple_write_to_opc)
+        shift_var_sub = await self.server.create_subscription(self.sub_time, shift_var_handler)
+        for key, value in self.shift_monitored_node.items():
+            node_id = value['monitored_node']
+            if node_id != None:
+                server_var = self.server.get_node(self.get_node(node_id))
+                await shift_var_sub.subscribe_data_change(server_var,queuesize=1)
 
 
 

@@ -507,15 +507,15 @@ node_structure = {
         'label_point':['label_x0001','io_module_label_x0001'],
         'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'relay','rw': 'r', 'history': False, 'initial_value': False}},
 
-11102:{ 'name': 'R102',
+11002:{ 'name': 'R102',
         'label_point':['label_x0002','io_module_label_x0002'],
         'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'relay','rw': 'r', 'history': False, 'initial_value': False}},
 
-11103:{ 'name': 'R103',
+11003:{ 'name': 'R103',
         'label_point':['label_x0003','io_module_label_x0003'],
         'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'relay','rw': 'r', 'history': False, 'initial_value': False}},
 
-11104:{ 'name': 'R104',
+11004:{ 'name': 'R104',
         'label_point':['label_x0004','io_module_label_x0004'],
         'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'relay','rw': 'r', 'history': False, 'initial_value': False}},
 
