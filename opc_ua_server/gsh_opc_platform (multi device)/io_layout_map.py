@@ -160,47 +160,47 @@ node_structure = {
         'monitored_node': None},
 
 10032:{ 'name': 'shift_operation_time',
-        'label_point':['operation_time_label'],
+        'label_point':['shift_operation_time_label'],
         'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'shift_time_variables', 'history': True,'rw': 'rw', 'initial_value': '0:00:00.0'},
         'monitored_node': 10017}, #refers to device_mode
 
 10033:{ 'name': 'shift_down_time',
-        'label_point':['down_time_label'],
+        'label_point':['shift_down_time_label'],
         'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'shift_time_variables', 'history': True,'rw': 'rw', 'initial_value': '0:00:00.0'},
         'monitored_node': 10018}, #refers to device_mode
 
 10034:{ 'name': 'shift_idling_time',
-        'label_point':['idling_time_label'],
+        'label_point':['shift_idling_time_label'],
         'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'shift_time_variables', 'history': True,'rw': 'rw', 'initial_value': '0:00:00.0'},
         'monitored_node': 10019}, #refers to device_mode
  
 10035:{ 'name': 'shift_maintenance_time',
-        'label_point':['maintenance_time_label'],
+        'label_point':['shift_maintenance_time_label'],
         'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'shift_time_variables', 'history': True,'rw': 'rw', 'initial_value': '0:00:00.0'},
         'monitored_node': 10020}, #refers to device_mode
 
 
-10050:{ 'name': 'CM700',
+10050:{ 'name': 'CM700', #year
         'label_point':[],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt16', 'category': 'plc_clock','rw': 'r', 'history': False, 'initial_value': 0}},
 
-10051:{ 'name': 'CM701',
+10051:{ 'name': 'CM701', #month
         'label_point':[],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt16', 'category': 'plc_clock','rw': 'r', 'history': False, 'initial_value': 0}},
 
-10052:{ 'name': 'CM702',
+10052:{ 'name': 'CM702', #day
         'label_point':[],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt16', 'category': 'plc_clock','rw': 'r', 'history': False, 'initial_value': 0}},
 
-10053:{ 'name': 'CM703',
+10053:{ 'name': 'CM703', #hour
         'label_point':[],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt16', 'category': 'plc_clock','rw': 'r', 'history': False, 'initial_value': 0}},
 
-10054:{ 'name': 'CM704',
+10054:{ 'name': 'CM704', #minute
         'label_point':[],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt16', 'category': 'plc_clock','rw': 'r', 'history': False, 'initial_value': 0}},
 
-10055:{ 'name': 'CM705',
+10055:{ 'name': 'CM705', #second
         'label_point':[],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt16', 'category': 'plc_clock','rw': 'r', 'history': False, 'initial_value': 0}},
 

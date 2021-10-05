@@ -12,6 +12,8 @@ async def tcp_echo_client(message):
 
 async def main():
     await tcp_echo_client("WR MR2000 0\r\n")
+
+    #await tcp_echo_client("WR MR2003 0\r\n")
     #while True:
     #    await asyncio.sleep(random.randrange(10,100)/100)
     #    #print("ON")
