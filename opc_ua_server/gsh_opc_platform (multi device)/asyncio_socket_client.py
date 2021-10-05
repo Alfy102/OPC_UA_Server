@@ -11,14 +11,14 @@ async def tcp_echo_client(message):
     print(test)
 
 async def main():
-    await tcp_echo_client("RDS CM700 6\r\n")
+    await tcp_echo_client("WR MR2000 0\r\n")
     #while True:
     #    await asyncio.sleep(random.randrange(10,100)/100)
     #    #print("ON")
     #    await tcp_echo_client("WR R104 1\r\n")
     #    await asyncio.sleep(random.randrange(10,100)/100)
     #    await tcp_echo_client("WR R104 0\r\n")
-        #print("OFF")
+    #   #print("OFF")
 
 
 asyncio.run(main())

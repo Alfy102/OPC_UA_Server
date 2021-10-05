@@ -59,7 +59,6 @@ class SubShiftVarHandler(object):
         corr_var_node = [key for key,value in self.monitored_node.items() if value['monitored_node']==node_identifier][0]
         data_type = self.monitored_node[corr_var_node]['node_property']['data_type']
         data_value = int(val)
-        #print(f"from Shift Var {corr_var_node}, {data_value}")
         new_value = await self.count_node(corr_var_node, data_value, data_type) #(namespace, node id, amount)
         if corr_var_node == 10071:
             out_value = new_value
@@ -92,22 +91,49 @@ class SubDeviceModeHandler(object):
         node_identifier = node.nodeid.Identifier
         self.mode_update(node_identifier, val)
 
-class SubUPHMinuteCalculation(object):
-    def __init__(self,get_node,write_to_opc):
+class SubUPHCalculation(object):
+    def __init__(self,uph_dict,get_node,write_to_opc):
         self.get_node = get_node
         self.write_to_opc = write_to_opc
         self.uph_list = [0,0]
+        self.uph_dict = uph_dict
+        self.uph_array = []
     async def datachange_notification(self, node, val, data):
-        current_value_node = self.get_node(10003)
-        production_uph_data_type = node_structure[10016]['node_property']['data_type']
+        current_value_node = self.get_node(10003) #get current value of qty out
         current_value = await current_value_node.read_value()
+        production_uph_data_type = node_structure[10016]['node_property']['data_type']
+        operation_node = self.get_node(10017)
+        operation_flag = await operation_node.read_value()
+        if sum(self.uph_list) == 0:
+            self.uph_list.pop(0)
+            self.uph_list.append(current_value)
         self.uph_list.pop(0)
         self.uph_list.append(current_value)
-        #uph = self.uph_calculation(self.uph_list[0],self.uph_list[1])        
-        #self.write_to_opc(10016, uph, production_uph_data_type)
+        uph = self.uph_calculation(self.uph_list[0],self.uph_list[1])
+        if operation_flag == True:
+            self.uph_array.append(uph)
+        print(self.uph_array)
+        asyncio.create_task(self.write_to_opc(10016, uph, production_uph_data_type)) #write to production uph
 
-    def uph_calculation(initial_value, current_value):
-        uph = (current_value-initial_value)*60
+        if (val == 0 or val==30) and operation_flag == True:
+            average_uph = self.average_uph(self.uph_array)
+            self.uph_array.clear()
+            current_hour_node = self.get_node(10053) 
+            current_hour = await current_hour_node.read_value()
+            self.update_uph_plot(average_uph,current_hour,val)
+            
+    def update_uph_plot(self,average_uph,hour,minute):
+        slot_name = f"uph_{hour:02}_{minute:02}"
+        node_id = [key for key,value in self.uph_dict.items() if value['name']==slot_name][0]
+        print(f"slotname {slot_name} {node_id}")
+        data_type = self.uph_dict[node_id]['node_property']['data_type']
+        asyncio.create_task(self.write_to_opc(node_id, average_uph, data_type))
+
+    def average_uph(self,uph_hour):
+        average_uph = sum(uph_hour) / len(uph_hour)
+        return average_uph
+    def uph_calculation(self,initial_value, current_value):
+        uph = (current_value-initial_value)*60 
         return uph
 
 class OpcServerThread(object):
@@ -117,8 +143,6 @@ class OpcServerThread(object):
         self.server = Server()
         self.endpoint = endpoint
         self.uri = uri
-        self.uph_list = [0,0]
-        self.uph_array = []
         self.namespace_index = 0
         self.server_refresh_rate = server_refresh_rate
         self.monitored_node = {key:value for key,value in node_structure.items() if value['node_property']['category']=='server_variables'}
@@ -183,6 +207,7 @@ class OpcServerThread(object):
             delta_time = value['delta_time']
             if flag_node_status == True:
                 duration = datetime.now() - flag_time + delta_time
+                print(delta_time, flag_time)
                 asyncio.create_task(self.simple_write_to_opc(time_var_node,duration,data_type))
 
     async def plc_tcp_socket_request(self,start_device,number_of_device,device,mode):
@@ -248,7 +273,7 @@ class OpcServerThread(object):
         return data_value
 
     async def simple_write_to_opc(self, node_id, data_value, data_type):
-        node_id=self.server.get_node(self.get_node(node_id))
+        node_id=self.get_node(node_id)
         self.source_time = datetime.now()
         data_value = ua.DataValue(self.ua_variant_data_type(data_type, data_value),SourceTimestamp=self.source_time, ServerTimestamp=self.source_time)
         await self.server.write_attribute_value(node_id.nodeid, data_value)
@@ -297,8 +322,7 @@ class OpcServerThread(object):
         shift_var_sub = await self.server.create_subscription(self.sub_time, shift_var_handler)
 
 
-        minute_handler = SubUPHMinuteCalculation(self.get_node,self.simple_write_to_opc)
-        minute_var_sub = await self.server.create_subscription(self.sub_time, minute_handler)
+
 
         node_category = [item['node_property']['category'] for item in node_structure.values()]
         node_category = list(set(node_category))
@@ -336,12 +360,15 @@ class OpcServerThread(object):
 
         self.conn.close()
 
-        #for value in self.time_dict.values():
-        #    monitored_node = value['monitored_node']
-        #    time_var = self.server.get_node((self.get_node(monitored_node)))
-        #    await time_sub.subscribe_data_change(time_var,queuesize=1)
+        for value in self.time_dict.values():
+            monitored_node = value['monitored_node']
+            time_var = self.server.get_node((self.get_node(monitored_node)))
+            await time_sub.subscribe_data_change(time_var,queuesize=1)
 
-        await minute_var_sub.subscribe_data_change(self.get_node(10055),queuesize=1)
+        #subscribed to minute interval activity for UPH Calculation
+        minute_handler = SubUPHCalculation(self.uph_dict,self.get_node,self.simple_write_to_opc)
+        minute_var_sub = await self.server.create_subscription(self.sub_time, minute_handler)
+        await minute_var_sub.subscribe_data_change(self.get_node(10054),queuesize=1)
         
 
 
@@ -365,22 +392,18 @@ class OpcServerThread(object):
         mode_dict = collections.OrderedDict(sorted(self.mode_dict.items()))
         plc_clock_dict = collections.OrderedDict(sorted(self.plc_clock_dict.items()))
         plc_start_time = collections.OrderedDict(sorted(self.system_up_time.items()))
-        #next_minute = (datetime.now().replace(microsecond=0, second=0)) + timedelta(minutes=1)
         async with self.server:
             while True:
                 #tic = time.perf_counter()
                 await self.scan_loop_plc(plc_clock_dict)
-                #asyncio.create_task(self.system_clock(plc_clock_dict))
-                #if current_time == next_minute:
-                #    await self.uph_calculation(qty_in_var)
-                #    next_minute = current_time + timedelta(minutes=1)
+
                 await asyncio.sleep(self.server_refresh_rate)
                 await self.scan_loop_plc(alarm_dict)
                 
                 await self.scan_loop_plc(plc_start_time)
                 await self.scan_loop_plc(io_dict)
                 await self.scan_loop_plc(mode_dict)
-                #asyncio.create_task(self.watch_timer())
+                asyncio.create_task(self.watch_timer())
                 #toc = time.perf_counter()
                 #print(f"{toc - tic:.9f}")
 
