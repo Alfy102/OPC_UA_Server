@@ -3,6 +3,10 @@ from asyncua.ua.uatypes import flatten_and_get_shape
 
 
 node_structure = {
+
+#---------------------------------------------------------------------------------
+#lot counting and yield variables
+#---------------------------------------------------------------------------------
 10000:{ 'name': 'lot_barcode_fail_count',
         'label_point':['barcode_fail_count_label'],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt32', 'category': 'server_variables', 'history': True, 'rw': 'rw', 'initial_value': 0},
@@ -63,177 +67,198 @@ node_structure = {
         'node_property':{'device': 'PLC1', 'data_type': 'Float', 'category': 'server_variables', 'history': True,'rw': 'rw', 'initial_value': 0.0},
         'monitored_node': None},
 
-10012:{ 'name': 'lot_operation_time',
-        'label_point':['operation_time_label'],
-        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'time_variables', 'history': True,'rw': 'rw', 'initial_value': '0:00:00.0'},
-        'monitored_node': 10017}, #refers to device_mode
-
-10013:{ 'name': 'lot_down_time',
-        'label_point':['down_time_label'],
-        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'time_variables', 'history': True,'rw': 'rw', 'initial_value': '0:00:00.0'},
-        'monitored_node': 10018}, #refers to device_mode
-
-10014:{ 'name': 'lot_idling_time',
-        'label_point':['idling_time_label'],
-        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'time_variables', 'history': True,'rw': 'rw', 'initial_value': '0:00:00.0'},
-        'monitored_node': 10019}, #refers to device_mode
- 
-10015:{ 'name': 'lot_maintenance_time',
-        'label_point':['maintenance_time_label'],
-        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'time_variables', 'history': True,'rw': 'rw', 'initial_value': '0:00:00.0'},
-        'monitored_node': 10020}, #refers to device_mode
-
-10016:{ 'name': 'production_uph',
-        'label_point':['production_uph_label'],
-        'node_property':{'device': 'PLC1', 'data_type': 'UInt16', 'category': 'server_variables', 'history': True,'rw': 'rw', 'initial_value': 0},
-        'monitored_node': None},
-
-10017:{ 'name': 'MR2000', #operation_mode
-        'label_point':[],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'device_mode', 'history': False,'rw': 'r', 'initial_value': False}},
-
-10018:{ 'name': 'MR2001', #down_mode
-        'label_point':[],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'device_mode', 'history': False,'rw': 'r', 'initial_value': False}},
-
-10019:{ 'name': 'MR2002', #idling_mode
-        'label_point':[],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'device_mode', 'history': False,'rw': 'r', 'initial_value': False}},
-
-10020:{ 'name': 'MR2003', #maintenance_mode
-        'label_point':[],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'device_mode', 'history': False,'rw': 'r', 'initial_value': False}},
-
-10021:{ 'name': 'shift_total_quantity_in',
+#---------------------------------------------------------------------------------
+#Shift count and yield variables
+#---------------------------------------------------------------------------------
+10020:{ 'name': 'shift_total_quantity_in',
         'label_point':[],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt32', 'category': 'shift_variables', 'history': True,'rw': 'rw', 'initial_value': 0},
         'monitored_node': 11002},
 
-10022:{ 'name': 'shift_total_quantity_out',
+10021:{ 'name': 'shift_total_quantity_out',
         'label_point':['shift_total_qty_out_label'],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt32', 'category': 'shift_variables', 'history': True,'rw': 'rw', 'initial_value': 0},
         'monitored_node': 11003},
 
-10023:{ 'name': 'shift_total_pass',
+10022:{ 'name': 'shift_total_pass',
         'label_point':['shift_total_passed_label'],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt32', 'category': 'shift_variables', 'history': True,'rw': 'rw', 'initial_value': 0},
         'monitored_node': 11004},
 
-10024:{ 'name': 'shift_total_fail',
+10023:{ 'name': 'shift_total_fail',
         'label_point':['shift_total_fail_label'],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt32', 'category': 'shift_variables', 'history': True,'rw': 'rw', 'initial_value': 0},
         'monitored_node': 11005},
 
-10025:{ 'name': 'shift_soft_jam',
+10024:{ 'name': 'shift_soft_jam',
         'label_point':['shift_soft_jam_label'],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt32', 'category': 'shift_variables', 'history': True,'rw': 'rw', 'initial_value': 0},
         'monitored_node': 11006},
 
-10026:{ 'name': 'shift_hard_jam',
+10025:{ 'name': 'shift_hard_jam',
         'label_point':['shift_hard_jam_label'],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt32', 'category': 'shift_variables', 'history': True,'rw': 'rw', 'initial_value': 0},
         'monitored_node': 11007},
 
-10027:{ 'name': 'shift_mtbf',
+10026:{ 'name': 'shift_mtbf',
         'label_point':['shift_mtbf_label'],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt32', 'category': 'shift_variables', 'history': True,'rw': 'rw', 'initial_value': 0},
         'monitored_node': None},
 
-10028:{ 'name': 'shift_mtba',
+10027:{ 'name': 'shift_mtba',
         'label_point':['shift_mtba_label'],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt32', 'category': 'shift_variables', 'history': True,'rw': 'rw', 'initial_value': 0},
         'monitored_node': None},
 
-10029:{ 'name': 'shift_start_time',
+10028:{ 'name': 'shift_total_yield',
         'label_point':['shift_total_yield_label'],
         'node_property':{'device': 'PLC1', 'data_type': 'Float', 'category': 'shift_variables', 'history': True,'rw': 'rw', 'initial_value': 0.0},
         'monitored_node': None},
 
-10030:{ 'name': 'shift_uptime',
-        'label_point':['shift_total_yield_label'],
-        'node_property':{'device': 'PLC1', 'data_type': 'Float', 'category': 'shift_variables', 'history': True,'rw': 'rw', 'initial_value': 0.0},
+#---------------------------------------------------------------------------------
+#minute interval UPH
+#---------------------------------------------------------------------------------
+
+10030:{ 'name': 'production_uph',
+        'label_point':['production_uph_label'],
+        'node_property':{'device': 'PLC1', 'data_type': 'UInt16', 'category': 'server_variables', 'history': True,'rw': 'rw', 'initial_value': 0},
         'monitored_node': None},
 
-10031:{ 'name': 'shift_total_yield',
+
+
+#---------------------------------------------------------------------------------
+#Lot and shift time variables
+#---------------------------------------------------------------------------------
+
+10040:{ 'name': 'shift_uptime',
         'label_point':['shift_total_yield_label'],
-        'node_property':{'device': 'PLC1', 'data_type': 'Float', 'category': 'shift_variables', 'history': True,'rw': 'rw', 'initial_value': 0.0},
+        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'shift_time_variables', 'history': True,'rw': 'rw', 'initial_value': '0:00:00.0'},
         'monitored_node': None},
 
-10032:{ 'name': 'shift_operation_time',
+10041:{ 'name': 'shift_operation_time',
         'label_point':['shift_operation_time_label'],
         'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'shift_time_variables', 'history': True,'rw': 'rw', 'initial_value': '0:00:00.0'},
-        'monitored_node': 10017}, #refers to device_mode
+        'monitored_node': 10070}, #refers to device_mode
 
-10033:{ 'name': 'shift_down_time',
+10042:{ 'name': 'shift_down_time',
         'label_point':['shift_down_time_label'],
         'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'shift_time_variables', 'history': True,'rw': 'rw', 'initial_value': '0:00:00.0'},
-        'monitored_node': 10018}, #refers to device_mode
+        'monitored_node': 10071}, #refers to device_mode
 
-10034:{ 'name': 'shift_idling_time',
+10043:{ 'name': 'shift_idling_time',
         'label_point':['shift_idling_time_label'],
         'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'shift_time_variables', 'history': True,'rw': 'rw', 'initial_value': '0:00:00.0'},
-        'monitored_node': 10019}, #refers to device_mode
+        'monitored_node': 10072}, #refers to device_mode
  
-10035:{ 'name': 'shift_maintenance_time',
+10044:{ 'name': 'shift_maintenance_time',
         'label_point':['shift_maintenance_time_label'],
         'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'shift_time_variables', 'history': True,'rw': 'rw', 'initial_value': '0:00:00.0'},
-        'monitored_node': 10020}, #refers to device_mode
+        'monitored_node': 10073}, #refers to device_mode
 
+10045:{ 'name': 'lot_uptime',
+        'label_point':['shift_total_yield_label'],
+        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'shift_time_variables', 'history': True,'rw': 'rw', 'initial_value': '0:00:00.0'},
+        'monitored_node': None},
 
-10050:{ 'name': 'CM700', #year
+10046:{ 'name': 'lot_operation_time',
+        'label_point':['operation_time_label'],
+        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'time_variables', 'history': True,'rw': 'rw', 'initial_value': '0:00:00.0'},
+        'monitored_node': 10070}, #refers to device_mode
+
+10047:{ 'name': 'lot_down_time',
+        'label_point':['down_time_label'],
+        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'time_variables', 'history': True,'rw': 'rw', 'initial_value': '0:00:00.0'},
+        'monitored_node': 10071}, #refers to device_mode
+
+10048:{ 'name': 'lot_idling_time',
+        'label_point':['idling_time_label'],
+        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'time_variables', 'history': True,'rw': 'rw', 'initial_value': '0:00:00.0'},
+        'monitored_node': 10072}, #refers to device_mode
+ 
+10049:{ 'name': 'lot_maintenance_time',
+        'label_point':['maintenance_time_label'],
+        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'time_variables', 'history': True,'rw': 'rw', 'initial_value': '0:00:00.0'},
+        'monitored_node': 10073}, #refers to device_mode
+
+#---------------------------------------------------------------------------------
+#Lot ID Information (from client)
+#---------------------------------------------------------------------------------
+10050:{ 'name': 'lot_id',
+        'label_point':[],
+        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'lot_input', 'history': True,'rw': 'rw', 'initial_value': 'Null'},
+        'monitored_node': None},
+10051:{ 'name': 'operator_id',
+        'label_point':[],
+        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'lot_input', 'history': True,'rw': 'rw', 'initial_value': 'Null'},
+        'monitored_node': None},
+10052:{ 'name': 'package_name',
+        'label_point':[],
+        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'lot_input', 'history': True,'rw': 'rw', 'initial_value': 'Null'},
+        'monitored_node': None},
+10053:{ 'name': 'device_id',
+        'label_point':[],
+        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'lot_input', 'history': True,'rw': 'rw', 'initial_value': 'Null'},
+        'monitored_node': None},
+10054:{ 'name': 'lot_start_time',
+        'label_point':[],
+        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'lot_input', 'history': True,'rw': 'rw', 'initial_value': 'Null'},
+        'monitored_node': None},
+10055:{ 'name': 'shift_start_time',
+        'label_point':[],
+        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'lot_input', 'history': True,'rw': 'rw', 'initial_value': 'Null'},
+        'monitored_node': None},
+#---------------------------------------------------------------------------------
+#PLC Clock
+#---------------------------------------------------------------------------------
+
+10060:{ 'name': 'CM700', #year
         'label_point':[],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt16', 'category': 'plc_clock','rw': 'r', 'history': False, 'initial_value': 0}},
 
-10051:{ 'name': 'CM701', #month
+10061:{ 'name': 'CM701', #month
         'label_point':[],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt16', 'category': 'plc_clock','rw': 'r', 'history': False, 'initial_value': 0}},
 
-10052:{ 'name': 'CM702', #day
+10062:{ 'name': 'CM702', #day
         'label_point':[],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt16', 'category': 'plc_clock','rw': 'r', 'history': False, 'initial_value': 0}},
 
-10053:{ 'name': 'CM703', #hour
+10063:{ 'name': 'CM703', #hour
         'label_point':[],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt16', 'category': 'plc_clock','rw': 'r', 'history': False, 'initial_value': 0}},
 
-10054:{ 'name': 'CM704', #minute
+10064:{ 'name': 'CM704', #minute
         'label_point':[],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt16', 'category': 'plc_clock','rw': 'r', 'history': False, 'initial_value': 0}},
 
-10055:{ 'name': 'CM705', #second
+10065:{ 'name': 'CM705', #second
         'label_point':[],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt16', 'category': 'plc_clock','rw': 'r', 'history': False, 'initial_value': 0}},
 
 
+#---------------------------------------------------------------------------------
+#Device Mode
+#---------------------------------------------------------------------------------
 
-
-10060:{ 'name': 'DM1000',
+10070:{ 'name': 'MR2000', #operation_mode
         'label_point':[],
-        'node_property':{'device': 'PLC1', 'data_type': 'UInt16', 'category': 'plc_start_time','rw': 'r', 'history': False, 'initial_value': 0}},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'device_mode', 'history': False,'rw': 'r', 'initial_value': False}},
 
-10061:{ 'name': 'DM1001',
+10071:{ 'name': 'MR2001', #down_mode
         'label_point':[],
-        'node_property':{'device': 'PLC1', 'data_type': 'UInt16', 'category': 'plc_start_time','rw': 'r', 'history': False, 'initial_value': 0}},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'device_mode', 'history': False,'rw': 'r', 'initial_value': False}},
 
-10062:{ 'name': 'DM1002',
+10072:{ 'name': 'MR2002', #idling_mode
         'label_point':[],
-        'node_property':{'device': 'PLC1', 'data_type': 'UInt16', 'category': 'plc_start_time','rw': 'r', 'history': False, 'initial_value': 0}},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'device_mode', 'history': False,'rw': 'r', 'initial_value': False}},
 
-10063:{ 'name': 'DM1003',
+10073:{ 'name': 'MR2003', #maintenance_mode
         'label_point':[],
-        'node_property':{'device': 'PLC1', 'data_type': 'UInt16', 'category': 'plc_start_time','rw': 'r', 'history': False, 'initial_value': 0}},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'device_mode', 'history': False,'rw': 'r', 'initial_value': False}},
 
-10064:{ 'name': 'DM1004',
-        'label_point':[],
-        'node_property':{'device': 'PLC1', 'data_type': 'UInt16', 'category': 'plc_start_time','rw': 'r', 'history': False, 'initial_value': 0}},
-
-10065:{ 'name': 'DM1005',
-        'label_point':[],
-        'node_property':{'device': 'PLC1', 'data_type': 'UInt16', 'category': 'plc_start_time','rw': 'r', 'history': False, 'initial_value': 0}},
-
-
-
-
+#---------------------------------------------------------------------------------
+#UPH in 24 hours
+#---------------------------------------------------------------------------------
 
 10200:{ 'name': 'uph_00_00',
         'label_point':[],
@@ -474,6 +499,13 @@ node_structure = {
         'label_point':[],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt16', 'category': 'uph_variables', 'history': True,'rw': 'rw', 'initial_value': False},
         'monitored_node': None},
+
+
+
+#---------------------------------------------------------------------------------
+#Single series relay list
+#---------------------------------------------------------------------------------
+
 
 10300:{ 'name': 'DM3000',
         'label_point':[],

@@ -1564,7 +1564,7 @@ QPushButton:checked
             <number>0</number>
            </property>
            <property name="currentIndex">
-            <number>4</number>
+            <number>2</number>
            </property>
            <widget class="QWidget" name="main_page">
             <widget class="QFrame" name="title_frame">
@@ -1901,8 +1901,8 @@ QPushButton:checked
                 <rect>
                  <x>10</x>
                  <y>20</y>
-                 <width>231</width>
-                 <height>161</height>
+                 <width>247</width>
+                 <height>166</height>
                 </rect>
                </property>
                <layout class="QHBoxLayout" name="horizontalLayout_38">
@@ -1939,7 +1939,7 @@ QPushButton:checked
                   <item>
                    <widget class="QLabel" name="label_128">
                     <property name="text">
-                     <string>Lot Start Date</string>
+                     <string>Lot Start Date Time</string>
                     </property>
                    </widget>
                   </item>
@@ -1948,44 +1948,63 @@ QPushButton:checked
                 <item>
                  <layout class="QVBoxLayout" name="verticalLayout_61">
                   <item>
-                   <widget class="QLabel" name="label_129">
-                    <property name="text">
-                     <string>TEST</string>
-                    </property>
-                   </widget>
+                   <widget class="QLineEdit" name="lineEdit"/>
                   </item>
                   <item>
-                   <widget class="QLabel" name="label_130">
-                    <property name="text">
-                     <string>TEST</string>
-                    </property>
-                   </widget>
+                   <widget class="QLineEdit" name="lineEdit_6"/>
                   </item>
                   <item>
-                   <widget class="QLabel" name="label_131">
-                    <property name="text">
-                     <string>PDIP</string>
-                    </property>
-                   </widget>
+                   <widget class="QLineEdit" name="lineEdit_5"/>
                   </item>
                   <item>
-                   <widget class="QLabel" name="label_132">
-                    <property name="text">
-                     <string>DEVICE</string>
-                    </property>
-                   </widget>
+                   <widget class="QLineEdit" name="lineEdit_4"/>
                   </item>
                   <item>
-                   <widget class="QLabel" name="label_133">
-                    <property name="text">
-                     <string>Start Datetime</string>
-                    </property>
-                   </widget>
+                   <widget class="QDateTimeEdit" name="dateTimeEdit"/>
                   </item>
                  </layout>
                 </item>
                </layout>
               </widget>
+             </widget>
+             <widget class="QWidget" name="">
+              <property name="geometry">
+               <rect>
+                <x>80</x>
+                <y>240</y>
+                <width>239</width>
+                <height>26</height>
+               </rect>
+              </property>
+              <layout class="QHBoxLayout" name="horizontalLayout_41">
+               <item>
+                <widget class="QPushButton" name="pushButton">
+                 <property name="text">
+                  <string>Start Lot</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="horizontalSpacer_5">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item>
+                <widget class="QPushButton" name="pushButton_2">
+                 <property name="text">
+                  <string>End Lot</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
              </widget>
             </widget>
            </widget>
@@ -14780,6 +14799,63 @@ background-color: rgba(229, 229, 229, 247)
              <property name="frameShadow">
               <enum>QFrame::Raised</enum>
              </property>
+             <widget class="QWidget" name="">
+              <property name="geometry">
+               <rect>
+                <x>50</x>
+                <y>110</y>
+                <width>245</width>
+                <height>56</height>
+               </rect>
+              </property>
+              <layout class="QVBoxLayout" name="verticalLayout_65">
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_43">
+                 <item>
+                  <widget class="QLabel" name="label_134">
+                   <property name="text">
+                    <string>Shift Start Date Time</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QDateTimeEdit" name="dateTimeEdit_2"/>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_42">
+                 <item>
+                  <widget class="QPushButton" name="pushButton_3">
+                   <property name="text">
+                    <string>Start Shift</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <spacer name="horizontalSpacer_6">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="pushButton_4">
+                   <property name="text">
+                    <string>End Shift</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
             </widget>
            </widget>
            <widget class="QWidget" name="user_access_page">
@@ -15006,11 +15082,11 @@ background-color: rgba(229, 229, 229, 247)
  </resources>
  <connections/>
  <buttongroups>
+  <buttongroup name="main_motor_module_button_group"/>
   <buttongroup name="navigation_button_group"/>
   <buttongroup name="io_module_button_group"/>
-  <buttongroup name="output_list_page_button_group"/>
   <buttongroup name="input_list_page_button_group"/>
-  <buttongroup name="main_motor_module_button_group"/>
+  <buttongroup name="output_list_page_button_group"/>
   <buttongroup name="main_motor_page_button_group"/>
  </buttongroups>
 </ui>

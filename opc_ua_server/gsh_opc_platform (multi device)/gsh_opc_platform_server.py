@@ -39,7 +39,7 @@ class SubVarHandler(object):
         data_value = int(val)
         new_value = asyncio.create_task(self.count_node(corr_var_node, data_value, data_type)) #(namespace, node id, amount)
         new_value = await self.count_node(corr_var_node, data_value, data_type) #(namespace, node id, amount)
-        if corr_var_node == 10004:
+        if corr_var_node == 10004: #if the node is lot total pass
             out_value = new_value
             in_value_node = self.get_node(10002)
             in_value_data = await in_value_node.read_value()
@@ -60,13 +60,13 @@ class SubShiftVarHandler(object):
         data_type = self.monitored_node[corr_var_node]['node_property']['data_type']
         data_value = int(val)
         new_value = await self.count_node(corr_var_node, data_value, data_type) #(namespace, node id, amount)
-        if corr_var_node == 10022:
+        if corr_var_node == 10022: #if the node is shift total pass
             out_value = new_value
-            in_value_node = self.get_node(10021) #get value of qty in
+            in_value_node = self.get_node(10020) #get value of qty in for shift variables
             in_value_data = await in_value_node.read_value()
-            data_type = self.monitored_node[10031]['node_property']['data_type'] #get yield data type
+            data_type = self.monitored_node[10028]['node_property']['data_type'] #get yield data type
             total_yield = self.yield_calculation(in_value_data, out_value)
-            asyncio.create_task(self.write_to_opc(10031, total_yield, data_type))
+            asyncio.create_task(self.write_to_opc(10028, total_yield, data_type))
 
 class SubDeviceModeHandler(object):
     def __init__(self,mode_dict,mode_update):
@@ -84,11 +84,11 @@ class SubUPHCalculation(object):
         self.uph_dict = uph_dict
         self.uph_array = []
     async def datachange_notification(self, node, val, data):
-        current_value_node = self.get_node(10003) #get current value of qty out
+        current_value_node = self.get_node(10021) #get current value of qty out
         current_value = await current_value_node.read_value()
-        production_uph_data_type = node_structure[10016]['node_property']['data_type']
-        operation_node = self.get_node(10017)
-        operation_flag = await operation_node.read_value()
+        production_uph_data_type = node_structure[10030]['node_property']['data_type']
+        operation_device_mode = self.get_node(10070)
+        operation_flag = await operation_device_mode.read_value()
         if sum(self.uph_list) == 0:
             self.uph_list.pop(0)
             self.uph_list.append(current_value)
@@ -98,12 +98,12 @@ class SubUPHCalculation(object):
         if operation_flag == True:
             self.uph_array.append(uph)
         print(self.uph_array)
-        asyncio.create_task(self.write_to_opc(10016, uph, production_uph_data_type)) #write to production uph
+        asyncio.create_task(self.write_to_opc(10030, uph, production_uph_data_type)) #write to production uph
 
         if (val == 0 or val==30) and operation_flag == True:
             average_uph = self.average_uph(self.uph_array)
             self.uph_array.clear()
-            current_hour_node = self.get_node(10053) 
+            current_hour_node = self.get_node(10063) 
             current_hour = await current_hour_node.read_value()
             self.update_uph_plot(average_uph,current_hour,val)
             
@@ -186,13 +186,14 @@ class OpcServerThread(object):
     async def watch_timer(self, time_dict):
         for node_id,value in time_dict.items():
             corr_flag_node = value['monitored_node']
-            device_mode = self.mode_dict[corr_flag_node]['node_property']['initial_value']
-            if device_mode == True:
-                data_type = value['node_property']['data_type']
-                flag_time = self.mode_dict[corr_flag_node]['flag_time']
-                delta_time = self.convert_string_to_datetime(value['node_property']['initial_value'])
-                duration = datetime.now() - flag_time + delta_time
-                asyncio.create_task(self.simple_write_to_opc(node_id,duration,data_type))
+            if corr_flag_node != None:
+                device_mode = self.mode_dict[corr_flag_node]['node_property']['initial_value']
+                if device_mode == True:
+                    data_type = value['node_property']['data_type']
+                    flag_time = self.mode_dict[corr_flag_node]['flag_time']
+                    delta_time = self.convert_string_to_datetime(value['node_property']['initial_value'])
+                    duration = datetime.now() - flag_time + delta_time
+                    asyncio.create_task(self.simple_write_to_opc(node_id,duration,data_type))
 
     def convert_string_to_datetime(self,time_string):
         delta_time = datetime.strptime(time_string,"%H:%M:%S.%f")
@@ -343,7 +344,7 @@ class OpcServerThread(object):
         #subscribed to minute interval activity for UPH Calculation
         minute_handler = SubUPHCalculation(self.uph_dict,self.get_node,self.simple_write_to_opc)
         minute_var_sub = await self.server.create_subscription(self.sub_time, minute_handler)
-        await minute_var_sub.subscribe_data_change(self.get_node(10054),queuesize=1)
+        await minute_var_sub.subscribe_data_change(self.get_node(10064),queuesize=1)
 
 
         var_handler = SubVarHandler(self.monitored_node,self.count_node,self.get_node,self.yield_calculation,self.simple_write_to_opc)
@@ -362,8 +363,6 @@ class OpcServerThread(object):
                 server_var = self.server.get_node(self.get_node(node_id))
                 await shift_var_sub.subscribe_data_change(server_var,queuesize=1)
 
-
-
         alarm_dict = collections.OrderedDict(sorted(self.alarm_dict.items()))
         io_dict = collections.OrderedDict(sorted(self.io_dict.items()))
         mode_dict = collections.OrderedDict(sorted(self.mode_dict.items()))
@@ -377,7 +376,7 @@ class OpcServerThread(object):
                 await asyncio.sleep(self.server_refresh_rate)
                 await self.scan_loop_plc(alarm_dict)
                 
-                await self.scan_loop_plc(plc_start_time)
+                #await self.scan_loop_plc(plc_start_time)
                 await self.scan_loop_plc(io_dict)
                 await self.scan_loop_plc(mode_dict)
                 asyncio.create_task(self.watch_timer(self.lot_time_dict | self.shift_time_dict))
@@ -389,7 +388,7 @@ def main():
     plc_address = {'PLC1':'127.0.0.1:8501'}
     file_path = Path(__file__).parent.absolute()
     endpoint = "localhost:4845/gshopcua/server"
-    server_refresh_rate = 0.05
+    server_refresh_rate = 0.1
     OpcServerThread(plc_address,file_path,endpoint,server_refresh_rate,uri)
 
 if __name__ == "__main__":
