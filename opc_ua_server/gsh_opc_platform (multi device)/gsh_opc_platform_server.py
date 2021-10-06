@@ -190,7 +190,6 @@ class OpcServerThread(object):
                     duration = self.duration(flag_time, delta_time)
                     asyncio.create_task(self.simple_write_to_opc(node_id,duration,data_type))
     
-    
     async def system_uptime(self):    
         lot_start_node = self.get_node(10054)
         lot_start_datetime = await lot_start_node.read_value()
@@ -205,8 +204,6 @@ class OpcServerThread(object):
             uptime = self.uptime(shift_start_datetime)
             uptime = str(uptime).split('.')[0]
             asyncio.create_task(self.simple_write_to_opc(10040, uptime, 'String')) #write to shift_uptime
-
-
 
     def duration(self,start_time, delta_time):
         if isinstance(start_time, str):
@@ -322,9 +319,42 @@ class OpcServerThread(object):
         data_value = ua.DataValue(self.ua_variant_data_type(data_type, data_value),SourceTimestamp=self.source_time, ServerTimestamp=self.source_time)
         await self.server.write_attribute_value(node_id.nodeid, data_value)
 
+    async def node_creation(self,conn, node_category_list):
+        hmi_handler = SubHmiHandler(self.hmi_dict,self.plc_tcp_socket_request)
+        hmi_sub = await self.server.create_subscription(self.hmi_sub, hmi_handler)
+
+        mode_handler = SubDeviceModeHandler(self.mode_dict,self.mode_update)
+        device_mode_sub = await self.server.create_subscription(self.sub_time, mode_handler)
+        for category in node_category_list:
+                    server_obj = await self.server.nodes.objects.add_object(self.namespace_index, category)
+                    for key, value in node_structure.items():
+                        if value['node_property']['category']==category:
+                            node_id, variable_name, data_type, rw_status, historizing = key, value['name'], value['node_property']['data_type'], value['node_property']['rw'],value['node_property']['history']
+                            
+                            if historizing==True and self.checkTableExists(self.conn, f"{self.namespace_index}_{node_id}"):
+                                previous_data = pd.read_sql_query(f"SELECT Value FROM '{self.namespace_index}_{node_id}' ORDER BY _Id DESC LIMIT 1", self.conn)
+                                if not previous_data.empty:
+                                    previous_value = previous_data.iloc[0]['Value']
+                                    initial_value = self.data_type_conversion(data_type, previous_value)
+                                else:
+                                    initial_value = value['node_property']['initial_value']
+                            else:
+                                initial_value = value['node_property']['initial_value']           
+                            server_var = await server_obj.add_variable(ua.NodeId(node_id,self.namespace_index), str(variable_name), self.ua_variant_data_type(data_type,initial_value))
+                            if rw_status:
+                                await server_var.set_writable()
+                            if category == 'hmi':
+                                await hmi_sub.subscribe_data_change(server_var,queuesize=1)
+                            if category == 'device_mode':
+                                await device_mode_sub.subscribe_data_change(server_var,queuesize=1)
+                            if historizing and category == 'time_variables':
+                                await self.server.historize_node_data_change(server_var, period=None, count=10)
+                            if historizing and category != 'time_variables':
+                                await self.server.historize_node_data_change(server_var, period=None, count=1000)
+
     async def opc_server(self):
         self.database_file = "variable_history.sqlite3"
-        self.conn = sqlite3.connect(self.file_path.joinpath(self.database_file))
+        
 
         #Configure server to use sqlite as history database (default is a simple memory dict)
         self.server.iserver.history_manager.set_storage(HistorySQLite(self.file_path.joinpath(self.database_file)))
@@ -335,48 +365,10 @@ class OpcServerThread(object):
         
         self.namespace_index = await self.server.register_namespace(self.uri)
 
-        hmi_handler = SubHmiHandler(self.hmi_dict,self.plc_tcp_socket_request)
-        hmi_sub = await self.server.create_subscription(self.hmi_sub, hmi_handler)
-
-        """timer_handler = SubTimerHandler(self.time_dict,self.update_time_dict)  
-        time_sub = await self.server.create_subscription(self.sub_time, timer_handler) """
-
-        mode_handler = SubDeviceModeHandler(self.mode_dict,self.mode_update)
-        device_mode_sub = await self.server.create_subscription(self.sub_time, mode_handler)
-
-        hmi_handler = SubHmiHandler(self.hmi_dict,self.plc_tcp_socket_request)
-        hmi_sub = await self.server.create_subscription(self.hmi_sub, hmi_handler)
-
+        self.conn = sqlite3.connect(self.file_path.joinpath(self.database_file))
         node_category = [item['node_property']['category'] for item in node_structure.values()]
         node_category = list(set(node_category))
-        for category in node_category:
-            server_obj = await self.server.nodes.objects.add_object(self.namespace_index, category)
-            for key, value in node_structure.items():
-                if value['node_property']['category']==category:
-                    node_id, variable_name, data_type, rw_status, historizing = key, value['name'], value['node_property']['data_type'], value['node_property']['rw'],value['node_property']['history']
-                    
-                    if historizing and self.checkTableExists(self.conn, f"{self.namespace_index}_{node_id}"):
-                        previous_data = pd.read_sql_query(f"SELECT Value FROM '{self.namespace_index}_{node_id}' ORDER BY _Id DESC LIMIT 1", self.conn)
-                        if not previous_data.empty:
-                            previous_value = previous_data.iloc[0]['Value']
-                            initial_value = self.data_type_conversion(data_type, previous_value)
-                        else:
-                            initial_value = value['node_property']['initial_value']
-                    else:
-                        initial_value = value['node_property']['initial_value']           
-                    server_var = await server_obj.add_variable(ua.NodeId(node_id,self.namespace_index), str(variable_name), self.ua_variant_data_type(data_type,initial_value))
-                    if rw_status:
-                        await server_var.set_writable()
-                    if category == 'hmi':
-                        await hmi_sub.subscribe_data_change(server_var,queuesize=1)
-                    if category == 'device_mode':
-                        await device_mode_sub.subscribe_data_change(server_var,queuesize=1)
-                    if historizing and category == 'time_variables':
-                        await self.server.historize_node_data_change(server_var, period=None, count=10)
-                    if historizing and category != 'time_variables':
-                        await self.server.historize_node_data_change(server_var, period=None, count=1000)
-
-
+        asyncio.create_task(self.node_creation(self.conn,node_category))
         self.conn.close()
 
         #subscribed to minute interval activity for UPH Calculation
@@ -409,11 +401,8 @@ class OpcServerThread(object):
             while True:
                 #tic = time.perf_counter()
                 await self.scan_loop_plc(plc_clock_dict)
-
                 await asyncio.sleep(self.server_refresh_rate)
                 await self.scan_loop_plc(alarm_dict)
-                
-                #await self.scan_loop_plc(plc_start_time)
                 await self.scan_loop_plc(io_dict)
                 await self.scan_loop_plc(mode_dict)
                 self.timer_function(self.lot_time_dict | self.shift_time_dict)
