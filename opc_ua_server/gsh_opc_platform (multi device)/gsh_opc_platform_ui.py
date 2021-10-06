@@ -1,7 +1,7 @@
 import sys
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtCore import  QThread,QEvent
-from PyQt5.QtWidgets import QMainWindow
+from PyQt5.QtWidgets import QDateTimeEdit, QMainWindow
 from queue import Queue
 import gsh_opc_platform_client as gsh_client
 from gsh_opc_platform_gui import Ui_MainWindow as gui
@@ -19,15 +19,10 @@ class Ui_MainWindow(QMainWindow,gui):
         self.title = 'GSH OPC Software'
         self.database_file = "variable_history.sqlite3"
         self.uri = "PLC_Server"
-        #plc_address = {'PLC1':'127.0.0.1:8501'}
         self.start_time = datetime.now()
         self.input_queue = Queue()
-        #file_path = Path(__file__).parent.absolute()
         endpoint = "localhost:4845/gshopcua/server"
-        #server_refresh_rate = 0.05
-        client_refresh_rate = 0.1
-        #self.server_process = Process(target=gsh_server.OpcServerThread, args=(plc_address,file_path,endpoint,server_refresh_rate,self.uri))
-        #self.server_process.daemon = True    
+        client_refresh_rate = 0.1   
         self.io_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='relay'}
         self.hmi_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='hmi'}
         self.ui_time_dict = {}
@@ -38,7 +33,6 @@ class Ui_MainWindow(QMainWindow,gui):
         self.client_worker.logger_signal.connect(self.logger_handler)
         self.client_worker.data_signal.connect(self.io_handler)
         self.client_worker.info_signal.connect(self.info_handler)
-        self.client_worker.ui_refresh_signal.connect(self.uptime)
         self.client_worker.uph_signal.connect(self.update_plot)
         self.client_worker.init_plot.connect(self.init_bar_plot)
 
@@ -114,8 +108,10 @@ class Ui_MainWindow(QMainWindow,gui):
         #    self.MplWidget.canvas.ax.text(i + 0.1, v + 0.25, str(v), color='red', fontsize=6)
         #self.MplWidget.canvas.draw()
         #self.MplWidget.canvas.flush_events()
-
-
+        test = self.dateTimeEdit.dateTime()
+        test = test.toPyDateTime()
+        time_string = (str(f"{test.day:02}.{test.month:02}.{test.year} {test.hour:02}:{test.minute:02}"))
+        print(time_string)
         for value in self.io_dict.values():
             if 'y' in value['label_point'][0]:
                 for label in value['label_point']:                
@@ -153,7 +149,6 @@ class Ui_MainWindow(QMainWindow,gui):
             current += delta
 
     def client_start(self):
-        #self.server_process.start()
         self.client_thread.start()
 
     def eventFilter(self, source, event):
@@ -244,13 +239,6 @@ class Ui_MainWindow(QMainWindow,gui):
                 if 'y' in label:
                     indicator_label.setStyleSheet(f"background-color: rgb({self.rgb_value_output_off});color: rgb(200, 200, 200);")
 
-    def uptime(self):
-        uptime = datetime.now() - self.start_time
-        uptime_text = (str(uptime).split('.', 2)[0])
-        self.system_uptime_label.setText(uptime_text)
-        current_date_time = (datetime.now().strftime("%d-%m-%Y | %H:%M:%S.%f")).split('.')[0]
-        self.datetime_label.setText(current_date_time)
-
     def time_label_update(self,data):
         label = data[0]
         time_string = data[1].split('.')[0]
@@ -270,7 +258,7 @@ if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     main_window = Ui_MainWindow()
     main_window.setWindowFlags(QtCore.Qt.FramelessWindowHint)# | QtCore.Qt.WindowStaysOnTopHint)
-    main_window.client_start()
+    #main_window.client_start()
     #main_window.resize(w, h)
     main_window.show()
     main_window.showFullScreen()

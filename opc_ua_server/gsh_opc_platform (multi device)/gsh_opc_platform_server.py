@@ -1,16 +1,13 @@
 import asyncio
-from asyncua import ua, Server, uamethod
+from asyncua import ua, Server
 from datetime import timedelta, datetime
 from asyncua.server.history_sql import HistorySQLite
 from pathlib import Path
-from asyncua.ua.uaprotocol_auto import ModelChangeStructureDataType
-from numpy import mod
 import pandas as pd
 import sqlite3
 from io_layout_map import node_structure
 import collections
-import os
-import sys
+import time
 #io_dict standard dictionary: {variables_id:[device_ip, variables_ns, device_name, category_name,variable_name,0]}
 #hmi_signal standard: (namespace, node_id, data_value)
 
@@ -97,7 +94,6 @@ class SubUPHCalculation(object):
         uph = self.uph_calculation(self.uph_list[0],self.uph_list[1])
         if operation_flag == True:
             self.uph_array.append(uph)
-        print(self.uph_array)
         asyncio.create_task(self.write_to_opc(10030, uph, production_uph_data_type)) #write to production uph
 
         if (val == 0 or val==30) and operation_flag == True:
@@ -140,7 +136,6 @@ class OpcServerThread(object):
         self.uph_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='uph_variables'}
         self.mode_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='device_mode'}
         self.plc_clock_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='plc_clock'}
-        self.system_up_time = {key:value for key,value in node_structure.items() if value['node_property']['category']=='plc_start_time'}
         self.node_structure = node_structure
         self.system_clock = 0
 
@@ -183,7 +178,7 @@ class OpcServerThread(object):
                     value['node_property']['initial_value']= await node_id.read_value()         
                 self.lot_time_dict.update({key:value})
  
-    async def watch_timer(self, time_dict):
+    def timer_function(self, time_dict):
         for node_id,value in time_dict.items():
             corr_flag_node = value['monitored_node']
             if corr_flag_node != None:
@@ -191,12 +186,55 @@ class OpcServerThread(object):
                 if device_mode == True:
                     data_type = value['node_property']['data_type']
                     flag_time = self.mode_dict[corr_flag_node]['flag_time']
-                    delta_time = self.convert_string_to_datetime(value['node_property']['initial_value'])
-                    duration = datetime.now() - flag_time + delta_time
+                    delta_time = self.convert_string_to_time(value['node_property']['initial_value'])
+                    duration = self.duration(flag_time, delta_time)
                     asyncio.create_task(self.simple_write_to_opc(node_id,duration,data_type))
+    
+    
+    async def system_uptime(self):    
+        lot_start_node = self.get_node(10054)
+        lot_start_datetime = await lot_start_node.read_value()
+        if lot_start_datetime != 'Null':
+            uptime = self.uptime(lot_start_datetime)
+            uptime = str(uptime).split('.')[0]
+            asyncio.create_task(self.simple_write_to_opc(10044, uptime, 'String')) #write to lot_uptime
+
+        shift_start_node = self.get_node(10055)
+        shift_start_datetime = await shift_start_node.read_value()
+        if shift_start_datetime != 'Null':
+            uptime = self.uptime(shift_start_datetime)
+            uptime = str(uptime).split('.')[0]
+            asyncio.create_task(self.simple_write_to_opc(10040, uptime, 'String')) #write to shift_uptime
+
+
+
+    def duration(self,start_time, delta_time):
+        if isinstance(start_time, str):
+            start_time = self.convert_string_to_time(start_time)
+        if isinstance(delta_time, str):
+            delta_time = self.convert_string_to_time(delta_time)
+        duration = datetime.now() - start_time + delta_time
+        return duration
+
+    def uptime(self, start_datetime):
+        if isinstance(start_datetime, str):
+                start_time = self.convert_string_to_datetime(start_datetime)
+        uptime = datetime.now() - start_time
+        return uptime
+
 
     def convert_string_to_datetime(self,time_string):
-        delta_time = datetime.strptime(time_string,"%H:%M:%S.%f")
+        try:
+            date_time = datetime.strptime(time_string,"%d.%m.%Y %H:%M:%S")
+        except:
+            date_time = datetime.strptime(time_string,"%d.%m.%Y %H:%M")
+        return date_time
+
+    def convert_string_to_time(self,time_string):
+        try:
+            delta_time = datetime.strptime(time_string,"%H:%M:%S.%f")
+        except:
+            delta_time = datetime.strptime(time_string,"%H:%M:%S")
         delta_time = timedelta(hours=delta_time.hour, minutes=delta_time.minute, seconds=delta_time.second, microseconds=delta_time.microsecond)
         return delta_time
 
@@ -367,7 +405,6 @@ class OpcServerThread(object):
         io_dict = collections.OrderedDict(sorted(self.io_dict.items()))
         mode_dict = collections.OrderedDict(sorted(self.mode_dict.items()))
         plc_clock_dict = collections.OrderedDict(sorted(self.plc_clock_dict.items()))
-        plc_start_time = collections.OrderedDict(sorted(self.system_up_time.items()))
         async with self.server:
             while True:
                 #tic = time.perf_counter()
@@ -379,9 +416,10 @@ class OpcServerThread(object):
                 #await self.scan_loop_plc(plc_start_time)
                 await self.scan_loop_plc(io_dict)
                 await self.scan_loop_plc(mode_dict)
-                asyncio.create_task(self.watch_timer(self.lot_time_dict | self.shift_time_dict))
+                self.timer_function(self.lot_time_dict | self.shift_time_dict)
+                asyncio.create_task(self.system_uptime())
                 #toc = time.perf_counter()
-                #print(f"{toc - tic:.9f}")
+                #print(f"{toc - tic- self.server_refresh_rate :.9f}")
 
 def main():
     uri = "PLC_Server"

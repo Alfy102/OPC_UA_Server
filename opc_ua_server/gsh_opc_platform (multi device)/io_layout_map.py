@@ -131,8 +131,8 @@ node_structure = {
 #---------------------------------------------------------------------------------
 
 10040:{ 'name': 'shift_uptime',
-        'label_point':['shift_total_yield_label'],
-        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'shift_time_variables', 'history': True,'rw': 'rw', 'initial_value': '0:00:00.0'},
+        'label_point':['shift_uptime_label'],
+        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'shift_time_variables', 'history': False,'rw': 'rw', 'initial_value': '0:00:00.0'},
         'monitored_node': None},
 
 10041:{ 'name': 'shift_operation_time',
@@ -150,33 +150,28 @@ node_structure = {
         'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'shift_time_variables', 'history': True,'rw': 'rw', 'initial_value': '0:00:00.0'},
         'monitored_node': 10072}, #refers to device_mode
  
-10044:{ 'name': 'shift_maintenance_time',
-        'label_point':['shift_maintenance_time_label'],
-        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'shift_time_variables', 'history': True,'rw': 'rw', 'initial_value': '0:00:00.0'},
-        'monitored_node': 10073}, #refers to device_mode
-
-10045:{ 'name': 'lot_uptime',
-        'label_point':['shift_total_yield_label'],
-        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'shift_time_variables', 'history': True,'rw': 'rw', 'initial_value': '0:00:00.0'},
+10044:{ 'name': 'lot_uptime',
+        'label_point':['lot_uptime_label'],
+        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'shift_time_variables', 'history': False,'rw': 'rw', 'initial_value': '0:00:00.0'},
         'monitored_node': None},
 
-10046:{ 'name': 'lot_operation_time',
-        'label_point':['operation_time_label'],
+10045:{ 'name': 'lot_operation_time',
+        'label_point':['lot_operation_time_label'],
         'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'time_variables', 'history': True,'rw': 'rw', 'initial_value': '0:00:00.0'},
         'monitored_node': 10070}, #refers to device_mode
 
-10047:{ 'name': 'lot_down_time',
-        'label_point':['down_time_label'],
+10046:{ 'name': 'lot_down_time',
+        'label_point':['lot_down_time_label'],
         'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'time_variables', 'history': True,'rw': 'rw', 'initial_value': '0:00:00.0'},
         'monitored_node': 10071}, #refers to device_mode
 
-10048:{ 'name': 'lot_idling_time',
-        'label_point':['idling_time_label'],
+10047:{ 'name': 'lot_idling_time',
+        'label_point':['lot_idling_time_label'],
         'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'time_variables', 'history': True,'rw': 'rw', 'initial_value': '0:00:00.0'},
         'monitored_node': 10072}, #refers to device_mode
  
-10049:{ 'name': 'lot_maintenance_time',
-        'label_point':['maintenance_time_label'],
+10048:{ 'name': 'lot_maintenance_time',
+        'label_point':['lot_maintenance_time_label'],
         'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'time_variables', 'history': True,'rw': 'rw', 'initial_value': '0:00:00.0'},
         'monitored_node': 10073}, #refers to device_mode
 

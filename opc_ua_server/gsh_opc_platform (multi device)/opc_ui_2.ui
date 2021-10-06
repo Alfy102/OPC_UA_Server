@@ -1564,7 +1564,7 @@ QPushButton:checked
             <number>0</number>
            </property>
            <property name="currentIndex">
-            <number>2</number>
+            <number>1</number>
            </property>
            <widget class="QWidget" name="main_page">
             <widget class="QFrame" name="title_frame">
@@ -1967,7 +1967,7 @@ QPushButton:checked
                </layout>
               </widget>
              </widget>
-             <widget class="QWidget" name="">
+             <widget class="QWidget" name="layoutWidget">
               <property name="geometry">
                <rect>
                 <x>80</x>
@@ -2721,7 +2721,7 @@ QPushButton:checked
                     </widget>
                    </item>
                    <item row="1" column="1">
-                    <widget class="QLabel" name="start_datetime_label">
+                    <widget class="QLabel" name="lot_start_datetime_label">
                      <property name="text">
                       <string>Currrent Datetime</string>
                      </property>
@@ -2735,7 +2735,7 @@ QPushButton:checked
                     </widget>
                    </item>
                    <item row="2" column="1">
-                    <widget class="QLabel" name="system_uptime_label">
+                    <widget class="QLabel" name="lot_uptime_label">
                      <property name="text">
                       <string>0</string>
                      </property>
@@ -2749,7 +2749,7 @@ QPushButton:checked
                     </widget>
                    </item>
                    <item row="3" column="1">
-                    <widget class="QLabel" name="operation_time_label">
+                    <widget class="QLabel" name="lot_operation_time_label">
                      <property name="text">
                       <string>0</string>
                      </property>
@@ -2763,7 +2763,7 @@ QPushButton:checked
                     </widget>
                    </item>
                    <item row="4" column="1">
-                    <widget class="QLabel" name="down_time_label">
+                    <widget class="QLabel" name="lot_down_time_label">
                      <property name="text">
                       <string>0</string>
                      </property>
@@ -2777,7 +2777,7 @@ QPushButton:checked
                     </widget>
                    </item>
                    <item row="5" column="1">
-                    <widget class="QLabel" name="idling_time_label">
+                    <widget class="QLabel" name="lot_idling_time_label">
                      <property name="text">
                       <string>0</string>
                      </property>
@@ -2791,7 +2791,7 @@ QPushButton:checked
                     </widget>
                    </item>
                    <item row="6" column="1">
-                    <widget class="QLabel" name="maintenance_time_label">
+                    <widget class="QLabel" name="lot_maintenance_time_label">
                      <property name="text">
                       <string>0</string>
                      </property>
@@ -3238,21 +3238,21 @@ QPushButton:checked
                     <enum>QLayout::SetDefaultConstraint</enum>
                    </property>
                    <item row="0" column="1">
-                    <widget class="QLabel" name="start_datetime_label_2">
+                    <widget class="QLabel" name="shift_start_datetime_label">
                      <property name="text">
                       <string>Currrent Datetime</string>
                      </property>
                     </widget>
                    </item>
                    <item row="4" column="1">
-                    <widget class="QLabel" name="idling_time_label_2">
+                    <widget class="QLabel" name="shift_idling_time_label">
                      <property name="text">
                       <string>0</string>
                      </property>
                     </widget>
                    </item>
                    <item row="3" column="1">
-                    <widget class="QLabel" name="down_time_label_2">
+                    <widget class="QLabel" name="shift_down_time_label">
                      <property name="text">
                       <string>0</string>
                      </property>
@@ -3266,14 +3266,14 @@ QPushButton:checked
                     </widget>
                    </item>
                    <item row="1" column="1">
-                    <widget class="QLabel" name="system_up_time_label_2">
+                    <widget class="QLabel" name="shift_uptime_label">
                      <property name="text">
                       <string>0</string>
                      </property>
                     </widget>
                    </item>
                    <item row="2" column="1">
-                    <widget class="QLabel" name="operation_time_label_2">
+                    <widget class="QLabel" name="shift_operation_time_label">
                      <property name="text">
                       <string>0</string>
                      </property>
@@ -14799,7 +14799,7 @@ background-color: rgba(229, 229, 229, 247)
              <property name="frameShadow">
               <enum>QFrame::Raised</enum>
              </property>
-             <widget class="QWidget" name="">
+             <widget class="QWidget" name="layoutWidget">
               <property name="geometry">
                <rect>
                 <x>50</x>
@@ -15082,11 +15082,11 @@ background-color: rgba(229, 229, 229, 247)
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="main_motor_module_button_group"/>
-  <buttongroup name="navigation_button_group"/>
-  <buttongroup name="io_module_button_group"/>
-  <buttongroup name="input_list_page_button_group"/>
-  <buttongroup name="output_list_page_button_group"/>
   <buttongroup name="main_motor_page_button_group"/>
+  <buttongroup name="main_motor_module_button_group"/>
+  <buttongroup name="output_list_page_button_group"/>
+  <buttongroup name="input_list_page_button_group"/>
+  <buttongroup name="io_module_button_group"/>
+  <buttongroup name="navigation_button_group"/>
  </buttongroups>
 </ui>
