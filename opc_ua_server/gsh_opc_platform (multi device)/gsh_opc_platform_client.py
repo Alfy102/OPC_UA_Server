@@ -69,7 +69,7 @@ class OpcClientThread(QObject):
         self.monitored_node = {key:value for key,value in node_structure.items() if value['node_property']['category']=='server_variables' or value['node_property']['category']=='shift_server_variables'}
         self.io_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='relay'}
         self.alarm_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='alarm'}
-        self.hmi_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='hmi'}
+        self.hmi_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='client_input_1'}
         self.time_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='time_variables'}
         self.uph_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='uph_variables'}
         url = f"opc.tcp://{endpoint}"

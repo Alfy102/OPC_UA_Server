@@ -3,45 +3,49 @@ from asyncua.ua.uatypes import flatten_and_get_shape
 
 
 node_structure = {
+
+#---------------------------------------------------------------------------------
+#lot counting and yield variables
+#---------------------------------------------------------------------------------
 10000:{ 'name': 'lot_barcode_fail_count',
         'label_point':['barcode_fail_count_label'],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt32', 'category': 'server_variables', 'history': True, 'rw': 'rw', 'initial_value': 0},
-        'monitored_node': 10106},
+        'monitored_node': 11000},
 
 10001:{ 'name': 'lot_barcode_pass_count',
         'label_point':['barcode_pass_count_label'],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt32', 'category': 'server_variables', 'history': True,'rw': 'rw', 'initial_value': 0},
-        'monitored_node': 10107},
+        'monitored_node': 11001},
 
 10002:{ 'name': 'lot_total_quantity_in',
         'label_point':['total_quantity_in_label','label_75'],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt32', 'category': 'server_variables', 'history': True,'rw': 'rw', 'initial_value': 0},
-        'monitored_node': 10108},
+        'monitored_node': 11002},
 
 10003:{ 'name': 'lot_total_quantity_out',
         'label_point':['total_quantity_out_label'],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt32', 'category': 'server_variables', 'history': True,'rw': 'rw', 'initial_value': 0},
-        'monitored_node': 10109},
+        'monitored_node': 11003},
 
 10004:{ 'name': 'lot_total_pass',
         'label_point':['total_passed_label'],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt32', 'category': 'server_variables', 'history': True,'rw': 'rw', 'initial_value': 0},
-        'monitored_node': 10110},
+        'monitored_node': 11004},
 
 10005:{ 'name': 'lot_total_fail',
         'label_point':['total_failed_label'],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt32', 'category': 'server_variables', 'history': True,'rw': 'rw', 'initial_value': 0},
-        'monitored_node': 10111},
+        'monitored_node': 11005},
 
 10006:{ 'name': 'lot_soft_jam',
         'label_point':['soft_jam_label'],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt32', 'category': 'server_variables', 'history': True,'rw': 'rw', 'initial_value': 0},
-        'monitored_node': 10112},
+        'monitored_node': 11006},
 
 10007:{ 'name': 'lot_hard_jam',
         'label_point':['hard_jam_label'],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt32', 'category': 'server_variables', 'history': True,'rw': 'rw', 'initial_value': 0},
-        'monitored_node': 10113},
+        'monitored_node': 11007},
 
 10008:{ 'name': 'lot_mtbf',
         'label_point':['mtbf_label'],
@@ -56,184 +60,208 @@ node_structure = {
 10010:{ 'name': 'lot_error_count',
         'label_point':['error_count_label'],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt32', 'category': 'server_variables', 'history': True,'rw': 'rw', 'initial_value': 0},
-        'monitored_node': 10114},
+        'monitored_node': 11010},
 
 10011:{ 'name': 'lot_total_yield',
         'label_point':['total_yield_label'],
         'node_property':{'device': 'PLC1', 'data_type': 'Float', 'category': 'server_variables', 'history': True,'rw': 'rw', 'initial_value': 0.0},
         'monitored_node': None},
 
-10012:{ 'name': 'operation_time',
-        'label_point':['operation_time_label'],
-        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'time_variables', 'history': True,'rw': 'rw', 'initial_value': '0:00:00.0'},
-        'monitored_node': 10017}, #refers to device_mode
-
-10013:{ 'name': 'down_time',
-        'label_point':['down_time_label'],
-        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'time_variables', 'history': True,'rw': 'rw', 'initial_value': '0:00:00.0'},
-        'monitored_node': 10018}, #refers to device_mode
-
-10014:{ 'name': 'idling_time',
-        'label_point':['idling_time_label'],
-        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'time_variables', 'history': True,'rw': 'rw', 'initial_value': '0:00:00.0'},
-        'monitored_node': 10019}, #refers to device_mode
- 
-10015:{ 'name': 'maintenance_time',
-        'label_point':['maintenance_time_label'],
-        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'time_variables', 'history': True,'rw': 'rw', 'initial_value': '0:00:00.0'},
-        'monitored_node': 10020}, #refers to device_mode
-
-10016:{ 'name': 'production_uph',
-        'label_point':['production_uph_label'],
-        'node_property':{'device': 'PLC1', 'data_type': 'UInt16', 'category': 'server_variables', 'history': True,'rw': 'rw', 'initial_value': 0},
-        'monitored_node': None},
-
-10017:{ 'name': 'MR2000', #operation_mode
-        'label_point':[],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'device_mode', 'history': False,'rw': 'r', 'initial_value': False}},
-
-10018:{ 'name': 'MR2001', #down_mode
-        'label_point':[],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'device_mode', 'history': False,'rw': 'r', 'initial_value': False}},
-
-10019:{ 'name': 'MR2002', #idling_mode
-        'label_point':[],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'device_mode', 'history': False,'rw': 'r', 'initial_value': False}},
-
-10020:{ 'name': 'MR2003', #maintenance_mode
-        'label_point':[],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'device_mode', 'history': False,'rw': 'r', 'initial_value': False}},
-
-10021:{ 'name': 'shift_total_quantity_in',
+#---------------------------------------------------------------------------------
+#Shift count and yield variables
+#---------------------------------------------------------------------------------
+10020:{ 'name': 'shift_total_quantity_in',
         'label_point':[],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt32', 'category': 'shift_variables', 'history': True,'rw': 'rw', 'initial_value': 0},
-        'monitored_node': 10108},
+        'monitored_node': 11002},
 
-10022:{ 'name': 'shift_total_quantity_out',
+10021:{ 'name': 'shift_total_quantity_out',
         'label_point':['shift_total_qty_out_label'],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt32', 'category': 'shift_variables', 'history': True,'rw': 'rw', 'initial_value': 0},
-        'monitored_node': 10109},
+        'monitored_node': 11003},
 
-10023:{ 'name': 'shift_total_pass',
+10022:{ 'name': 'shift_total_pass',
         'label_point':['shift_total_passed_label'],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt32', 'category': 'shift_variables', 'history': True,'rw': 'rw', 'initial_value': 0},
-        'monitored_node': 10110},
+        'monitored_node': 11004},
 
-10024:{ 'name': 'shift_total_fail',
+10023:{ 'name': 'shift_total_fail',
         'label_point':['shift_total_fail_label'],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt32', 'category': 'shift_variables', 'history': True,'rw': 'rw', 'initial_value': 0},
-        'monitored_node': 10111},
+        'monitored_node': 11005},
 
-10025:{ 'name': 'shift_soft_jam',
+10024:{ 'name': 'shift_soft_jam',
         'label_point':['shift_soft_jam_label'],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt32', 'category': 'shift_variables', 'history': True,'rw': 'rw', 'initial_value': 0},
-        'monitored_node': 10112},
+        'monitored_node': 11006},
 
-10026:{ 'name': 'shift_hard_jam',
+10025:{ 'name': 'shift_hard_jam',
         'label_point':['shift_hard_jam_label'],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt32', 'category': 'shift_variables', 'history': True,'rw': 'rw', 'initial_value': 0},
-        'monitored_node': 10113},
+        'monitored_node': 11007},
 
-10027:{ 'name': 'shift_mtbf',
+10026:{ 'name': 'shift_mtbf',
         'label_point':['shift_mtbf_label'],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt32', 'category': 'shift_variables', 'history': True,'rw': 'rw', 'initial_value': 0},
         'monitored_node': None},
 
-10028:{ 'name': 'shift_mtba',
+10027:{ 'name': 'shift_mtba',
         'label_point':['shift_mtba_label'],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt32', 'category': 'shift_variables', 'history': True,'rw': 'rw', 'initial_value': 0},
         'monitored_node': None},
 
-10029:{ 'name': 'shift_start_time',
+10028:{ 'name': 'shift_total_yield',
         'label_point':['shift_total_yield_label'],
         'node_property':{'device': 'PLC1', 'data_type': 'Float', 'category': 'shift_variables', 'history': True,'rw': 'rw', 'initial_value': 0.0},
         'monitored_node': None},
 
-10030:{ 'name': 'shift_uptime',
-        'label_point':['shift_total_yield_label'],
-        'node_property':{'device': 'PLC1', 'data_type': 'Float', 'category': 'shift_variables', 'history': True,'rw': 'rw', 'initial_value': 0.0},
+#---------------------------------------------------------------------------------
+#minute interval UPH
+#---------------------------------------------------------------------------------
+
+10030:{ 'name': 'production_uph',
+        'label_point':['production_uph_label'],
+        'node_property':{'device': 'PLC1', 'data_type': 'UInt16', 'category': 'server_variables', 'history': True,'rw': 'rw', 'initial_value': 0},
         'monitored_node': None},
 
-10031:{ 'name': 'shift_total_yield',
-        'label_point':['shift_total_yield_label'],
-        'node_property':{'device': 'PLC1', 'data_type': 'Float', 'category': 'shift_variables', 'history': True,'rw': 'rw', 'initial_value': 0.0},
+
+
+#---------------------------------------------------------------------------------
+#Lot and shift time variables
+#---------------------------------------------------------------------------------
+
+10040:{ 'name': 'shift_uptime',
+        'label_point':['shift_uptime_label'],
+        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'shift_time_variables', 'history': False,'rw': 'rw', 'initial_value': '0:00:00.0'},
         'monitored_node': None},
 
-10032:{ 'name': 'shift_operation_time',
-        'label_point':['operation_time_label'],
+10041:{ 'name': 'shift_operation_time',
+        'label_point':['shift_operation_time_label'],
         'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'shift_time_variables', 'history': True,'rw': 'rw', 'initial_value': '0:00:00.0'},
-        'monitored_node': 10065}, #refers to device_mode
+        'monitored_node': 10070}, #refers to device_mode
 
-10033:{ 'name': 'shift_down_time',
-        'label_point':['down_time_label'],
+10042:{ 'name': 'shift_down_time',
+        'label_point':['shift_down_time_label'],
         'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'shift_time_variables', 'history': True,'rw': 'rw', 'initial_value': '0:00:00.0'},
-        'monitored_node': 10066}, #refers to device_mode
+        'monitored_node': 10071}, #refers to device_mode
 
-10034:{ 'name': 'shift_idling_time',
-        'label_point':['idling_time_label'],
+10043:{ 'name': 'shift_idling_time',
+        'label_point':['shift_idling_time_label'],
         'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'shift_time_variables', 'history': True,'rw': 'rw', 'initial_value': '0:00:00.0'},
-        'monitored_node': 10067}, #refers to device_mode
+        'monitored_node': 10072}, #refers to device_mode
  
-10035:{ 'name': 'shift_maintenance_time',
-        'label_point':['maintenance_time_label'],
-        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'shift_time_variables', 'history': True,'rw': 'rw', 'initial_value': '0:00:00.0'},
-        'monitored_node': 10068}, #refers to device_mode
+10044:{ 'name': 'lot_uptime',
+        'label_point':['lot_uptime_label'],
+        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'shift_time_variables', 'history': False,'rw': 'rw', 'initial_value': '0:00:00.0'},
+        'monitored_node': None},
 
+10045:{ 'name': 'lot_operation_time',
+        'label_point':['lot_operation_time_label'],
+        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'time_variables', 'history': True,'rw': 'rw', 'initial_value': '0:00:00.0'},
+        'monitored_node': 10070}, #refers to device_mode
 
-10050:{ 'name': 'CM700',
+10046:{ 'name': 'lot_down_time',
+        'label_point':['lot_down_time_label'],
+        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'time_variables', 'history': True,'rw': 'rw', 'initial_value': '0:00:00.0'},
+        'monitored_node': 10071}, #refers to device_mode
+
+10047:{ 'name': 'lot_idling_time',
+        'label_point':['lot_idling_time_label'],
+        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'time_variables', 'history': True,'rw': 'rw', 'initial_value': '0:00:00.0'},
+        'monitored_node': 10072}, #refers to device_mode
+ 
+10048:{ 'name': 'lot_maintenance_time',
+        'label_point':['lot_maintenance_time_label'],
+        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'time_variables', 'history': True,'rw': 'rw', 'initial_value': '0:00:00.0'},
+        'monitored_node': 10073}, #refers to device_mode
+
+#---------------------------------------------------------------------------------
+#Lot ID Information (from client)
+#---------------------------------------------------------------------------------
+10050:{ 'name': 'lot_id',
+        'label_point':[],
+        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'lot_input', 'history': True,'rw': 'rw', 'initial_value': 'Null'},
+        'monitored_node': None},
+10051:{ 'name': 'operator_id',
+        'label_point':[],
+        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'lot_input', 'history': True,'rw': 'rw', 'initial_value': 'Null'},
+        'monitored_node': None},
+10052:{ 'name': 'package_name',
+        'label_point':[],
+        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'lot_input', 'history': True,'rw': 'rw', 'initial_value': 'Null'},
+        'monitored_node': None},
+10053:{ 'name': 'device_id',
+        'label_point':[],
+        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'lot_input', 'history': True,'rw': 'rw', 'initial_value': 'Null'},
+        'monitored_node': None},
+10054:{ 'name': 'lot_start_time',
+        'label_point':[],
+        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'lot_input', 'history': True,'rw': 'rw', 'initial_value': 'Null'},
+        'monitored_node': None},
+10055:{ 'name': 'shift_start_time',
+        'label_point':[],
+        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'lot_input', 'history': True,'rw': 'rw', 'initial_value': 'Null'},
+        'monitored_node': None},
+#---------------------------------------------------------------------------------
+#PLC Clock
+#---------------------------------------------------------------------------------
+
+10060:{ 'name': 'CM700', #year
         'label_point':[],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt16', 'category': 'plc_clock','rw': 'r', 'history': False, 'initial_value': 0}},
 
-10051:{ 'name': 'CM701',
+10061:{ 'name': 'CM701', #month
         'label_point':[],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt16', 'category': 'plc_clock','rw': 'r', 'history': False, 'initial_value': 0}},
 
-10052:{ 'name': 'CM702',
+10062:{ 'name': 'CM702', #day
         'label_point':[],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt16', 'category': 'plc_clock','rw': 'r', 'history': False, 'initial_value': 0}},
 
-10053:{ 'name': 'CM703',
+10063:{ 'name': 'CM703', #hour
         'label_point':[],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt16', 'category': 'plc_clock','rw': 'r', 'history': False, 'initial_value': 0}},
 
-10054:{ 'name': 'CM704',
+10064:{ 'name': 'CM704', #minute
         'label_point':[],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt16', 'category': 'plc_clock','rw': 'r', 'history': False, 'initial_value': 0}},
 
-10055:{ 'name': 'CM705',
+10065:{ 'name': 'CM705', #second
         'label_point':[],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt16', 'category': 'plc_clock','rw': 'r', 'history': False, 'initial_value': 0}},
 
 
+#---------------------------------------------------------------------------------
+#Device Mode
+#---------------------------------------------------------------------------------
 
-
-10060:{ 'name': 'DM1000',
+10070:{ 'name': 'MR2000', #operation_mode (auto_mode)
         'label_point':[],
-        'node_property':{'device': 'PLC1', 'data_type': 'UInt16', 'category': 'plc_start_time','rw': 'r', 'history': False, 'initial_value': 0}},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'device_mode', 'history': False,'rw': 'r', 'initial_value': False}},
 
-10061:{ 'name': 'DM1001',
+10071:{ 'name': 'MR2001', #stand_by_mode / down_mode (not entering auto)
         'label_point':[],
-        'node_property':{'device': 'PLC1', 'data_type': 'UInt16', 'category': 'plc_start_time','rw': 'r', 'history': False, 'initial_value': 0}},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'device_mode', 'history': False,'rw': 'r', 'initial_value': False}},
 
-10062:{ 'name': 'DM1002',
+10072:{ 'name': 'MR2002', #idling_mode / starving_mode (auto_mode)
         'label_point':[],
-        'node_property':{'device': 'PLC1', 'data_type': 'UInt16', 'category': 'plc_start_time','rw': 'r', 'history': False, 'initial_value': 0}},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'device_mode', 'history': False,'rw': 'r', 'initial_value': False}},
 
-10063:{ 'name': 'DM1003',
+10073:{ 'name': 'MR2003', #maintenance_mode (machine_stop)
         'label_point':[],
-        'node_property':{'device': 'PLC1', 'data_type': 'UInt16', 'category': 'plc_start_time','rw': 'r', 'history': False, 'initial_value': 0}},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'device_mode', 'history': False,'rw': 'r', 'initial_value': False}},
 
-10064:{ 'name': 'DM1004',
+10074:{ 'name': 'MR2004', #machine_ready_to_initialize
         'label_point':[],
-        'node_property':{'device': 'PLC1', 'data_type': 'UInt16', 'category': 'plc_start_time','rw': 'r', 'history': False, 'initial_value': 0}},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'device_mode', 'history': False,'rw': 'r', 'initial_value': False}},
 
-10066:{ 'name': 'DM1005',
+10075:{ 'name': 'MR2005', #machine_ready_to_run
         'label_point':[],
-        'node_property':{'device': 'PLC1', 'data_type': 'UInt16', 'category': 'plc_start_time','rw': 'r', 'history': False, 'initial_value': 0}},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'device_mode', 'history': False,'rw': 'r', 'initial_value': False}},
 
-
-
-
+#---------------------------------------------------------------------------------
+#UPH in 24 hours
+#---------------------------------------------------------------------------------
 
 10200:{ 'name': 'uph_00_00',
         'label_point':[],
@@ -475,6 +503,13 @@ node_structure = {
         'node_property':{'device': 'PLC1', 'data_type': 'UInt16', 'category': 'uph_variables', 'history': True,'rw': 'rw', 'initial_value': False},
         'monitored_node': None},
 
+
+
+#---------------------------------------------------------------------------------
+#Single series relay list
+#---------------------------------------------------------------------------------
+
+
 10300:{ 'name': 'DM3000',
         'label_point':[],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt16', 'category': 'alarm','rw': 'r', 'history': False, 'initial_value': 0}},
@@ -507,15 +542,15 @@ node_structure = {
         'label_point':['label_x0001','io_module_label_x0001'],
         'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'relay','rw': 'r', 'history': False, 'initial_value': False}},
 
-11102:{ 'name': 'R102',
+11002:{ 'name': 'R102',
         'label_point':['label_x0002','io_module_label_x0002'],
         'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'relay','rw': 'r', 'history': False, 'initial_value': False}},
 
-11103:{ 'name': 'R103',
+11003:{ 'name': 'R103',
         'label_point':['label_x0003','io_module_label_x0003'],
         'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'relay','rw': 'r', 'history': False, 'initial_value': False}},
 
-11104:{ 'name': 'R104',
+11004:{ 'name': 'R104',
         'label_point':['label_x0004','io_module_label_x0004'],
         'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'relay','rw': 'r', 'history': False, 'initial_value': False}},
 
@@ -935,209 +970,295 @@ node_structure = {
         'label_point':['label_y6212'],
         'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'relay','rw': 'r', 'history': False, 'initial_value': False}},
 
-11109:{ 'name': 'R713',
+11109:{ 'name': 'R713', 
         'label_point':['label_y6213'],
         'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'relay','rw': 'r', 'history': False, 'initial_value': False}},
 
-11110:{ 'name': 'R714',
+11110:{ 'name': 'R714', 
         'label_point':['label_y6214'],
         'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'relay','rw': 'r', 'history': False, 'initial_value': False}},
 
-11111:{ 'name': 'R715',
+11111:{ 'name': 'R715', 
         'label_point':['label_y6215'],
         'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'relay','rw': 'r', 'history': False, 'initial_value': False}},
+
+
+
+#---------------------------------------------------------------------------------
+#--------Motor properties
+#---------------------------------------------------------------------------------
+
+11200:{ 'name': 'CM1000', #Motor memory 1 
+        'label_point':['label_y6215'],
+        'node_property':{'device': 'PLC1', 'data_type': 'UInt32', 'category': 'data_memory','rw': 'r', 'history': False, 'initial_value': 0}},
+
+11201:{ 'name': 'CM1001', #Motor memory 1 
+        'label_point':['label_y6215'],
+        'node_property':{'device': 'PLC1', 'data_type': 'UInt32', 'category': 'data_memory','rw': 'r', 'history': False, 'initial_value': 0}},
+
+11202:{ 'name': 'CM1002', #Motor memory 1 
+        'label_point':['label_y6215'],
+        'node_property':{'device': 'PLC1', 'data_type': 'UInt32', 'category': 'data_memory','rw': 'r', 'history': False, 'initial_value': 0}},
+
+11203:{ 'name': 'CM1003', #Motor memory 1 
+        'label_point':['label_y6215'],
+        'node_property':{'device': 'PLC1', 'data_type': 'UInt32', 'category': 'data_memory','rw': 'r', 'history': False, 'initial_value': 0}},
+
+11204:{ 'name': 'CM1004', #Motor memory 1 
+        'label_point':['label_y6215'],
+        'node_property':{'device': 'PLC1', 'data_type': 'UInt32', 'category': 'data_memory','rw': 'r', 'history': False, 'initial_value': 0}},
+
+11205:{ 'name': 'CM1005', #Motor memory 1 
+        'label_point':['label_y6215'],
+        'node_property':{'device': 'PLC1', 'data_type': 'UInt32', 'category': 'data_memory','rw': 'r', 'history': False, 'initial_value': 0}},
+
+11206:{ 'name': 'CM1006', #Motor memory 1 
+        'label_point':['label_y6215'],
+        'node_property':{'device': 'PLC1', 'data_type': 'UInt32', 'category': 'data_memory','rw': 'r', 'history': False, 'initial_value': 0}},
+
+11207:{ 'name': 'CM1007', #Motor memory 1 
+        'label_point':['label_y6215'],
+        'node_property':{'device': 'PLC1', 'data_type': 'UInt32', 'category': 'data_memory','rw': 'r', 'history': False, 'initial_value': 0}},
+
+11208:{ 'name': 'CM1008', #Motor memory 2
+        'label_point':['label_y6215'],
+        'node_property':{'device': 'PLC1', 'data_type': 'UInt32', 'category': 'data_memory','rw': 'r', 'history': False, 'initial_value': 0}},
+
+11208:{ 'name': 'CM1008', #Motor memory 2
+        'label_point':['label_y6215'],
+        'node_property':{'device': 'PLC1', 'data_type': 'UInt32', 'category': 'data_memory','rw': 'r', 'history': False, 'initial_value': 0}},
+
+
+11208:{ 'name': 'CM1008', #Motor memory 2
+        'label_point':['label_y6215'],
+        'node_property':{'device': 'PLC1', 'data_type': 'UInt32', 'category': 'data_memory','rw': 'r', 'history': False, 'initial_value': 0}},
+
+
+11208:{ 'name': 'CM1008', #Motor memory 2
+        'label_point':['label_y6215'],
+        'node_property':{'device': 'PLC1', 'data_type': 'UInt32', 'category': 'data_memory','rw': 'r', 'history': False, 'initial_value': 0}},
+
+
+11208:{ 'name': 'CM1008', #Motor memory 2
+        'label_point':['label_y6215'],
+        'node_property':{'device': 'PLC1', 'data_type': 'UInt32', 'category': 'data_memory','rw': 'r', 'history': False, 'initial_value': 0}},
+
+
+11208:{ 'name': 'CM1008', #Motor memory 2
+        'label_point':['label_y6215'],
+        'node_property':{'device': 'PLC1', 'data_type': 'UInt32', 'category': 'data_memory','rw': 'r', 'history': False, 'initial_value': 0}},
+
+
+11208:{ 'name': 'CM1008', #Motor memory 2
+        'label_point':['label_y6215'],
+        'node_property':{'device': 'PLC1', 'data_type': 'UInt32', 'category': 'data_memory','rw': 'r', 'history': False, 'initial_value': 0}},
+
+
+11208:{ 'name': 'CM1008', #Motor memory 2
+        'label_point':['label_y6215'],
+        'node_property':{'device': 'PLC1', 'data_type': 'UInt32', 'category': 'data_memory','rw': 'r', 'history': False, 'initial_value': 0}},
+
+
+
+
+
+
+#---------------------------------------------------------------------------------
+#Input for hmi
+#---------------------------------------------------------------------------------
 
 13000:{ 'name': 'MR1000',
         'label_point':['label_y6000','io_module_label_y6000'],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'hmi','rw': 'rw', 'history': False, 'initial_value': False}},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'client_input_1','rw': 'rw', 'history': False, 'initial_value': False}},
 
 13001:{ 'name': 'MR1001',
         'label_point':['label_y6001','io_module_label_y6001'],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'hmi','rw': 'rw', 'history': False, 'initial_value': False}},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'client_input_1','rw': 'rw', 'history': False, 'initial_value': False}},
 
 13002:{ 'name': 'MR1002',
         'label_point':['label_y6002','io_module_label_y6002'],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'hmi','rw': 'rw', 'history': False, 'initial_value': False}},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'client_input_1','rw': 'rw', 'history': False, 'initial_value': False}},
 
 13003:{ 'name': 'MR1003',
         'label_point':['label_y6003','io_module_label_y6003'],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'hmi','rw': 'rw', 'history': False, 'initial_value': False}},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'client_input_1','rw': 'rw', 'history': False, 'initial_value': False}},
 
 13004:{ 'name': 'MR1004',
         'label_point':['label_y6004','io_module_label_y6004'],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'hmi','rw': 'rw', 'history': False, 'initial_value': False}},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'client_input_1','rw': 'rw', 'history': False, 'initial_value': False}},
 
 13005:{ 'name': 'MR1005',
         'label_point':['label_y6005','io_module_label_y6005'],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'hmi','rw': 'rw', 'history': False, 'initial_value': False}},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'client_input_1','rw': 'rw', 'history': False, 'initial_value': False}},
 
 13006:{ 'name': 'MR1006',
         'label_point':['label_y6006','io_module_label_y6006'],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'hmi','rw': 'rw', 'history': False, 'initial_value': False}},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'client_input_1','rw': 'rw', 'history': False, 'initial_value': False}},
 
 13007:{ 'name': 'MR1007',
         'label_point':['label_y6007','io_module_label_y6007'],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'hmi','rw': 'rw', 'history': False, 'initial_value': False}},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'client_input_1','rw': 'rw', 'history': False, 'initial_value': False}},
 
 13008:{ 'name': 'MR1008',
         'label_point':['label_y6008','io_module_label_y6008'],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'hmi','rw': 'rw', 'history': False, 'initial_value': False}},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'client_input_1','rw': 'rw', 'history': False, 'initial_value': False}},
 
 13009:{ 'name': 'MR1009',
         'label_point':['label_y6009','io_module_label_y6009'],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'hmi','rw': 'rw', 'history': False, 'initial_value': False}},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'client_input_1','rw': 'rw', 'history': False, 'initial_value': False}},
 
 13010:{ 'name': 'MR1010',
         'label_point':['label_y6010','io_module_label_y6010'],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'hmi','rw': 'rw', 'history': False, 'initial_value': False}},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'client_input_1','rw': 'rw', 'history': False, 'initial_value': False}},
 
 13011:{ 'name': 'MR1011',
         'label_point':['label_y6011','io_module_label_y6011'],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'hmi','rw': 'rw', 'history': False, 'initial_value': False}},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'client_input_1','rw': 'rw', 'history': False, 'initial_value': False}},
 
 13012:{ 'name': 'MR1012',
         'label_point':['label_y6012','io_module_label_y6012'],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'hmi','rw': 'rw', 'history': False, 'initial_value': False}},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'client_input_1','rw': 'rw', 'history': False, 'initial_value': False}},
 
 13013:{ 'name': 'MR1013',
         'label_point':['label_y6013','io_module_label_y6013'],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'hmi','rw': 'rw', 'history': False, 'initial_value': False}},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'client_input_1','rw': 'rw', 'history': False, 'initial_value': False}},
 
 13014:{ 'name': 'MR1014',
         'label_point':['label_y6014','io_module_label_y6014'],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'hmi','rw': 'rw', 'history': False, 'initial_value': False}},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'client_input_1','rw': 'rw', 'history': False, 'initial_value': False}},
 
 13015:{ 'name': 'MR1015',
         'label_point':['label_y6015','io_module_label_y6015'],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'hmi','rw': 'rw', 'history': False, 'initial_value': False}},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'client_input_1','rw': 'rw', 'history': False, 'initial_value': False}},
 
 13016:{ 'name': 'MR1100',
         'label_point':['label_y6100','io_module_label_y6100'],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'hmi','rw': 'rw', 'history': False, 'initial_value': False}},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'client_input_1','rw': 'rw', 'history': False, 'initial_value': False}},
 
 13017:{ 'name': 'MR1101',
         'label_point':['label_y6101','io_module_label_y6101'],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'hmi','rw': 'rw', 'history': False, 'initial_value': False}},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'client_input_1','rw': 'rw', 'history': False, 'initial_value': False}},
 
 13018:{ 'name': 'MR1102',
         'label_point':['label_y6102','io_module_label_y6102'],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'hmi','rw': 'rw', 'history': False, 'initial_value': False}},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'client_input_1','rw': 'rw', 'history': False, 'initial_value': False}},
 
 13019:{ 'name': 'MR1103',
         'label_point':['label_y6103','io_module_label_y6103'],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'hmi','rw': 'rw', 'history': False, 'initial_value': False}},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'client_input_1','rw': 'rw', 'history': False, 'initial_value': False}},
 
 13020:{ 'name': 'MR1104',
         'label_point':['label_y6104','io_module_label_y6104'],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'hmi','rw': 'rw', 'history': False, 'initial_value': False}},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'client_input_1','rw': 'rw', 'history': False, 'initial_value': False}},
 
 13021:{ 'name': 'MR1105',
         'label_point':['label_y6105','io_module_label_y6105'],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'hmi','rw': 'rw', 'history': False, 'initial_value': False}},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'client_input_1','rw': 'rw', 'history': False, 'initial_value': False}},
 
 13022:{ 'name': 'MR1106',
         'label_point':['label_y6106','io_module_label_y6106'],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'hmi','rw': 'rw', 'history': False, 'initial_value': False}},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'client_input_1','rw': 'rw', 'history': False, 'initial_value': False}},
 
 13023:{ 'name': 'MR1107',
         'label_point':['label_y6107','io_module_label_y6107'],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'hmi','rw': 'rw', 'history': False, 'initial_value': False}},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'client_input_1','rw': 'rw', 'history': False, 'initial_value': False}},
 
 13024:{ 'name': 'MR1108',
         'label_point':['label_y6108','io_module_label_y6108'],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'hmi','rw': 'rw', 'history': False, 'initial_value': False}},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'client_input_1','rw': 'rw', 'history': False, 'initial_value': False}},
 
 13025:{ 'name': 'MR1109',
         'label_point':['label_y6109','io_module_label_y6109'],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'hmi','rw': 'rw', 'history': False, 'initial_value': False}},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'client_input_1','rw': 'rw', 'history': False, 'initial_value': False}},
 
 13026:{ 'name': 'MR1110',
         'label_point':['label_y6110','io_module_label_y6110'],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'hmi','rw': 'rw', 'history': False, 'initial_value': False}},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'client_input_1','rw': 'rw', 'history': False, 'initial_value': False}},
 
 13027:{ 'name': 'MR1111',
         'label_point':['label_y6111','io_module_label_y6111'],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'hmi','rw': 'rw', 'history': False, 'initial_value': False}},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'client_input_1','rw': 'rw', 'history': False, 'initial_value': False}},
 
 13028:{ 'name': 'MR1112',
         'label_point':['label_y6112','io_module_label_y6112'],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'hmi','rw': 'rw', 'history': False, 'initial_value': False}},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'client_input_1','rw': 'rw', 'history': False, 'initial_value': False}},
 
 13029:{ 'name': 'MR1113',
         'label_point':['label_y6113','io_module_label_y6113'],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'hmi','rw': 'rw', 'history': False, 'initial_value': False}},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'client_input_1','rw': 'rw', 'history': False, 'initial_value': False}},
 
 13030:{ 'name': 'MR1114',
         'label_point':['label_y6114','main_motor_label_y6114'],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'hmi','rw': 'rw', 'history': False, 'initial_value': False}},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'client_input_1','rw': 'rw', 'history': False, 'initial_value': False}},
 
 13032:{ 'name': 'MR1115',
         'label_point':['label_y6115','main_motor_label_y6115'],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'hmi','rw': 'rw', 'history': False, 'initial_value': False}},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'client_input_1','rw': 'rw', 'history': False, 'initial_value': False}},
 
 13033:{ 'name': 'MR1200',
         'label_point':['label_y6200','main_motor_label_y6200'],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'hmi','rw': 'rw', 'history': False, 'initial_value': False}},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'client_input_1','rw': 'rw', 'history': False, 'initial_value': False}},
 
 13034:{ 'name': 'MR1201',
         'label_point':['label_y6201','main_motor_label_y6201'],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'hmi','rw': 'rw', 'history': False, 'initial_value': False}},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'client_input_1','rw': 'rw', 'history': False, 'initial_value': False}},
 
 13035:{ 'name': 'MR1202',
         'label_point':['label_y6202'],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'hmi','rw': 'rw', 'history': False, 'initial_value': False}},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'client_input_1','rw': 'rw', 'history': False, 'initial_value': False}},
 
 13036:{ 'name': 'MR1203',
         'label_point':['label_y6203'],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'hmi','rw': 'rw', 'history': False, 'initial_value': False}},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'client_input_1','rw': 'rw', 'history': False, 'initial_value': False}},
 
 13037:{ 'name': 'MR1204',
         'label_point':['label_y6204'],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'hmi','rw': 'rw', 'history': False, 'initial_value': False}},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'client_input_1','rw': 'rw', 'history': False, 'initial_value': False}},
 
 13038:{ 'name': 'MR1205',
         'label_point':['label_y6205'],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'hmi','rw': 'rw', 'history': False, 'initial_value': False}},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'client_input_1','rw': 'rw', 'history': False, 'initial_value': False}},
 
 13039:{ 'name': 'MR1206',
         'label_point':['label_y6206'],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'hmi','rw': 'rw', 'history': False, 'initial_value': False},},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'client_input_1','rw': 'rw', 'history': False, 'initial_value': False},},
 
 13040:{ 'name': 'MR1207',
         'label_point':['label_y6207'],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'hmi','rw': 'rw', 'history': False, 'initial_value': False}},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'client_input_1','rw': 'rw', 'history': False, 'initial_value': False}},
 
 13041:{ 'name': 'MR1208',
         'label_point':['label_y6208'],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'hmi','rw': 'rw', 'history': False, 'initial_value': False}},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'client_input_1','rw': 'rw', 'history': False, 'initial_value': False}},
 
 13042:{ 'name': 'MR1209',
         'label_point':['label_y6209'],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'hmi','rw': 'rw', 'history': False, 'initial_value': False}},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'client_input_1','rw': 'rw', 'history': False, 'initial_value': False}},
 
 13043:{ 'name': 'MR1210',
         'label_point':['label_y6210'],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'hmi','rw': 'rw', 'history': False, 'initial_value': False}},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'client_input_1','rw': 'rw', 'history': False, 'initial_value': False}},
 
 13044:{ 'name': 'MR1211',
         'label_point':['label_y6211'],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'hmi','rw': 'rw', 'history': False, 'initial_value': False}},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'client_input_1','rw': 'rw', 'history': False, 'initial_value': False}},
 
 13045:{ 'name': 'MR1212',
         'label_point':['label_y6212'],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'hmi','rw': 'rw', 'history': False, 'initial_value': False}},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'client_input_1','rw': 'rw', 'history': False, 'initial_value': False}},
 
 13046:{ 'name': 'MR1213',
         'label_point':['label_y6213'],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'hmi','rw': 'rw', 'history': False, 'initial_value': False}},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'client_input_1','rw': 'rw', 'history': False, 'initial_value': False}},
 
 13047:{ 'name': 'MR1214',
         'label_point':['label_y6214'],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'hmi','rw': 'rw', 'history': False, 'initial_value': False}},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'client_input_1','rw': 'rw', 'history': False, 'initial_value': False}},
 
 13048:{ 'name': 'MR1215',
         'label_point':['label_y6215'],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'hmi','rw': 'rw', 'history': False, 'initial_value': False}},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'client_input_1','rw': 'rw', 'history': False, 'initial_value': False}},
+
 
 }
 

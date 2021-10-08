@@ -1,7 +1,7 @@
 import sys
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtCore import  QThread,QEvent
-from PyQt5.QtWidgets import QMainWindow
+from PyQt5.QtWidgets import QDateTimeEdit, QMainWindow
 from queue import Queue
 import gsh_opc_platform_client as gsh_client
 from gsh_opc_platform_gui import Ui_MainWindow as gui
@@ -12,24 +12,18 @@ import collections
 
 
 
-
 class Ui_MainWindow(QMainWindow,gui):
     def __init__(self):
         super(Ui_MainWindow,self).__init__()
         self.title = 'GSH OPC Software'
         self.database_file = "variable_history.sqlite3"
         self.uri = "PLC_Server"
-        #plc_address = {'PLC1':'127.0.0.1:8501'}
         self.start_time = datetime.now()
         self.input_queue = Queue()
-        #file_path = Path(__file__).parent.absolute()
         endpoint = "localhost:4845/gshopcua/server"
-        #server_refresh_rate = 0.05
-        client_refresh_rate = 0.1
-        #self.server_process = Process(target=gsh_server.OpcServerThread, args=(plc_address,file_path,endpoint,server_refresh_rate,self.uri))
-        #self.server_process.daemon = True    
+        client_refresh_rate = 0.1   
         self.io_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='relay'}
-        self.hmi_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='hmi'}
+        self.hmi_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='client_input_1'}
         self.ui_time_dict = {}
         self.client_thread=QThread()
         self.client_worker = gsh_client.OpcClientThread(self.input_queue,endpoint,self.uri,client_refresh_rate)
@@ -38,7 +32,6 @@ class Ui_MainWindow(QMainWindow,gui):
         self.client_worker.logger_signal.connect(self.logger_handler)
         self.client_worker.data_signal.connect(self.io_handler)
         self.client_worker.info_signal.connect(self.info_handler)
-        self.client_worker.ui_refresh_signal.connect(self.uptime)
         self.client_worker.uph_signal.connect(self.update_plot)
         self.client_worker.init_plot.connect(self.init_bar_plot)
 
@@ -101,6 +94,9 @@ class Ui_MainWindow(QMainWindow,gui):
         self.module_1_motor_2_button.clicked.connect(lambda: self.main_motor_control_stacked_widget.setCurrentIndex(1))
 
   
+
+
+        #------------bar graph initialization------------------
         self.MplWidget.canvas.plt.xticks(rotation=45)
         self.MplWidget.canvas.ax.spines['top'].set_visible(False)
         self.MplWidget.canvas.ax.spines['right'].set_visible(False)
@@ -110,11 +106,6 @@ class Ui_MainWindow(QMainWindow,gui):
         self.MplWidget.canvas.ax.yaxis.grid(color='gray', linestyle='dashed')
         self.plot_bar = self.MplWidget.canvas.ax.bar(self.x,self.y,align='center',width=1,color=(0.2, 0.4, 0.6, 1),  edgecolor='blue')
         self.MplWidget.canvas.draw()
-        #for i, v in enumerate(self.y):
-        #    self.MplWidget.canvas.ax.text(i + 0.1, v + 0.25, str(v), color='red', fontsize=6)
-        #self.MplWidget.canvas.draw()
-        #self.MplWidget.canvas.flush_events()
-
 
         for value in self.io_dict.values():
             if 'y' in value['label_point'][0]:
@@ -122,11 +113,33 @@ class Ui_MainWindow(QMainWindow,gui):
                     indicator_label = eval(f"self.{label}")
                     indicator_label.installEventFilter(self)
 
+        #------------lot_entry_section-------------------------
+        self.lot_entry_page_setup(False)
+        self.lot_id_start_date_time.setDateTime(datetime.now())
+        self.lot_entry_edit_button.clicked.connect(lambda: self.lot_entry_page_setup(True))
+        self.lot_entry_save_button.clicked.connect(lambda: self.lot_entry_page_setup(False))
+        self.lot_entry_save_button.clicked.connect(self.lot_entry_info)
+
+
+
+
+
+    def lot_entry_info(self):
+        lot_id= self.lot_id_input.text()
+        operator_id = self.operator_id_input.text()
+        package_name = self.package_name_input.text()
+        device_id = self.device_id_input.text()
+        lot_start_datetime = self.lot_id_start_date_time.dateTime()
+        lot_start_datetime = lot_start_datetime.toPyDateTime()
+        lot_start_datetime = lot_start_datetime.strftime("%d.%m.%Y %H:%M:%S")
+        print(lot_id, operator_id, package_name, device_id, lot_start_datetime)
+        #add send to opc later
+
+
 
     def init_bar_plot(self, uph_dict):
         self.uph_dict = uph_dict
         self.update_plot()
-
 
     def update_plot(self):
         y = [value['node_property']['initial_value'] for value in self.uph_dict.values()]
@@ -143,8 +156,7 @@ class Ui_MainWindow(QMainWindow,gui):
         self.MplWidget.canvas.ax.relim()# recompute the ax.dataLim
         # update ax.viewLim using the new dataLim
         self.MplWidget.canvas.ax.autoscale_view()
-        self.MplWidget.canvas.draw()
-        
+        self.MplWidget.canvas.draw()  
 
     def deltatime(self,start, end, delta):
         current = start
@@ -153,7 +165,6 @@ class Ui_MainWindow(QMainWindow,gui):
             current += delta
 
     def client_start(self):
-        #self.server_process.start()
         self.client_thread.start()
 
     def eventFilter(self, source, event):
@@ -164,10 +175,10 @@ class Ui_MainWindow(QMainWindow,gui):
             rgb_value = self.stylesheet_extractor(stylesheet)
             if rgb_value == self.rgb_value_output_on:
                 #if output label is ON, send OFF to OPC
-                self.send_data(label_object_name, label_object_text, True)
+                self.get_data_response(label_object_name, label_object_text, True)
             elif rgb_value == self.rgb_value_output_off:
                 #if output label is OFF, send ON to OPC
-                self.send_data(label_object_name, label_object_text, False)
+                self.get_data_response(label_object_name, label_object_text, False)
         return super(Ui_MainWindow, self).eventFilter(source, event)
 
     def stylesheet_extractor(self, stylesheet_string):
@@ -175,6 +186,13 @@ class Ui_MainWindow(QMainWindow,gui):
         background_color_property = [elem for idx, elem in enumerate(stylesheet_list) if 'background' in elem][0]
         rgb_value = background_color_property[background_color_property.find("(")+1:background_color_property.find(")")]
         return rgb_value
+
+    def lot_entry_page_setup(self, data):
+        self.operator_id_input.setEnabled(data)
+        self.lot_id_input.setEnabled(data)
+        self.package_name_input.setEnabled(data)
+        self.device_id_input.setEnabled(data)
+        self.lot_id_start_date_time.setEnabled(data)
 
     def io_list_page_behaviour(self):
         self.stackedWidget.setCurrentIndex(4)
@@ -195,13 +213,15 @@ class Ui_MainWindow(QMainWindow,gui):
         self.main_motor_station_stacked_widget.setCurrentIndex(0)
         self.main_motor_control_stacked_widget.setCurrentIndex(0)
 
-    def send_data(self,label_object_name,label_object_text, data_value):
-        print("trigger")
+    def send_data_to_opc(self,node_id, data_value, data_type):
+        self.input_queue.put((node_id, data_value, data_type))
+
+    def get_data_response(self,label_object_name,label_object_text, data_value):
         hmi_node = [(key,value) for key,value in self.hmi_dict.items() if label_object_name in value['label_point']][0]
         hmi_node_id = hmi_node[0]
         data_type = hmi_node[1]['node_property']['data_type']
         current_value = 1- data_value
-        self.input_queue.put((hmi_node_id, current_value, data_type))
+        self.send_data_to_opc(hmi_node_id, current_value, data_type)
         if current_value == 1:
             self.logger_handler(('INFO', datetime.now() , f"{label_object_text} is switched ON"))
         elif current_value == 0:
@@ -244,13 +264,6 @@ class Ui_MainWindow(QMainWindow,gui):
                 if 'y' in label:
                     indicator_label.setStyleSheet(f"background-color: rgb({self.rgb_value_output_off});color: rgb(200, 200, 200);")
 
-    def uptime(self):
-        uptime = datetime.now() - self.start_time
-        uptime_text = (str(uptime).split('.', 2)[0])
-        self.system_uptime_label.setText(uptime_text)
-        current_date_time = (datetime.now().strftime("%d-%m-%Y | %H:%M:%S.%f")).split('.')[0]
-        self.datetime_label.setText(current_date_time)
-
     def time_label_update(self,data):
         label = data[0]
         time_string = data[1].split('.')[0]
@@ -270,8 +283,7 @@ if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     main_window = Ui_MainWindow()
     main_window.setWindowFlags(QtCore.Qt.FramelessWindowHint)# | QtCore.Qt.WindowStaysOnTopHint)
-    main_window.client_start()
-    #main_window.resize(w, h)
+    #main_window.client_start()
     main_window.show()
     main_window.showFullScreen()
     sys.exit(app.exec_())
