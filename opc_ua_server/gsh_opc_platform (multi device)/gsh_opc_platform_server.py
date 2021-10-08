@@ -8,19 +8,22 @@ import sqlite3
 from io_layout_map import node_structure
 import collections
 import time
+from comm_protocol import plc_tcp_socket_read, plc_tcp_socket_write
 #io_dict standard dictionary: {variables_id:[device_ip, variables_ns, device_name, category_name,variable_name,0]}
 #hmi_signal standard: (namespace, node_id, data_value)
 
 class SubHmiHandler(object):
-    def __init__(self,hmi_dictionary,plc_tcp_socket_request):
+    def __init__(self,hmi_dictionary,plc_ip_address,port_number):
         self.hmi_structure = hmi_dictionary
-        self.plc_send = plc_tcp_socket_request
+        self.plc_adress = plc_ip_address
+        self.port_number = port_number
     async def datachange_notification(self, node, val, data):
         node_identifier = node.nodeid.Identifier
         relay_name= self.hmi_structure[node_identifier]['name']
         device = self.hmi_structure[node_identifier]['node_property']['device']
         #print(f"from server {relay_name},{val},{device}")
-        await self.plc_send(relay_name,val,device,'write')
+        await plc_tcp_socket_write(self.plc_adress,self.port_number,relay_name,val)
+        #await self.plc_send(relay_name,val,device,'write',plc_ip_address=self.plc_adress)
 
 class SubVarHandler(object):
     def __init__(self,monitored_dict,count,get_node,yield_calculation,write_to_opc):
@@ -119,7 +122,9 @@ class SubUPHCalculation(object):
 
 class OpcServerThread(object):
     def __init__(self,plc_address,current_file_path,endpoint,server_refresh_rate,uri,parent=None,**kwargs):
-        self.plc_ip_address=plc_address
+        ip_address = plc_address.split(':')
+        self.plc_ip_address=ip_address[0]
+        self.port_number = ip_address[1]
         self.file_path = current_file_path
         self.server = Server()
         self.endpoint = endpoint
@@ -282,30 +287,12 @@ class OpcServerThread(object):
             dbcur.close()
             return False
 
-    async def plc_tcp_socket_request(self,start_device,number_of_device,device,mode):
-        ipaddress = self.plc_ip_address[device]
-        ipaddress = ipaddress.split(':')
-        reader, writer = await asyncio.open_connection(ipaddress[0], ipaddress[1])
-        if mode == 'read':
-            encapsulate = bytes(f"RDS {start_device} {number_of_device}\r\n","utf-8")
-        elif mode == 'write':
-            message = f"WR {start_device} {int(number_of_device)}\r\n"
-            encapsulate = bytes(message,'utf-8')
-        writer.write(encapsulate)
-        await writer.drain()
-        recv_value = await reader.readuntil(separator=b'\r\n') 
-        recv_value = recv_value.decode("UTF-8").split()
-        recv_value = [int(recv_value[i]) for i in range(len(recv_value))]
-        writer.close()
-        #print(recv_value)
-        return recv_value
-
     async def scan_loop_plc(self,io_dict):
         lead_data = io_dict[list(io_dict.keys())[0]]
         lead_device = lead_data['name']
         hardware_name = lead_data['node_property']['device']
         device_size = len(io_dict)
-        current_relay_list = await self.plc_tcp_socket_request(lead_device,device_size,hardware_name,'read')
+        current_relay_list = await plc_tcp_socket_read(self.plc_ip_address,self.port_number,lead_device,device_size)
         i=0
         for key,value in io_dict.items():
             node_id = key
@@ -319,20 +306,21 @@ class OpcServerThread(object):
         data_value = ua.DataValue(self.ua_variant_data_type(data_type, data_value),SourceTimestamp=self.source_time, ServerTimestamp=self.source_time)
         await self.server.write_attribute_value(node_id.nodeid, data_value)
 
-    async def node_creation(self,conn, node_category_list):
-        hmi_handler = SubHmiHandler(self.hmi_dict,self.plc_tcp_socket_request)
+    async def node_creation(self,database_file,node_category_list):
+        hmi_handler = SubHmiHandler(self.hmi_dict,self.plc_ip_address,self.port_number)
         hmi_sub = await self.server.create_subscription(self.hmi_sub, hmi_handler)
 
         mode_handler = SubDeviceModeHandler(self.mode_dict,self.mode_update)
         device_mode_sub = await self.server.create_subscription(self.sub_time, mode_handler)
+        conn = sqlite3.connect(self.file_path.joinpath(database_file))
         for category in node_category_list:
                     server_obj = await self.server.nodes.objects.add_object(self.namespace_index, category)
                     for key, value in node_structure.items():
                         if value['node_property']['category']==category:
                             node_id, variable_name, data_type, rw_status, historizing = key, value['name'], value['node_property']['data_type'], value['node_property']['rw'],value['node_property']['history']
                             
-                            if historizing==True and self.checkTableExists(self.conn, f"{self.namespace_index}_{node_id}"):
-                                previous_data = pd.read_sql_query(f"SELECT Value FROM '{self.namespace_index}_{node_id}' ORDER BY _Id DESC LIMIT 1", self.conn)
+                            if historizing==True and self.checkTableExists(conn, f"{self.namespace_index}_{node_id}"):
+                                previous_data = pd.read_sql_query(f"SELECT Value FROM '{self.namespace_index}_{node_id}' ORDER BY _Id DESC LIMIT 1", conn)
                                 if not previous_data.empty:
                                     previous_value = previous_data.iloc[0]['Value']
                                     initial_value = self.data_type_conversion(data_type, previous_value)
@@ -343,7 +331,7 @@ class OpcServerThread(object):
                             server_var = await server_obj.add_variable(ua.NodeId(node_id,self.namespace_index), str(variable_name), self.ua_variant_data_type(data_type,initial_value))
                             if rw_status:
                                 await server_var.set_writable()
-                            if category == 'hmi':
+                            if category == 'client_input':
                                 await hmi_sub.subscribe_data_change(server_var,queuesize=1)
                             if category == 'device_mode':
                                 await device_mode_sub.subscribe_data_change(server_var,queuesize=1)
@@ -351,13 +339,15 @@ class OpcServerThread(object):
                                 await self.server.historize_node_data_change(server_var, period=None, count=10)
                             if historizing and category != 'time_variables':
                                 await self.server.historize_node_data_change(server_var, period=None, count=1000)
+        conn.close()
+
 
     async def opc_server(self):
-        self.database_file = "variable_history.sqlite3"
+        database_file = "variable_history.sqlite3"
         
 
         #Configure server to use sqlite as history database (default is a simple memory dict)
-        self.server.iserver.history_manager.set_storage(HistorySQLite(self.file_path.joinpath(self.database_file)))
+        self.server.iserver.history_manager.set_storage(HistorySQLite(self.file_path.joinpath(database_file)))
         await self.server.init()
 
         #populate the server with the defined nodes imported from io_layout_map
@@ -365,11 +355,11 @@ class OpcServerThread(object):
         
         self.namespace_index = await self.server.register_namespace(self.uri)
 
-        self.conn = sqlite3.connect(self.file_path.joinpath(self.database_file))
+        
         node_category = [item['node_property']['category'] for item in node_structure.values()]
         node_category = list(set(node_category))
-        asyncio.create_task(self.node_creation(self.conn,node_category))
-        self.conn.close()
+        await self.node_creation(database_file,node_category)
+        
 
         #subscribed to minute interval activity for UPH Calculation
         minute_handler = SubUPHCalculation(self.uph_dict,self.get_node,self.simple_write_to_opc)
@@ -379,7 +369,7 @@ class OpcServerThread(object):
 
         var_handler = SubVarHandler(self.monitored_node,self.count_node,self.get_node,self.yield_calculation,self.simple_write_to_opc)
         var_sub = await self.server.create_subscription(self.sub_time, var_handler)
-        for key, value in self.monitored_node.items():
+        for value in self.monitored_node.values():
             node_id = value['monitored_node']
             if node_id != None:
                 server_var = self.server.get_node(self.get_node(node_id))
@@ -387,7 +377,8 @@ class OpcServerThread(object):
 
         shift_var_handler = SubShiftVarHandler(self.shift_monitored_node,self.count_node,self.get_node,self.yield_calculation,self.simple_write_to_opc)
         shift_var_sub = await self.server.create_subscription(self.sub_time, shift_var_handler)
-        for key, value in self.shift_monitored_node.items():
+        
+        for value in self.shift_monitored_node.values():
             node_id = value['monitored_node']
             if node_id != None:
                 server_var = self.server.get_node(self.get_node(node_id))
@@ -399,7 +390,7 @@ class OpcServerThread(object):
         plc_clock_dict = collections.OrderedDict(sorted(self.plc_clock_dict.items()))
         async with self.server:
             while True:
-                #tic = time.perf_counter()
+                #tic = time.time()
                 await self.scan_loop_plc(plc_clock_dict)
                 await asyncio.sleep(self.server_refresh_rate)
                 await self.scan_loop_plc(alarm_dict)
@@ -407,14 +398,14 @@ class OpcServerThread(object):
                 await self.scan_loop_plc(mode_dict)
                 self.timer_function(self.lot_time_dict | self.shift_time_dict)
                 asyncio.create_task(self.system_uptime())
-                #toc = time.perf_counter()
+                #toc = time.time()
                 #print(f"{toc - tic- self.server_refresh_rate :.9f}")
 
 def main():
     uri = "PLC_Server"
-    plc_address = {'PLC1':'127.0.0.1:8501'}
+    plc_address = '127.0.0.1:8501'
     file_path = Path(__file__).parent.absolute()
-    endpoint = "localhost:4845/gshopcua/server"
+    endpoint = "localhost:4840/gshopcua/server"
     server_refresh_rate = 0.1
     OpcServerThread(plc_address,file_path,endpoint,server_refresh_rate,uri)
 

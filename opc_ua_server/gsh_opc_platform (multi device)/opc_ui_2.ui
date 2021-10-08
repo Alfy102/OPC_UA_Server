@@ -1564,7 +1564,7 @@ QPushButton:checked
             <number>0</number>
            </property>
            <property name="currentIndex">
-            <number>2</number>
+            <number>6</number>
            </property>
            <widget class="QWidget" name="main_page">
             <widget class="QFrame" name="title_frame">
@@ -1819,6 +1819,149 @@ QPushButton:checked
                <string notr="true">background-image: url(:/module_image/HMI/General/TopView.png);</string>
               </property>
              </widget>
+             <widget class="QWidget" name="layoutWidget">
+              <property name="geometry">
+               <rect>
+                <x>570</x>
+                <y>610</y>
+                <width>731</width>
+                <height>71</height>
+               </rect>
+              </property>
+              <layout class="QHBoxLayout" name="horizontalLayout_44" stretch="10,0,10,0,10,0,10">
+               <item>
+                <widget class="QPushButton" name="pushButton_5">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>20</pointsize>
+                   <bold>true</bold>
+                   <underline>false</underline>
+                  </font>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgb(0, 255, 0);</string>
+                 </property>
+                 <property name="text">
+                  <string>Start</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="horizontalSpacer_9">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item>
+                <widget class="QPushButton" name="pushButton_6">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>20</pointsize>
+                   <bold>true</bold>
+                   <underline>false</underline>
+                  </font>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgb(255, 0, 0);</string>
+                 </property>
+                 <property name="text">
+                  <string>Stop</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="horizontalSpacer_10">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item>
+                <widget class="QPushButton" name="pushButton_7">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>20</pointsize>
+                   <bold>true</bold>
+                   <underline>false</underline>
+                  </font>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgb(255, 255, 0);</string>
+                 </property>
+                 <property name="text">
+                  <string>Reset</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="horizontalSpacer_11">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item>
+                <widget class="QPushButton" name="pushButton_8">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>20</pointsize>
+                   <bold>true</bold>
+                   <underline>false</underline>
+                  </font>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgb(255, 170, 0);</string>
+                 </property>
+                 <property name="text">
+                  <string>Initialize</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
             </widget>
            </widget>
            <widget class="QWidget" name="lot_entry_page">
@@ -1948,44 +2091,41 @@ QPushButton:checked
                 <item>
                  <layout class="QVBoxLayout" name="verticalLayout_61">
                   <item>
-                   <widget class="QLineEdit" name="lineEdit"/>
+                   <widget class="QLineEdit" name="operator_id_input"/>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="lineEdit_6"/>
+                   <widget class="QLineEdit" name="package_name_input"/>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="lineEdit_5"/>
+                   <widget class="QLineEdit" name="device_id_input"/>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="lineEdit_4"/>
-                  </item>
-                  <item>
-                   <widget class="QDateTimeEdit" name="dateTimeEdit"/>
+                   <widget class="QDateTimeEdit" name="lot_id_start_date_time"/>
                   </item>
                  </layout>
                 </item>
                </layout>
               </widget>
              </widget>
-             <widget class="QWidget" name="layoutWidget">
+             <widget class="QWidget" name="layoutWidget_3">
               <property name="geometry">
                <rect>
                 <x>80</x>
                 <y>240</y>
-                <width>239</width>
-                <height>26</height>
+                <width>249</width>
+                <height>31</height>
                </rect>
               </property>
-              <layout class="QHBoxLayout" name="horizontalLayout_41">
+              <layout class="QHBoxLayout" name="horizontalLayout_46">
                <item>
-                <widget class="QPushButton" name="pushButton">
+                <widget class="QPushButton" name="lot_entry_edit_button">
                  <property name="text">
-                  <string>Start Lot</string>
+                  <string>Edit</string>
                  </property>
                 </widget>
                </item>
                <item>
-                <spacer name="horizontalSpacer_5">
+                <spacer name="horizontalSpacer_12">
                  <property name="orientation">
                   <enum>Qt::Horizontal</enum>
                  </property>
@@ -1998,9 +2138,9 @@ QPushButton:checked
                 </spacer>
                </item>
                <item>
-                <widget class="QPushButton" name="pushButton_2">
+                <widget class="QPushButton" name="lot_entry_save_button">
                  <property name="text">
-                  <string>End Lot</string>
+                  <string>Save</string>
                  </property>
                 </widget>
                </item>
@@ -11090,7 +11230,7 @@ Page 2</string>
                <item>
                 <widget class="QStackedWidget" name="main_motor_control_stacked_widget">
                  <property name="currentIndex">
-                  <number>1</number>
+                  <number>0</number>
                  </property>
                  <widget class="QWidget" name="page">
                   <layout class="QHBoxLayout" name="horizontalLayout_20" stretch="1">
@@ -11868,7 +12008,7 @@ border-color: rgb(222, 222, 222)</string>
                        <string>Manual Go</string>
                       </property>
                      </widget>
-                     <widget class="QLineEdit" name="manual_encoder_pos_1">
+                     <widget class="QLineEdit" name="manual_encoper_pos_line_edit">
                       <property name="geometry">
                        <rect>
                         <x>30</x>
@@ -11887,7 +12027,7 @@ border-color: rgb(222, 222, 222)</string>
                        <bool>false</bool>
                       </property>
                      </widget>
-                     <widget class="QComboBox" name="comboBox_2">
+                     <widget class="QComboBox" name="manual_encoder_combo_box">
                       <property name="geometry">
                        <rect>
                         <x>30</x>
@@ -11898,16 +12038,31 @@ border-color: rgb(222, 222, 222)</string>
                       </property>
                       <item>
                        <property name="text">
-                        <string>item 1</string>
+                        <string>10</string>
                        </property>
                       </item>
                       <item>
                        <property name="text">
-                        <string>item 2</string>
+                        <string>100</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>1000</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>10000</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>100000</string>
                        </property>
                       </item>
                      </widget>
-                     <widget class="QPushButton" name="manual_go_button_2">
+                     <widget class="QPushButton" name="manual_go_button">
                       <property name="geometry">
                        <rect>
                         <x>150</x>
@@ -11931,7 +12086,7 @@ background-color: rgba(229, 229, 229, 247)
                        <string>GO</string>
                       </property>
                      </widget>
-                     <widget class="QPushButton" name="pushButton_10">
+                     <widget class="QPushButton" name="decrease_pos_button">
                       <property name="geometry">
                        <rect>
                         <x>40</x>
@@ -11955,7 +12110,7 @@ background-color: rgba(229, 229, 229, 247)
                        <string>-POS</string>
                       </property>
                      </widget>
-                     <widget class="QPushButton" name="pushButton_11">
+                     <widget class="QPushButton" name="increase_pos_button">
                       <property name="geometry">
                        <rect>
                         <x>140</x>
@@ -12015,7 +12170,7 @@ border-color: rgb(222, 222, 222)</string>
                        <string>Encoder Position</string>
                       </property>
                      </widget>
-                     <widget class="QLineEdit" name="lineEdit_9">
+                     <widget class="QLineEdit" name="encoder_position_line_edit">
                       <property name="geometry">
                        <rect>
                         <x>30</x>
@@ -12073,7 +12228,7 @@ border-color: rgb(222, 222, 222)</string>
                        <string>Manual Jog</string>
                       </property>
                      </widget>
-                     <widget class="QPushButton" name="manual_jog_plus_button_5">
+                     <widget class="QPushButton" name="manual_jog_plus_button">
                       <property name="geometry">
                        <rect>
                         <x>30</x>
@@ -12124,7 +12279,7 @@ background-color: rgba(229, 229, 229, 247)
                        <bool>false</bool>
                       </property>
                      </widget>
-                     <widget class="QPushButton" name="manual_jog_plus_button_6">
+                     <widget class="QPushButton" name="manual_jog_minus_button">
                       <property name="geometry">
                        <rect>
                         <x>150</x>
@@ -12175,7 +12330,7 @@ background-color: rgba(229, 229, 229, 247)
                        <bool>false</bool>
                       </property>
                      </widget>
-                     <widget class="QPushButton" name="manual_jog_plus_button_7">
+                     <widget class="QPushButton" name="manual_jog_plus_plus_button">
                       <property name="geometry">
                        <rect>
                         <x>30</x>
@@ -12226,7 +12381,7 @@ background-color: rgba(229, 229, 229, 247)
                        <bool>false</bool>
                       </property>
                      </widget>
-                     <widget class="QPushButton" name="manual_jog_plus_button_8">
+                     <widget class="QPushButton" name="manual_jog_minus_minus_button">
                       <property name="geometry">
                        <rect>
                         <x>150</x>
@@ -12300,7 +12455,7 @@ border-color: rgb(222, 222, 222)</string>
                        <number>75</number>
                       </property>
                       <item>
-                       <widget class="QPushButton" name="main_motor_home_button_2">
+                       <widget class="QPushButton" name="main_motor_home_button">
                         <property name="sizePolicy">
                          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                           <horstretch>0</horstretch>
@@ -12492,7 +12647,7 @@ background-color: rgba(229, 229, 229, 247)
                     </widget>
                    </item>
                    <item row="0" column="1">
-                    <widget class="QLineEdit" name="lineEdit_10">
+                    <widget class="QLineEdit" name="motor_speed_line_edit">
                      <property name="sizePolicy">
                       <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
                        <horstretch>0</horstretch>
@@ -12533,7 +12688,7 @@ border-color: rgb(222, 222, 222)</string>
                     </widget>
                    </item>
                    <item row="1" column="1">
-                    <widget class="QLineEdit" name="lineEdit_11">
+                    <widget class="QLineEdit" name="motor_acc_line_edit">
                      <property name="sizePolicy">
                       <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
                        <horstretch>0</horstretch>
@@ -12574,7 +12729,7 @@ border-color: rgb(222, 222, 222)</string>
                     </widget>
                    </item>
                    <item row="2" column="1">
-                    <widget class="QLineEdit" name="lineEdit_12">
+                    <widget class="QLineEdit" name="motor_dcc_line_edit">
                      <property name="sizePolicy">
                       <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
                        <horstretch>0</horstretch>
@@ -12615,7 +12770,7 @@ border-color: rgb(222, 222, 222)</string>
                     </widget>
                    </item>
                    <item row="3" column="1">
-                    <widget class="QLineEdit" name="lineEdit_13">
+                    <widget class="QLineEdit" name="homin_offset_line_edit">
                      <property name="sizePolicy">
                       <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
                        <horstretch>0</horstretch>
@@ -12656,7 +12811,7 @@ border-color: rgb(222, 222, 222)</string>
                     </widget>
                    </item>
                    <item row="4" column="1">
-                    <widget class="QLineEdit" name="lineEdit_14">
+                    <widget class="QLineEdit" name="motor_por_1_line_edit">
                      <property name="sizePolicy">
                       <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
                        <horstretch>0</horstretch>
@@ -12679,7 +12834,7 @@ border-color: rgb(222, 222, 222)</string>
                     </widget>
                    </item>
                    <item row="4" column="2">
-                    <widget class="QPushButton" name="pushButton_12">
+                    <widget class="QPushButton" name="pos_1_go_button">
                      <property name="sizePolicy">
                       <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
                        <horstretch>0</horstretch>
@@ -12724,7 +12879,7 @@ background-color: rgba(229, 229, 229, 247)
                     </widget>
                    </item>
                    <item row="5" column="1">
-                    <widget class="QLineEdit" name="lineEdit_15">
+                    <widget class="QLineEdit" name="motor_pos_2_line_edit">
                      <property name="sizePolicy">
                       <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
                        <horstretch>0</horstretch>
@@ -12747,7 +12902,7 @@ border-color: rgb(222, 222, 222)</string>
                     </widget>
                    </item>
                    <item row="5" column="2">
-                    <widget class="QPushButton" name="pushButton_13">
+                    <widget class="QPushButton" name="pos_2_go_button">
                      <property name="sizePolicy">
                       <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
                        <horstretch>0</horstretch>
@@ -15082,11 +15237,11 @@ background-color: rgba(229, 229, 229, 247)
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="main_motor_page_button_group"/>
-  <buttongroup name="main_motor_module_button_group"/>
+  <buttongroup name="navigation_button_group"/>
   <buttongroup name="output_list_page_button_group"/>
+  <buttongroup name="main_motor_page_button_group"/>
   <buttongroup name="input_list_page_button_group"/>
   <buttongroup name="io_module_button_group"/>
-  <buttongroup name="navigation_button_group"/>
+  <buttongroup name="main_motor_module_button_group"/>
  </buttongroups>
 </ui>
