@@ -24,6 +24,7 @@ class Ui_MainWindow(QMainWindow,gui):
         client_refresh_rate = 0.1   
         self.io_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='relay'}
         self.hmi_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='client_input_1'}
+        self.lot_input = {key:value for key,value in node_structure.items() if value['node_property']['category']=='lot_input'}
         self.ui_time_dict = {}
         self.client_thread=QThread()
         self.client_worker = gsh_client.OpcClientThread(self.input_queue,endpoint,self.uri,client_refresh_rate)
@@ -115,25 +116,62 @@ class Ui_MainWindow(QMainWindow,gui):
 
         #------------lot_entry_section-------------------------
         self.lot_entry_page_setup(False)
-        self.lot_id_start_date_time.setDateTime(datetime.now())
+        dt = datetime.now()
+        dt = dt.replace(second=0, microsecond=0)
+        self.lot_start_date_time.setDateTime(dt)
+        self.shift_start_date_time.setDateTime(dt)
         self.lot_entry_edit_button.clicked.connect(lambda: self.lot_entry_page_setup(True))
         self.lot_entry_save_button.clicked.connect(lambda: self.lot_entry_page_setup(False))
-        self.lot_entry_save_button.clicked.connect(self.lot_entry_info)
+        self.lot_entry_save_button.clicked.connect(lambda: self.lot_entry_info('save'))
+        self.lot_entry_cancel_button.clicked.connect(lambda: self.lot_entry_info('cancel'))
 
 
 
 
 
-    def lot_entry_info(self):
-        lot_id= self.lot_id_input.text()
-        operator_id = self.operator_id_input.text()
-        package_name = self.package_name_input.text()
-        device_id = self.device_id_input.text()
-        lot_start_datetime = self.lot_id_start_date_time.dateTime()
-        lot_start_datetime = lot_start_datetime.toPyDateTime()
-        lot_start_datetime = lot_start_datetime.strftime("%d.%m.%Y %H:%M:%S")
-        print(lot_id, operator_id, package_name, device_id, lot_start_datetime)
-        #add send to opc later
+    def lot_entry_info(self,action):
+        if action=='save':
+            for key, value in self.lot_input.items():
+                label = value['label_point'][0]
+                label_object = eval(f"self.{label}")
+                if value['name']=='lot_id':
+                    data_value= label_object.text()
+                if value['name']=='operator_id':
+                    data_value = label_object.text()
+                if value['name']=='package_name':
+                    data_value = label_object.text()
+                if value['name']=='device_id':
+                    data_value = label_object.text()
+                if value['name']=='lot_start_time':
+                    lot_start_datetime = label_object.dateTime()
+                    lot_start_datetime = lot_start_datetime.toPyDateTime()
+                    data_value = lot_start_datetime.strftime("%d.%m.%Y %H:%M")
+                if value['name']=='shift_start_time':
+                    shift_start_datetime = label_object.dateTime()
+                    shift_start_datetime = shift_start_datetime.toPyDateTime()
+                    data_value = shift_start_datetime.strftime("%d.%m.%Y %H:%M")
+                value['node_property']['initial_value'] = data_value
+                data_type = value['node_property']['data_type']
+                self.lot_input.update({key:value})
+                self.send_data_to_opc(key,data_value,data_type)
+
+        if action=='cancel':
+            self.lot_entry_page_setup(False)
+            for key, value in self.lot_input.items():
+                label = value['label_point'][0]
+                data_value = value['node_property']['initial_value']
+                if data_value == 'Null':
+                    data_value == ''
+                if key == 10054 or key == 10055:
+                    label_object = eval(f"self.{label}")
+                    old_dt = datetime.strptime(data_value, "%d.%m.%Y %H:%M")
+                    label_object.setDateTime(old_dt)
+                else:
+                    label_object = eval(f"self.{label}")
+                    label_object.setText(data_value)
+
+
+
 
 
 
@@ -192,7 +230,11 @@ class Ui_MainWindow(QMainWindow,gui):
         self.lot_id_input.setEnabled(data)
         self.package_name_input.setEnabled(data)
         self.device_id_input.setEnabled(data)
-        self.lot_id_start_date_time.setEnabled(data)
+        self.lot_start_date_time.setEnabled(data)
+        self.shift_start_date_time.setEnabled(data)
+        self.lot_entry_save_button.setEnabled(data)
+        self.lot_entry_cancel_button.setEnabled(data)
+
 
     def io_list_page_behaviour(self):
         self.stackedWidget.setCurrentIndex(4)

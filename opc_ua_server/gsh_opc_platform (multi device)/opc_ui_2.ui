@@ -1564,7 +1564,7 @@ QPushButton:checked
             <number>0</number>
            </property>
            <property name="currentIndex">
-            <number>6</number>
+            <number>0</number>
            </property>
            <widget class="QWidget" name="main_page">
             <widget class="QFrame" name="title_frame">
@@ -1693,28 +1693,28 @@ QPushButton:checked
                 <item>
                  <layout class="QVBoxLayout" name="verticalLayout_58">
                   <item>
-                   <widget class="QLabel" name="label_13">
+                   <widget class="QLabel" name="home_lot_id_label">
                     <property name="text">
                      <string>TEST</string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLabel" name="label_28">
+                   <widget class="QLabel" name="home_operator_id_label">
                     <property name="text">
                      <string>TEST</string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLabel" name="label_30">
+                   <widget class="QLabel" name="home_package_name_label">
                     <property name="text">
                      <string>PDIP</string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLabel" name="label_74">
+                   <widget class="QLabel" name="home_device_label">
                     <property name="text">
                      <string>DEVICE</string>
                     </property>
@@ -2086,10 +2086,20 @@ QPushButton:checked
                     </property>
                    </widget>
                   </item>
+                  <item>
+                   <widget class="QLabel" name="label_129">
+                    <property name="text">
+                     <string>Shift Start Date Time</string>
+                    </property>
+                   </widget>
+                  </item>
                  </layout>
                 </item>
                 <item>
                  <layout class="QVBoxLayout" name="verticalLayout_61">
+                  <item>
+                   <widget class="QLineEdit" name="lot_id_input"/>
+                  </item>
                   <item>
                    <widget class="QLineEdit" name="operator_id_input"/>
                   </item>
@@ -2100,7 +2110,10 @@ QPushButton:checked
                    <widget class="QLineEdit" name="device_id_input"/>
                   </item>
                   <item>
-                   <widget class="QDateTimeEdit" name="lot_id_start_date_time"/>
+                   <widget class="QDateTimeEdit" name="lot_start_date_time"/>
+                  </item>
+                  <item>
+                   <widget class="QDateTimeEdit" name="shift_start_date_time"/>
                   </item>
                  </layout>
                 </item>
@@ -2111,8 +2124,8 @@ QPushButton:checked
               <property name="geometry">
                <rect>
                 <x>80</x>
-                <y>240</y>
-                <width>249</width>
+                <y>260</y>
+                <width>301</width>
                 <height>31</height>
                </rect>
               </property>
@@ -2141,6 +2154,13 @@ QPushButton:checked
                 <widget class="QPushButton" name="lot_entry_save_button">
                  <property name="text">
                   <string>Save</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="lot_entry_cancel_button">
+                 <property name="text">
+                  <string>Cancel</string>
                  </property>
                 </widget>
                </item>
@@ -12505,7 +12525,7 @@ background-color: rgba(229, 229, 229, 247)
                        </widget>
                       </item>
                       <item>
-                       <widget class="QPushButton" name="main_motor_off_button_2">
+                       <widget class="QPushButton" name="main_motor_off_button">
                         <property name="sizePolicy">
                          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                           <horstretch>0</horstretch>
@@ -15237,11 +15257,11 @@ background-color: rgba(229, 229, 229, 247)
  </resources>
  <connections/>
  <buttongroups>
+  <buttongroup name="io_module_button_group"/>
   <buttongroup name="navigation_button_group"/>
+  <buttongroup name="input_list_page_button_group"/>
+  <buttongroup name="main_motor_module_button_group"/>
   <buttongroup name="output_list_page_button_group"/>
   <buttongroup name="main_motor_page_button_group"/>
-  <buttongroup name="input_list_page_button_group"/>
-  <buttongroup name="io_module_button_group"/>
-  <buttongroup name="main_motor_module_button_group"/>
  </buttongroups>
 </ui>
