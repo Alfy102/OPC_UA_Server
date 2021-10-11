@@ -338,7 +338,7 @@ class OpcServerThread(object):
                             if historizing and category == 'time_variables':
                                 await self.server.historize_node_data_change(server_var, period=None, count=10)
                             if historizing and category != 'time_variables':
-                                await self.server.historize_node_data_change(server_var, period=None, count=1000)
+                                await self.server.historize_node_data_change(server_var, period=None, count=500)
         conn.close()
 
 

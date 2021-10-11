@@ -143,8 +143,16 @@ class Ui_MainWindow(object):
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_18.addItem(spacerItem)
         self.show_event_button = QtWidgets.QPushButton(self.frame_9)
-        self.show_event_button.setStyleSheet("background-color: rgb(247, 247, 247);\n"
-"")
+        self.show_event_button.setStyleSheet("QPushButton\n"
+"{\n"
+"    color:rgb(255,255,255);\n"
+"    background-color: rgb(141, 137, 166);\n"
+"}\n"
+"QPushButton:checked\n"
+"{\n"
+"    color:rgb(0,0,0);\n"
+"    background-color: rgb(51, 53, 74);\n"
+"}")
         self.show_event_button.setObjectName("show_event_button")
         self.horizontalLayout_18.addWidget(self.show_event_button)
         self.verticalLayout_9.addLayout(self.horizontalLayout_18)
@@ -165,11 +173,58 @@ class Ui_MainWindow(object):
         self.label_25.setFont(font)
         self.label_25.setObjectName("label_25")
         self.verticalLayout_10.addWidget(self.label_25)
+        self.horizontalLayout_47 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_47.setObjectName("horizontalLayout_47")
+        self.label_74 = QtWidgets.QLabel(self.frame_10)
+        font = QtGui.QFont()
+        font.setPointSize(15)
+        font.setBold(False)
+        font.setItalic(False)
+        self.label_74.setFont(font)
+        self.label_74.setStyleSheet("font: 15pt \"Webdings\";\n"
+"color:rgb(255, 0, 0);\n"
+"")
+        self.label_74.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_74.setObjectName("label_74")
+        self.horizontalLayout_47.addWidget(self.label_74)
+        self.label_130 = QtWidgets.QLabel(self.frame_10)
+        font = QtGui.QFont()
+        font.setPointSize(15)
+        font.setBold(True)
+        self.label_130.setFont(font)
+        self.label_130.setStyleSheet("")
+        self.label_130.setObjectName("label_130")
+        self.horizontalLayout_47.addWidget(self.label_130)
+        self.horizontalLayout_47.setStretch(0, 1)
+        self.horizontalLayout_47.setStretch(1, 5)
+        self.verticalLayout_10.addLayout(self.horizontalLayout_47)
+        self.horizontalLayout_42 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_42.setObjectName("horizontalLayout_42")
         self.label_26 = QtWidgets.QLabel(self.frame_10)
-        self.label_26.setAlignment(QtCore.Qt.AlignHCenter|QtCore.Qt.AlignTop)
+        font = QtGui.QFont()
+        font.setPointSize(15)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setStyleStrategy(QtGui.QFont.PreferDefault)
+        self.label_26.setFont(font)
+        self.label_26.setStyleSheet("font: 15pt \"Webdings\";\n"
+"color:rgb(255, 0, 0);\n"
+"\n"
+"")
+        self.label_26.setAlignment(QtCore.Qt.AlignCenter)
         self.label_26.setObjectName("label_26")
-        self.verticalLayout_10.addWidget(self.label_26)
-        self.verticalLayout_10.setStretch(1, 1)
+        self.horizontalLayout_42.addWidget(self.label_26)
+        self.label_13 = QtWidgets.QLabel(self.frame_10)
+        font = QtGui.QFont()
+        font.setPointSize(15)
+        font.setBold(True)
+        self.label_13.setFont(font)
+        self.label_13.setStyleSheet("")
+        self.label_13.setObjectName("label_13")
+        self.horizontalLayout_42.addWidget(self.label_13)
+        self.horizontalLayout_42.setStretch(0, 1)
+        self.horizontalLayout_42.setStretch(1, 5)
+        self.verticalLayout_10.addLayout(self.horizontalLayout_42)
         self.top_info_bar.addWidget(self.frame_10)
         self.verticalLayout_13 = QtWidgets.QVBoxLayout()
         self.verticalLayout_13.setObjectName("verticalLayout_13")
@@ -264,12 +319,24 @@ class Ui_MainWindow(object):
         self.frame_3.setObjectName("frame_3")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.frame_3)
         self.verticalLayout_3.setContentsMargins(4, 4, 6, 0)
-        self.verticalLayout_3.setSpacing(0)
+        self.verticalLayout_3.setSpacing(4)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
-        self.graphicsView_7 = QtWidgets.QGraphicsView(self.frame_3)
-        self.graphicsView_7.setStyleSheet("border-image: url(:/logo_image/logo.png)")
-        self.graphicsView_7.setObjectName("graphicsView_7")
-        self.verticalLayout_3.addWidget(self.graphicsView_7)
+        self.frame_22 = QtWidgets.QFrame(self.frame_3)
+        self.frame_22.setStyleSheet("background-color:rgb(4, 50, 85)")
+        self.frame_22.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_22.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_22.setObjectName("frame_22")
+        self.verticalLayout_65 = QtWidgets.QVBoxLayout(self.frame_22)
+        self.verticalLayout_65.setContentsMargins(4, 4, 4, 4)
+        self.verticalLayout_65.setObjectName("verticalLayout_65")
+        self.graphicsView_10 = QtWidgets.QGraphicsView(self.frame_22)
+        self.graphicsView_10.setStyleSheet("border-image: url(:/logo_image/logo.png)")
+        self.graphicsView_10.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.graphicsView_10.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.graphicsView_10.setLineWidth(5)
+        self.graphicsView_10.setObjectName("graphicsView_10")
+        self.verticalLayout_65.addWidget(self.graphicsView_10)
+        self.verticalLayout_3.addWidget(self.frame_22)
         self.main_page_button = QtWidgets.QPushButton(self.frame_3)
         self.main_page_button.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
@@ -287,9 +354,9 @@ class Ui_MainWindow(object):
         self.main_page_button.setStyleSheet("QPushButton\n"
 "{\n"
 "    color: rgb(0, 0, 0);\n"
-"    border: none;\n"
+"    background-color: rgb(0, 129, 175);\n"
 "    margin: 0px;\n"
-"    padding: 0px;\n"
+"    padding: 10px;\n"
 "    icon:url(:/icon_button/home.png) ;\n"
 "    qproperty-iconSize: 30px;\n"
 "    text-align:left;\n"
@@ -300,13 +367,14 @@ class Ui_MainWindow(object):
 "}\n"
 "QPushButton:checked\n"
 "{\n"
-"    color:rgb(169, 84, 67) ;\n"
+"    color: rgb(0, 0, 0);\n"
+"    background-color: rgb(255, 255, 255)\n"
 "}\n"
 "")
         self.main_page_button.setCheckable(True)
-        self.main_page_button.setAutoDefault(False)
+        self.main_page_button.setAutoDefault(True)
         self.main_page_button.setDefault(False)
-        self.main_page_button.setFlat(True)
+        self.main_page_button.setFlat(False)
         self.main_page_button.setObjectName("main_page_button")
         self.navigation_button_group = QtWidgets.QButtonGroup(MainWindow)
         self.navigation_button_group.setObjectName("navigation_button_group")
@@ -329,9 +397,9 @@ class Ui_MainWindow(object):
         self.lot_entry_button.setStyleSheet("QPushButton\n"
 "{\n"
 "    color: rgb(0, 0, 0);\n"
-"    border: none;\n"
+"    background-color: rgb(0, 129, 175);\n"
 "    margin: 0px;\n"
-"    padding: 0px;\n"
+"    padding: 10px;\n"
 "    icon: url(:/icon_button/file.png);\n"
 "    qproperty-iconSize: 30px;\n"
 "    text-align:left;\n"
@@ -342,12 +410,13 @@ class Ui_MainWindow(object):
 "}\n"
 "QPushButton:checked\n"
 "{\n"
-"    color:rgb(169, 84, 67) ;\n"
+"    color:rgb(0,0,0) ;\n"
+"    background-color: rgb(255,255,255);\n"
 "}")
         self.lot_entry_button.setCheckable(True)
-        self.lot_entry_button.setAutoDefault(False)
+        self.lot_entry_button.setAutoDefault(True)
         self.lot_entry_button.setDefault(False)
-        self.lot_entry_button.setFlat(True)
+        self.lot_entry_button.setFlat(False)
         self.lot_entry_button.setObjectName("lot_entry_button")
         self.navigation_button_group.addButton(self.lot_entry_button)
         self.verticalLayout_3.addWidget(self.lot_entry_button)
@@ -368,9 +437,9 @@ class Ui_MainWindow(object):
         self.lot_info_button.setStyleSheet("QPushButton\n"
 "{\n"
 "    color: rgb(0, 0, 0);\n"
-"    border: none;\n"
+"    background-color: rgb(0, 129, 175);\n"
 "    margin: 0px;\n"
-"    padding: 0px;\n"
+"    padding: 10px;\n"
 "    icon: url(:/icon_button/list.png);\n"
 "    qproperty-iconSize: 30px;\n"
 "    text-align:left;\n"
@@ -381,12 +450,13 @@ class Ui_MainWindow(object):
 "}\n"
 "QPushButton:checked\n"
 "{\n"
-"    color:rgb(169, 84, 67) ;\n"
+"    color:rgb(0,0,0);\n"
+"    background-color: rgb(255,255,255);\n"
 "}")
         self.lot_info_button.setCheckable(True)
-        self.lot_info_button.setAutoDefault(False)
+        self.lot_info_button.setAutoDefault(True)
         self.lot_info_button.setDefault(False)
-        self.lot_info_button.setFlat(True)
+        self.lot_info_button.setFlat(False)
         self.lot_info_button.setObjectName("lot_info_button")
         self.navigation_button_group.addButton(self.lot_info_button)
         self.verticalLayout_3.addWidget(self.lot_info_button)
@@ -407,9 +477,9 @@ class Ui_MainWindow(object):
         self.event_log_button.setStyleSheet("QPushButton\n"
 "{\n"
 "    color: rgb(0, 0, 0);\n"
-"    border: none;\n"
+"    background-color: rgb(0, 129, 175);\n"
 "    margin: 0px;\n"
-"    padding: 0px;\n"
+"    padding: 10px;\n"
 "    icon: url(:/icon_button/notepad.png);\n"
 "    qproperty-iconSize: 30px;\n"
 "    text-align:left;\n"
@@ -420,12 +490,13 @@ class Ui_MainWindow(object):
 "}\n"
 "QPushButton:checked\n"
 "{\n"
-"    color:rgb(169, 84, 67) ;\n"
+"    color:rgb(0,0,0) ;\n"
+"    background-color: rgb(255,255,255);\n"
 "}")
         self.event_log_button.setCheckable(True)
-        self.event_log_button.setAutoDefault(False)
+        self.event_log_button.setAutoDefault(True)
         self.event_log_button.setDefault(False)
-        self.event_log_button.setFlat(True)
+        self.event_log_button.setFlat(False)
         self.event_log_button.setObjectName("event_log_button")
         self.navigation_button_group.addButton(self.event_log_button)
         self.verticalLayout_3.addWidget(self.event_log_button)
@@ -446,9 +517,9 @@ class Ui_MainWindow(object):
         self.io_module_button.setStyleSheet("QPushButton\n"
 "{\n"
 "    color: rgb(0, 0, 0);\n"
-"    border: none;\n"
+"    background-color: rgb(0, 129, 175);\n"
 "    margin: 0px;\n"
-"    padding: 0px;\n"
+"    padding: 10px;\n"
 "    icon: url(:/icon_button/tabs.png);\n"
 "    qproperty-iconSize: 30px;\n"
 "    text-align:left;\n"
@@ -459,12 +530,13 @@ class Ui_MainWindow(object):
 "}\n"
 "QPushButton:checked\n"
 "{\n"
-"    color:rgb(169, 84, 67) ;\n"
+"    color:rgb(0,0,0) ;\n"
+"    background-color: rgb(255,255,255);\n"
 "}")
         self.io_module_button.setCheckable(True)
-        self.io_module_button.setAutoDefault(False)
+        self.io_module_button.setAutoDefault(True)
         self.io_module_button.setDefault(False)
-        self.io_module_button.setFlat(True)
+        self.io_module_button.setFlat(False)
         self.io_module_button.setObjectName("io_module_button")
         self.navigation_button_group.addButton(self.io_module_button)
         self.verticalLayout_3.addWidget(self.io_module_button)
@@ -485,9 +557,9 @@ class Ui_MainWindow(object):
         self.io_list_button.setStyleSheet("QPushButton\n"
 "{\n"
 "    color: rgb(0, 0, 0);\n"
-"    border: none;\n"
+"    background-color: rgb(0, 129, 175);\n"
 "    margin: 0px;\n"
-"    padding: 0px;\n"
+"    padding: 10px;\n"
 "    icon:url(:/icon_button/list-1.png);\n"
 "    qproperty-iconSize: 30px;\n"
 "    text-align:left;\n"
@@ -498,12 +570,13 @@ class Ui_MainWindow(object):
 "}\n"
 "QPushButton:checked\n"
 "{\n"
-"    color:rgb(169, 84, 67) ;\n"
+"    color:rgb(0,0,0) ;\n"
+"    background-color: rgb(255,255,255);\n"
 "}")
         self.io_list_button.setCheckable(True)
-        self.io_list_button.setAutoDefault(False)
+        self.io_list_button.setAutoDefault(True)
         self.io_list_button.setDefault(False)
-        self.io_list_button.setFlat(True)
+        self.io_list_button.setFlat(False)
         self.io_list_button.setObjectName("io_list_button")
         self.navigation_button_group.addButton(self.io_list_button)
         self.verticalLayout_3.addWidget(self.io_list_button)
@@ -524,9 +597,9 @@ class Ui_MainWindow(object):
         self.main_motor_button.setStyleSheet("QPushButton\n"
 "{\n"
 "    color: rgb(0, 0, 0);\n"
-"    border: none;\n"
+"    background-color: rgb(0, 129, 175);\n"
 "    margin: 0px;\n"
-"    padding: 0px;\n"
+"    padding: 10px;\n"
 "    icon: url(:/icon_button/volume-control-1.png);\n"
 "    qproperty-iconSize: 30px;\n"
 "    text-align:left;\n"
@@ -537,12 +610,13 @@ class Ui_MainWindow(object):
 "}\n"
 "QPushButton:checked\n"
 "{\n"
-"    color:rgb(169, 84, 67) ;\n"
+"    color:rgb(0,0,0) ;\n"
+"    background-color: rgb(255,255,255);\n"
 "}")
         self.main_motor_button.setCheckable(True)
-        self.main_motor_button.setAutoDefault(False)
+        self.main_motor_button.setAutoDefault(True)
         self.main_motor_button.setDefault(False)
-        self.main_motor_button.setFlat(True)
+        self.main_motor_button.setFlat(False)
         self.main_motor_button.setObjectName("main_motor_button")
         self.navigation_button_group.addButton(self.main_motor_button)
         self.verticalLayout_3.addWidget(self.main_motor_button)
@@ -563,9 +637,9 @@ class Ui_MainWindow(object):
         self.station_button.setStyleSheet("QPushButton\n"
 "{\n"
 "    color: rgb(0, 0, 0);\n"
-"    border: none;\n"
+"    background-color: rgb(0, 129, 175);\n"
 "    margin: 0px;\n"
-"    padding: 0px;\n"
+"    padding: 10px;\n"
 "    icon: url(:/icon_button/albums.png);\n"
 "    qproperty-iconSize: 30px;\n"
 "    text-align:left;\n"
@@ -576,12 +650,13 @@ class Ui_MainWindow(object):
 "}\n"
 "QPushButton:checked\n"
 "{\n"
-"    color:rgb(169, 84, 67) ;\n"
+"    color:rgb(0,0,0) ;\n"
+"    background-color: rgb(255,255,255);\n"
 "}")
         self.station_button.setCheckable(True)
-        self.station_button.setAutoDefault(False)
+        self.station_button.setAutoDefault(True)
         self.station_button.setDefault(False)
-        self.station_button.setFlat(True)
+        self.station_button.setFlat(False)
         self.station_button.setObjectName("station_button")
         self.navigation_button_group.addButton(self.station_button)
         self.verticalLayout_3.addWidget(self.station_button)
@@ -602,9 +677,9 @@ class Ui_MainWindow(object):
         self.misc_button.setStyleSheet("QPushButton\n"
 "{\n"
 "    color: rgb(0, 0, 0);\n"
-"    border: none;\n"
+"    background-color: rgb(0, 129, 175);\n"
 "    margin: 0px;\n"
-"    padding: 0px;\n"
+"    padding: 10px;\n"
 "    icon: url(:/icon_button/minus.png);\n"
 "    qproperty-iconSize: 30px;\n"
 "    text-align:left;\n"
@@ -615,12 +690,13 @@ class Ui_MainWindow(object):
 "}\n"
 "QPushButton:checked\n"
 "{\n"
-"    color:rgb(169, 84, 67) ;\n"
+"    color:rgb(0,0,0) ;\n"
+"    background-color: rgb(255,255,255);\n"
 "}")
         self.misc_button.setCheckable(True)
-        self.misc_button.setAutoDefault(False)
+        self.misc_button.setAutoDefault(True)
         self.misc_button.setDefault(False)
-        self.misc_button.setFlat(True)
+        self.misc_button.setFlat(False)
         self.misc_button.setObjectName("misc_button")
         self.navigation_button_group.addButton(self.misc_button)
         self.verticalLayout_3.addWidget(self.misc_button)
@@ -641,9 +717,9 @@ class Ui_MainWindow(object):
         self.vision_button.setStyleSheet("QPushButton\n"
 "{\n"
 "    color: rgb(0, 0, 0);\n"
-"    border: none;\n"
+"    background-color: rgb(0, 129, 175);\n"
 "    margin: 0px;\n"
-"    padding: 0px;\n"
+"    padding: 10px;\n"
 "    icon: url(:/icon_button/view.png);\n"
 "    qproperty-iconSize: 30px;\n"
 "    text-align:left;\n"
@@ -654,55 +730,16 @@ class Ui_MainWindow(object):
 "}\n"
 "QPushButton:checked\n"
 "{\n"
-"    color:rgb(169, 84, 67) ;\n"
+"    color:rgb(0,0,0) ;\n"
+"    background-color: rgb(255,255,255);\n"
 "}")
         self.vision_button.setCheckable(True)
-        self.vision_button.setAutoDefault(False)
+        self.vision_button.setAutoDefault(True)
         self.vision_button.setDefault(False)
-        self.vision_button.setFlat(True)
+        self.vision_button.setFlat(False)
         self.vision_button.setObjectName("vision_button")
         self.navigation_button_group.addButton(self.vision_button)
         self.verticalLayout_3.addWidget(self.vision_button)
-        self.tower_light_button = QtWidgets.QPushButton(self.frame_3)
-        self.tower_light_button.setEnabled(True)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.tower_light_button.sizePolicy().hasHeightForWidth())
-        self.tower_light_button.setSizePolicy(sizePolicy)
-        font = QtGui.QFont()
-        font.setPointSize(13)
-        font.setBold(True)
-        font.setKerning(True)
-        font.setStyleStrategy(QtGui.QFont.PreferDefault)
-        self.tower_light_button.setFont(font)
-        self.tower_light_button.setAutoFillBackground(False)
-        self.tower_light_button.setStyleSheet("QPushButton\n"
-"{\n"
-"    color: rgb(0, 0, 0);\n"
-"    border: none;\n"
-"    margin: 0px;\n"
-"    padding: 0px;\n"
-"    icon: url(:/icon_button/more-1.png);\n"
-"    qproperty-iconSize: 30px;\n"
-"    text-align:left;\n"
-"}\n"
-"QPushButton:hover\n"
-"{\n"
-"    color: rgb(255, 255, 255);\n"
-"}\n"
-"QPushButton:checked\n"
-"{\n"
-"    color:rgb(169, 84, 67) ;\n"
-"}\n"
-"")
-        self.tower_light_button.setCheckable(True)
-        self.tower_light_button.setAutoDefault(False)
-        self.tower_light_button.setDefault(False)
-        self.tower_light_button.setFlat(True)
-        self.tower_light_button.setObjectName("tower_light_button")
-        self.navigation_button_group.addButton(self.tower_light_button)
-        self.verticalLayout_3.addWidget(self.tower_light_button)
         self.life_cycle_button = QtWidgets.QPushButton(self.frame_3)
         self.life_cycle_button.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
@@ -720,9 +757,9 @@ class Ui_MainWindow(object):
         self.life_cycle_button.setStyleSheet("QPushButton\n"
 "{\n"
 "    color: rgb(0, 0, 0);\n"
-"    border: none;\n"
+"    background-color: rgb(0, 129, 175);\n"
 "    margin: 0px;\n"
-"    padding: 0px;\n"
+"    padding: 10px;\n"
 "    icon: url(:/icon_button/share-2.png);\n"
 "    qproperty-iconSize: 30px;\n"
 "    text-align:left;\n"
@@ -733,93 +770,16 @@ class Ui_MainWindow(object):
 "}\n"
 "QPushButton:checked\n"
 "{\n"
-"    color:rgb(169, 84, 67) ;\n"
+"    color:rgb(0,0,0) ;\n"
+"    background-color: rgb(255,255,255);\n"
 "}")
         self.life_cycle_button.setCheckable(True)
-        self.life_cycle_button.setAutoDefault(False)
+        self.life_cycle_button.setAutoDefault(True)
         self.life_cycle_button.setDefault(False)
-        self.life_cycle_button.setFlat(True)
+        self.life_cycle_button.setFlat(False)
         self.life_cycle_button.setObjectName("life_cycle_button")
         self.navigation_button_group.addButton(self.life_cycle_button)
         self.verticalLayout_3.addWidget(self.life_cycle_button)
-        self.user_area_button = QtWidgets.QPushButton(self.frame_3)
-        self.user_area_button.setEnabled(True)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.user_area_button.sizePolicy().hasHeightForWidth())
-        self.user_area_button.setSizePolicy(sizePolicy)
-        font = QtGui.QFont()
-        font.setPointSize(13)
-        font.setBold(True)
-        font.setKerning(True)
-        font.setStyleStrategy(QtGui.QFont.PreferDefault)
-        self.user_area_button.setFont(font)
-        self.user_area_button.setAutoFillBackground(False)
-        self.user_area_button.setStyleSheet("QPushButton\n"
-"{\n"
-"    color: rgb(0, 0, 0);\n"
-"    border: none;\n"
-"    margin: 0px;\n"
-"    padding: 0px;\n"
-"    icon: url(:/icon_button/user.png);\n"
-"    qproperty-iconSize: 30px;\n"
-"    text-align:left;\n"
-"}\n"
-"QPushButton:hover\n"
-"{\n"
-"    color: rgb(255, 255, 255);\n"
-"}\n"
-"QPushButton:checked\n"
-"{\n"
-"    color:rgb(169, 84, 67) ;\n"
-"}")
-        self.user_area_button.setCheckable(True)
-        self.user_area_button.setAutoDefault(False)
-        self.user_area_button.setDefault(False)
-        self.user_area_button.setFlat(True)
-        self.user_area_button.setObjectName("user_area_button")
-        self.navigation_button_group.addButton(self.user_area_button)
-        self.verticalLayout_3.addWidget(self.user_area_button)
-        self.user_access_button = QtWidgets.QPushButton(self.frame_3)
-        self.user_access_button.setEnabled(True)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.user_access_button.sizePolicy().hasHeightForWidth())
-        self.user_access_button.setSizePolicy(sizePolicy)
-        font = QtGui.QFont()
-        font.setPointSize(13)
-        font.setBold(True)
-        font.setKerning(True)
-        font.setStyleStrategy(QtGui.QFont.PreferDefault)
-        self.user_access_button.setFont(font)
-        self.user_access_button.setAutoFillBackground(False)
-        self.user_access_button.setStyleSheet("QPushButton\n"
-"{\n"
-"    color: rgb(0, 0, 0);\n"
-"    border: none;\n"
-"    margin: 0px;\n"
-"    padding: 0px;\n"
-"    icon: url(:/icon_button/users.png);\n"
-"    qproperty-iconSize: 30px;\n"
-"    text-align:left;\n"
-"}\n"
-"QPushButton:hover\n"
-"{\n"
-"    color: rgb(255, 255, 255);\n"
-"}\n"
-"QPushButton:checked\n"
-"{\n"
-"    color:rgb(169, 84, 67) ;\n"
-"}")
-        self.user_access_button.setCheckable(True)
-        self.user_access_button.setAutoDefault(False)
-        self.user_access_button.setDefault(False)
-        self.user_access_button.setFlat(True)
-        self.user_access_button.setObjectName("user_access_button")
-        self.navigation_button_group.addButton(self.user_access_button)
-        self.verticalLayout_3.addWidget(self.user_access_button)
         self.settings_button = QtWidgets.QPushButton(self.frame_3)
         self.settings_button.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
@@ -837,9 +797,9 @@ class Ui_MainWindow(object):
         self.settings_button.setStyleSheet("QPushButton\n"
 "{\n"
 "    color: rgb(0, 0, 0);\n"
-"    border: none;\n"
+"    background-color: rgb(0, 129, 175);\n"
 "    margin: 0px;\n"
-"    padding: 0px;\n"
+"    padding: 10px;\n"
 "    icon: url(:/icon_button/settings-5.png);\n"
 "    qproperty-iconSize: 30px;\n"
 "    text-align:left;\n"
@@ -850,16 +810,17 @@ class Ui_MainWindow(object):
 "}\n"
 "QPushButton:checked\n"
 "{\n"
-"    color:rgb(169, 84, 67) ;\n"
+"    color:rgb(0,0,0) ;\n"
+"    background-color: rgb(255,255,255);\n"
 "}")
         self.settings_button.setCheckable(True)
-        self.settings_button.setAutoDefault(False)
+        self.settings_button.setAutoDefault(True)
         self.settings_button.setDefault(False)
-        self.settings_button.setFlat(True)
+        self.settings_button.setFlat(False)
         self.settings_button.setObjectName("settings_button")
         self.navigation_button_group.addButton(self.settings_button)
         self.verticalLayout_3.addWidget(self.settings_button)
-        self.verticalLayout_3.setStretch(0, 1)
+        self.verticalLayout_3.setStretch(0, 10)
         self.verticalLayout_3.setStretch(1, 10)
         self.verticalLayout_3.setStretch(2, 10)
         self.verticalLayout_3.setStretch(3, 10)
@@ -872,9 +833,6 @@ class Ui_MainWindow(object):
         self.verticalLayout_3.setStretch(10, 10)
         self.verticalLayout_3.setStretch(11, 10)
         self.verticalLayout_3.setStretch(12, 10)
-        self.verticalLayout_3.setStretch(13, 10)
-        self.verticalLayout_3.setStretch(14, 10)
-        self.verticalLayout_3.setStretch(15, 10)
         self.horizontalLayout_2.addWidget(self.frame_3)
         self.page_layout.addWidget(self.frame_2)
         self.stackedWidget = QtWidgets.QStackedWidget(self.layoutWidget)
@@ -947,18 +905,18 @@ class Ui_MainWindow(object):
         self.horizontalLayout_36.addLayout(self.verticalLayout_57)
         self.verticalLayout_58 = QtWidgets.QVBoxLayout()
         self.verticalLayout_58.setObjectName("verticalLayout_58")
-        self.label_13 = QtWidgets.QLabel(self.layoutWidget1)
-        self.label_13.setObjectName("label_13")
-        self.verticalLayout_58.addWidget(self.label_13)
-        self.label_28 = QtWidgets.QLabel(self.layoutWidget1)
-        self.label_28.setObjectName("label_28")
-        self.verticalLayout_58.addWidget(self.label_28)
-        self.label_30 = QtWidgets.QLabel(self.layoutWidget1)
-        self.label_30.setObjectName("label_30")
-        self.verticalLayout_58.addWidget(self.label_30)
-        self.label_74 = QtWidgets.QLabel(self.layoutWidget1)
-        self.label_74.setObjectName("label_74")
-        self.verticalLayout_58.addWidget(self.label_74)
+        self.home_lot_id_label = QtWidgets.QLabel(self.layoutWidget1)
+        self.home_lot_id_label.setObjectName("home_lot_id_label")
+        self.verticalLayout_58.addWidget(self.home_lot_id_label)
+        self.home_operator_id_label = QtWidgets.QLabel(self.layoutWidget1)
+        self.home_operator_id_label.setObjectName("home_operator_id_label")
+        self.verticalLayout_58.addWidget(self.home_operator_id_label)
+        self.home_package_name_label = QtWidgets.QLabel(self.layoutWidget1)
+        self.home_package_name_label.setObjectName("home_package_name_label")
+        self.verticalLayout_58.addWidget(self.home_package_name_label)
+        self.home_device_label = QtWidgets.QLabel(self.layoutWidget1)
+        self.home_device_label.setObjectName("home_device_label")
+        self.verticalLayout_58.addWidget(self.home_device_label)
         self.label_75 = QtWidgets.QLabel(self.layoutWidget1)
         self.label_75.setObjectName("label_75")
         self.verticalLayout_58.addWidget(self.label_75)
@@ -998,77 +956,94 @@ class Ui_MainWindow(object):
         self.graphicsView_9.setStyleSheet("background-image: url(:/module_image/HMI/General/TopView.png);")
         self.graphicsView_9.setObjectName("graphicsView_9")
         self.layoutWidget2 = QtWidgets.QWidget(self.frame_4)
-        self.layoutWidget2.setGeometry(QtCore.QRect(570, 610, 731, 71))
+        self.layoutWidget2.setGeometry(QtCore.QRect(410, 610, 931, 71))
         self.layoutWidget2.setObjectName("layoutWidget2")
         self.horizontalLayout_44 = QtWidgets.QHBoxLayout(self.layoutWidget2)
         self.horizontalLayout_44.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_44.setObjectName("horizontalLayout_44")
-        self.pushButton_5 = QtWidgets.QPushButton(self.layoutWidget2)
+        self.machine_start_button = QtWidgets.QPushButton(self.layoutWidget2)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.pushButton_5.sizePolicy().hasHeightForWidth())
-        self.pushButton_5.setSizePolicy(sizePolicy)
+        sizePolicy.setHeightForWidth(self.machine_start_button.sizePolicy().hasHeightForWidth())
+        self.machine_start_button.setSizePolicy(sizePolicy)
         font = QtGui.QFont()
         font.setPointSize(20)
         font.setBold(True)
         font.setUnderline(False)
-        self.pushButton_5.setFont(font)
-        self.pushButton_5.setStyleSheet("background-color: rgb(0, 255, 0);")
-        self.pushButton_5.setObjectName("pushButton_5")
-        self.horizontalLayout_44.addWidget(self.pushButton_5)
+        self.machine_start_button.setFont(font)
+        self.machine_start_button.setStyleSheet("background-color: rgb(0, 255, 0);")
+        self.machine_start_button.setObjectName("machine_start_button")
+        self.horizontalLayout_44.addWidget(self.machine_start_button)
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_44.addItem(spacerItem1)
-        self.pushButton_6 = QtWidgets.QPushButton(self.layoutWidget2)
+        self.machine_stop_button = QtWidgets.QPushButton(self.layoutWidget2)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.pushButton_6.sizePolicy().hasHeightForWidth())
-        self.pushButton_6.setSizePolicy(sizePolicy)
+        sizePolicy.setHeightForWidth(self.machine_stop_button.sizePolicy().hasHeightForWidth())
+        self.machine_stop_button.setSizePolicy(sizePolicy)
         font = QtGui.QFont()
         font.setPointSize(20)
         font.setBold(True)
         font.setUnderline(False)
-        self.pushButton_6.setFont(font)
-        self.pushButton_6.setStyleSheet("background-color: rgb(255, 0, 0);")
-        self.pushButton_6.setObjectName("pushButton_6")
-        self.horizontalLayout_44.addWidget(self.pushButton_6)
+        self.machine_stop_button.setFont(font)
+        self.machine_stop_button.setStyleSheet("background-color: rgb(255, 0, 0);")
+        self.machine_stop_button.setObjectName("machine_stop_button")
+        self.horizontalLayout_44.addWidget(self.machine_stop_button)
         spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_44.addItem(spacerItem2)
-        self.pushButton_7 = QtWidgets.QPushButton(self.layoutWidget2)
+        self.machine_reset_button = QtWidgets.QPushButton(self.layoutWidget2)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.pushButton_7.sizePolicy().hasHeightForWidth())
-        self.pushButton_7.setSizePolicy(sizePolicy)
+        sizePolicy.setHeightForWidth(self.machine_reset_button.sizePolicy().hasHeightForWidth())
+        self.machine_reset_button.setSizePolicy(sizePolicy)
         font = QtGui.QFont()
         font.setPointSize(20)
         font.setBold(True)
         font.setUnderline(False)
-        self.pushButton_7.setFont(font)
-        self.pushButton_7.setStyleSheet("background-color: rgb(255, 255, 0);")
-        self.pushButton_7.setObjectName("pushButton_7")
-        self.horizontalLayout_44.addWidget(self.pushButton_7)
+        self.machine_reset_button.setFont(font)
+        self.machine_reset_button.setStyleSheet("background-color: rgb(255, 255, 0);")
+        self.machine_reset_button.setObjectName("machine_reset_button")
+        self.horizontalLayout_44.addWidget(self.machine_reset_button)
         spacerItem3 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_44.addItem(spacerItem3)
-        self.pushButton_8 = QtWidgets.QPushButton(self.layoutWidget2)
+        self.machine_initialize_button = QtWidgets.QPushButton(self.layoutWidget2)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.pushButton_8.sizePolicy().hasHeightForWidth())
-        self.pushButton_8.setSizePolicy(sizePolicy)
+        sizePolicy.setHeightForWidth(self.machine_initialize_button.sizePolicy().hasHeightForWidth())
+        self.machine_initialize_button.setSizePolicy(sizePolicy)
         font = QtGui.QFont()
         font.setPointSize(20)
         font.setBold(True)
         font.setUnderline(False)
-        self.pushButton_8.setFont(font)
-        self.pushButton_8.setStyleSheet("background-color: rgb(255, 170, 0);")
-        self.pushButton_8.setObjectName("pushButton_8")
-        self.horizontalLayout_44.addWidget(self.pushButton_8)
+        self.machine_initialize_button.setFont(font)
+        self.machine_initialize_button.setStyleSheet("background-color: rgb(255, 170, 0);")
+        self.machine_initialize_button.setObjectName("machine_initialize_button")
+        self.horizontalLayout_44.addWidget(self.machine_initialize_button)
+        spacerItem4 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_44.addItem(spacerItem4)
+        self.machine_manual_button = QtWidgets.QPushButton(self.layoutWidget2)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.machine_manual_button.sizePolicy().hasHeightForWidth())
+        self.machine_manual_button.setSizePolicy(sizePolicy)
+        font = QtGui.QFont()
+        font.setPointSize(20)
+        font.setBold(True)
+        font.setUnderline(False)
+        self.machine_manual_button.setFont(font)
+        self.machine_manual_button.setStyleSheet("background-color: rgb(255, 234, 78)")
+        self.machine_manual_button.setObjectName("machine_manual_button")
+        self.horizontalLayout_44.addWidget(self.machine_manual_button)
         self.horizontalLayout_44.setStretch(0, 10)
         self.horizontalLayout_44.setStretch(2, 10)
         self.horizontalLayout_44.setStretch(4, 10)
         self.horizontalLayout_44.setStretch(6, 10)
+        self.horizontalLayout_44.setStretch(8, 10)
         self.stackedWidget.addWidget(self.main_page)
         self.lot_entry_page = QtWidgets.QWidget()
         self.lot_entry_page.setObjectName("lot_entry_page")
@@ -1148,20 +1123,47 @@ class Ui_MainWindow(object):
         self.verticalLayout_61.addWidget(self.shift_start_date_time)
         self.horizontalLayout_38.addLayout(self.verticalLayout_61)
         self.layoutWidget_3 = QtWidgets.QWidget(self.frame_7)
-        self.layoutWidget_3.setGeometry(QtCore.QRect(80, 260, 301, 31))
+        self.layoutWidget_3.setGeometry(QtCore.QRect(70, 240, 261, 31))
         self.layoutWidget_3.setObjectName("layoutWidget_3")
         self.horizontalLayout_46 = QtWidgets.QHBoxLayout(self.layoutWidget_3)
         self.horizontalLayout_46.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_46.setObjectName("horizontalLayout_46")
         self.lot_entry_edit_button = QtWidgets.QPushButton(self.layoutWidget_3)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.lot_entry_edit_button.sizePolicy().hasHeightForWidth())
+        self.lot_entry_edit_button.setSizePolicy(sizePolicy)
+        self.lot_entry_edit_button.setStyleSheet("color:rgb(255,255,255);\n"
+"background-color: rgb(141, 137, 166);\n"
+"")
+        self.lot_entry_edit_button.setAutoDefault(True)
         self.lot_entry_edit_button.setObjectName("lot_entry_edit_button")
         self.horizontalLayout_46.addWidget(self.lot_entry_edit_button)
-        spacerItem4 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_46.addItem(spacerItem4)
+        spacerItem5 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_46.addItem(spacerItem5)
         self.lot_entry_save_button = QtWidgets.QPushButton(self.layoutWidget_3)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.lot_entry_save_button.sizePolicy().hasHeightForWidth())
+        self.lot_entry_save_button.setSizePolicy(sizePolicy)
+        self.lot_entry_save_button.setStyleSheet("color:rgb(255,255,255);\n"
+"background-color: rgb(141, 137, 166);\n"
+"")
+        self.lot_entry_save_button.setAutoDefault(True)
         self.lot_entry_save_button.setObjectName("lot_entry_save_button")
         self.horizontalLayout_46.addWidget(self.lot_entry_save_button)
         self.lot_entry_cancel_button = QtWidgets.QPushButton(self.layoutWidget_3)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.lot_entry_cancel_button.sizePolicy().hasHeightForWidth())
+        self.lot_entry_cancel_button.setSizePolicy(sizePolicy)
+        self.lot_entry_cancel_button.setStyleSheet("color:rgb(255,255,255);\n"
+"background-color: rgb(141, 137, 166);\n"
+"")
+        self.lot_entry_cancel_button.setAutoDefault(True)
         self.lot_entry_cancel_button.setObjectName("lot_entry_cancel_button")
         self.horizontalLayout_46.addWidget(self.lot_entry_cancel_button)
         self.stackedWidget.addWidget(self.lot_entry_page)
@@ -1218,8 +1220,12 @@ class Ui_MainWindow(object):
         self.frame_31.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_31.setObjectName("frame_31")
         self.verticalLayout_17 = QtWidgets.QVBoxLayout(self.frame_31)
+        self.verticalLayout_17.setContentsMargins(7, -1, 7, -1)
         self.verticalLayout_17.setObjectName("verticalLayout_17")
         self.Error_Count = QtWidgets.QLabel(self.frame_31)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.Error_Count.setFont(font)
         self.Error_Count.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.Error_Count.setObjectName("Error_Count")
         self.verticalLayout_17.addWidget(self.Error_Count)
@@ -1239,8 +1245,12 @@ class Ui_MainWindow(object):
         self.frame_32.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_32.setObjectName("frame_32")
         self.verticalLayout_19 = QtWidgets.QVBoxLayout(self.frame_32)
+        self.verticalLayout_19.setContentsMargins(7, -1, 7, -1)
         self.verticalLayout_19.setObjectName("verticalLayout_19")
         self.Barcode_Fail_Count = QtWidgets.QLabel(self.frame_32)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.Barcode_Fail_Count.setFont(font)
         self.Barcode_Fail_Count.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.Barcode_Fail_Count.setObjectName("Barcode_Fail_Count")
         self.verticalLayout_19.addWidget(self.Barcode_Fail_Count)
@@ -1260,8 +1270,12 @@ class Ui_MainWindow(object):
         self.frame_42.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_42.setObjectName("frame_42")
         self.verticalLayout_41 = QtWidgets.QVBoxLayout(self.frame_42)
+        self.verticalLayout_41.setContentsMargins(7, -1, 7, -1)
         self.verticalLayout_41.setObjectName("verticalLayout_41")
         self.Barcode_Pass_Count = QtWidgets.QLabel(self.frame_42)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.Barcode_Pass_Count.setFont(font)
         self.Barcode_Pass_Count.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.Barcode_Pass_Count.setObjectName("Barcode_Pass_Count")
         self.verticalLayout_41.addWidget(self.Barcode_Pass_Count)
@@ -1281,8 +1295,12 @@ class Ui_MainWindow(object):
         self.frame_33.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_33.setObjectName("frame_33")
         self.verticalLayout_26 = QtWidgets.QVBoxLayout(self.frame_33)
+        self.verticalLayout_26.setContentsMargins(7, -1, 7, -1)
         self.verticalLayout_26.setObjectName("verticalLayout_26")
         self.Total_Quantity_In = QtWidgets.QLabel(self.frame_33)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.Total_Quantity_In.setFont(font)
         self.Total_Quantity_In.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.Total_Quantity_In.setObjectName("Total_Quantity_In")
         self.verticalLayout_26.addWidget(self.Total_Quantity_In)
@@ -1302,8 +1320,12 @@ class Ui_MainWindow(object):
         self.frame_34.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_34.setObjectName("frame_34")
         self.verticalLayout_27 = QtWidgets.QVBoxLayout(self.frame_34)
+        self.verticalLayout_27.setContentsMargins(7, -1, 7, -1)
         self.verticalLayout_27.setObjectName("verticalLayout_27")
         self.Total_Quantity_Out = QtWidgets.QLabel(self.frame_34)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.Total_Quantity_Out.setFont(font)
         self.Total_Quantity_Out.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.Total_Quantity_Out.setObjectName("Total_Quantity_Out")
         self.verticalLayout_27.addWidget(self.Total_Quantity_Out)
@@ -1323,8 +1345,12 @@ class Ui_MainWindow(object):
         self.frame_35.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_35.setObjectName("frame_35")
         self.verticalLayout_28 = QtWidgets.QVBoxLayout(self.frame_35)
+        self.verticalLayout_28.setContentsMargins(7, -1, 7, -1)
         self.verticalLayout_28.setObjectName("verticalLayout_28")
         self.Total_Passed = QtWidgets.QLabel(self.frame_35)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.Total_Passed.setFont(font)
         self.Total_Passed.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.Total_Passed.setObjectName("Total_Passed")
         self.verticalLayout_28.addWidget(self.Total_Passed)
@@ -1345,8 +1371,12 @@ class Ui_MainWindow(object):
         self.frame_37.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_37.setObjectName("frame_37")
         self.verticalLayout_36 = QtWidgets.QVBoxLayout(self.frame_37)
+        self.verticalLayout_36.setContentsMargins(7, -1, 7, -1)
         self.verticalLayout_36.setObjectName("verticalLayout_36")
         self.Total_Failed = QtWidgets.QLabel(self.frame_37)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.Total_Failed.setFont(font)
         self.Total_Failed.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.Total_Failed.setObjectName("Total_Failed")
         self.verticalLayout_36.addWidget(self.Total_Failed)
@@ -1366,8 +1396,12 @@ class Ui_MainWindow(object):
         self.frame_36.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_36.setObjectName("frame_36")
         self.verticalLayout_29 = QtWidgets.QVBoxLayout(self.frame_36)
+        self.verticalLayout_29.setContentsMargins(7, -1, 7, -1)
         self.verticalLayout_29.setObjectName("verticalLayout_29")
         self.Soft_Jam = QtWidgets.QLabel(self.frame_36)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.Soft_Jam.setFont(font)
         self.Soft_Jam.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.Soft_Jam.setObjectName("Soft_Jam")
         self.verticalLayout_29.addWidget(self.Soft_Jam)
@@ -1387,8 +1421,12 @@ class Ui_MainWindow(object):
         self.frame_38.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_38.setObjectName("frame_38")
         self.verticalLayout_37 = QtWidgets.QVBoxLayout(self.frame_38)
+        self.verticalLayout_37.setContentsMargins(7, -1, 7, -1)
         self.verticalLayout_37.setObjectName("verticalLayout_37")
         self.Hard_Jam = QtWidgets.QLabel(self.frame_38)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.Hard_Jam.setFont(font)
         self.Hard_Jam.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.Hard_Jam.setObjectName("Hard_Jam")
         self.verticalLayout_37.addWidget(self.Hard_Jam)
@@ -1408,8 +1446,12 @@ class Ui_MainWindow(object):
         self.frame_39.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_39.setObjectName("frame_39")
         self.verticalLayout_38 = QtWidgets.QVBoxLayout(self.frame_39)
+        self.verticalLayout_38.setContentsMargins(7, -1, 7, -1)
         self.verticalLayout_38.setObjectName("verticalLayout_38")
         self.MTBF = QtWidgets.QLabel(self.frame_39)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.MTBF.setFont(font)
         self.MTBF.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.MTBF.setObjectName("MTBF")
         self.verticalLayout_38.addWidget(self.MTBF)
@@ -1429,8 +1471,12 @@ class Ui_MainWindow(object):
         self.frame_41.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_41.setObjectName("frame_41")
         self.verticalLayout_40 = QtWidgets.QVBoxLayout(self.frame_41)
+        self.verticalLayout_40.setContentsMargins(7, -1, 7, -1)
         self.verticalLayout_40.setObjectName("verticalLayout_40")
         self.MTBA = QtWidgets.QLabel(self.frame_41)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.MTBA.setFont(font)
         self.MTBA.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.MTBA.setObjectName("MTBA")
         self.verticalLayout_40.addWidget(self.MTBA)
@@ -1450,8 +1496,13 @@ class Ui_MainWindow(object):
         self.frame_40.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_40.setObjectName("frame_40")
         self.verticalLayout_39 = QtWidgets.QVBoxLayout(self.frame_40)
+        self.verticalLayout_39.setContentsMargins(7, -1, 7, -1)
+        self.verticalLayout_39.setSpacing(5)
         self.verticalLayout_39.setObjectName("verticalLayout_39")
         self.Total_Yield = QtWidgets.QLabel(self.frame_40)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.Total_Yield.setFont(font)
         self.Total_Yield.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.Total_Yield.setObjectName("Total_Yield")
         self.verticalLayout_39.addWidget(self.Total_Yield)
@@ -1538,6 +1589,9 @@ class Ui_MainWindow(object):
         self.verticalLayout_42 = QtWidgets.QVBoxLayout(self.frame_43)
         self.verticalLayout_42.setObjectName("verticalLayout_42")
         self.label_151 = QtWidgets.QLabel(self.frame_43)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.label_151.setFont(font)
         self.label_151.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.label_151.setObjectName("label_151")
         self.verticalLayout_42.addWidget(self.label_151)
@@ -1557,6 +1611,9 @@ class Ui_MainWindow(object):
         self.verticalLayout_43 = QtWidgets.QVBoxLayout(self.frame_44)
         self.verticalLayout_43.setObjectName("verticalLayout_43")
         self.label_153 = QtWidgets.QLabel(self.frame_44)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.label_153.setFont(font)
         self.label_153.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.label_153.setObjectName("label_153")
         self.verticalLayout_43.addWidget(self.label_153)
@@ -1576,6 +1633,9 @@ class Ui_MainWindow(object):
         self.verticalLayout_44 = QtWidgets.QVBoxLayout(self.frame_45)
         self.verticalLayout_44.setObjectName("verticalLayout_44")
         self.label_155 = QtWidgets.QLabel(self.frame_45)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.label_155.setFont(font)
         self.label_155.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.label_155.setObjectName("label_155")
         self.verticalLayout_44.addWidget(self.label_155)
@@ -1595,6 +1655,9 @@ class Ui_MainWindow(object):
         self.verticalLayout_45 = QtWidgets.QVBoxLayout(self.frame_46)
         self.verticalLayout_45.setObjectName("verticalLayout_45")
         self.label_157 = QtWidgets.QLabel(self.frame_46)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.label_157.setFont(font)
         self.label_157.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.label_157.setObjectName("label_157")
         self.verticalLayout_45.addWidget(self.label_157)
@@ -1614,6 +1677,9 @@ class Ui_MainWindow(object):
         self.verticalLayout_46 = QtWidgets.QVBoxLayout(self.frame_47)
         self.verticalLayout_46.setObjectName("verticalLayout_46")
         self.label_159 = QtWidgets.QLabel(self.frame_47)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.label_159.setFont(font)
         self.label_159.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.label_159.setObjectName("label_159")
         self.verticalLayout_46.addWidget(self.label_159)
@@ -1633,6 +1699,9 @@ class Ui_MainWindow(object):
         self.verticalLayout_47 = QtWidgets.QVBoxLayout(self.frame_48)
         self.verticalLayout_47.setObjectName("verticalLayout_47")
         self.label_161 = QtWidgets.QLabel(self.frame_48)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.label_161.setFont(font)
         self.label_161.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.label_161.setObjectName("label_161")
         self.verticalLayout_47.addWidget(self.label_161)
@@ -1652,6 +1721,9 @@ class Ui_MainWindow(object):
         self.verticalLayout_48 = QtWidgets.QVBoxLayout(self.frame_49)
         self.verticalLayout_48.setObjectName("verticalLayout_48")
         self.label_163 = QtWidgets.QLabel(self.frame_49)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.label_163.setFont(font)
         self.label_163.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.label_163.setObjectName("label_163")
         self.verticalLayout_48.addWidget(self.label_163)
@@ -1671,6 +1743,9 @@ class Ui_MainWindow(object):
         self.verticalLayout_49 = QtWidgets.QVBoxLayout(self.frame_50)
         self.verticalLayout_49.setObjectName("verticalLayout_49")
         self.label_165 = QtWidgets.QLabel(self.frame_50)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.label_165.setFont(font)
         self.label_165.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.label_165.setObjectName("label_165")
         self.verticalLayout_49.addWidget(self.label_165)
@@ -1751,19 +1826,205 @@ class Ui_MainWindow(object):
         self.label_44.setObjectName("label_44")
         self.horizontalLayout_17.addWidget(self.label_44)
         self.frame_14 = QtWidgets.QFrame(self.event_log_page)
-        self.frame_14.setGeometry(QtCore.QRect(0, 40, 1801, 821))
+        self.frame_14.setGeometry(QtCore.QRect(0, 40, 1801, 891))
         self.frame_14.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.frame_14.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_14.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_14.setObjectName("frame_14")
-        self.tabWidget = QtWidgets.QTabWidget(self.frame_14)
-        self.tabWidget.setGeometry(QtCore.QRect(20, 20, 881, 741))
-        self.tabWidget.setObjectName("tabWidget")
+        self.log_tab_widget = QtWidgets.QTabWidget(self.frame_14)
+        self.log_tab_widget.setGeometry(QtCore.QRect(20, 20, 881, 741))
+        self.log_tab_widget.setStyleSheet("QTabWidget::pane {\n"
+"    border: 1px solid black;\n"
+"    background: white;\n"
+"}\n"
+"\n"
+"QTabWidget::tab-bar:top {\n"
+"    top: 1px;\n"
+"}\n"
+"\n"
+"QTabWidget::tab-bar:bottom {\n"
+"    bottom: 1px;\n"
+"}\n"
+"\n"
+"QTabWidget::tab-bar:left {\n"
+"    right: 1px;\n"
+"}\n"
+"\n"
+"QTabWidget::tab-bar:right {\n"
+"    left: 1px;\n"
+"}\n"
+"\n"
+"QTabBar::tab {\n"
+"    border: 1px solid black;\n"
+"    padding: 15px;\n"
+"}\n"
+"\n"
+"QTabBar::tab:selected {\n"
+"    background: white;\n"
+"    margin-bottom: -1px;\n"
+"}\n"
+"\n"
+"QTabBar::tab:!selected {\n"
+"    background: silver;\n"
+"}\n"
+"\n"
+"QTabBar::tab:!selected:hover {\n"
+"    background: #999;\n"
+"}\n"
+"\n"
+"QTabBar::tab:top:!selected {\n"
+"    margin-top: 3px;\n"
+"}\n"
+"\n"
+"QTabBar::tab:bottom:!selected {\n"
+"    margin-bottom: 3px;\n"
+"}\n"
+"\n"
+"QTabBar::tab:top, QTabBar::tab:bottom {\n"
+"    min-width: 8ex;\n"
+"    margin-right: -1px;\n"
+"    padding: 5px 10px 5px 10px;\n"
+"}\n"
+"\n"
+"QTabBar::tab:top:selected {\n"
+"    border-bottom-color: none;\n"
+"}\n"
+"\n"
+"QTabBar::tab:bottom:selected {\n"
+"    border-top-color: none;\n"
+"}\n"
+"\n"
+"QTabBar::tab:top:last, QTabBar::tab:bottom:last,\n"
+"QTabBar::tab:top:only-one, QTabBar::tab:bottom:only-one {\n"
+"    margin-right: 0;\n"
+"}\n"
+"\n"
+"QTabBar::tab:left:!selected {\n"
+"    margin-right: 3px;\n"
+"}\n"
+"\n"
+"QTabBar::tab:right:!selected {\n"
+"    margin-left: 3px;\n"
+"}\n"
+"\n"
+"QTabBar::tab:left, QTabBar::tab:right {\n"
+"    min-height: 8ex;\n"
+"    margin-bottom: -1px;\n"
+"    padding: 10px 5px 10px 5px;\n"
+"}\n"
+"\n"
+"QTabBar::tab:left:selected {\n"
+"    border-left-color: none;\n"
+"}\n"
+"\n"
+"QTabBar::tab:right:selected {\n"
+"    border-right-color: none;\n"
+"}\n"
+"\n"
+"QTabBar::tab:left:last, QTabBar::tab:right:last,\n"
+"QTabBar::tab:left:only-one, QTabBar::tab:right:only-one {\n"
+"    margin-bottom: 0;\n"
+"}")
+        self.log_tab_widget.setTabShape(QtWidgets.QTabWidget.Rounded)
+        self.log_tab_widget.setObjectName("log_tab_widget")
         self.tab = QtWidgets.QWidget()
         self.tab.setObjectName("tab")
         self.event_log_text_edit = QtWidgets.QPlainTextEdit(self.tab)
         self.event_log_text_edit.setGeometry(QtCore.QRect(0, 0, 871, 711))
-        self.event_log_text_edit.setStyleSheet("border-color:white")
+        self.event_log_text_edit.setStyleSheet("QTabWidget::pane {\n"
+"    border: 1px solid black;\n"
+"    background: white;\n"
+"}\n"
+"\n"
+"QTabWidget::tab-bar:top {\n"
+"    top: 1px;\n"
+"}\n"
+"\n"
+"QTabWidget::tab-bar:bottom {\n"
+"    bottom: 1px;\n"
+"}\n"
+"\n"
+"QTabWidget::tab-bar:left {\n"
+"    right: 1px;\n"
+"}\n"
+"\n"
+"QTabWidget::tab-bar:right {\n"
+"    left: 1px;\n"
+"}\n"
+"\n"
+"QTabBar::tab {\n"
+"    border: 1px solid black;\n"
+"    padding: 15px;\n"
+"}\n"
+"\n"
+"QTabBar::tab:selected {\n"
+"    background: white;\n"
+"    margin-bottom: -1px;\n"
+"}\n"
+"\n"
+"QTabBar::tab:!selected {\n"
+"    background: silver;\n"
+"}\n"
+"\n"
+"QTabBar::tab:!selected:hover {\n"
+"    background: #999;\n"
+"}\n"
+"\n"
+"QTabBar::tab:top:!selected {\n"
+"    margin-top: 3px;\n"
+"}\n"
+"\n"
+"QTabBar::tab:bottom:!selected {\n"
+"    margin-bottom: 3px;\n"
+"}\n"
+"\n"
+"QTabBar::tab:top, QTabBar::tab:bottom {\n"
+"    min-width: 8ex;\n"
+"    margin-right: -1px;\n"
+"    padding: 5px 10px 5px 10px;\n"
+"}\n"
+"\n"
+"QTabBar::tab:top:selected {\n"
+"    border-bottom-color: none;\n"
+"}\n"
+"\n"
+"QTabBar::tab:bottom:selected {\n"
+"    border-top-color: none;\n"
+"}\n"
+"\n"
+"QTabBar::tab:top:last, QTabBar::tab:bottom:last,\n"
+"QTabBar::tab:top:only-one, QTabBar::tab:bottom:only-one {\n"
+"    margin-right: 0;\n"
+"}\n"
+"\n"
+"QTabBar::tab:left:!selected {\n"
+"    margin-right: 3px;\n"
+"}\n"
+"\n"
+"QTabBar::tab:right:!selected {\n"
+"    margin-left: 3px;\n"
+"}\n"
+"\n"
+"QTabBar::tab:left, QTabBar::tab:right {\n"
+"    min-height: 8ex;\n"
+"    margin-bottom: -1px;\n"
+"    padding: 10px 5px 10px 5px;\n"
+"}\n"
+"\n"
+"QTabBar::tab:left:selected {\n"
+"    border-left-color: none;\n"
+"}\n"
+"\n"
+"QTabBar::tab:right:selected {\n"
+"    border-right-color: none;\n"
+"}\n"
+"\n"
+"QTabBar::tab:left:last, QTabBar::tab:right:last,\n"
+"QTabBar::tab:left:only-one, QTabBar::tab:right:only-one {\n"
+"    margin-bottom: 0;\n"
+"}\n"
+"\n"
+"")
         self.event_log_text_edit.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.event_log_text_edit.setFrameShadow(QtWidgets.QFrame.Plain)
         self.event_log_text_edit.setLineWidth(0)
@@ -1772,7 +2033,7 @@ class Ui_MainWindow(object):
         self.event_log_text_edit.setReadOnly(False)
         self.event_log_text_edit.setCenterOnScroll(False)
         self.event_log_text_edit.setObjectName("event_log_text_edit")
-        self.tabWidget.addTab(self.tab, "")
+        self.log_tab_widget.addTab(self.tab, "")
         self.tab_2 = QtWidgets.QWidget()
         self.tab_2.setObjectName("tab_2")
         self.alarm_log_text_edit = QtWidgets.QPlainTextEdit(self.tab_2)
@@ -1782,7 +2043,7 @@ class Ui_MainWindow(object):
         self.alarm_log_text_edit.setLineWidth(0)
         self.alarm_log_text_edit.setUndoRedoEnabled(False)
         self.alarm_log_text_edit.setObjectName("alarm_log_text_edit")
-        self.tabWidget.addTab(self.tab_2, "")
+        self.log_tab_widget.addTab(self.tab_2, "")
         self.stackedWidget.addWidget(self.event_log_page)
         self.io_list_page = QtWidgets.QWidget()
         self.io_list_page.setObjectName("io_list_page")
@@ -3623,8 +3884,8 @@ class Ui_MainWindow(object):
         self.horizontalLayout_35.addLayout(self.verticalLayout_35)
         self.horizontalLayout_35.setStretch(1, 1)
         self.horizontalLayout_34.addLayout(self.horizontalLayout_35)
-        spacerItem5 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_34.addItem(spacerItem5)
+        spacerItem6 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_34.addItem(spacerItem6)
         self.horizontalLayout_34.setStretch(0, 4)
         self.horizontalLayout_34.setStretch(1, 4)
         self.output_stacked_widget.addWidget(self.output_page_2)
@@ -3632,21 +3893,31 @@ class Ui_MainWindow(object):
         self.horizontalLayout_37.setStretch(0, 3)
         self.horizontalLayout_37.setStretch(2, 3)
         self.layoutWidget7 = QtWidgets.QWidget(self.frame)
-        self.layoutWidget7.setGeometry(QtCore.QRect(10, 800, 208, 42))
+        self.layoutWidget7.setGeometry(QtCore.QRect(10, 800, 251, 42))
         self.layoutWidget7.setObjectName("layoutWidget7")
         self.horizontalLayout_23 = QtWidgets.QHBoxLayout(self.layoutWidget7)
         self.horizontalLayout_23.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_23.setObjectName("horizontalLayout_23")
         self.input_page_1_button = QtWidgets.QPushButton(self.layoutWidget7)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.input_page_1_button.sizePolicy().hasHeightForWidth())
+        self.input_page_1_button.setSizePolicy(sizePolicy)
         self.input_page_1_button.setMinimumSize(QtCore.QSize(100, 40))
-        self.input_page_1_button.setMaximumSize(QtCore.QSize(100, 40))
+        self.input_page_1_button.setMaximumSize(QtCore.QSize(120, 40))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.input_page_1_button.setFont(font)
         self.input_page_1_button.setStyleSheet("QPushButton\n"
 "{\n"
-"background-color: rgb(247, 247, 247);\n"
+"    color:rgb(255,255,255);\n"
+"    background-color: rgb(141, 137, 166);\n"
 "}\n"
 "QPushButton:checked\n"
 "{\n"
-"    background-color: rgb(0, 255, 255);\n"
+"    color:rgb(0,0,0);\n"
+"    background-color: rgb(51, 53, 74);\n"
 "}")
         self.input_page_1_button.setCheckable(True)
         self.input_page_1_button.setAutoExclusive(True)
@@ -3658,15 +3929,25 @@ class Ui_MainWindow(object):
         self.input_list_page_button_group.addButton(self.input_page_1_button)
         self.horizontalLayout_23.addWidget(self.input_page_1_button)
         self.input_page_2_button = QtWidgets.QPushButton(self.layoutWidget7)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.input_page_2_button.sizePolicy().hasHeightForWidth())
+        self.input_page_2_button.setSizePolicy(sizePolicy)
         self.input_page_2_button.setMinimumSize(QtCore.QSize(100, 40))
-        self.input_page_2_button.setMaximumSize(QtCore.QSize(100, 40))
+        self.input_page_2_button.setMaximumSize(QtCore.QSize(120, 40))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.input_page_2_button.setFont(font)
         self.input_page_2_button.setStyleSheet("QPushButton\n"
 "{\n"
-"background-color: rgb(247, 247, 247);\n"
+"    color:rgb(255,255,255);\n"
+"    background-color: rgb(141, 137, 166);\n"
 "}\n"
 "QPushButton:checked\n"
 "{\n"
-"    background-color: rgb(0, 255, 255);\n"
+"    color:rgb(0,0,0);\n"
+"    background-color: rgb(51, 53, 74);\n"
 "}")
         self.input_page_2_button.setCheckable(True)
         self.input_page_2_button.setAutoExclusive(True)
@@ -3676,21 +3957,31 @@ class Ui_MainWindow(object):
         self.input_list_page_button_group.addButton(self.input_page_2_button)
         self.horizontalLayout_23.addWidget(self.input_page_2_button)
         self.layoutWidget8 = QtWidgets.QWidget(self.frame)
-        self.layoutWidget8.setGeometry(QtCore.QRect(890, 790, 208, 42))
+        self.layoutWidget8.setGeometry(QtCore.QRect(890, 790, 251, 42))
         self.layoutWidget8.setObjectName("layoutWidget8")
         self.horizontalLayout_39 = QtWidgets.QHBoxLayout(self.layoutWidget8)
         self.horizontalLayout_39.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_39.setObjectName("horizontalLayout_39")
         self.output_page_1_button = QtWidgets.QPushButton(self.layoutWidget8)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.output_page_1_button.sizePolicy().hasHeightForWidth())
+        self.output_page_1_button.setSizePolicy(sizePolicy)
         self.output_page_1_button.setMinimumSize(QtCore.QSize(100, 40))
-        self.output_page_1_button.setMaximumSize(QtCore.QSize(100, 40))
+        self.output_page_1_button.setMaximumSize(QtCore.QSize(120, 40))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.output_page_1_button.setFont(font)
         self.output_page_1_button.setStyleSheet("QPushButton\n"
 "{\n"
-"background-color: rgb(247, 247, 247);\n"
+"    color:rgb(255,255,255);\n"
+"    background-color: rgb(141, 137, 166);\n"
 "}\n"
 "QPushButton:checked\n"
 "{\n"
-"    background-color: rgb(0, 255, 255);\n"
+"    color:rgb(0,0,0);\n"
+"    background-color: rgb(51, 53, 74);\n"
 "}")
         self.output_page_1_button.setCheckable(True)
         self.output_page_1_button.setAutoExclusive(True)
@@ -3702,15 +3993,25 @@ class Ui_MainWindow(object):
         self.output_list_page_button_group.addButton(self.output_page_1_button)
         self.horizontalLayout_39.addWidget(self.output_page_1_button)
         self.output_page_2_button = QtWidgets.QPushButton(self.layoutWidget8)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.output_page_2_button.sizePolicy().hasHeightForWidth())
+        self.output_page_2_button.setSizePolicy(sizePolicy)
         self.output_page_2_button.setMinimumSize(QtCore.QSize(100, 40))
-        self.output_page_2_button.setMaximumSize(QtCore.QSize(100, 40))
+        self.output_page_2_button.setMaximumSize(QtCore.QSize(120, 40))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.output_page_2_button.setFont(font)
         self.output_page_2_button.setStyleSheet("QPushButton\n"
 "{\n"
-"background-color: rgb(247, 247, 247);\n"
+"    color:rgb(255,255,255);\n"
+"    background-color: rgb(141, 137, 166);\n"
 "}\n"
 "QPushButton:checked\n"
 "{\n"
-"    background-color: rgb(0, 255, 255);\n"
+"    color:rgb(0,0,0);\n"
+"    background-color: rgb(51, 53, 74);\n"
 "}")
         self.output_page_2_button.setCheckable(True)
         self.output_page_2_button.setAutoExclusive(True)
@@ -3745,8 +4046,13 @@ class Ui_MainWindow(object):
         self.frame_15.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_15.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_15.setObjectName("frame_15")
-        self.io_module_stacked_widget = QtWidgets.QStackedWidget(self.frame_15)
-        self.io_module_stacked_widget.setGeometry(QtCore.QRect(20, 20, 1491, 751))
+        self.layoutWidget9 = QtWidgets.QWidget(self.frame_15)
+        self.layoutWidget9.setGeometry(QtCore.QRect(20, 20, 1701, 811))
+        self.layoutWidget9.setObjectName("layoutWidget9")
+        self.horizontalLayout_41 = QtWidgets.QHBoxLayout(self.layoutWidget9)
+        self.horizontalLayout_41.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_41.setObjectName("horizontalLayout_41")
+        self.io_module_stacked_widget = QtWidgets.QStackedWidget(self.layoutWidget9)
         self.io_module_stacked_widget.setStyleSheet("background-color: rgb(194, 194, 194);")
         self.io_module_stacked_widget.setObjectName("io_module_stacked_widget")
         self.module_1 = QtWidgets.QWidget()
@@ -4953,11 +5259,8 @@ class Ui_MainWindow(object):
         self.io_module_label_x0110.setObjectName("io_module_label_x0110")
         self.verticalLayout_82.addWidget(self.io_module_label_x0110)
         self.io_module_stacked_widget.addWidget(self.module_6)
-        self.layoutWidget9 = QtWidgets.QWidget(self.frame_15)
-        self.layoutWidget9.setGeometry(QtCore.QRect(1580, 20, 102, 311))
-        self.layoutWidget9.setObjectName("layoutWidget9")
-        self.verticalLayout = QtWidgets.QVBoxLayout(self.layoutWidget9)
-        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_41.addWidget(self.io_module_stacked_widget)
+        self.verticalLayout = QtWidgets.QVBoxLayout()
         self.verticalLayout.setObjectName("verticalLayout")
         self.label_2 = QtWidgets.QLabel(self.layoutWidget9)
         font = QtGui.QFont()
@@ -4972,15 +5275,21 @@ class Ui_MainWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.io_module_page_1_button.sizePolicy().hasHeightForWidth())
         self.io_module_page_1_button.setSizePolicy(sizePolicy)
-        self.io_module_page_1_button.setMinimumSize(QtCore.QSize(100, 40))
-        self.io_module_page_1_button.setMaximumSize(QtCore.QSize(100, 40))
+        self.io_module_page_1_button.setMinimumSize(QtCore.QSize(120, 40))
+        self.io_module_page_1_button.setMaximumSize(QtCore.QSize(120, 40))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        font.setBold(True)
+        self.io_module_page_1_button.setFont(font)
         self.io_module_page_1_button.setStyleSheet("QPushButton\n"
 "{\n"
-"background-color: rgb(247, 247, 247);\n"
+"    color:rgb(255,255,255);\n"
+"    background-color: rgb(141, 137, 166);\n"
 "}\n"
 "QPushButton:checked\n"
 "{\n"
-"    background-color: rgb(0, 255, 255);\n"
+"    color:rgb(0,0,0);\n"
+"    background-color: rgb(51, 53, 74);\n"
 "}")
         self.io_module_page_1_button.setCheckable(True)
         self.io_module_page_1_button.setObjectName("io_module_page_1_button")
@@ -4994,15 +5303,21 @@ class Ui_MainWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.io_module_page_2_button.sizePolicy().hasHeightForWidth())
         self.io_module_page_2_button.setSizePolicy(sizePolicy)
-        self.io_module_page_2_button.setMinimumSize(QtCore.QSize(100, 40))
-        self.io_module_page_2_button.setMaximumSize(QtCore.QSize(100, 40))
+        self.io_module_page_2_button.setMinimumSize(QtCore.QSize(120, 40))
+        self.io_module_page_2_button.setMaximumSize(QtCore.QSize(120, 40))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        font.setBold(True)
+        self.io_module_page_2_button.setFont(font)
         self.io_module_page_2_button.setStyleSheet("QPushButton\n"
 "{\n"
-"background-color: rgb(247, 247, 247);\n"
+"    color:rgb(255,255,255);\n"
+"    background-color: rgb(141, 137, 166);\n"
 "}\n"
 "QPushButton:checked\n"
 "{\n"
-"    background-color: rgb(0, 255, 255);\n"
+"    color:rgb(0,0,0);\n"
+"    background-color: rgb(51, 53, 74);\n"
 "}")
         self.io_module_page_2_button.setCheckable(True)
         self.io_module_page_2_button.setObjectName("io_module_page_2_button")
@@ -5014,15 +5329,21 @@ class Ui_MainWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.io_module_page_3_button.sizePolicy().hasHeightForWidth())
         self.io_module_page_3_button.setSizePolicy(sizePolicy)
-        self.io_module_page_3_button.setMinimumSize(QtCore.QSize(100, 40))
-        self.io_module_page_3_button.setMaximumSize(QtCore.QSize(100, 40))
+        self.io_module_page_3_button.setMinimumSize(QtCore.QSize(120, 40))
+        self.io_module_page_3_button.setMaximumSize(QtCore.QSize(120, 40))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        font.setBold(True)
+        self.io_module_page_3_button.setFont(font)
         self.io_module_page_3_button.setStyleSheet("QPushButton\n"
 "{\n"
-"background-color: rgb(247, 247, 247);\n"
+"    color:rgb(255,255,255);\n"
+"    background-color: rgb(141, 137, 166);\n"
 "}\n"
 "QPushButton:checked\n"
 "{\n"
-"    background-color: rgb(0, 255, 255);\n"
+"    color:rgb(0,0,0);\n"
+"    background-color: rgb(51, 53, 74);\n"
 "}")
         self.io_module_page_3_button.setCheckable(True)
         self.io_module_page_3_button.setObjectName("io_module_page_3_button")
@@ -5034,15 +5355,21 @@ class Ui_MainWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.io_module_page_4_button.sizePolicy().hasHeightForWidth())
         self.io_module_page_4_button.setSizePolicy(sizePolicy)
-        self.io_module_page_4_button.setMinimumSize(QtCore.QSize(100, 40))
-        self.io_module_page_4_button.setMaximumSize(QtCore.QSize(100, 40))
+        self.io_module_page_4_button.setMinimumSize(QtCore.QSize(120, 40))
+        self.io_module_page_4_button.setMaximumSize(QtCore.QSize(120, 40))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        font.setBold(True)
+        self.io_module_page_4_button.setFont(font)
         self.io_module_page_4_button.setStyleSheet("QPushButton\n"
 "{\n"
-"background-color: rgb(247, 247, 247);\n"
+"    color:rgb(255,255,255);\n"
+"    background-color: rgb(141, 137, 166);\n"
 "}\n"
 "QPushButton:checked\n"
 "{\n"
-"    background-color: rgb(0, 255, 255);\n"
+"    color:rgb(0,0,0);\n"
+"    background-color: rgb(51, 53, 74);\n"
 "}")
         self.io_module_page_4_button.setCheckable(True)
         self.io_module_page_4_button.setObjectName("io_module_page_4_button")
@@ -5054,15 +5381,21 @@ class Ui_MainWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.io_module_page_5_button.sizePolicy().hasHeightForWidth())
         self.io_module_page_5_button.setSizePolicy(sizePolicy)
-        self.io_module_page_5_button.setMinimumSize(QtCore.QSize(100, 40))
-        self.io_module_page_5_button.setMaximumSize(QtCore.QSize(100, 40))
+        self.io_module_page_5_button.setMinimumSize(QtCore.QSize(120, 40))
+        self.io_module_page_5_button.setMaximumSize(QtCore.QSize(120, 40))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        font.setBold(True)
+        self.io_module_page_5_button.setFont(font)
         self.io_module_page_5_button.setStyleSheet("QPushButton\n"
 "{\n"
-"background-color: rgb(247, 247, 247);\n"
+"    color:rgb(255,255,255);\n"
+"    background-color: rgb(141, 137, 166);\n"
 "}\n"
 "QPushButton:checked\n"
 "{\n"
-"    background-color: rgb(0, 255, 255);\n"
+"    color:rgb(0,0,0);\n"
+"    background-color: rgb(51, 53, 74);\n"
 "}")
         self.io_module_page_5_button.setCheckable(True)
         self.io_module_page_5_button.setObjectName("io_module_page_5_button")
@@ -5074,20 +5407,29 @@ class Ui_MainWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.io_module_page_6_button.sizePolicy().hasHeightForWidth())
         self.io_module_page_6_button.setSizePolicy(sizePolicy)
-        self.io_module_page_6_button.setMinimumSize(QtCore.QSize(100, 40))
-        self.io_module_page_6_button.setMaximumSize(QtCore.QSize(100, 40))
+        self.io_module_page_6_button.setMinimumSize(QtCore.QSize(120, 40))
+        self.io_module_page_6_button.setMaximumSize(QtCore.QSize(120, 40))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        font.setBold(True)
+        self.io_module_page_6_button.setFont(font)
         self.io_module_page_6_button.setStyleSheet("QPushButton\n"
 "{\n"
-"background-color: rgb(247, 247, 247);\n"
+"    color:rgb(255,255,255);\n"
+"    background-color: rgb(141, 137, 166);\n"
 "}\n"
 "QPushButton:checked\n"
 "{\n"
-"    background-color: rgb(0, 255, 255);\n"
+"    color:rgb(0,0,0);\n"
+"    background-color: rgb(51, 53, 74);\n"
 "}")
         self.io_module_page_6_button.setCheckable(True)
         self.io_module_page_6_button.setObjectName("io_module_page_6_button")
         self.io_module_button_group.addButton(self.io_module_page_6_button)
         self.verticalLayout.addWidget(self.io_module_page_6_button)
+        spacerItem7 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout.addItem(spacerItem7)
+        self.horizontalLayout_41.addLayout(self.verticalLayout)
         self.stackedWidget.addWidget(self.io_module_page)
         self.main_motor_page = QtWidgets.QWidget()
         self.main_motor_page.setObjectName("main_motor_page")
@@ -5115,7 +5457,7 @@ class Ui_MainWindow(object):
         self.frame_16.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_16.setObjectName("frame_16")
         self.layoutWidget_5 = QtWidgets.QWidget(self.frame_16)
-        self.layoutWidget_5.setGeometry(QtCore.QRect(1610, 50, 121, 112))
+        self.layoutWidget_5.setGeometry(QtCore.QRect(1610, 10, 121, 128))
         self.layoutWidget_5.setObjectName("layoutWidget_5")
         self.verticalLayout_51 = QtWidgets.QVBoxLayout(self.layoutWidget_5)
         self.verticalLayout_51.setSizeConstraint(QtWidgets.QLayout.SetDefaultConstraint)
@@ -5127,18 +5469,20 @@ class Ui_MainWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.main_motor_page_1_button.sizePolicy().hasHeightForWidth())
         self.main_motor_page_1_button.setSizePolicy(sizePolicy)
-        self.main_motor_page_1_button.setMinimumSize(QtCore.QSize(100, 40))
-        self.main_motor_page_1_button.setMaximumSize(QtCore.QSize(100, 40))
+        self.main_motor_page_1_button.setMinimumSize(QtCore.QSize(100, 60))
+        self.main_motor_page_1_button.setMaximumSize(QtCore.QSize(100, 60))
         font = QtGui.QFont()
-        font.setPointSize(9)
+        font.setPointSize(12)
+        font.setBold(True)
         self.main_motor_page_1_button.setFont(font)
         self.main_motor_page_1_button.setStyleSheet("QPushButton\n"
 "{\n"
-"background-color: rgb(247, 247, 247);\n"
+"color:rgb(255,255,255);\n"
+"background-color: rgb(141, 137, 166);\n"
 "}\n"
 "QPushButton:checked\n"
 "{\n"
-"    background-color: rgb(0, 255, 255);\n"
+"    background-color: rgb(51, 53, 74);\n"
 "}\n"
 "")
         self.main_motor_page_1_button.setCheckable(True)
@@ -5153,18 +5497,21 @@ class Ui_MainWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.main_motor_page_2_button.sizePolicy().hasHeightForWidth())
         self.main_motor_page_2_button.setSizePolicy(sizePolicy)
-        self.main_motor_page_2_button.setMinimumSize(QtCore.QSize(100, 40))
-        self.main_motor_page_2_button.setMaximumSize(QtCore.QSize(100, 40))
+        self.main_motor_page_2_button.setMinimumSize(QtCore.QSize(100, 60))
+        self.main_motor_page_2_button.setMaximumSize(QtCore.QSize(100, 60))
         font = QtGui.QFont()
-        font.setPointSize(9)
+        font.setPointSize(12)
+        font.setBold(True)
         self.main_motor_page_2_button.setFont(font)
         self.main_motor_page_2_button.setStyleSheet("QPushButton\n"
 "{\n"
-"background-color: rgb(247, 247, 247);\n"
+"    color:rgb(255,255,255);\n"
+"    background-color: rgb(141, 137, 166);\n"
 "}\n"
 "QPushButton:checked\n"
 "{\n"
-"    background-color: rgb(0, 255, 255);\n"
+"    color:rgb(0,0,0);\n"
+"    background-color: rgb(51, 53, 74);\n"
 "}\n"
 "")
         self.main_motor_page_2_button.setCheckable(True)
@@ -5172,7 +5519,7 @@ class Ui_MainWindow(object):
         self.main_motor_page_button_group.addButton(self.main_motor_page_2_button)
         self.verticalLayout_51.addWidget(self.main_motor_page_2_button)
         self.layoutWidget10 = QtWidgets.QWidget(self.frame_16)
-        self.layoutWidget10.setGeometry(QtCore.QRect(30, 50, 1581, 821))
+        self.layoutWidget10.setGeometry(QtCore.QRect(10, 10, 1581, 831))
         self.layoutWidget10.setObjectName("layoutWidget10")
         self.horizontalLayout_29 = QtWidgets.QHBoxLayout(self.layoutWidget10)
         self.horizontalLayout_29.setContentsMargins(0, 0, 0, 0)
@@ -5487,7 +5834,7 @@ class Ui_MainWindow(object):
         self.frame_65.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_65.setObjectName("frame_65")
         self.frame_60 = QtWidgets.QFrame(self.frame_65)
-        self.frame_60.setGeometry(QtCore.QRect(520, 10, 271, 801))
+        self.frame_60.setGeometry(QtCore.QRect(540, 10, 271, 801))
         self.frame_60.setStyleSheet("border:none\n"
 "")
         self.frame_60.setFrameShape(QtWidgets.QFrame.StyledPanel)
@@ -5528,6 +5875,9 @@ class Ui_MainWindow(object):
         self.manual_encoder_combo_box.addItem("")
         self.manual_go_button = QtWidgets.QPushButton(self.frame_69)
         self.manual_go_button.setGeometry(QtCore.QRect(150, 10, 71, 31))
+        font = QtGui.QFont()
+        font.setBold(True)
+        self.manual_go_button.setFont(font)
         self.manual_go_button.setStyleSheet("QPushButton\n"
 "{\n"
 "background-color: rgb(182, 182, 182);\n"
@@ -5540,6 +5890,9 @@ class Ui_MainWindow(object):
         self.manual_go_button.setObjectName("manual_go_button")
         self.decrease_pos_button = QtWidgets.QPushButton(self.frame_69)
         self.decrease_pos_button.setGeometry(QtCore.QRect(40, 130, 71, 31))
+        font = QtGui.QFont()
+        font.setBold(True)
+        self.decrease_pos_button.setFont(font)
         self.decrease_pos_button.setStyleSheet("QPushButton\n"
 "{\n"
 "background-color: rgb(182, 182, 182);\n"
@@ -5552,6 +5905,9 @@ class Ui_MainWindow(object):
         self.decrease_pos_button.setObjectName("decrease_pos_button")
         self.increase_pos_button = QtWidgets.QPushButton(self.frame_69)
         self.increase_pos_button.setGeometry(QtCore.QRect(140, 130, 71, 31))
+        font = QtGui.QFont()
+        font.setBold(True)
+        self.increase_pos_button.setFont(font)
         self.increase_pos_button.setStyleSheet("QPushButton\n"
 "{\n"
 "background-color: rgb(182, 182, 182);\n"
@@ -5735,7 +6091,7 @@ class Ui_MainWindow(object):
         self.main_motor_home_button.setMaximumSize(QtCore.QSize(100, 16777215))
         font = QtGui.QFont()
         font.setPointSize(15)
-        font.setBold(False)
+        font.setBold(True)
         font.setItalic(False)
         font.setStrikeOut(False)
         self.main_motor_home_button.setFont(font)
@@ -5763,7 +6119,7 @@ class Ui_MainWindow(object):
         self.main_motor_off_button.setMaximumSize(QtCore.QSize(100, 16777215))
         font = QtGui.QFont()
         font.setPointSize(15)
-        font.setBold(False)
+        font.setBold(True)
         font.setItalic(False)
         font.setStrikeOut(False)
         self.main_motor_off_button.setFont(font)
@@ -5791,7 +6147,7 @@ class Ui_MainWindow(object):
         self.main_motor_save_button_2.setMaximumSize(QtCore.QSize(100, 16777215))
         font = QtGui.QFont()
         font.setPointSize(15)
-        font.setBold(False)
+        font.setBold(True)
         font.setItalic(False)
         font.setStrikeOut(False)
         self.main_motor_save_button_2.setFont(font)
@@ -5940,6 +6296,9 @@ class Ui_MainWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.pos_1_go_button.sizePolicy().hasHeightForWidth())
         self.pos_1_go_button.setSizePolicy(sizePolicy)
+        font = QtGui.QFont()
+        font.setBold(True)
+        self.pos_1_go_button.setFont(font)
         self.pos_1_go_button.setStyleSheet("QPushButton\n"
 "{\n"
 "background-color: rgb(182, 182, 182);\n"
@@ -5983,6 +6342,9 @@ class Ui_MainWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.pos_2_go_button.sizePolicy().hasHeightForWidth())
         self.pos_2_go_button.setSizePolicy(sizePolicy)
+        font = QtGui.QFont()
+        font.setBold(True)
+        self.pos_2_go_button.setFont(font)
         self.pos_2_go_button.setStyleSheet("QPushButton\n"
 "{\n"
 "background-color: rgb(182, 182, 182);\n"
@@ -6034,15 +6396,18 @@ class Ui_MainWindow(object):
         self.module_1_motor_1_button.setMinimumSize(QtCore.QSize(100, 40))
         self.module_1_motor_1_button.setMaximumSize(QtCore.QSize(100, 40))
         font = QtGui.QFont()
-        font.setPointSize(9)
+        font.setPointSize(12)
+        font.setBold(True)
         self.module_1_motor_1_button.setFont(font)
         self.module_1_motor_1_button.setStyleSheet("QPushButton\n"
 "{\n"
-"background-color: rgb(247, 247, 247);\n"
+"    color:rgb(255,255,255);\n"
+"    background-color: rgb(141, 137, 166);\n"
 "}\n"
 "QPushButton:checked\n"
 "{\n"
-"    background-color: rgb(0, 255, 255);\n"
+"    color:rgb(0,0,0);\n"
+"    background-color: rgb(51, 53, 74);\n"
 "}\n"
 "")
         self.module_1_motor_1_button.setCheckable(True)
@@ -6061,15 +6426,18 @@ class Ui_MainWindow(object):
         self.module_1_motor_2_button.setMinimumSize(QtCore.QSize(100, 40))
         self.module_1_motor_2_button.setMaximumSize(QtCore.QSize(100, 40))
         font = QtGui.QFont()
-        font.setPointSize(9)
+        font.setPointSize(12)
+        font.setBold(True)
         self.module_1_motor_2_button.setFont(font)
         self.module_1_motor_2_button.setStyleSheet("QPushButton\n"
 "{\n"
-"background-color: rgb(247, 247, 247);\n"
+"    color:rgb(255,255,255);\n"
+"    background-color: rgb(141, 137, 166);\n"
 "}\n"
 "QPushButton:checked\n"
 "{\n"
-"    background-color: rgb(0, 255, 255);\n"
+"    color:rgb(0,0,0);\n"
+"    background-color: rgb(51, 53, 74);\n"
 "}\n"
 "")
         self.module_1_motor_2_button.setCheckable(True)
@@ -6086,17 +6454,19 @@ class Ui_MainWindow(object):
         self.module_1_motor_3_button.setMinimumSize(QtCore.QSize(100, 40))
         self.module_1_motor_3_button.setMaximumSize(QtCore.QSize(100, 40))
         font = QtGui.QFont()
-        font.setPointSize(9)
+        font.setPointSize(12)
+        font.setBold(True)
         self.module_1_motor_3_button.setFont(font)
         self.module_1_motor_3_button.setStyleSheet("QPushButton\n"
 "{\n"
-"background-color: rgb(247, 247, 247);\n"
+"    color:rgb(255,255,255);\n"
+"    background-color: rgb(141, 137, 166);\n"
 "}\n"
 "QPushButton:checked\n"
 "{\n"
-"    background-color: rgb(0, 255, 255);\n"
-"}\n"
-"")
+"    color:rgb(0,0,0);\n"
+"    background-color: rgb(51, 53, 74);\n"
+"}")
         self.module_1_motor_3_button.setCheckable(True)
         self.module_1_motor_3_button.setObjectName("module_1_motor_3_button")
         self.main_motor_module_button_group.addButton(self.module_1_motor_3_button)
@@ -6124,17 +6494,19 @@ class Ui_MainWindow(object):
         self.module_2_motor_1_button.setMinimumSize(QtCore.QSize(100, 40))
         self.module_2_motor_1_button.setMaximumSize(QtCore.QSize(100, 40))
         font = QtGui.QFont()
-        font.setPointSize(9)
+        font.setPointSize(12)
+        font.setBold(True)
         self.module_2_motor_1_button.setFont(font)
         self.module_2_motor_1_button.setStyleSheet("QPushButton\n"
 "{\n"
-"background-color: rgb(247, 247, 247);\n"
+"    color:rgb(255,255,255);\n"
+"    background-color: rgb(141, 137, 166);\n"
 "}\n"
 "QPushButton:checked\n"
 "{\n"
-"    background-color: rgb(0, 255, 255);\n"
-"}\n"
-"")
+"    color:rgb(0,0,0);\n"
+"    background-color: rgb(51, 53, 74);\n"
+"}")
         self.module_2_motor_1_button.setCheckable(True)
         self.module_2_motor_1_button.setObjectName("module_2_motor_1_button")
         self.main_motor_module_button_group.addButton(self.module_2_motor_1_button)
@@ -6149,23 +6521,25 @@ class Ui_MainWindow(object):
         self.module_2_motor_2_button.setMinimumSize(QtCore.QSize(100, 40))
         self.module_2_motor_2_button.setMaximumSize(QtCore.QSize(100, 40))
         font = QtGui.QFont()
-        font.setPointSize(9)
+        font.setPointSize(12)
+        font.setBold(True)
         self.module_2_motor_2_button.setFont(font)
         self.module_2_motor_2_button.setStyleSheet("QPushButton\n"
 "{\n"
-"background-color: rgb(247, 247, 247);\n"
+"    color:rgb(255,255,255);\n"
+"    background-color: rgb(141, 137, 166);\n"
 "}\n"
 "QPushButton:checked\n"
 "{\n"
-"    background-color: rgb(0, 255, 255);\n"
-"}\n"
-"")
+"    color:rgb(0,0,0);\n"
+"    background-color: rgb(51, 53, 74);\n"
+"}")
         self.module_2_motor_2_button.setCheckable(True)
         self.module_2_motor_2_button.setObjectName("module_2_motor_2_button")
         self.main_motor_module_button_group.addButton(self.module_2_motor_2_button)
         self.horizontalLayout_45.addWidget(self.module_2_motor_2_button)
-        spacerItem6 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_45.addItem(spacerItem6)
+        spacerItem8 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_45.addItem(spacerItem8)
         self.horizontalLayout_45.setStretch(2, 1)
         self.verticalLayout_50.addLayout(self.horizontalLayout_45)
         self.main_motor_station_stacked_widget.addWidget(self.station_1_page)
@@ -6199,23 +6573,25 @@ class Ui_MainWindow(object):
         self.module_5_motor_1_button.setMinimumSize(QtCore.QSize(100, 40))
         self.module_5_motor_1_button.setMaximumSize(QtCore.QSize(100, 40))
         font = QtGui.QFont()
-        font.setPointSize(9)
+        font.setPointSize(12)
+        font.setBold(True)
         self.module_5_motor_1_button.setFont(font)
         self.module_5_motor_1_button.setStyleSheet("QPushButton\n"
 "{\n"
-"background-color: rgb(247, 247, 247);\n"
+"    color:rgb(255,255,255);\n"
+"    background-color: rgb(141, 137, 166);\n"
 "}\n"
 "QPushButton:checked\n"
 "{\n"
-"    background-color: rgb(0, 255, 255);\n"
-"}\n"
-"")
+"    color:rgb(0,0,0);\n"
+"    background-color: rgb(51, 53, 74);\n"
+"}")
         self.module_5_motor_1_button.setCheckable(True)
         self.module_5_motor_1_button.setObjectName("module_5_motor_1_button")
         self.main_motor_module_button_group.addButton(self.module_5_motor_1_button)
         self.horizontalLayout_50.addWidget(self.module_5_motor_1_button)
-        spacerItem7 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_50.addItem(spacerItem7)
+        spacerItem9 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_50.addItem(spacerItem9)
         self.horizontalLayout_50.setStretch(1, 1)
         self.verticalLayout_62.addLayout(self.horizontalLayout_50)
         self.label_115 = QtWidgets.QLabel(self.layoutWidget_2)
@@ -6240,23 +6616,26 @@ class Ui_MainWindow(object):
         self.module_6_motor_1_button.setMinimumSize(QtCore.QSize(100, 40))
         self.module_6_motor_1_button.setMaximumSize(QtCore.QSize(100, 40))
         font = QtGui.QFont()
-        font.setPointSize(9)
+        font.setPointSize(12)
+        font.setBold(True)
         self.module_6_motor_1_button.setFont(font)
         self.module_6_motor_1_button.setStyleSheet("QPushButton\n"
 "{\n"
-"background-color: rgb(247, 247, 247);\n"
+"    color:rgb(255,255,255);\n"
+"    background-color: rgb(141, 137, 166);\n"
 "}\n"
 "QPushButton:checked\n"
 "{\n"
-"    background-color: rgb(0, 255, 255);\n"
+"    color:rgb(0,0,0);\n"
+"    background-color: rgb(51, 53, 74);\n"
 "}\n"
 "")
         self.module_6_motor_1_button.setCheckable(True)
         self.module_6_motor_1_button.setObjectName("module_6_motor_1_button")
         self.main_motor_module_button_group.addButton(self.module_6_motor_1_button)
         self.horizontalLayout_51.addWidget(self.module_6_motor_1_button)
-        spacerItem8 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_51.addItem(spacerItem8)
+        spacerItem10 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_51.addItem(spacerItem10)
         self.horizontalLayout_51.setStretch(1, 1)
         self.verticalLayout_62.addLayout(self.horizontalLayout_51)
         self.main_motor_station_stacked_widget.addWidget(self.station_2_page)
@@ -6348,7 +6727,7 @@ class Ui_MainWindow(object):
         self.module_4_label.setAlignment(QtCore.Qt.AlignCenter)
         self.module_4_label.setObjectName("module_4_label")
         self.module_5_label = QtWidgets.QLabel(self.frame_17)
-        self.module_5_label.setGeometry(QtCore.QRect(730, 240, 101, 29))
+        self.module_5_label.setGeometry(QtCore.QRect(840, 280, 101, 29))
         font = QtGui.QFont()
         font.setBold(True)
         font.setUnderline(False)
@@ -6384,7 +6763,7 @@ class Ui_MainWindow(object):
         self.module_7_label.setAlignment(QtCore.Qt.AlignCenter)
         self.module_7_label.setObjectName("module_7_label")
         self.layoutWidget12 = QtWidgets.QWidget(self.frame_17)
-        self.layoutWidget12.setGeometry(QtCore.QRect(210, 270, 138, 311))
+        self.layoutWidget12.setGeometry(QtCore.QRect(120, 250, 170, 311))
         self.layoutWidget12.setObjectName("layoutWidget12")
         self.verticalLayout_55 = QtWidgets.QVBoxLayout(self.layoutWidget12)
         self.verticalLayout_55.setContentsMargins(0, 0, 0, 0)
@@ -6396,30 +6775,51 @@ class Ui_MainWindow(object):
         sizePolicy.setHeightForWidth(self.label_5.sizePolicy().hasHeightForWidth())
         self.label_5.setSizePolicy(sizePolicy)
         font = QtGui.QFont()
-        font.setPointSize(12)
+        font.setPointSize(15)
         font.setBold(True)
         self.label_5.setFont(font)
         self.label_5.setObjectName("label_5")
         self.verticalLayout_55.addWidget(self.label_5)
         self.checkBox = QtWidgets.QCheckBox(self.layoutWidget12)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.checkBox.setFont(font)
         self.checkBox.setObjectName("checkBox")
         self.verticalLayout_55.addWidget(self.checkBox)
         self.checkBox_2 = QtWidgets.QCheckBox(self.layoutWidget12)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.checkBox_2.setFont(font)
         self.checkBox_2.setObjectName("checkBox_2")
         self.verticalLayout_55.addWidget(self.checkBox_2)
         self.checkBox_3 = QtWidgets.QCheckBox(self.layoutWidget12)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.checkBox_3.setFont(font)
         self.checkBox_3.setObjectName("checkBox_3")
         self.verticalLayout_55.addWidget(self.checkBox_3)
         self.checkBox_4 = QtWidgets.QCheckBox(self.layoutWidget12)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.checkBox_4.setFont(font)
         self.checkBox_4.setObjectName("checkBox_4")
         self.verticalLayout_55.addWidget(self.checkBox_4)
         self.checkBox_5 = QtWidgets.QCheckBox(self.layoutWidget12)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.checkBox_5.setFont(font)
         self.checkBox_5.setObjectName("checkBox_5")
         self.verticalLayout_55.addWidget(self.checkBox_5)
         self.checkBox_6 = QtWidgets.QCheckBox(self.layoutWidget12)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.checkBox_6.setFont(font)
         self.checkBox_6.setObjectName("checkBox_6")
         self.verticalLayout_55.addWidget(self.checkBox_6)
         self.checkBox_7 = QtWidgets.QCheckBox(self.layoutWidget12)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.checkBox_7.setFont(font)
         self.checkBox_7.setObjectName("checkBox_7")
         self.verticalLayout_55.addWidget(self.checkBox_7)
         self.stackedWidget.addWidget(self.station_page)
@@ -6475,477 +6875,6 @@ class Ui_MainWindow(object):
         self.frame_19.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_19.setObjectName("frame_19")
         self.stackedWidget.addWidget(self.vision_page)
-        self.tower_light_page = QtWidgets.QWidget()
-        self.tower_light_page.setObjectName("tower_light_page")
-        self.title_frame_10 = QtWidgets.QFrame(self.tower_light_page)
-        self.title_frame_10.setGeometry(QtCore.QRect(0, 0, 1801, 41))
-        self.title_frame_10.setStyleSheet("background-color:rgb(116, 218, 198)")
-        self.title_frame_10.setFrameShape(QtWidgets.QFrame.NoFrame)
-        self.title_frame_10.setFrameShadow(QtWidgets.QFrame.Plain)
-        self.title_frame_10.setLineWidth(0)
-        self.title_frame_10.setObjectName("title_frame_10")
-        self.horizontalLayout_12 = QtWidgets.QHBoxLayout(self.title_frame_10)
-        self.horizontalLayout_12.setObjectName("horizontalLayout_12")
-        self.label_39 = QtWidgets.QLabel(self.title_frame_10)
-        font = QtGui.QFont()
-        font.setPointSize(17)
-        font.setBold(True)
-        font.setUnderline(True)
-        self.label_39.setFont(font)
-        self.label_39.setObjectName("label_39")
-        self.horizontalLayout_12.addWidget(self.label_39)
-        self.frame_20 = QtWidgets.QFrame(self.tower_light_page)
-        self.frame_20.setGeometry(QtCore.QRect(0, 40, 1801, 921))
-        self.frame_20.setStyleSheet("background-color: rgb(255, 255, 255);")
-        self.frame_20.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.frame_20.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame_20.setObjectName("frame_20")
-        self.frame_56 = QtWidgets.QFrame(self.frame_20)
-        self.frame_56.setGeometry(QtCore.QRect(60, 70, 341, 311))
-        self.frame_56.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.frame_56.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame_56.setObjectName("frame_56")
-        self.gridLayout = QtWidgets.QGridLayout(self.frame_56)
-        self.gridLayout.setContentsMargins(0, 0, 0, 0)
-        self.gridLayout.setSpacing(6)
-        self.gridLayout.setObjectName("gridLayout")
-        self.label_16 = QtWidgets.QLabel(self.frame_56)
-        self.label_16.setObjectName("label_16")
-        self.gridLayout.addWidget(self.label_16, 0, 0, 1, 1)
-        self.module_7_label_8 = QtWidgets.QLabel(self.frame_56)
-        self.module_7_label_8.setMinimumSize(QtCore.QSize(30, 30))
-        self.module_7_label_8.setMaximumSize(QtCore.QSize(20, 20))
-        font = QtGui.QFont()
-        font.setBold(True)
-        font.setUnderline(False)
-        font.setStyleStrategy(QtGui.QFont.PreferDefault)
-        self.module_7_label_8.setFont(font)
-        self.module_7_label_8.setStyleSheet("background-color: rgb(85, 255, 0);")
-        self.module_7_label_8.setFrameShape(QtWidgets.QFrame.WinPanel)
-        self.module_7_label_8.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.module_7_label_8.setText("")
-        self.module_7_label_8.setAlignment(QtCore.Qt.AlignCenter)
-        self.module_7_label_8.setObjectName("module_7_label_8")
-        self.gridLayout.addWidget(self.module_7_label_8, 0, 1, 1, 1)
-        self.module_7_label_11 = QtWidgets.QLabel(self.frame_56)
-        self.module_7_label_11.setMinimumSize(QtCore.QSize(30, 30))
-        self.module_7_label_11.setMaximumSize(QtCore.QSize(20, 20))
-        font = QtGui.QFont()
-        font.setBold(True)
-        font.setUnderline(False)
-        font.setStyleStrategy(QtGui.QFont.PreferDefault)
-        self.module_7_label_11.setFont(font)
-        self.module_7_label_11.setStyleSheet("background-color: rgb(255, 255, 0)")
-        self.module_7_label_11.setFrameShape(QtWidgets.QFrame.WinPanel)
-        self.module_7_label_11.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.module_7_label_11.setText("")
-        self.module_7_label_11.setAlignment(QtCore.Qt.AlignCenter)
-        self.module_7_label_11.setObjectName("module_7_label_11")
-        self.gridLayout.addWidget(self.module_7_label_11, 0, 2, 1, 1)
-        self.module_7_label_9 = QtWidgets.QLabel(self.frame_56)
-        self.module_7_label_9.setMinimumSize(QtCore.QSize(30, 30))
-        self.module_7_label_9.setMaximumSize(QtCore.QSize(20, 20))
-        font = QtGui.QFont()
-        font.setBold(True)
-        font.setUnderline(False)
-        font.setStyleStrategy(QtGui.QFont.PreferDefault)
-        self.module_7_label_9.setFont(font)
-        self.module_7_label_9.setStyleSheet("background-color: rgb(255, 0, 0);")
-        self.module_7_label_9.setFrameShape(QtWidgets.QFrame.WinPanel)
-        self.module_7_label_9.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.module_7_label_9.setText("")
-        self.module_7_label_9.setAlignment(QtCore.Qt.AlignCenter)
-        self.module_7_label_9.setObjectName("module_7_label_9")
-        self.gridLayout.addWidget(self.module_7_label_9, 0, 3, 1, 1)
-        self.module_7_label_10 = QtWidgets.QLabel(self.frame_56)
-        self.module_7_label_10.setMinimumSize(QtCore.QSize(30, 30))
-        self.module_7_label_10.setMaximumSize(QtCore.QSize(20, 20))
-        font = QtGui.QFont()
-        font.setBold(True)
-        font.setUnderline(False)
-        font.setStyleStrategy(QtGui.QFont.PreferDefault)
-        self.module_7_label_10.setFont(font)
-        self.module_7_label_10.setStyleSheet("background-color:rgb(28, 83, 0)")
-        self.module_7_label_10.setFrameShape(QtWidgets.QFrame.WinPanel)
-        self.module_7_label_10.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.module_7_label_10.setText("")
-        self.module_7_label_10.setAlignment(QtCore.Qt.AlignCenter)
-        self.module_7_label_10.setObjectName("module_7_label_10")
-        self.gridLayout.addWidget(self.module_7_label_10, 0, 4, 1, 1)
-        self.module_7_label_13 = QtWidgets.QLabel(self.frame_56)
-        self.module_7_label_13.setMinimumSize(QtCore.QSize(30, 30))
-        self.module_7_label_13.setMaximumSize(QtCore.QSize(20, 20))
-        font = QtGui.QFont()
-        font.setBold(True)
-        font.setUnderline(False)
-        font.setStyleStrategy(QtGui.QFont.PreferDefault)
-        self.module_7_label_13.setFont(font)
-        self.module_7_label_13.setStyleSheet("background-color:rgb(136, 136, 0)")
-        self.module_7_label_13.setFrameShape(QtWidgets.QFrame.WinPanel)
-        self.module_7_label_13.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.module_7_label_13.setText("")
-        self.module_7_label_13.setAlignment(QtCore.Qt.AlignCenter)
-        self.module_7_label_13.setObjectName("module_7_label_13")
-        self.gridLayout.addWidget(self.module_7_label_13, 0, 5, 1, 1)
-        self.module_7_label_12 = QtWidgets.QLabel(self.frame_56)
-        self.module_7_label_12.setMinimumSize(QtCore.QSize(30, 30))
-        self.module_7_label_12.setMaximumSize(QtCore.QSize(20, 20))
-        font = QtGui.QFont()
-        font.setBold(True)
-        font.setUnderline(False)
-        font.setStyleStrategy(QtGui.QFont.PreferDefault)
-        self.module_7_label_12.setFont(font)
-        self.module_7_label_12.setStyleSheet("background-color:rgb(139, 0, 0);")
-        self.module_7_label_12.setFrameShape(QtWidgets.QFrame.WinPanel)
-        self.module_7_label_12.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.module_7_label_12.setText("")
-        self.module_7_label_12.setAlignment(QtCore.Qt.AlignCenter)
-        self.module_7_label_12.setObjectName("module_7_label_12")
-        self.gridLayout.addWidget(self.module_7_label_12, 0, 6, 1, 1)
-        self.label_72 = QtWidgets.QLabel(self.frame_56)
-        self.label_72.setObjectName("label_72")
-        self.gridLayout.addWidget(self.label_72, 1, 0, 1, 1)
-        self.checkBox_40 = QtWidgets.QCheckBox(self.frame_56)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.checkBox_40.sizePolicy().hasHeightForWidth())
-        self.checkBox_40.setSizePolicy(sizePolicy)
-        self.checkBox_40.setText("")
-        self.checkBox_40.setObjectName("checkBox_40")
-        self.gridLayout.addWidget(self.checkBox_40, 1, 1, 1, 1)
-        self.checkBox_47 = QtWidgets.QCheckBox(self.frame_56)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.checkBox_47.sizePolicy().hasHeightForWidth())
-        self.checkBox_47.setSizePolicy(sizePolicy)
-        self.checkBox_47.setText("")
-        self.checkBox_47.setObjectName("checkBox_47")
-        self.gridLayout.addWidget(self.checkBox_47, 1, 2, 1, 1)
-        self.checkBox_54 = QtWidgets.QCheckBox(self.frame_56)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.checkBox_54.sizePolicy().hasHeightForWidth())
-        self.checkBox_54.setSizePolicy(sizePolicy)
-        self.checkBox_54.setText("")
-        self.checkBox_54.setObjectName("checkBox_54")
-        self.gridLayout.addWidget(self.checkBox_54, 1, 3, 1, 1)
-        self.checkBox_61 = QtWidgets.QCheckBox(self.frame_56)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.checkBox_61.sizePolicy().hasHeightForWidth())
-        self.checkBox_61.setSizePolicy(sizePolicy)
-        self.checkBox_61.setText("")
-        self.checkBox_61.setObjectName("checkBox_61")
-        self.gridLayout.addWidget(self.checkBox_61, 1, 4, 1, 1)
-        self.checkBox_68 = QtWidgets.QCheckBox(self.frame_56)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.checkBox_68.sizePolicy().hasHeightForWidth())
-        self.checkBox_68.setSizePolicy(sizePolicy)
-        self.checkBox_68.setText("")
-        self.checkBox_68.setObjectName("checkBox_68")
-        self.gridLayout.addWidget(self.checkBox_68, 1, 5, 1, 1)
-        self.checkBox_87 = QtWidgets.QCheckBox(self.frame_56)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.checkBox_87.sizePolicy().hasHeightForWidth())
-        self.checkBox_87.setSizePolicy(sizePolicy)
-        self.checkBox_87.setLayoutDirection(QtCore.Qt.LeftToRight)
-        self.checkBox_87.setAutoFillBackground(False)
-        self.checkBox_87.setText("")
-        self.checkBox_87.setObjectName("checkBox_87")
-        self.gridLayout.addWidget(self.checkBox_87, 1, 6, 1, 1)
-        self.label_73 = QtWidgets.QLabel(self.frame_56)
-        self.label_73.setObjectName("label_73")
-        self.gridLayout.addWidget(self.label_73, 2, 0, 1, 1)
-        self.checkBox_41 = QtWidgets.QCheckBox(self.frame_56)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.checkBox_41.sizePolicy().hasHeightForWidth())
-        self.checkBox_41.setSizePolicy(sizePolicy)
-        self.checkBox_41.setText("")
-        self.checkBox_41.setObjectName("checkBox_41")
-        self.gridLayout.addWidget(self.checkBox_41, 2, 1, 1, 1)
-        self.checkBox_48 = QtWidgets.QCheckBox(self.frame_56)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.checkBox_48.sizePolicy().hasHeightForWidth())
-        self.checkBox_48.setSizePolicy(sizePolicy)
-        self.checkBox_48.setText("")
-        self.checkBox_48.setObjectName("checkBox_48")
-        self.gridLayout.addWidget(self.checkBox_48, 2, 2, 1, 1)
-        self.checkBox_55 = QtWidgets.QCheckBox(self.frame_56)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.checkBox_55.sizePolicy().hasHeightForWidth())
-        self.checkBox_55.setSizePolicy(sizePolicy)
-        self.checkBox_55.setText("")
-        self.checkBox_55.setObjectName("checkBox_55")
-        self.gridLayout.addWidget(self.checkBox_55, 2, 3, 1, 1)
-        self.checkBox_62 = QtWidgets.QCheckBox(self.frame_56)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.checkBox_62.sizePolicy().hasHeightForWidth())
-        self.checkBox_62.setSizePolicy(sizePolicy)
-        self.checkBox_62.setText("")
-        self.checkBox_62.setObjectName("checkBox_62")
-        self.gridLayout.addWidget(self.checkBox_62, 2, 4, 1, 1)
-        self.checkBox_69 = QtWidgets.QCheckBox(self.frame_56)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.checkBox_69.sizePolicy().hasHeightForWidth())
-        self.checkBox_69.setSizePolicy(sizePolicy)
-        self.checkBox_69.setText("")
-        self.checkBox_69.setObjectName("checkBox_69")
-        self.gridLayout.addWidget(self.checkBox_69, 2, 5, 1, 1)
-        self.checkBox_83 = QtWidgets.QCheckBox(self.frame_56)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.checkBox_83.sizePolicy().hasHeightForWidth())
-        self.checkBox_83.setSizePolicy(sizePolicy)
-        self.checkBox_83.setText("")
-        self.checkBox_83.setObjectName("checkBox_83")
-        self.gridLayout.addWidget(self.checkBox_83, 2, 6, 1, 1)
-        self.label_70 = QtWidgets.QLabel(self.frame_56)
-        self.label_70.setObjectName("label_70")
-        self.gridLayout.addWidget(self.label_70, 3, 0, 1, 1)
-        self.checkBox_42 = QtWidgets.QCheckBox(self.frame_56)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.checkBox_42.sizePolicy().hasHeightForWidth())
-        self.checkBox_42.setSizePolicy(sizePolicy)
-        self.checkBox_42.setText("")
-        self.checkBox_42.setObjectName("checkBox_42")
-        self.gridLayout.addWidget(self.checkBox_42, 3, 1, 1, 1)
-        self.checkBox_49 = QtWidgets.QCheckBox(self.frame_56)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.checkBox_49.sizePolicy().hasHeightForWidth())
-        self.checkBox_49.setSizePolicy(sizePolicy)
-        self.checkBox_49.setText("")
-        self.checkBox_49.setObjectName("checkBox_49")
-        self.gridLayout.addWidget(self.checkBox_49, 3, 2, 1, 1)
-        self.checkBox_56 = QtWidgets.QCheckBox(self.frame_56)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.checkBox_56.sizePolicy().hasHeightForWidth())
-        self.checkBox_56.setSizePolicy(sizePolicy)
-        self.checkBox_56.setText("")
-        self.checkBox_56.setObjectName("checkBox_56")
-        self.gridLayout.addWidget(self.checkBox_56, 3, 3, 1, 1)
-        self.checkBox_63 = QtWidgets.QCheckBox(self.frame_56)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.checkBox_63.sizePolicy().hasHeightForWidth())
-        self.checkBox_63.setSizePolicy(sizePolicy)
-        self.checkBox_63.setText("")
-        self.checkBox_63.setObjectName("checkBox_63")
-        self.gridLayout.addWidget(self.checkBox_63, 3, 4, 1, 1)
-        self.checkBox_70 = QtWidgets.QCheckBox(self.frame_56)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.checkBox_70.sizePolicy().hasHeightForWidth())
-        self.checkBox_70.setSizePolicy(sizePolicy)
-        self.checkBox_70.setText("")
-        self.checkBox_70.setObjectName("checkBox_70")
-        self.gridLayout.addWidget(self.checkBox_70, 3, 5, 1, 1)
-        self.checkBox_84 = QtWidgets.QCheckBox(self.frame_56)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.checkBox_84.sizePolicy().hasHeightForWidth())
-        self.checkBox_84.setSizePolicy(sizePolicy)
-        self.checkBox_84.setText("")
-        self.checkBox_84.setObjectName("checkBox_84")
-        self.gridLayout.addWidget(self.checkBox_84, 3, 6, 1, 1)
-        self.label_71 = QtWidgets.QLabel(self.frame_56)
-        self.label_71.setObjectName("label_71")
-        self.gridLayout.addWidget(self.label_71, 4, 0, 1, 1)
-        self.checkBox_43 = QtWidgets.QCheckBox(self.frame_56)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.checkBox_43.sizePolicy().hasHeightForWidth())
-        self.checkBox_43.setSizePolicy(sizePolicy)
-        self.checkBox_43.setText("")
-        self.checkBox_43.setObjectName("checkBox_43")
-        self.gridLayout.addWidget(self.checkBox_43, 4, 1, 1, 1)
-        self.checkBox_50 = QtWidgets.QCheckBox(self.frame_56)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.checkBox_50.sizePolicy().hasHeightForWidth())
-        self.checkBox_50.setSizePolicy(sizePolicy)
-        self.checkBox_50.setText("")
-        self.checkBox_50.setObjectName("checkBox_50")
-        self.gridLayout.addWidget(self.checkBox_50, 4, 2, 1, 1)
-        self.checkBox_57 = QtWidgets.QCheckBox(self.frame_56)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.checkBox_57.sizePolicy().hasHeightForWidth())
-        self.checkBox_57.setSizePolicy(sizePolicy)
-        self.checkBox_57.setText("")
-        self.checkBox_57.setObjectName("checkBox_57")
-        self.gridLayout.addWidget(self.checkBox_57, 4, 3, 1, 1)
-        self.checkBox_64 = QtWidgets.QCheckBox(self.frame_56)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.checkBox_64.sizePolicy().hasHeightForWidth())
-        self.checkBox_64.setSizePolicy(sizePolicy)
-        self.checkBox_64.setText("")
-        self.checkBox_64.setObjectName("checkBox_64")
-        self.gridLayout.addWidget(self.checkBox_64, 4, 4, 1, 1)
-        self.checkBox_71 = QtWidgets.QCheckBox(self.frame_56)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.checkBox_71.sizePolicy().hasHeightForWidth())
-        self.checkBox_71.setSizePolicy(sizePolicy)
-        self.checkBox_71.setText("")
-        self.checkBox_71.setObjectName("checkBox_71")
-        self.gridLayout.addWidget(self.checkBox_71, 4, 5, 1, 1)
-        self.checkBox_85 = QtWidgets.QCheckBox(self.frame_56)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.checkBox_85.sizePolicy().hasHeightForWidth())
-        self.checkBox_85.setSizePolicy(sizePolicy)
-        self.checkBox_85.setText("")
-        self.checkBox_85.setObjectName("checkBox_85")
-        self.gridLayout.addWidget(self.checkBox_85, 4, 6, 1, 1)
-        self.label_14 = QtWidgets.QLabel(self.frame_56)
-        self.label_14.setObjectName("label_14")
-        self.gridLayout.addWidget(self.label_14, 5, 0, 1, 1)
-        self.checkBox_44 = QtWidgets.QCheckBox(self.frame_56)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.checkBox_44.sizePolicy().hasHeightForWidth())
-        self.checkBox_44.setSizePolicy(sizePolicy)
-        self.checkBox_44.setText("")
-        self.checkBox_44.setObjectName("checkBox_44")
-        self.gridLayout.addWidget(self.checkBox_44, 5, 1, 1, 1)
-        self.checkBox_51 = QtWidgets.QCheckBox(self.frame_56)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.checkBox_51.sizePolicy().hasHeightForWidth())
-        self.checkBox_51.setSizePolicy(sizePolicy)
-        self.checkBox_51.setText("")
-        self.checkBox_51.setObjectName("checkBox_51")
-        self.gridLayout.addWidget(self.checkBox_51, 5, 2, 1, 1)
-        self.checkBox_58 = QtWidgets.QCheckBox(self.frame_56)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.checkBox_58.sizePolicy().hasHeightForWidth())
-        self.checkBox_58.setSizePolicy(sizePolicy)
-        self.checkBox_58.setText("")
-        self.checkBox_58.setObjectName("checkBox_58")
-        self.gridLayout.addWidget(self.checkBox_58, 5, 3, 1, 1)
-        self.checkBox_65 = QtWidgets.QCheckBox(self.frame_56)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.checkBox_65.sizePolicy().hasHeightForWidth())
-        self.checkBox_65.setSizePolicy(sizePolicy)
-        self.checkBox_65.setText("")
-        self.checkBox_65.setObjectName("checkBox_65")
-        self.gridLayout.addWidget(self.checkBox_65, 5, 4, 1, 1)
-        self.checkBox_72 = QtWidgets.QCheckBox(self.frame_56)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.checkBox_72.sizePolicy().hasHeightForWidth())
-        self.checkBox_72.setSizePolicy(sizePolicy)
-        self.checkBox_72.setText("")
-        self.checkBox_72.setObjectName("checkBox_72")
-        self.gridLayout.addWidget(self.checkBox_72, 5, 5, 1, 1)
-        self.checkBox_86 = QtWidgets.QCheckBox(self.frame_56)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.checkBox_86.sizePolicy().hasHeightForWidth())
-        self.checkBox_86.setSizePolicy(sizePolicy)
-        self.checkBox_86.setText("")
-        self.checkBox_86.setObjectName("checkBox_86")
-        self.gridLayout.addWidget(self.checkBox_86, 5, 6, 1, 1)
-        self.tower_light_edit_button = QtWidgets.QPushButton(self.frame_20)
-        self.tower_light_edit_button.setGeometry(QtCore.QRect(90, 400, 100, 45))
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.tower_light_edit_button.sizePolicy().hasHeightForWidth())
-        self.tower_light_edit_button.setSizePolicy(sizePolicy)
-        self.tower_light_edit_button.setMaximumSize(QtCore.QSize(100, 16777215))
-        font = QtGui.QFont()
-        font.setPointSize(15)
-        font.setBold(False)
-        font.setItalic(False)
-        font.setStrikeOut(False)
-        self.tower_light_edit_button.setFont(font)
-        self.tower_light_edit_button.setStyleSheet("QPushButton\n"
-"{\n"
-"background-color: rgb(247, 247, 247);\n"
-"}\n"
-"\n"
-"QPushButton:pressed\n"
-"{\n"
-"background-color: rgba(229, 229, 229, 247)\n"
-"}")
-        self.tower_light_edit_button.setCheckable(True)
-        self.tower_light_edit_button.setAutoDefault(True)
-        self.tower_light_edit_button.setDefault(False)
-        self.tower_light_edit_button.setFlat(False)
-        self.tower_light_edit_button.setObjectName("tower_light_edit_button")
-        self.tower_light_save_button = QtWidgets.QPushButton(self.frame_20)
-        self.tower_light_save_button.setGeometry(QtCore.QRect(220, 400, 100, 45))
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.tower_light_save_button.sizePolicy().hasHeightForWidth())
-        self.tower_light_save_button.setSizePolicy(sizePolicy)
-        self.tower_light_save_button.setMaximumSize(QtCore.QSize(100, 16777215))
-        font = QtGui.QFont()
-        font.setPointSize(15)
-        font.setBold(False)
-        font.setItalic(False)
-        font.setStrikeOut(False)
-        self.tower_light_save_button.setFont(font)
-        self.tower_light_save_button.setStyleSheet("QPushButton\n"
-"{\n"
-"background-color: rgb(247, 247, 247);\n"
-"}\n"
-"\n"
-"QPushButton:pressed\n"
-"{\n"
-"background-color: rgba(229, 229, 229, 247)\n"
-"}")
-        self.tower_light_save_button.setCheckable(True)
-        self.tower_light_save_button.setAutoDefault(True)
-        self.tower_light_save_button.setDefault(False)
-        self.tower_light_save_button.setFlat(False)
-        self.tower_light_save_button.setObjectName("tower_light_save_button")
-        self.stackedWidget.addWidget(self.tower_light_page)
         self.life_cycle_page = QtWidgets.QWidget()
         self.life_cycle_page.setObjectName("life_cycle_page")
         self.title_frame_11 = QtWidgets.QFrame(self.life_cycle_page)
@@ -6972,84 +6901,6 @@ class Ui_MainWindow(object):
         self.frame_21.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_21.setObjectName("frame_21")
         self.stackedWidget.addWidget(self.life_cycle_page)
-        self.user_area_page = QtWidgets.QWidget()
-        self.user_area_page.setObjectName("user_area_page")
-        self.title_frame_12 = QtWidgets.QFrame(self.user_area_page)
-        self.title_frame_12.setGeometry(QtCore.QRect(0, 0, 1801, 41))
-        self.title_frame_12.setStyleSheet("background-color:rgb(116, 218, 198)")
-        self.title_frame_12.setFrameShape(QtWidgets.QFrame.NoFrame)
-        self.title_frame_12.setFrameShadow(QtWidgets.QFrame.Plain)
-        self.title_frame_12.setLineWidth(0)
-        self.title_frame_12.setObjectName("title_frame_12")
-        self.horizontalLayout_14 = QtWidgets.QHBoxLayout(self.title_frame_12)
-        self.horizontalLayout_14.setObjectName("horizontalLayout_14")
-        self.label_41 = QtWidgets.QLabel(self.title_frame_12)
-        font = QtGui.QFont()
-        font.setPointSize(17)
-        font.setBold(True)
-        font.setUnderline(True)
-        self.label_41.setFont(font)
-        self.label_41.setObjectName("label_41")
-        self.horizontalLayout_14.addWidget(self.label_41)
-        self.frame_22 = QtWidgets.QFrame(self.user_area_page)
-        self.frame_22.setGeometry(QtCore.QRect(0, 40, 1801, 921))
-        self.frame_22.setStyleSheet("background-color: rgb(255, 255, 255);")
-        self.frame_22.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.frame_22.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame_22.setObjectName("frame_22")
-        self.layoutWidget13 = QtWidgets.QWidget(self.frame_22)
-        self.layoutWidget13.setGeometry(QtCore.QRect(50, 110, 245, 56))
-        self.layoutWidget13.setObjectName("layoutWidget13")
-        self.verticalLayout_65 = QtWidgets.QVBoxLayout(self.layoutWidget13)
-        self.verticalLayout_65.setContentsMargins(0, 0, 0, 0)
-        self.verticalLayout_65.setObjectName("verticalLayout_65")
-        self.horizontalLayout_43 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_43.setObjectName("horizontalLayout_43")
-        self.label_134 = QtWidgets.QLabel(self.layoutWidget13)
-        self.label_134.setObjectName("label_134")
-        self.horizontalLayout_43.addWidget(self.label_134)
-        self.dateTimeEdit_2 = QtWidgets.QDateTimeEdit(self.layoutWidget13)
-        self.dateTimeEdit_2.setObjectName("dateTimeEdit_2")
-        self.horizontalLayout_43.addWidget(self.dateTimeEdit_2)
-        self.verticalLayout_65.addLayout(self.horizontalLayout_43)
-        self.horizontalLayout_42 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_42.setObjectName("horizontalLayout_42")
-        self.pushButton_3 = QtWidgets.QPushButton(self.layoutWidget13)
-        self.pushButton_3.setObjectName("pushButton_3")
-        self.horizontalLayout_42.addWidget(self.pushButton_3)
-        spacerItem9 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_42.addItem(spacerItem9)
-        self.pushButton_4 = QtWidgets.QPushButton(self.layoutWidget13)
-        self.pushButton_4.setObjectName("pushButton_4")
-        self.horizontalLayout_42.addWidget(self.pushButton_4)
-        self.verticalLayout_65.addLayout(self.horizontalLayout_42)
-        self.stackedWidget.addWidget(self.user_area_page)
-        self.user_access_page = QtWidgets.QWidget()
-        self.user_access_page.setObjectName("user_access_page")
-        self.title_frame_13 = QtWidgets.QFrame(self.user_access_page)
-        self.title_frame_13.setGeometry(QtCore.QRect(0, 0, 1801, 41))
-        self.title_frame_13.setStyleSheet("background-color:rgb(116, 218, 198)")
-        self.title_frame_13.setFrameShape(QtWidgets.QFrame.NoFrame)
-        self.title_frame_13.setFrameShadow(QtWidgets.QFrame.Plain)
-        self.title_frame_13.setLineWidth(0)
-        self.title_frame_13.setObjectName("title_frame_13")
-        self.horizontalLayout_15 = QtWidgets.QHBoxLayout(self.title_frame_13)
-        self.horizontalLayout_15.setObjectName("horizontalLayout_15")
-        self.label_42 = QtWidgets.QLabel(self.title_frame_13)
-        font = QtGui.QFont()
-        font.setPointSize(17)
-        font.setBold(True)
-        font.setUnderline(True)
-        self.label_42.setFont(font)
-        self.label_42.setObjectName("label_42")
-        self.horizontalLayout_15.addWidget(self.label_42)
-        self.frame_23 = QtWidgets.QFrame(self.user_access_page)
-        self.frame_23.setGeometry(QtCore.QRect(0, 40, 1801, 921))
-        self.frame_23.setStyleSheet("background-color: rgb(255, 255, 255);")
-        self.frame_23.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.frame_23.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame_23.setObjectName("frame_23")
-        self.stackedWidget.addWidget(self.user_access_page)
         self.settings_page = QtWidgets.QWidget()
         self.settings_page.setObjectName("settings_page")
         self.title_frame_14 = QtWidgets.QFrame(self.settings_page)
@@ -7070,11 +6921,826 @@ class Ui_MainWindow(object):
         self.label_43.setObjectName("label_43")
         self.horizontalLayout_16.addWidget(self.label_43)
         self.frame_24 = QtWidgets.QFrame(self.settings_page)
-        self.frame_24.setGeometry(QtCore.QRect(0, 40, 1801, 861))
+        self.frame_24.setGeometry(QtCore.QRect(0, 40, 1801, 891))
         self.frame_24.setStyleSheet("background-color: rgb(255, 255, 255);")
-        self.frame_24.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_24.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.frame_24.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_24.setLineWidth(5)
         self.frame_24.setObjectName("frame_24")
+        self.settings_tab_widget = QtWidgets.QTabWidget(self.frame_24)
+        self.settings_tab_widget.setGeometry(QtCore.QRect(10, 10, 951, 831))
+        font = QtGui.QFont()
+        font.setPointSize(15)
+        font.setBold(True)
+        self.settings_tab_widget.setFont(font)
+        self.settings_tab_widget.setStyleSheet("QTabWidget::pane {\n"
+"    border: 1px solid black;\n"
+"    background: white;\n"
+"}\n"
+"\n"
+"QTabWidget::tab-bar:top {\n"
+"    top: 1px;\n"
+"}\n"
+"\n"
+"QTabWidget::tab-bar:bottom {\n"
+"    bottom: 1px;\n"
+"}\n"
+"\n"
+"QTabWidget::tab-bar:left {\n"
+"    right: 1px;\n"
+"}\n"
+"\n"
+"QTabWidget::tab-bar:right {\n"
+"    left: 1px;\n"
+"}\n"
+"\n"
+"QTabBar::tab {\n"
+"    border: 1px solid black;\n"
+"    padding: 15px;\n"
+"}\n"
+"\n"
+"QTabBar::tab:selected {\n"
+"    background: white;\n"
+"    margin-bottom: -1px;\n"
+"}\n"
+"\n"
+"QTabBar::tab:!selected {\n"
+"    background: silver;\n"
+"}\n"
+"\n"
+"QTabBar::tab:!selected:hover {\n"
+"    background: #999;\n"
+"}\n"
+"\n"
+"QTabBar::tab:top:!selected {\n"
+"    margin-top: 3px;\n"
+"}\n"
+"\n"
+"QTabBar::tab:bottom:!selected {\n"
+"    margin-bottom: 3px;\n"
+"}\n"
+"\n"
+"QTabBar::tab:top, QTabBar::tab:bottom {\n"
+"    min-width: 8ex;\n"
+"    margin-right: -1px;\n"
+"    padding: 5px 10px 5px 10px;\n"
+"}\n"
+"\n"
+"QTabBar::tab:top:selected {\n"
+"    border-bottom-color: none;\n"
+"}\n"
+"\n"
+"QTabBar::tab:bottom:selected {\n"
+"    border-top-color: none;\n"
+"}\n"
+"\n"
+"QTabBar::tab:top:last, QTabBar::tab:bottom:last,\n"
+"QTabBar::tab:top:only-one, QTabBar::tab:bottom:only-one {\n"
+"    margin-right: 0;\n"
+"}\n"
+"\n"
+"QTabBar::tab:left:!selected {\n"
+"    margin-right: 3px;\n"
+"}\n"
+"\n"
+"QTabBar::tab:right:!selected {\n"
+"    margin-left: 3px;\n"
+"}\n"
+"\n"
+"QTabBar::tab:left, QTabBar::tab:right {\n"
+"    min-height: 8ex;\n"
+"    margin-bottom: -1px;\n"
+"    padding: 10px 5px 10px 5px;\n"
+"}\n"
+"\n"
+"QTabBar::tab:left:selected {\n"
+"    border-left-color: none;\n"
+"}\n"
+"\n"
+"QTabBar::tab:right:selected {\n"
+"    border-right-color: none;\n"
+"}\n"
+"\n"
+"QTabBar::tab:left:last, QTabBar::tab:right:last,\n"
+"QTabBar::tab:left:only-one, QTabBar::tab:right:only-one {\n"
+"    margin-bottom: 0;\n"
+"}")
+        self.settings_tab_widget.setObjectName("settings_tab_widget")
+        self.light_tower_page = QtWidgets.QWidget()
+        self.light_tower_page.setObjectName("light_tower_page")
+        self.light_tower_settings_layout_group = QtWidgets.QFrame(self.light_tower_page)
+        self.light_tower_settings_layout_group.setGeometry(QtCore.QRect(10, 10, 461, 311))
+        self.light_tower_settings_layout_group.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.light_tower_settings_layout_group.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.light_tower_settings_layout_group.setObjectName("light_tower_settings_layout_group")
+        self.gridLayout = QtWidgets.QGridLayout(self.light_tower_settings_layout_group)
+        self.gridLayout.setContentsMargins(0, 0, 0, 0)
+        self.gridLayout.setSpacing(6)
+        self.gridLayout.setObjectName("gridLayout")
+        self.frame_66 = QtWidgets.QFrame(self.light_tower_settings_layout_group)
+        self.frame_66.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_66.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_66.setObjectName("frame_66")
+        self.horizontalLayout_58 = QtWidgets.QHBoxLayout(self.frame_66)
+        self.horizontalLayout_58.setObjectName("horizontalLayout_58")
+        self.check_box_5 = QtWidgets.QCheckBox(self.frame_66)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.check_box_5.sizePolicy().hasHeightForWidth())
+        self.check_box_5.setSizePolicy(sizePolicy)
+        self.check_box_5.setText("")
+        self.check_box_5.setObjectName("check_box_5")
+        self.horizontalLayout_58.addWidget(self.check_box_5)
+        self.gridLayout.addWidget(self.frame_66, 1, 6, 1, 1)
+        self.frame_103 = QtWidgets.QFrame(self.light_tower_settings_layout_group)
+        self.frame_103.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_103.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_103.setObjectName("frame_103")
+        self.horizontalLayout_72 = QtWidgets.QHBoxLayout(self.frame_103)
+        self.horizontalLayout_72.setObjectName("horizontalLayout_72")
+        self.check_box_32 = QtWidgets.QCheckBox(self.frame_103)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.check_box_32.sizePolicy().hasHeightForWidth())
+        self.check_box_32.setSizePolicy(sizePolicy)
+        self.check_box_32.setText("")
+        self.check_box_32.setObjectName("check_box_32")
+        self.horizontalLayout_72.addWidget(self.check_box_32)
+        self.gridLayout.addWidget(self.frame_103, 4, 3, 1, 1)
+        self.frame_111 = QtWidgets.QFrame(self.light_tower_settings_layout_group)
+        self.frame_111.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_111.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_111.setObjectName("frame_111")
+        self.horizontalLayout_80 = QtWidgets.QHBoxLayout(self.frame_111)
+        self.horizontalLayout_80.setObjectName("horizontalLayout_80")
+        self.check_box_31 = QtWidgets.QCheckBox(self.frame_111)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.check_box_31.sizePolicy().hasHeightForWidth())
+        self.check_box_31.setSizePolicy(sizePolicy)
+        self.check_box_31.setText("")
+        self.check_box_31.setObjectName("check_box_31")
+        self.horizontalLayout_80.addWidget(self.check_box_31)
+        self.gridLayout.addWidget(self.frame_111, 4, 2, 1, 1)
+        self.label_73 = QtWidgets.QLabel(self.light_tower_settings_layout_group)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.label_73.setFont(font)
+        self.label_73.setObjectName("label_73")
+        self.gridLayout.addWidget(self.label_73, 2, 0, 1, 1)
+        self.frame_108 = QtWidgets.QFrame(self.light_tower_settings_layout_group)
+        self.frame_108.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_108.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_108.setObjectName("frame_108")
+        self.horizontalLayout_77 = QtWidgets.QHBoxLayout(self.frame_108)
+        self.horizontalLayout_77.setObjectName("horizontalLayout_77")
+        self.check_box_22 = QtWidgets.QCheckBox(self.frame_108)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.check_box_22.sizePolicy().hasHeightForWidth())
+        self.check_box_22.setSizePolicy(sizePolicy)
+        self.check_box_22.setText("")
+        self.check_box_22.setObjectName("check_box_22")
+        self.horizontalLayout_77.addWidget(self.check_box_22)
+        self.gridLayout.addWidget(self.frame_108, 3, 3, 1, 1)
+        self.frame_118 = QtWidgets.QFrame(self.light_tower_settings_layout_group)
+        self.frame_118.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_118.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_118.setObjectName("frame_118")
+        self.horizontalLayout_88 = QtWidgets.QHBoxLayout(self.frame_118)
+        self.horizontalLayout_88.setObjectName("horizontalLayout_88")
+        self.check_box_42 = QtWidgets.QCheckBox(self.frame_118)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.check_box_42.sizePolicy().hasHeightForWidth())
+        self.check_box_42.setSizePolicy(sizePolicy)
+        self.check_box_42.setText("")
+        self.check_box_42.setObjectName("check_box_42")
+        self.horizontalLayout_88.addWidget(self.check_box_42)
+        self.gridLayout.addWidget(self.frame_118, 5, 3, 1, 1)
+        self.label_72 = QtWidgets.QLabel(self.light_tower_settings_layout_group)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.label_72.setFont(font)
+        self.label_72.setObjectName("label_72")
+        self.gridLayout.addWidget(self.label_72, 1, 0, 1, 1)
+        self.frame_120 = QtWidgets.QFrame(self.light_tower_settings_layout_group)
+        self.frame_120.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_120.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_120.setObjectName("frame_120")
+        self.horizontalLayout_90 = QtWidgets.QHBoxLayout(self.frame_120)
+        self.horizontalLayout_90.setObjectName("horizontalLayout_90")
+        self.check_box_41 = QtWidgets.QCheckBox(self.frame_120)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.check_box_41.sizePolicy().hasHeightForWidth())
+        self.check_box_41.setSizePolicy(sizePolicy)
+        self.check_box_41.setText("")
+        self.check_box_41.setObjectName("check_box_41")
+        self.horizontalLayout_90.addWidget(self.check_box_41)
+        self.gridLayout.addWidget(self.frame_120, 5, 2, 1, 1)
+        self.label_16 = QtWidgets.QLabel(self.light_tower_settings_layout_group)
+        font = QtGui.QFont()
+        font.setPointSize(15)
+        font.setBold(False)
+        self.label_16.setFont(font)
+        self.label_16.setObjectName("label_16")
+        self.gridLayout.addWidget(self.label_16, 0, 0, 1, 1)
+        self.frame_100 = QtWidgets.QFrame(self.light_tower_settings_layout_group)
+        self.frame_100.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_100.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_100.setObjectName("frame_100")
+        self.horizontalLayout_69 = QtWidgets.QHBoxLayout(self.frame_100)
+        self.horizontalLayout_69.setObjectName("horizontalLayout_69")
+        self.check_box_12 = QtWidgets.QCheckBox(self.frame_100)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.check_box_12.sizePolicy().hasHeightForWidth())
+        self.check_box_12.setSizePolicy(sizePolicy)
+        self.check_box_12.setText("")
+        self.check_box_12.setObjectName("check_box_12")
+        self.horizontalLayout_69.addWidget(self.check_box_12)
+        self.gridLayout.addWidget(self.frame_100, 2, 3, 1, 1)
+        self.frame_116 = QtWidgets.QFrame(self.light_tower_settings_layout_group)
+        self.frame_116.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_116.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_116.setObjectName("frame_116")
+        self.horizontalLayout_86 = QtWidgets.QHBoxLayout(self.frame_116)
+        self.horizontalLayout_86.setObjectName("horizontalLayout_86")
+        self.check_box_33 = QtWidgets.QCheckBox(self.frame_116)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.check_box_33.sizePolicy().hasHeightForWidth())
+        self.check_box_33.setSizePolicy(sizePolicy)
+        self.check_box_33.setText("")
+        self.check_box_33.setObjectName("check_box_33")
+        self.horizontalLayout_86.addWidget(self.check_box_33)
+        self.gridLayout.addWidget(self.frame_116, 4, 4, 1, 1)
+        self.frame_113 = QtWidgets.QFrame(self.light_tower_settings_layout_group)
+        self.frame_113.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_113.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_113.setObjectName("frame_113")
+        self.horizontalLayout_82 = QtWidgets.QHBoxLayout(self.frame_113)
+        self.horizontalLayout_82.setObjectName("horizontalLayout_82")
+        self.check_box_43 = QtWidgets.QCheckBox(self.frame_113)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.check_box_43.sizePolicy().hasHeightForWidth())
+        self.check_box_43.setSizePolicy(sizePolicy)
+        self.check_box_43.setText("")
+        self.check_box_43.setObjectName("check_box_43")
+        self.horizontalLayout_82.addWidget(self.check_box_43)
+        self.gridLayout.addWidget(self.frame_113, 5, 4, 1, 1)
+        self.frame_115 = QtWidgets.QFrame(self.light_tower_settings_layout_group)
+        self.frame_115.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_115.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_115.setObjectName("frame_115")
+        self.horizontalLayout_85 = QtWidgets.QHBoxLayout(self.frame_115)
+        self.horizontalLayout_85.setObjectName("horizontalLayout_85")
+        self.check_box_34 = QtWidgets.QCheckBox(self.frame_115)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.check_box_34.sizePolicy().hasHeightForWidth())
+        self.check_box_34.setSizePolicy(sizePolicy)
+        self.check_box_34.setText("")
+        self.check_box_34.setObjectName("check_box_34")
+        self.horizontalLayout_85.addWidget(self.check_box_34)
+        self.gridLayout.addWidget(self.frame_115, 4, 5, 1, 1)
+        self.label_70 = QtWidgets.QLabel(self.light_tower_settings_layout_group)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.label_70.setFont(font)
+        self.label_70.setObjectName("label_70")
+        self.gridLayout.addWidget(self.label_70, 3, 0, 1, 1)
+        self.frame_55 = QtWidgets.QFrame(self.light_tower_settings_layout_group)
+        self.frame_55.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_55.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_55.setObjectName("frame_55")
+        self.horizontalLayout_43 = QtWidgets.QHBoxLayout(self.frame_55)
+        self.horizontalLayout_43.setObjectName("horizontalLayout_43")
+        self.check_box_1 = QtWidgets.QCheckBox(self.frame_55)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.check_box_1.sizePolicy().hasHeightForWidth())
+        self.check_box_1.setSizePolicy(sizePolicy)
+        self.check_box_1.setText("")
+        self.check_box_1.setObjectName("check_box_1")
+        self.horizontalLayout_43.addWidget(self.check_box_1)
+        self.gridLayout.addWidget(self.frame_55, 1, 2, 1, 1)
+        self.label_14 = QtWidgets.QLabel(self.light_tower_settings_layout_group)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.label_14.setFont(font)
+        self.label_14.setObjectName("label_14")
+        self.gridLayout.addWidget(self.label_14, 5, 0, 1, 1)
+        self.label_71 = QtWidgets.QLabel(self.light_tower_settings_layout_group)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.label_71.setFont(font)
+        self.label_71.setObjectName("label_71")
+        self.gridLayout.addWidget(self.label_71, 4, 0, 1, 1)
+        self.frame_58 = QtWidgets.QFrame(self.light_tower_settings_layout_group)
+        self.frame_58.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_58.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_58.setObjectName("frame_58")
+        self.horizontalLayout_49 = QtWidgets.QHBoxLayout(self.frame_58)
+        self.horizontalLayout_49.setObjectName("horizontalLayout_49")
+        self.check_box_0 = QtWidgets.QCheckBox(self.frame_58)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.check_box_0.sizePolicy().hasHeightForWidth())
+        self.check_box_0.setSizePolicy(sizePolicy)
+        self.check_box_0.setText("")
+        self.check_box_0.setObjectName("check_box_0")
+        self.horizontalLayout_49.addWidget(self.check_box_0)
+        self.gridLayout.addWidget(self.frame_58, 1, 1, 1, 1)
+        self.frame_105 = QtWidgets.QFrame(self.light_tower_settings_layout_group)
+        self.frame_105.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_105.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_105.setObjectName("frame_105")
+        self.horizontalLayout_74 = QtWidgets.QHBoxLayout(self.frame_105)
+        self.horizontalLayout_74.setObjectName("horizontalLayout_74")
+        self.check_box_15 = QtWidgets.QCheckBox(self.frame_105)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.check_box_15.sizePolicy().hasHeightForWidth())
+        self.check_box_15.setSizePolicy(sizePolicy)
+        self.check_box_15.setText("")
+        self.check_box_15.setObjectName("check_box_15")
+        self.horizontalLayout_74.addWidget(self.check_box_15)
+        self.gridLayout.addWidget(self.frame_105, 2, 6, 1, 1)
+        self.frame_92 = QtWidgets.QFrame(self.light_tower_settings_layout_group)
+        self.frame_92.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_92.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_92.setObjectName("frame_92")
+        self.horizontalLayout_61 = QtWidgets.QHBoxLayout(self.frame_92)
+        self.horizontalLayout_61.setObjectName("horizontalLayout_61")
+        self.check_box_2 = QtWidgets.QCheckBox(self.frame_92)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.check_box_2.sizePolicy().hasHeightForWidth())
+        self.check_box_2.setSizePolicy(sizePolicy)
+        self.check_box_2.setText("")
+        self.check_box_2.setObjectName("check_box_2")
+        self.horizontalLayout_61.addWidget(self.check_box_2)
+        self.gridLayout.addWidget(self.frame_92, 1, 3, 1, 1)
+        self.frame_68 = QtWidgets.QFrame(self.light_tower_settings_layout_group)
+        self.frame_68.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_68.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_68.setObjectName("frame_68")
+        self.horizontalLayout_60 = QtWidgets.QHBoxLayout(self.frame_68)
+        self.horizontalLayout_60.setObjectName("horizontalLayout_60")
+        self.check_box_3 = QtWidgets.QCheckBox(self.frame_68)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.check_box_3.sizePolicy().hasHeightForWidth())
+        self.check_box_3.setSizePolicy(sizePolicy)
+        self.check_box_3.setText("")
+        self.check_box_3.setObjectName("check_box_3")
+        self.horizontalLayout_60.addWidget(self.check_box_3)
+        self.gridLayout.addWidget(self.frame_68, 1, 4, 1, 1)
+        self.frame_98 = QtWidgets.QFrame(self.light_tower_settings_layout_group)
+        self.frame_98.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_98.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_98.setObjectName("frame_98")
+        self.horizontalLayout_67 = QtWidgets.QHBoxLayout(self.frame_98)
+        self.horizontalLayout_67.setObjectName("horizontalLayout_67")
+        self.check_box_14 = QtWidgets.QCheckBox(self.frame_98)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.check_box_14.sizePolicy().hasHeightForWidth())
+        self.check_box_14.setSizePolicy(sizePolicy)
+        self.check_box_14.setText("")
+        self.check_box_14.setObjectName("check_box_14")
+        self.horizontalLayout_67.addWidget(self.check_box_14)
+        self.gridLayout.addWidget(self.frame_98, 2, 5, 1, 1)
+        self.frame_109 = QtWidgets.QFrame(self.light_tower_settings_layout_group)
+        self.frame_109.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_109.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_109.setObjectName("frame_109")
+        self.horizontalLayout_78 = QtWidgets.QHBoxLayout(self.frame_109)
+        self.horizontalLayout_78.setObjectName("horizontalLayout_78")
+        self.check_box_23 = QtWidgets.QCheckBox(self.frame_109)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.check_box_23.sizePolicy().hasHeightForWidth())
+        self.check_box_23.setSizePolicy(sizePolicy)
+        self.check_box_23.setText("")
+        self.check_box_23.setObjectName("check_box_23")
+        self.horizontalLayout_78.addWidget(self.check_box_23)
+        self.gridLayout.addWidget(self.frame_109, 3, 4, 1, 1)
+        self.frame_112 = QtWidgets.QFrame(self.light_tower_settings_layout_group)
+        self.frame_112.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_112.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_112.setObjectName("frame_112")
+        self.horizontalLayout_81 = QtWidgets.QHBoxLayout(self.frame_112)
+        self.horizontalLayout_81.setObjectName("horizontalLayout_81")
+        self.check_box_45 = QtWidgets.QCheckBox(self.frame_112)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.check_box_45.sizePolicy().hasHeightForWidth())
+        self.check_box_45.setSizePolicy(sizePolicy)
+        self.check_box_45.setText("")
+        self.check_box_45.setObjectName("check_box_45")
+        self.horizontalLayout_81.addWidget(self.check_box_45)
+        self.gridLayout.addWidget(self.frame_112, 5, 6, 1, 1)
+        self.frame_117 = QtWidgets.QFrame(self.light_tower_settings_layout_group)
+        self.frame_117.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_117.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_117.setObjectName("frame_117")
+        self.horizontalLayout_87 = QtWidgets.QHBoxLayout(self.frame_117)
+        self.horizontalLayout_87.setObjectName("horizontalLayout_87")
+        self.check_box_44 = QtWidgets.QCheckBox(self.frame_117)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.check_box_44.sizePolicy().hasHeightForWidth())
+        self.check_box_44.setSizePolicy(sizePolicy)
+        self.check_box_44.setText("")
+        self.check_box_44.setObjectName("check_box_44")
+        self.horizontalLayout_87.addWidget(self.check_box_44)
+        self.gridLayout.addWidget(self.frame_117, 5, 5, 1, 1)
+        self.frame_110 = QtWidgets.QFrame(self.light_tower_settings_layout_group)
+        self.frame_110.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_110.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_110.setObjectName("frame_110")
+        self.horizontalLayout_79 = QtWidgets.QHBoxLayout(self.frame_110)
+        self.horizontalLayout_79.setObjectName("horizontalLayout_79")
+        self.check_box_30 = QtWidgets.QCheckBox(self.frame_110)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.check_box_30.sizePolicy().hasHeightForWidth())
+        self.check_box_30.setSizePolicy(sizePolicy)
+        self.check_box_30.setText("")
+        self.check_box_30.setObjectName("check_box_30")
+        self.horizontalLayout_79.addWidget(self.check_box_30)
+        self.gridLayout.addWidget(self.frame_110, 4, 1, 1, 1)
+        self.frame_102 = QtWidgets.QFrame(self.light_tower_settings_layout_group)
+        self.frame_102.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_102.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_102.setObjectName("frame_102")
+        self.horizontalLayout_71 = QtWidgets.QHBoxLayout(self.frame_102)
+        self.horizontalLayout_71.setObjectName("horizontalLayout_71")
+        self.check_box_20 = QtWidgets.QCheckBox(self.frame_102)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.check_box_20.sizePolicy().hasHeightForWidth())
+        self.check_box_20.setSizePolicy(sizePolicy)
+        self.check_box_20.setText("")
+        self.check_box_20.setObjectName("check_box_20")
+        self.horizontalLayout_71.addWidget(self.check_box_20)
+        self.gridLayout.addWidget(self.frame_102, 3, 1, 1, 1)
+        self.frame_106 = QtWidgets.QFrame(self.light_tower_settings_layout_group)
+        self.frame_106.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_106.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_106.setObjectName("frame_106")
+        self.horizontalLayout_75 = QtWidgets.QHBoxLayout(self.frame_106)
+        self.horizontalLayout_75.setObjectName("horizontalLayout_75")
+        self.check_box_25 = QtWidgets.QCheckBox(self.frame_106)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.check_box_25.sizePolicy().hasHeightForWidth())
+        self.check_box_25.setSizePolicy(sizePolicy)
+        self.check_box_25.setText("")
+        self.check_box_25.setObjectName("check_box_25")
+        self.horizontalLayout_75.addWidget(self.check_box_25)
+        self.gridLayout.addWidget(self.frame_106, 3, 6, 1, 1)
+        self.frame_63 = QtWidgets.QFrame(self.light_tower_settings_layout_group)
+        self.frame_63.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_63.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_63.setObjectName("frame_63")
+        self.horizontalLayout_57 = QtWidgets.QHBoxLayout(self.frame_63)
+        self.horizontalLayout_57.setObjectName("horizontalLayout_57")
+        self.check_box_11 = QtWidgets.QCheckBox(self.frame_63)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.check_box_11.sizePolicy().hasHeightForWidth())
+        self.check_box_11.setSizePolicy(sizePolicy)
+        self.check_box_11.setText("")
+        self.check_box_11.setObjectName("check_box_11")
+        self.horizontalLayout_57.addWidget(self.check_box_11)
+        self.gridLayout.addWidget(self.frame_63, 2, 2, 1, 1)
+        self.frame_107 = QtWidgets.QFrame(self.light_tower_settings_layout_group)
+        self.frame_107.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_107.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_107.setObjectName("frame_107")
+        self.horizontalLayout_76 = QtWidgets.QHBoxLayout(self.frame_107)
+        self.horizontalLayout_76.setObjectName("horizontalLayout_76")
+        self.check_box_24 = QtWidgets.QCheckBox(self.frame_107)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.check_box_24.sizePolicy().hasHeightForWidth())
+        self.check_box_24.setSizePolicy(sizePolicy)
+        self.check_box_24.setText("")
+        self.check_box_24.setObjectName("check_box_24")
+        self.horizontalLayout_76.addWidget(self.check_box_24)
+        self.gridLayout.addWidget(self.frame_107, 3, 5, 1, 1)
+        self.frame_114 = QtWidgets.QFrame(self.light_tower_settings_layout_group)
+        self.frame_114.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_114.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_114.setObjectName("frame_114")
+        self.horizontalLayout_84 = QtWidgets.QHBoxLayout(self.frame_114)
+        self.horizontalLayout_84.setObjectName("horizontalLayout_84")
+        self.check_box_35 = QtWidgets.QCheckBox(self.frame_114)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.check_box_35.sizePolicy().hasHeightForWidth())
+        self.check_box_35.setSizePolicy(sizePolicy)
+        self.check_box_35.setText("")
+        self.check_box_35.setObjectName("check_box_35")
+        self.horizontalLayout_84.addWidget(self.check_box_35)
+        self.gridLayout.addWidget(self.frame_114, 4, 6, 1, 1)
+        self.frame_99 = QtWidgets.QFrame(self.light_tower_settings_layout_group)
+        self.frame_99.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_99.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_99.setObjectName("frame_99")
+        self.horizontalLayout_68 = QtWidgets.QHBoxLayout(self.frame_99)
+        self.horizontalLayout_68.setObjectName("horizontalLayout_68")
+        self.check_box_13 = QtWidgets.QCheckBox(self.frame_99)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.check_box_13.sizePolicy().hasHeightForWidth())
+        self.check_box_13.setSizePolicy(sizePolicy)
+        self.check_box_13.setText("")
+        self.check_box_13.setObjectName("check_box_13")
+        self.horizontalLayout_68.addWidget(self.check_box_13)
+        self.gridLayout.addWidget(self.frame_99, 2, 4, 1, 1)
+        self.frame_67 = QtWidgets.QFrame(self.light_tower_settings_layout_group)
+        self.frame_67.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_67.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_67.setObjectName("frame_67")
+        self.horizontalLayout_59 = QtWidgets.QHBoxLayout(self.frame_67)
+        self.horizontalLayout_59.setObjectName("horizontalLayout_59")
+        self.check_box_4 = QtWidgets.QCheckBox(self.frame_67)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.check_box_4.sizePolicy().hasHeightForWidth())
+        self.check_box_4.setSizePolicy(sizePolicy)
+        self.check_box_4.setText("")
+        self.check_box_4.setObjectName("check_box_4")
+        self.horizontalLayout_59.addWidget(self.check_box_4)
+        self.gridLayout.addWidget(self.frame_67, 1, 5, 1, 1)
+        self.frame_119 = QtWidgets.QFrame(self.light_tower_settings_layout_group)
+        self.frame_119.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_119.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_119.setObjectName("frame_119")
+        self.horizontalLayout_89 = QtWidgets.QHBoxLayout(self.frame_119)
+        self.horizontalLayout_89.setObjectName("horizontalLayout_89")
+        self.check_box_40 = QtWidgets.QCheckBox(self.frame_119)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.check_box_40.sizePolicy().hasHeightForWidth())
+        self.check_box_40.setSizePolicy(sizePolicy)
+        self.check_box_40.setText("")
+        self.check_box_40.setObjectName("check_box_40")
+        self.horizontalLayout_89.addWidget(self.check_box_40)
+        self.gridLayout.addWidget(self.frame_119, 5, 1, 1, 1)
+        self.frame_104 = QtWidgets.QFrame(self.light_tower_settings_layout_group)
+        self.frame_104.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_104.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_104.setObjectName("frame_104")
+        self.horizontalLayout_73 = QtWidgets.QHBoxLayout(self.frame_104)
+        self.horizontalLayout_73.setObjectName("horizontalLayout_73")
+        self.check_box_21 = QtWidgets.QCheckBox(self.frame_104)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.check_box_21.sizePolicy().hasHeightForWidth())
+        self.check_box_21.setSizePolicy(sizePolicy)
+        self.check_box_21.setText("")
+        self.check_box_21.setObjectName("check_box_21")
+        self.horizontalLayout_73.addWidget(self.check_box_21)
+        self.gridLayout.addWidget(self.frame_104, 3, 2, 1, 1)
+        self.frame_101 = QtWidgets.QFrame(self.light_tower_settings_layout_group)
+        self.frame_101.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_101.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_101.setObjectName("frame_101")
+        self.horizontalLayout_70 = QtWidgets.QHBoxLayout(self.frame_101)
+        self.horizontalLayout_70.setObjectName("horizontalLayout_70")
+        self.check_box_10 = QtWidgets.QCheckBox(self.frame_101)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.check_box_10.sizePolicy().hasHeightForWidth())
+        self.check_box_10.setSizePolicy(sizePolicy)
+        self.check_box_10.setText("")
+        self.check_box_10.setObjectName("check_box_10")
+        self.horizontalLayout_70.addWidget(self.check_box_10)
+        self.gridLayout.addWidget(self.frame_101, 2, 1, 1, 1)
+        self.frame_96 = QtWidgets.QFrame(self.light_tower_settings_layout_group)
+        self.frame_96.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_96.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_96.setObjectName("frame_96")
+        self.horizontalLayout_64 = QtWidgets.QHBoxLayout(self.frame_96)
+        self.horizontalLayout_64.setObjectName("horizontalLayout_64")
+        self.module_7_label_18 = QtWidgets.QLabel(self.frame_96)
+        self.module_7_label_18.setMinimumSize(QtCore.QSize(30, 30))
+        self.module_7_label_18.setMaximumSize(QtCore.QSize(20, 20))
+        font = QtGui.QFont()
+        font.setBold(True)
+        font.setUnderline(False)
+        font.setStyleStrategy(QtGui.QFont.PreferDefault)
+        self.module_7_label_18.setFont(font)
+        self.module_7_label_18.setStyleSheet("background-color:rgb(139, 0, 0);")
+        self.module_7_label_18.setFrameShape(QtWidgets.QFrame.WinPanel)
+        self.module_7_label_18.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.module_7_label_18.setText("")
+        self.module_7_label_18.setAlignment(QtCore.Qt.AlignCenter)
+        self.module_7_label_18.setObjectName("module_7_label_18")
+        self.horizontalLayout_64.addWidget(self.module_7_label_18)
+        self.gridLayout.addWidget(self.frame_96, 0, 6, 1, 1)
+        self.frame_93 = QtWidgets.QFrame(self.light_tower_settings_layout_group)
+        self.frame_93.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_93.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_93.setObjectName("frame_93")
+        self.horizontalLayout_62 = QtWidgets.QHBoxLayout(self.frame_93)
+        self.horizontalLayout_62.setObjectName("horizontalLayout_62")
+        self.module_7_label_16 = QtWidgets.QLabel(self.frame_93)
+        self.module_7_label_16.setMinimumSize(QtCore.QSize(30, 30))
+        self.module_7_label_16.setMaximumSize(QtCore.QSize(20, 20))
+        font = QtGui.QFont()
+        font.setBold(True)
+        font.setUnderline(False)
+        font.setStyleStrategy(QtGui.QFont.PreferDefault)
+        self.module_7_label_16.setFont(font)
+        self.module_7_label_16.setStyleSheet("background-color:rgb(28, 83, 0)")
+        self.module_7_label_16.setFrameShape(QtWidgets.QFrame.WinPanel)
+        self.module_7_label_16.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.module_7_label_16.setText("")
+        self.module_7_label_16.setAlignment(QtCore.Qt.AlignCenter)
+        self.module_7_label_16.setObjectName("module_7_label_16")
+        self.horizontalLayout_62.addWidget(self.module_7_label_16)
+        self.gridLayout.addWidget(self.frame_93, 0, 4, 1, 1)
+        self.frame_95 = QtWidgets.QFrame(self.light_tower_settings_layout_group)
+        self.frame_95.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_95.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_95.setObjectName("frame_95")
+        self.horizontalLayout_65 = QtWidgets.QHBoxLayout(self.frame_95)
+        self.horizontalLayout_65.setObjectName("horizontalLayout_65")
+        self.module_7_label_15 = QtWidgets.QLabel(self.frame_95)
+        self.module_7_label_15.setMinimumSize(QtCore.QSize(30, 30))
+        self.module_7_label_15.setMaximumSize(QtCore.QSize(20, 20))
+        font = QtGui.QFont()
+        font.setBold(True)
+        font.setUnderline(False)
+        font.setStyleStrategy(QtGui.QFont.PreferDefault)
+        self.module_7_label_15.setFont(font)
+        self.module_7_label_15.setStyleSheet("background-color: rgb(255, 0, 0);")
+        self.module_7_label_15.setFrameShape(QtWidgets.QFrame.WinPanel)
+        self.module_7_label_15.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.module_7_label_15.setText("")
+        self.module_7_label_15.setAlignment(QtCore.Qt.AlignCenter)
+        self.module_7_label_15.setObjectName("module_7_label_15")
+        self.horizontalLayout_65.addWidget(self.module_7_label_15)
+        self.gridLayout.addWidget(self.frame_95, 0, 3, 1, 1)
+        self.frame_94 = QtWidgets.QFrame(self.light_tower_settings_layout_group)
+        self.frame_94.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_94.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_94.setObjectName("frame_94")
+        self.horizontalLayout_63 = QtWidgets.QHBoxLayout(self.frame_94)
+        self.horizontalLayout_63.setObjectName("horizontalLayout_63")
+        self.module_7_label_17 = QtWidgets.QLabel(self.frame_94)
+        self.module_7_label_17.setMinimumSize(QtCore.QSize(30, 30))
+        self.module_7_label_17.setMaximumSize(QtCore.QSize(20, 20))
+        font = QtGui.QFont()
+        font.setBold(True)
+        font.setUnderline(False)
+        font.setStyleStrategy(QtGui.QFont.PreferDefault)
+        self.module_7_label_17.setFont(font)
+        self.module_7_label_17.setStyleSheet("background-color:rgb(136, 136, 0)")
+        self.module_7_label_17.setFrameShape(QtWidgets.QFrame.WinPanel)
+        self.module_7_label_17.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.module_7_label_17.setText("")
+        self.module_7_label_17.setAlignment(QtCore.Qt.AlignCenter)
+        self.module_7_label_17.setObjectName("module_7_label_17")
+        self.horizontalLayout_63.addWidget(self.module_7_label_17)
+        self.gridLayout.addWidget(self.frame_94, 0, 5, 1, 1)
+        self.frame_62 = QtWidgets.QFrame(self.light_tower_settings_layout_group)
+        self.frame_62.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_62.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_62.setObjectName("frame_62")
+        self.horizontalLayout_52 = QtWidgets.QHBoxLayout(self.frame_62)
+        self.horizontalLayout_52.setContentsMargins(-1, -1, -1, 9)
+        self.horizontalLayout_52.setObjectName("horizontalLayout_52")
+        self.module_7_label_8 = QtWidgets.QLabel(self.frame_62)
+        self.module_7_label_8.setMinimumSize(QtCore.QSize(30, 30))
+        self.module_7_label_8.setMaximumSize(QtCore.QSize(20, 20))
+        font = QtGui.QFont()
+        font.setBold(True)
+        font.setUnderline(False)
+        font.setStyleStrategy(QtGui.QFont.PreferDefault)
+        self.module_7_label_8.setFont(font)
+        self.module_7_label_8.setStyleSheet("background-color: rgb(85, 255, 0);")
+        self.module_7_label_8.setFrameShape(QtWidgets.QFrame.WinPanel)
+        self.module_7_label_8.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.module_7_label_8.setText("")
+        self.module_7_label_8.setAlignment(QtCore.Qt.AlignCenter)
+        self.module_7_label_8.setObjectName("module_7_label_8")
+        self.horizontalLayout_52.addWidget(self.module_7_label_8)
+        self.gridLayout.addWidget(self.frame_62, 0, 1, 1, 1)
+        self.frame_97 = QtWidgets.QFrame(self.light_tower_settings_layout_group)
+        self.frame_97.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_97.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_97.setObjectName("frame_97")
+        self.horizontalLayout_66 = QtWidgets.QHBoxLayout(self.frame_97)
+        self.horizontalLayout_66.setObjectName("horizontalLayout_66")
+        self.module_7_label_14 = QtWidgets.QLabel(self.frame_97)
+        self.module_7_label_14.setMinimumSize(QtCore.QSize(30, 30))
+        self.module_7_label_14.setMaximumSize(QtCore.QSize(20, 20))
+        font = QtGui.QFont()
+        font.setBold(True)
+        font.setUnderline(False)
+        font.setStyleStrategy(QtGui.QFont.PreferDefault)
+        self.module_7_label_14.setFont(font)
+        self.module_7_label_14.setStyleSheet("background-color: rgb(255, 255, 0)")
+        self.module_7_label_14.setFrameShape(QtWidgets.QFrame.WinPanel)
+        self.module_7_label_14.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.module_7_label_14.setText("")
+        self.module_7_label_14.setAlignment(QtCore.Qt.AlignCenter)
+        self.module_7_label_14.setObjectName("module_7_label_14")
+        self.horizontalLayout_66.addWidget(self.module_7_label_14)
+        self.gridLayout.addWidget(self.frame_97, 0, 2, 1, 1)
+        self.layoutWidget_9 = QtWidgets.QWidget(self.light_tower_page)
+        self.layoutWidget_9.setGeometry(QtCore.QRect(10, 330, 461, 31))
+        self.layoutWidget_9.setObjectName("layoutWidget_9")
+        self.horizontalLayout_91 = QtWidgets.QHBoxLayout(self.layoutWidget_9)
+        self.horizontalLayout_91.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_91.setObjectName("horizontalLayout_91")
+        self.light_tower_edit_button = QtWidgets.QPushButton(self.layoutWidget_9)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.light_tower_edit_button.sizePolicy().hasHeightForWidth())
+        self.light_tower_edit_button.setSizePolicy(sizePolicy)
+        self.light_tower_edit_button.setStyleSheet("color:rgb(255,255,255);\n"
+"background-color: rgb(141, 137, 166);\n"
+"")
+        self.light_tower_edit_button.setAutoDefault(True)
+        self.light_tower_edit_button.setObjectName("light_tower_edit_button")
+        self.horizontalLayout_91.addWidget(self.light_tower_edit_button)
+        spacerItem11 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_91.addItem(spacerItem11)
+        self.light_tower_save_button = QtWidgets.QPushButton(self.layoutWidget_9)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.light_tower_save_button.sizePolicy().hasHeightForWidth())
+        self.light_tower_save_button.setSizePolicy(sizePolicy)
+        self.light_tower_save_button.setStyleSheet("color:rgb(255,255,255);\n"
+"background-color: rgb(141, 137, 166);\n"
+"")
+        self.light_tower_save_button.setAutoDefault(True)
+        self.light_tower_save_button.setObjectName("light_tower_save_button")
+        self.horizontalLayout_91.addWidget(self.light_tower_save_button)
+        self.light_tower_cancel_button = QtWidgets.QPushButton(self.layoutWidget_9)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.light_tower_cancel_button.sizePolicy().hasHeightForWidth())
+        self.light_tower_cancel_button.setSizePolicy(sizePolicy)
+        self.light_tower_cancel_button.setStyleSheet("color:rgb(255,255,255);\n"
+"background-color: rgb(141, 137, 166);\n"
+"")
+        self.light_tower_cancel_button.setAutoDefault(True)
+        self.light_tower_cancel_button.setObjectName("light_tower_cancel_button")
+        self.horizontalLayout_91.addWidget(self.light_tower_cancel_button)
+        self.settings_tab_widget.addTab(self.light_tower_page, "")
+        self.alarm_page = QtWidgets.QWidget()
+        self.alarm_page.setObjectName("alarm_page")
+        self.settings_tab_widget.addTab(self.alarm_page, "")
+        self.user_page = QtWidgets.QWidget()
+        self.user_page.setObjectName("user_page")
+        self.settings_tab_widget.addTab(self.user_page, "")
+        self.user_access_page = QtWidgets.QWidget()
+        self.user_access_page.setObjectName("user_access_page")
+        self.settings_tab_widget.addTab(self.user_access_page, "")
         self.stackedWidget.addWidget(self.settings_page)
         self.page_layout.addWidget(self.stackedWidget)
         self.page_layout.setStretch(0, 1)
@@ -7097,8 +7763,35 @@ class Ui_MainWindow(object):
         self.horizontalLayout_40.setContentsMargins(9, 0, -1, 0)
         self.horizontalLayout_40.setSpacing(0)
         self.horizontalLayout_40.setObjectName("horizontalLayout_40")
-        spacerItem10 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_40.addItem(spacerItem10)
+        spacerItem12 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_40.addItem(spacerItem12)
+        self.misc_button_3 = QtWidgets.QPushButton(self.bottom_frame)
+        self.misc_button_3.setEnabled(True)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.misc_button_3.sizePolicy().hasHeightForWidth())
+        self.misc_button_3.setSizePolicy(sizePolicy)
+        font = QtGui.QFont()
+        font.setPointSize(13)
+        font.setBold(True)
+        font.setKerning(True)
+        font.setStyleStrategy(QtGui.QFont.PreferDefault)
+        self.misc_button_3.setFont(font)
+        self.misc_button_3.setAutoFillBackground(False)
+        self.misc_button_3.setStyleSheet("icon: url(:/icon_button/login.png);\n"
+"qproperty-iconSize: 30px;\n"
+"background-color: rgb(0, 129, 175);\n"
+"")
+        self.misc_button_3.setText("")
+        self.misc_button_3.setCheckable(True)
+        self.misc_button_3.setAutoDefault(False)
+        self.misc_button_3.setDefault(False)
+        self.misc_button_3.setFlat(True)
+        self.misc_button_3.setObjectName("misc_button_3")
+        self.horizontalLayout_40.addWidget(self.misc_button_3)
+        spacerItem13 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_40.addItem(spacerItem13)
         self.datetime_label = QtWidgets.QLabel(self.bottom_frame)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
@@ -7106,10 +7799,10 @@ class Ui_MainWindow(object):
         sizePolicy.setHeightForWidth(self.datetime_label.sizePolicy().hasHeightForWidth())
         self.datetime_label.setSizePolicy(sizePolicy)
         font = QtGui.QFont()
-        font.setPointSize(13)
+        font.setPointSize(18)
         font.setBold(True)
         self.datetime_label.setFont(font)
-        self.datetime_label.setStyleSheet("color: rgb(255, 255, 0);")
+        self.datetime_label.setStyleSheet("")
         self.datetime_label.setObjectName("datetime_label")
         self.horizontalLayout_40.addWidget(self.datetime_label)
         self.horizontalLayout_40.setStretch(0, 1)
@@ -7120,13 +7813,14 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(1)
-        self.tabWidget.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(3)
+        self.log_tab_widget.setCurrentIndex(1)
         self.input_stacked_widget.setCurrentIndex(0)
         self.output_stacked_widget.setCurrentIndex(0)
         self.io_module_stacked_widget.setCurrentIndex(3)
         self.main_motor_control_stacked_widget.setCurrentIndex(0)
         self.main_motor_station_stacked_widget.setCurrentIndex(0)
+        self.settings_tab_widget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -7142,7 +7836,10 @@ class Ui_MainWindow(object):
         self.alarm_label.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:36pt; color:#ff0004;\">#1234 - ALARM SAMPLE TEXT</span></p></body></html>"))
         self.show_event_button.setText(_translate("MainWindow", "Show All"))
         self.label_25.setText(_translate("MainWindow", "PLC CONNECTION"))
-        self.label_26.setText(_translate("MainWindow", "SampleText"))
+        self.label_74.setText(_translate("MainWindow", "n"))
+        self.label_130.setText(_translate("MainWindow", "PLC"))
+        self.label_26.setText(_translate("MainWindow", "n"))
+        self.label_13.setText(_translate("MainWindow", "VISION"))
         self.label_27.setText(_translate("MainWindow", "PRODUCTION UPH"))
         self.production_uph_label.setText(_translate("MainWindow", "0"))
         self.label_29.setText(_translate("MainWindow", "SPRINT UPH"))
@@ -7153,14 +7850,11 @@ class Ui_MainWindow(object):
         self.event_log_button.setText(_translate("MainWindow", "EVENT LOG"))
         self.io_module_button.setText(_translate("MainWindow", "IO MODULE"))
         self.io_list_button.setText(_translate("MainWindow", "IO LIST"))
-        self.main_motor_button.setText(_translate("MainWindow", "MAIN MOTOR"))
+        self.main_motor_button.setText(_translate("MainWindow", "MOTOR"))
         self.station_button.setText(_translate("MainWindow", "STATION"))
         self.misc_button.setText(_translate("MainWindow", "MISC"))
         self.vision_button.setText(_translate("MainWindow", "VISION"))
-        self.tower_light_button.setText(_translate("MainWindow", "TOWER LIGHT"))
         self.life_cycle_button.setText(_translate("MainWindow", "LIFE CYCLE"))
-        self.user_area_button.setText(_translate("MainWindow", "USER AREA"))
-        self.user_access_button.setText(_translate("MainWindow", "USER ACCESS"))
         self.settings_button.setText(_translate("MainWindow", "SETTINGS"))
         self.label.setText(_translate("MainWindow", "MAIN PAGE"))
         self.groupBox.setTitle(_translate("MainWindow", "Lot Info"))
@@ -7169,10 +7863,10 @@ class Ui_MainWindow(object):
         self.label_10.setText(_translate("MainWindow", "Package Name"))
         self.label_11.setText(_translate("MainWindow", "Device ID"))
         self.label_12.setText(_translate("MainWindow", "Quantity In"))
-        self.label_13.setText(_translate("MainWindow", "TEST"))
-        self.label_28.setText(_translate("MainWindow", "TEST"))
-        self.label_30.setText(_translate("MainWindow", "PDIP"))
-        self.label_74.setText(_translate("MainWindow", "DEVICE"))
+        self.home_lot_id_label.setText(_translate("MainWindow", "TEST"))
+        self.home_operator_id_label.setText(_translate("MainWindow", "TEST"))
+        self.home_package_name_label.setText(_translate("MainWindow", "PDIP"))
+        self.home_device_label.setText(_translate("MainWindow", "DEVICE"))
         self.label_75.setText(_translate("MainWindow", "1"))
         self.groupBox_2.setTitle(_translate("MainWindow", "Station Status"))
         self.checkBox_9.setText(_translate("MainWindow", "Module 1"))
@@ -7182,10 +7876,11 @@ class Ui_MainWindow(object):
         self.checkBox_13.setText(_translate("MainWindow", "Module 5"))
         self.checkBox_14.setText(_translate("MainWindow", "Module 6"))
         self.checkBox_15.setText(_translate("MainWindow", "Module 7"))
-        self.pushButton_5.setText(_translate("MainWindow", "Start"))
-        self.pushButton_6.setText(_translate("MainWindow", "Stop"))
-        self.pushButton_7.setText(_translate("MainWindow", "Reset"))
-        self.pushButton_8.setText(_translate("MainWindow", "Initialize"))
+        self.machine_start_button.setText(_translate("MainWindow", "Start"))
+        self.machine_stop_button.setText(_translate("MainWindow", "Stop"))
+        self.machine_reset_button.setText(_translate("MainWindow", "Reset"))
+        self.machine_initialize_button.setText(_translate("MainWindow", "Initialize"))
+        self.machine_manual_button.setText(_translate("MainWindow", "Manual"))
         self.label_31.setText(_translate("MainWindow", "LOT ENTRY"))
         self.groupBox_3.setTitle(_translate("MainWindow", "Lot Info"))
         self.label_24.setText(_translate("MainWindow", "Lot ID"))
@@ -7205,9 +7900,9 @@ class Ui_MainWindow(object):
         self.barcode_fail_count_label.setText(_translate("MainWindow", "-"))
         self.Barcode_Pass_Count.setText(_translate("MainWindow", "Barcode Pass Count"))
         self.barcode_pass_count_label.setText(_translate("MainWindow", "-"))
-        self.Total_Quantity_In.setText(_translate("MainWindow", "Total Quantity In"))
+        self.Total_Quantity_In.setText(_translate("MainWindow", "Total Qty. In"))
         self.total_quantity_in_label.setText(_translate("MainWindow", "-"))
-        self.Total_Quantity_Out.setText(_translate("MainWindow", "Total Quantity Out"))
+        self.Total_Quantity_Out.setText(_translate("MainWindow", "Total Qty. Out"))
         self.total_quantity_out_label.setText(_translate("MainWindow", "-"))
         self.Total_Passed.setText(_translate("MainWindow", "Total Passed"))
         self.total_passed_label.setText(_translate("MainWindow", "-"))
@@ -7265,8 +7960,8 @@ class Ui_MainWindow(object):
         self.Idling_Time_2.setText(_translate("MainWindow", "Idling Time"))
         self.Down_Time_2.setText(_translate("MainWindow", "Down Time"))
         self.label_44.setText(_translate("MainWindow", "EVENT LOG"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("MainWindow", "Event Log"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Alarm Log"))
+        self.log_tab_widget.setTabText(self.log_tab_widget.indexOf(self.tab), _translate("MainWindow", "Event Log"))
+        self.log_tab_widget.setTabText(self.log_tab_widget.indexOf(self.tab_2), _translate("MainWindow", "Alarm Log"))
         self.label_33.setText(_translate("MainWindow", "IO LIST"))
         self.label_x0000.setText(_translate("MainWindow", "X0000"))
         self.label_x0001.setText(_translate("MainWindow", "X0001"))
@@ -7589,9 +8284,9 @@ class Ui_MainWindow(object):
         self.io_module_page_5_button.setText(_translate("MainWindow", "Module 5"))
         self.io_module_page_6_button.setText(_translate("MainWindow", "Module 6"))
         self.label_35.setText(_translate("MainWindow", "MAIN MOTOR"))
-        self.main_motor_page_1_button.setText(_translate("MainWindow", "Main Motor\n"
+        self.main_motor_page_1_button.setText(_translate("MainWindow", "Motor\n"
 "Page 1"))
-        self.main_motor_page_2_button.setText(_translate("MainWindow", "Main Motor\n"
+        self.main_motor_page_2_button.setText(_translate("MainWindow", "Motor\n"
 "Page 2"))
         self.main_motor_label_x0115.setText(_translate("MainWindow", "X0115"))
         self.main_motor_label_x0114.setText(_translate("MainWindow", "X0114"))
@@ -7672,23 +8367,23 @@ class Ui_MainWindow(object):
         self.checkBox_7.setText(_translate("MainWindow", "Module 7"))
         self.label_37.setText(_translate("MainWindow", "MISC"))
         self.label_38.setText(_translate("MainWindow", "VISION"))
-        self.label_39.setText(_translate("MainWindow", "TOWER LIGHT"))
-        self.label_16.setText(_translate("MainWindow", "Condition"))
-        self.label_72.setText(_translate("MainWindow", "Machine Running"))
-        self.label_73.setText(_translate("MainWindow", "Machine Stop"))
-        self.label_70.setText(_translate("MainWindow", "Machine Alarm"))
-        self.label_71.setText(_translate("MainWindow", "No Material"))
-        self.label_14.setText(_translate("MainWindow", "Door Bypass"))
-        self.tower_light_edit_button.setText(_translate("MainWindow", "EDIT"))
-        self.tower_light_save_button.setText(_translate("MainWindow", "SAVE"))
         self.label_40.setText(_translate("MainWindow", "LIFE CYCLE"))
-        self.label_41.setText(_translate("MainWindow", "USER AREA"))
-        self.label_134.setText(_translate("MainWindow", "Shift Start Date Time"))
-        self.pushButton_3.setText(_translate("MainWindow", "Start Shift"))
-        self.pushButton_4.setText(_translate("MainWindow", "End Shift"))
-        self.label_42.setText(_translate("MainWindow", "USER ACCESS"))
         self.label_43.setText(_translate("MainWindow", "SETTINGS"))
-        self.datetime_label.setText(_translate("MainWindow", "Date TIme"))
+        self.label_73.setText(_translate("MainWindow", "Machine Stop"))
+        self.label_72.setText(_translate("MainWindow", "Machine Running"))
+        self.label_16.setText(_translate("MainWindow", "Condition"))
+        self.label_70.setText(_translate("MainWindow", "Machine Alarm"))
+        self.label_14.setText(_translate("MainWindow", "Door Bypass"))
+        self.label_71.setText(_translate("MainWindow", "No Material"))
+        self.light_tower_edit_button.setText(_translate("MainWindow", "Edit"))
+        self.light_tower_save_button.setText(_translate("MainWindow", "Save"))
+        self.light_tower_cancel_button.setText(_translate("MainWindow", "Cancel"))
+        self.settings_tab_widget.setTabText(self.settings_tab_widget.indexOf(self.light_tower_page), _translate("MainWindow", "Light Tower"))
+        self.settings_tab_widget.setTabText(self.settings_tab_widget.indexOf(self.alarm_page), _translate("MainWindow", "Alarm"))
+        self.settings_tab_widget.setTabText(self.settings_tab_widget.indexOf(self.user_page), _translate("MainWindow", "User"))
+        self.settings_tab_widget.setTabText(self.settings_tab_widget.indexOf(self.user_access_page), _translate("MainWindow", "User Access"))
+        self.misc_button_3.setWhatsThis(_translate("MainWindow", "<html><head/><body><p>Login/Logout</p></body></html>"))
+        self.datetime_label.setText(_translate("MainWindow", "Date Time"))
 from mplwidget import MplWidget
 import qtqr
 

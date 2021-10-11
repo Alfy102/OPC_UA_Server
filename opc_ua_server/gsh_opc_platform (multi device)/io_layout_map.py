@@ -235,29 +235,76 @@ node_structure = {
 #Device Mode
 #---------------------------------------------------------------------------------
 
-10070:{ 'name': 'MR2000', #operation_mode (auto_mode)
+10070:{ 'name': 'MR2000', #operation_mode (auto_mode) machine running
         'label_point':[],
         'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'device_mode', 'history': False,'rw': 'r', 'initial_value': False}},
 
-10071:{ 'name': 'MR2001', #stand_by_mode / down_mode (not entering auto)
+10071:{ 'name': 'MR2001', #stand_by_mode / down_mode (not entering auto) machine stop
         'label_point':[],
         'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'device_mode', 'history': False,'rw': 'r', 'initial_value': False}},
 
-10072:{ 'name': 'MR2002', #idling_mode / starving_mode (auto_mode)
+10072:{ 'name': 'MR2002', #idling_mode / starving_mode (auto_mode) no maetrial
         'label_point':[],
         'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'device_mode', 'history': False,'rw': 'r', 'initial_value': False}},
 
-10073:{ 'name': 'MR2003', #maintenance_mode (machine_stop)
+10073:{ 'name': 'MR2003', #maintenance_mode (machine_stop) machine stop
         'label_point':[],
         'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'device_mode', 'history': False,'rw': 'r', 'initial_value': False}},
 
-10074:{ 'name': 'MR2004', #machine_ready_to_initialize
+10074:{ 'name': 'MR2004', #machine_ready_to_initialize machine stop
         'label_point':[],
         'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'device_mode', 'history': False,'rw': 'r', 'initial_value': False}},
 
-10075:{ 'name': 'MR2005', #machine_ready_to_run
+10075:{ 'name': 'MR2005', #machine_ready_to_run machine stop
         'label_point':[],
         'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'device_mode', 'history': False,'rw': 'r', 'initial_value': False}},
+
+
+#---------------------------------------------------------------------------------
+#light_tower settings
+#---------------------------------------------------------------------------------
+10080:{ 'name': 'machine_running',  
+        'label_point':['check_box_0','check_box_1','check_box_2','check_box_3','check_box_4','check_box_5'],
+        'node_property':{'device': 'PLC1', 'data_type': 'UInt16', 'category': 'light_tower_setting', 'history': True,'rw': 'rw', 'initial_value': 0}},
+
+10081:{ 'name': 'machine_stop',  
+        'label_point':['check_box_10','check_box_11','check_box_12','check_box_13','check_box_14','check_box_15'],
+        'node_property':{'device': 'PLC1', 'data_type': 'UInt16', 'category': 'light_tower_setting', 'history': True,'rw': 'rw', 'initial_value': 0}},
+
+10082:{ 'name': 'machine_alarm',  
+        'label_point':['check_box_20','check_box_21','check_box_22','check_box_23','check_box_24','check_box_25'],
+        'node_property':{'device': 'PLC1', 'data_type': 'UInt16', 'category': 'light_tower_setting', 'history': True,'rw': 'rw', 'initial_value': 0}},
+
+10083:{ 'name': 'no_material',  
+        'label_point':['check_box_30','check_box_31','check_box_32','check_box_33','check_box_34','check_box_35'],
+        'node_property':{'device': 'PLC1', 'data_type': 'UInt16', 'category': 'light_tower_setting', 'history': True,'rw': 'rw', 'initial_value': 0}},
+
+10084:{ 'name': 'door_bypass',  
+        'label_point':['check_box_40','check_box_41','check_box_42','check_box_43','check_box_44','check_box_45'],
+        'node_property':{'device': 'PLC1', 'data_type': 'UInt16', 'category': 'light_tower_setting', 'history': True,'rw': 'rw', 'initial_value': 0}},
+
+#---------------------------------------------------------------------------------
+#light_tower settings
+#---------------------------------------------------------------------------------
+10090:{ 'name': 'user_1',  
+        'label_point':[],
+        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'user_access', 'history': False,'rw': 'rw', 'initial_value': 'user_1'}},
+
+10091:{ 'name': 'user_2',  
+        'label_point':[],
+        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'user_access', 'history': False,'rw': 'rw', 'initial_value': 'user_2'}},
+
+10092:{ 'name': 'user_3',  
+        'label_point':[],
+        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'user_access', 'history': False,'rw': 'rw', 'initial_value': 'user_3'}},
+
+10093:{ 'name': 'developer_1',  
+        'label_point':[],
+        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'user_access', 'history': False,'rw': 'rw', 'initial_value': 'developer_1'}},
+
+
+
+
 
 #---------------------------------------------------------------------------------
 #UPH in 24 hours
@@ -988,43 +1035,43 @@ node_structure = {
 #--------Motor properties
 #---------------------------------------------------------------------------------
 
-11200:{ 'name': 'CM1000', #Motor memory 1 
+11200:{ 'name': 'CM1000', #Motor 1 memory 1 
         'label_point':['label_y6215'],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt32', 'category': 'data_memory','rw': 'r', 'history': False, 'initial_value': 0}},
 
-11201:{ 'name': 'CM1001', #Motor memory 1 
+11201:{ 'name': 'CM1001', #Motor 1 memory 2
         'label_point':['label_y6215'],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt32', 'category': 'data_memory','rw': 'r', 'history': False, 'initial_value': 0}},
 
-11202:{ 'name': 'CM1002', #Motor memory 1 
+11202:{ 'name': 'CM1002', #Motor 1 memory 3 
         'label_point':['label_y6215'],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt32', 'category': 'data_memory','rw': 'r', 'history': False, 'initial_value': 0}},
 
-11203:{ 'name': 'CM1003', #Motor memory 1 
+11203:{ 'name': 'CM1003', #Motor 1 memory 4
         'label_point':['label_y6215'],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt32', 'category': 'data_memory','rw': 'r', 'history': False, 'initial_value': 0}},
 
-11204:{ 'name': 'CM1004', #Motor memory 1 
+11204:{ 'name': 'CM1004', #Motor 1 memory 5
         'label_point':['label_y6215'],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt32', 'category': 'data_memory','rw': 'r', 'history': False, 'initial_value': 0}},
 
-11205:{ 'name': 'CM1005', #Motor memory 1 
+11205:{ 'name': 'CM1005', #Motor 1 memory 6
         'label_point':['label_y6215'],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt32', 'category': 'data_memory','rw': 'r', 'history': False, 'initial_value': 0}},
 
-11206:{ 'name': 'CM1006', #Motor memory 1 
+11206:{ 'name': 'CM1006', #Motor 1 memory 7
         'label_point':['label_y6215'],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt32', 'category': 'data_memory','rw': 'r', 'history': False, 'initial_value': 0}},
 
-11207:{ 'name': 'CM1007', #Motor memory 1 
+11207:{ 'name': 'CM1007', #Motor 1 memory 8
         'label_point':['label_y6215'],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt32', 'category': 'data_memory','rw': 'r', 'history': False, 'initial_value': 0}},
 
-11208:{ 'name': 'CM1008', #Motor memory 2
+11208:{ 'name': 'CM1008', #Motor 1 memory 9
         'label_point':['label_y6215'],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt32', 'category': 'data_memory','rw': 'r', 'history': False, 'initial_value': 0}},
 
-11208:{ 'name': 'CM1008', #Motor memory 2
+11208:{ 'name': 'CM1008', #Motor 1 memory 10
         'label_point':['label_y6215'],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt32', 'category': 'data_memory','rw': 'r', 'history': False, 'initial_value': 0}},
 

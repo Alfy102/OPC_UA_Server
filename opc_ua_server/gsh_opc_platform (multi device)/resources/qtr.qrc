@@ -1,5 +1,7 @@
 <RCC>
   <qresource prefix="icon_button">
+    <file>yellow_icon.png</file>
+    <file>green_icon.png</file>
     <file>zoom-out.png</file>
     <file>zoom-in.png</file>
     <file>worldwide-1.png</file>

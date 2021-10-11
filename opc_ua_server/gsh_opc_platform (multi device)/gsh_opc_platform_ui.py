@@ -1,7 +1,7 @@
 import sys
 from PyQt5 import QtCore, QtWidgets
-from PyQt5.QtCore import  QThread,QEvent
-from PyQt5.QtWidgets import QDateTimeEdit, QMainWindow
+from PyQt5.QtCore import  QThread,QEvent, QTimer
+from PyQt5.QtWidgets import QMainWindow
 from queue import Queue
 import gsh_opc_platform_client as gsh_client
 from gsh_opc_platform_gui import Ui_MainWindow as gui
@@ -36,6 +36,12 @@ class Ui_MainWindow(QMainWindow,gui):
         self.client_worker.uph_signal.connect(self.update_plot)
         self.client_worker.init_plot.connect(self.init_bar_plot)
 
+
+        timer = QTimer(self)
+        timer.timeout.connect(self.update_system_time_label)
+        timer.start(1000)
+
+
         self.client_worker.time_data_signal.connect(self.time_label_update)
         self.rgb_value_input_on = "64, 255, 0"
         self.rgb_value_input_off = "0, 80, 0"
@@ -47,6 +53,7 @@ class Ui_MainWindow(QMainWindow,gui):
         self.y = [0 for _ in self.uph_dict.values()] 
         self.plot_bar = ''
         self.plot_text =''
+        self.light_tower_settings_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='light_tower_setting'}
         self.setupUi(self)
         
     def setupUi(self, MainFrame):
@@ -54,21 +61,20 @@ class Ui_MainWindow(QMainWindow,gui):
         self.alarm_log_text_edit.setReadOnly(True)
         self.event_log_text_edit.setReadOnly(True)
         self.stackedWidget.setCurrentIndex(0)
+        self.main_page_button.setChecked(True)
         self.main_page_button.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(0))
         self.lot_entry_button.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(1))
         self.lot_info_button.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(2))
         self.event_log_button.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(3))
-        self.show_event_button.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(3))
+        self.event_log_button.clicked.connect (lambda: self.log_tab_widget.setCurrentIndex(0))
+        self.show_event_button.clicked.connect(self.show_alarm)
         
         self.station_button.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(7))
         self.misc_button.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(8))
         self.vision_button.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(9))
-        self.tower_light_button.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(10))
         self.life_cycle_button.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(11))
-        self.user_area_button.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(12))
-        self.user_access_button.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(13))
-        self.settings_button.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(14))
-
+        self.settings_button.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(11))
+        self.settings_button.clicked.connect(lambda: self.settings_tab_widget.setCurrentIndex(0))
         #IO List signals
         self.io_list_button.clicked.connect(self.io_list_page_behaviour)
         self.input_page_1_button.clicked.connect(lambda : self.input_stacked_widget.setCurrentIndex(0))
@@ -94,8 +100,7 @@ class Ui_MainWindow(QMainWindow,gui):
         self.module_1_motor_1_button.clicked.connect(lambda: self.main_motor_control_stacked_widget.setCurrentIndex(0))
         self.module_1_motor_2_button.clicked.connect(lambda: self.main_motor_control_stacked_widget.setCurrentIndex(1))
 
-  
-
+        
 
         #------------bar graph initialization------------------
         self.MplWidget.canvas.plt.xticks(rotation=45)
@@ -124,10 +129,52 @@ class Ui_MainWindow(QMainWindow,gui):
         self.lot_entry_save_button.clicked.connect(lambda: self.lot_entry_page_setup(False))
         self.lot_entry_save_button.clicked.connect(lambda: self.lot_entry_info('save'))
         self.lot_entry_cancel_button.clicked.connect(lambda: self.lot_entry_info('cancel'))
+        self.lot_entry_cancel_button.clicked.connect(lambda: self.lot_entry_page_setup(False))
+
+        #------------light tower init-------------------------
+        self.light_tower_setup(False)
+        self.light_tower_edit_button.clicked.connect(lambda: self.light_tower_setup(True))
+        self.light_tower_save_button.clicked.connect(lambda: self.light_tower_info('save'))
+        self.light_tower_cancel_button.clicked.connect(lambda: self.light_tower_info('cancel'))
+        self.light_tower_save_button.clicked.connect(lambda: self.light_tower_setup(False))
+        self.light_tower_cancel_button.clicked.connect(lambda: self.light_tower_setup(False))
+
+    def show_alarm(self):
+        self.stackedWidget.setCurrentIndex(3)
+        self.log_tab_widget.setCurrentIndex(1)
+        
+    def update_system_time_label(self):
+        dt = datetime.now()
+        dt = dt.replace(microsecond=0)
+        dt = dt.strftime("%d-%m-%Y  %H:%M:%S")
+        self.datetime_label.setText(dt)
 
 
+    #-------info sectioon -------------------
 
-
+    def light_tower_info(self, data):
+        if data=='save':
+            for key,value in self.light_tower_settings_dict.items():
+                bin_string = []
+                for item in value['label_point']:
+                    check_box_object = eval(f"self.{item}")
+                    x = check_box_object.isChecked()
+                    bin_string.append(str(int(x)))
+                data_value = ''.join(bin_string)
+                data_value = int(data_value,2)
+                value['node_property']['initial_value'] = data_value
+                data_type = value['node_property']['data_type']
+                self.light_tower_settings_dict.update({key:value})
+                #self.send_data_to_opc(key,data_value,data_type)
+        elif data == 'cancel':
+            for key,value in self.light_tower_settings_dict.items():
+                initial_value = value['node_property']['initial_value']
+                data_value = format(initial_value, "06b")
+                for i,item in enumerate(value['label_point']):
+                    check_box_object = eval(f"self.{item}")
+                    state = data_value[i]
+                    check_box_object.setChecked(bool(int(state)))
+ 
 
     def lot_entry_info(self,action):
         if action=='save':
@@ -153,10 +200,10 @@ class Ui_MainWindow(QMainWindow,gui):
                 value['node_property']['initial_value'] = data_value
                 data_type = value['node_property']['data_type']
                 self.lot_input.update({key:value})
-                self.send_data_to_opc(key,data_value,data_type)
+                #self.send_data_to_opc(key,data_value,data_type)
 
         if action=='cancel':
-            self.lot_entry_page_setup(False)
+            
             for key, value in self.lot_input.items():
                 label = value['label_point'][0]
                 data_value = value['node_property']['initial_value']
@@ -164,16 +211,15 @@ class Ui_MainWindow(QMainWindow,gui):
                     data_value == ''
                 if key == 10054 or key == 10055:
                     label_object = eval(f"self.{label}")
-                    old_dt = datetime.strptime(data_value, "%d.%m.%Y %H:%M")
-                    label_object.setDateTime(old_dt)
+                    if data_value != 'Null':
+                        old_dt = datetime.strptime(data_value, "%d.%m.%Y %H:%M")
                 else:
                     label_object = eval(f"self.{label}")
                     label_object.setText(data_value)
 
 
 
-
-
+    #--------------lot OEE section-----------------
 
     def init_bar_plot(self, uph_dict):
         self.uph_dict = uph_dict
@@ -225,6 +271,8 @@ class Ui_MainWindow(QMainWindow,gui):
         rgb_value = background_color_property[background_color_property.find("(")+1:background_color_property.find(")")]
         return rgb_value
 
+    #-----------page setup section----------------------
+
     def lot_entry_page_setup(self, data):
         self.operator_id_input.setEnabled(data)
         self.lot_id_input.setEnabled(data)
@@ -235,6 +283,10 @@ class Ui_MainWindow(QMainWindow,gui):
         self.lot_entry_save_button.setEnabled(data)
         self.lot_entry_cancel_button.setEnabled(data)
 
+    def light_tower_setup(self, data):
+        self.light_tower_settings_layout_group.setEnabled(data)
+        self.light_tower_save_button.setEnabled(data)
+        self.light_tower_cancel_button.setEnabled(data)
 
     def io_list_page_behaviour(self):
         self.stackedWidget.setCurrentIndex(4)
@@ -307,9 +359,9 @@ class Ui_MainWindow(QMainWindow,gui):
                     indicator_label.setStyleSheet(f"background-color: rgb({self.rgb_value_output_off});color: rgb(200, 200, 200);")
 
     def time_label_update(self,data):
-        label = data[0]
+        labels = data[0]
         time_string = data[1].split('.')[0]
-        for label in label:
+        for label in labels:
             time_label = eval(f"self.{label}")
             time_label.setText(time_string)
 
