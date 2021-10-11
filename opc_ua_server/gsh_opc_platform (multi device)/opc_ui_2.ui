@@ -1509,7 +1509,7 @@ QPushButton:checked
             <number>0</number>
            </property>
            <property name="currentIndex">
-            <number>3</number>
+            <number>1</number>
            </property>
            <widget class="QWidget" name="main_page">
             <widget class="QFrame" name="title_frame">
@@ -2013,9 +2013,14 @@ QPushButton:checked
                <rect>
                 <x>70</x>
                 <y>40</y>
-                <width>261</width>
-                <height>191</height>
+                <width>341</width>
+                <height>211</height>
                </rect>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>12</pointsize>
+               </font>
               </property>
               <property name="title">
                <string>Lot Info</string>
@@ -2025,8 +2030,8 @@ QPushButton:checked
                 <rect>
                  <x>10</x>
                  <y>20</y>
-                 <width>247</width>
-                 <height>166</height>
+                 <width>326</width>
+                 <height>182</height>
                 </rect>
                </property>
                <layout class="QHBoxLayout" name="horizontalLayout_38">
@@ -2034,6 +2039,11 @@ QPushButton:checked
                  <layout class="QVBoxLayout" name="verticalLayout_60">
                   <item>
                    <widget class="QLabel" name="label_24">
+                    <property name="font">
+                     <font>
+                      <pointsize>12</pointsize>
+                     </font>
+                    </property>
                     <property name="text">
                      <string>Lot ID</string>
                     </property>
@@ -2041,6 +2051,11 @@ QPushButton:checked
                   </item>
                   <item>
                    <widget class="QLabel" name="label_118">
+                    <property name="font">
+                     <font>
+                      <pointsize>12</pointsize>
+                     </font>
+                    </property>
                     <property name="text">
                      <string>Operator ID</string>
                     </property>
@@ -2048,6 +2063,11 @@ QPushButton:checked
                   </item>
                   <item>
                    <widget class="QLabel" name="label_126">
+                    <property name="font">
+                     <font>
+                      <pointsize>12</pointsize>
+                     </font>
+                    </property>
                     <property name="text">
                      <string>Package Name</string>
                     </property>
@@ -2055,6 +2075,11 @@ QPushButton:checked
                   </item>
                   <item>
                    <widget class="QLabel" name="label_127">
+                    <property name="font">
+                     <font>
+                      <pointsize>12</pointsize>
+                     </font>
+                    </property>
                     <property name="text">
                      <string>Device ID</string>
                     </property>
@@ -2062,6 +2087,11 @@ QPushButton:checked
                   </item>
                   <item>
                    <widget class="QLabel" name="label_128">
+                    <property name="font">
+                     <font>
+                      <pointsize>12</pointsize>
+                     </font>
+                    </property>
                     <property name="text">
                      <string>Lot Start Date Time</string>
                     </property>
@@ -2069,6 +2099,11 @@ QPushButton:checked
                   </item>
                   <item>
                    <widget class="QLabel" name="label_129">
+                    <property name="font">
+                     <font>
+                      <pointsize>12</pointsize>
+                     </font>
+                    </property>
                     <property name="text">
                      <string>Shift Start Date Time</string>
                     </property>
@@ -2079,22 +2114,58 @@ QPushButton:checked
                 <item>
                  <layout class="QVBoxLayout" name="verticalLayout_61">
                   <item>
-                   <widget class="QLineEdit" name="lot_id_input"/>
+                   <widget class="QLineEdit" name="lot_id_input">
+                    <property name="font">
+                     <font>
+                      <pointsize>12</pointsize>
+                     </font>
+                    </property>
+                   </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="operator_id_input"/>
+                   <widget class="QLineEdit" name="operator_id_input">
+                    <property name="font">
+                     <font>
+                      <pointsize>12</pointsize>
+                     </font>
+                    </property>
+                   </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="package_name_input"/>
+                   <widget class="QLineEdit" name="package_name_input">
+                    <property name="font">
+                     <font>
+                      <pointsize>12</pointsize>
+                     </font>
+                    </property>
+                   </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="device_id_input"/>
+                   <widget class="QLineEdit" name="device_id_input">
+                    <property name="font">
+                     <font>
+                      <pointsize>12</pointsize>
+                     </font>
+                    </property>
+                   </widget>
                   </item>
                   <item>
-                   <widget class="QDateTimeEdit" name="lot_start_date_time"/>
+                   <widget class="QDateTimeEdit" name="lot_start_date_time">
+                    <property name="font">
+                     <font>
+                      <pointsize>12</pointsize>
+                     </font>
+                    </property>
+                   </widget>
                   </item>
                   <item>
-                   <widget class="QDateTimeEdit" name="shift_start_date_time"/>
+                   <widget class="QDateTimeEdit" name="shift_start_date_time">
+                    <property name="font">
+                     <font>
+                      <pointsize>12</pointsize>
+                     </font>
+                    </property>
+                   </widget>
                   </item>
                  </layout>
                 </item>
@@ -2105,9 +2176,9 @@ QPushButton:checked
               <property name="geometry">
                <rect>
                 <x>70</x>
-                <y>240</y>
-                <width>261</width>
-                <height>31</height>
+                <y>260</y>
+                <width>341</width>
+                <height>32</height>
                </rect>
               </property>
               <layout class="QHBoxLayout" name="horizontalLayout_46">
@@ -2118,6 +2189,11 @@ QPushButton:checked
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>12</pointsize>
+                  </font>
                  </property>
                  <property name="styleSheet">
                   <string notr="true">color:rgb(255,255,255);
@@ -2153,6 +2229,11 @@ background-color: rgb(141, 137, 166);
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>12</pointsize>
+                  </font>
+                 </property>
                  <property name="styleSheet">
                   <string notr="true">color:rgb(255,255,255);
 background-color: rgb(141, 137, 166);
@@ -2173,6 +2254,11 @@ background-color: rgb(141, 137, 166);
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>12</pointsize>
+                  </font>
                  </property>
                  <property name="styleSheet">
                   <string notr="true">color:rgb(255,255,255);
@@ -3750,10 +3836,10 @@ background-color: rgb(141, 137, 166);
               <string notr="true">background-color: rgb(255, 255, 255);</string>
              </property>
              <property name="frameShape">
-              <enum>QFrame::StyledPanel</enum>
+              <enum>QFrame::NoFrame</enum>
              </property>
              <property name="frameShadow">
-              <enum>QFrame::Raised</enum>
+              <enum>QFrame::Plain</enum>
              </property>
              <widget class="QTabWidget" name="log_tab_widget">
               <property name="geometry">
@@ -16133,50 +16219,22 @@ background-color: rgb(141, 137, 166);
            </spacer>
           </item>
           <item>
-           <widget class="QPushButton" name="misc_button_3">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
+           <widget class="QPushButton" name="user_login_button">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+             <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>13</pointsize>
-              <bold>true</bold>
-              <stylestrategy>PreferDefault</stylestrategy>
-              <kerning>true</kerning>
-             </font>
-            </property>
-            <property name="whatsThis">
-             <string extracomment="Sign In">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Login/Logout&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="autoFillBackground">
-             <bool>false</bool>
             </property>
             <property name="styleSheet">
              <string notr="true">icon: url(:/icon_button/login.png);
 qproperty-iconSize: 30px;
 background-color: rgb(0, 129, 175);
+
 </string>
             </property>
             <property name="text">
              <string/>
-            </property>
-            <property name="checkable">
-             <bool>true</bool>
-            </property>
-            <property name="autoDefault">
-             <bool>false</bool>
-            </property>
-            <property name="default">
-             <bool>false</bool>
-            </property>
-            <property name="flat">
-             <bool>true</bool>
             </property>
            </widget>
           </item>

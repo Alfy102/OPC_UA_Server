@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import QMainWindow
 from queue import Queue
 import gsh_opc_platform_client as gsh_client
 from gsh_opc_platform_gui import Ui_MainWindow as gui
+from login_gui import Ui_Dialog as login_dialog
 from io_layout_map import node_structure,time_series_axis
 from datetime import datetime
 from multiprocessing import Queue
@@ -98,9 +99,7 @@ class Ui_MainWindow(QMainWindow,gui):
         
         #main motor module signals
         self.module_1_motor_1_button.clicked.connect(lambda: self.main_motor_control_stacked_widget.setCurrentIndex(0))
-        self.module_1_motor_2_button.clicked.connect(lambda: self.main_motor_control_stacked_widget.setCurrentIndex(1))
-
-        
+        self.module_1_motor_2_button.clicked.connect(lambda: self.main_motor_control_stacked_widget.setCurrentIndex(1))     
 
         #------------bar graph initialization------------------
         self.MplWidget.canvas.plt.xticks(rotation=45)
@@ -138,6 +137,10 @@ class Ui_MainWindow(QMainWindow,gui):
         self.light_tower_cancel_button.clicked.connect(lambda: self.light_tower_info('cancel'))
         self.light_tower_save_button.clicked.connect(lambda: self.light_tower_setup(False))
         self.light_tower_cancel_button.clicked.connect(lambda: self.light_tower_setup(False))
+
+        #-------------user_login logic------------------------
+        self.user_login_button.clicked.connect(self.user_login_trigger)
+
 
     def show_alarm(self):
         self.stackedWidget.setCurrentIndex(3)
@@ -368,6 +371,14 @@ class Ui_MainWindow(QMainWindow,gui):
     def closeEvent(self,event):
         print("Close event trigger")
         
+    def user_login_trigger(self):
+        dialog = QtWidgets.QDialog()
+        dialog.ui = login_dialog()
+        dialog.ui.setupUi(dialog)
+        dialog.setWindowFlags(QtCore.Qt.FramelessWindowHint)# | QtCore.Qt.WindowStaysOnTopHint)
+        dialog.exec_()
+        dialog.show()
+
 
 
 if __name__ == "__main__":
