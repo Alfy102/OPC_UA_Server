@@ -1,7 +1,7 @@
 import sys
-from PyQt5 import QtCore, QtWidgets
+from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import  QThread,QEvent, QTimer
-from PyQt5.QtWidgets import QMainWindow
+from PyQt5.QtWidgets import QLineEdit, QMainWindow, QDialog, QLineEdit
 from queue import Queue
 import gsh_opc_platform_client as gsh_client
 from gsh_opc_platform_gui import Ui_MainWindow as gui
@@ -26,6 +26,7 @@ class Ui_MainWindow(QMainWindow,gui):
         self.io_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='relay'}
         self.hmi_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='client_input_1'}
         self.lot_input = {key:value for key,value in node_structure.items() if value['node_property']['category']=='lot_input'}
+        self.user_access = {key:value for key,value in node_structure.items() if value['node_property']['category']=='user_access'}
         self.ui_time_dict = {}
         self.client_thread=QThread()
         self.client_worker = gsh_client.OpcClientThread(self.input_queue,endpoint,self.uri,client_refresh_rate)
@@ -139,7 +140,7 @@ class Ui_MainWindow(QMainWindow,gui):
         self.light_tower_cancel_button.clicked.connect(lambda: self.light_tower_setup(False))
 
         #-------------user_login logic------------------------
-        self.user_login_button.clicked.connect(self.user_login_trigger)
+        self.user_login_button.clicked.connect(self.user_login_show)
 
 
     def show_alarm(self):
@@ -151,7 +152,6 @@ class Ui_MainWindow(QMainWindow,gui):
         dt = dt.replace(microsecond=0)
         dt = dt.strftime("%d-%m-%Y  %H:%M:%S")
         self.datetime_label.setText(dt)
-
 
     #-------info sectioon -------------------
 
@@ -177,7 +177,6 @@ class Ui_MainWindow(QMainWindow,gui):
                     check_box_object = eval(f"self.{item}")
                     state = data_value[i]
                     check_box_object.setChecked(bool(int(state)))
- 
 
     def lot_entry_info(self,action):
         if action=='save':
@@ -219,8 +218,6 @@ class Ui_MainWindow(QMainWindow,gui):
                 else:
                     label_object = eval(f"self.{label}")
                     label_object.setText(data_value)
-
-
 
     #--------------lot OEE section-----------------
 
@@ -371,14 +368,27 @@ class Ui_MainWindow(QMainWindow,gui):
     def closeEvent(self,event):
         print("Close event trigger")
         
-    def user_login_trigger(self):
+    def user_login_show(self):
         dialog = QtWidgets.QDialog()
-        dialog.ui = login_dialog()
+        dialog.ui = Dialog()
         dialog.ui.setupUi(dialog)
         dialog.setWindowFlags(QtCore.Qt.FramelessWindowHint)# | QtCore.Qt.WindowStaysOnTopHint)
         dialog.exec_()
-        dialog.show()
+        username = dialog.ui.username_input.text()
+        password = dialog.ui.password_input.text()
 
+    def user_access(self, username, password):
+        print(username, password)
+
+
+
+class Dialog(QDialog, login_dialog):
+    def __init__(self, parent=None):
+        QDialog.__init__(self, parent)
+        self.setupUi(self)
+
+
+       
 
 
 if __name__ == "__main__":

@@ -1509,7 +1509,7 @@ QPushButton:checked
             <number>0</number>
            </property>
            <property name="currentIndex">
-            <number>1</number>
+            <number>11</number>
            </property>
            <widget class="QWidget" name="main_page">
             <widget class="QFrame" name="title_frame">
@@ -2031,7 +2031,7 @@ QPushButton:checked
                  <x>10</x>
                  <y>20</y>
                  <width>326</width>
-                 <height>182</height>
+                 <height>192</height>
                 </rect>
                </property>
                <layout class="QHBoxLayout" name="horizontalLayout_38">
@@ -14884,7 +14884,7 @@ QTabBar::tab:left:only-one, QTabBar::tab:right:only-one {
 }</string>
               </property>
               <property name="currentIndex">
-               <number>0</number>
+               <number>3</number>
               </property>
               <widget class="QWidget" name="light_tower_page">
                <attribute name="title">
@@ -16142,16 +16142,1079 @@ background-color: rgb(141, 137, 166);
                <attribute name="title">
                 <string>Alarm</string>
                </attribute>
+               <widget class="QFrame" name="frame_56">
+                <property name="geometry">
+                 <rect>
+                  <x>0</x>
+                  <y>0</y>
+                  <width>951</width>
+                  <height>791</height>
+                 </rect>
+                </property>
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
+                </property>
+               </widget>
               </widget>
               <widget class="QWidget" name="user_page">
                <attribute name="title">
                 <string>User</string>
                </attribute>
+               <widget class="QFrame" name="frame_23">
+                <property name="geometry">
+                 <rect>
+                  <x>0</x>
+                  <y>0</y>
+                  <width>951</width>
+                  <height>791</height>
+                 </rect>
+                </property>
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
+                </property>
+               </widget>
               </widget>
               <widget class="QWidget" name="user_access_page">
                <attribute name="title">
                 <string>User Access</string>
                </attribute>
+               <widget class="QFrame" name="frame_20">
+                <property name="geometry">
+                 <rect>
+                  <x>0</x>
+                  <y>0</y>
+                  <width>951</width>
+                  <height>791</height>
+                 </rect>
+                </property>
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
+                </property>
+                <widget class="QWidget" name="layoutWidget_7">
+                 <property name="geometry">
+                  <rect>
+                   <x>10</x>
+                   <y>10</y>
+                   <width>621</width>
+                   <height>771</height>
+                  </rect>
+                 </property>
+                 <layout class="QGridLayout" name="gridLayout_3">
+                  <property name="spacing">
+                   <number>1</number>
+                  </property>
+                  <item row="12" column="0">
+                   <widget class="QLabel" name="label_137">
+                    <property name="text">
+                     <string>SETTINGS</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="4" column="0">
+                   <widget class="QLabel" name="label_30">
+                    <property name="text">
+                     <string>EVENT LOG</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="1">
+                   <widget class="QLabel" name="label_139">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="text">
+                     <string>Level 1</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="3" column="0">
+                   <widget class="QLabel" name="label_39">
+                    <property name="text">
+                     <string>LOT INFO</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="7" column="0">
+                   <widget class="QLabel" name="label_42">
+                    <property name="text">
+                     <string>MOTOR</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="0">
+                   <widget class="QLabel" name="label_138">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="text">
+                     <string>Page</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="9" column="0">
+                   <widget class="QLabel" name="label_132">
+                    <property name="text">
+                     <string>MISC</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="0">
+                   <widget class="QLabel" name="label_28">
+                    <property name="text">
+                     <string>MAIN</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="10" column="0">
+                   <widget class="QLabel" name="label_133">
+                    <property name="text">
+                     <string>VISION</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="5" column="0">
+                   <widget class="QLabel" name="label_135">
+                    <property name="text">
+                     <string>IO MODULE</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="0">
+                   <widget class="QLabel" name="label_41">
+                    <property name="text">
+                     <string>LOT ENTRY</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="2">
+                   <widget class="QLabel" name="label_140">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="text">
+                     <string>Level 2</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="11" column="0">
+                   <widget class="QLabel" name="label_136">
+                    <property name="text">
+                     <string>LIFE CYCLE</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="3">
+                   <widget class="QLabel" name="label_141">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="text">
+                     <string>Level 3</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="6" column="0">
+                   <widget class="QLabel" name="label_134">
+                    <property name="text">
+                     <string>IO LIST</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="8" column="0">
+                   <widget class="QLabel" name="label_131">
+                    <property name="text">
+                     <string>STATION</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="1">
+                   <layout class="QVBoxLayout" name="verticalLayout_66">
+                    <property name="leftMargin">
+                     <number>9</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>9</number>
+                    </property>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_8">
+                      <property name="text">
+                       <string>View</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_16">
+                      <property name="text">
+                       <string>Interact</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="2" column="1">
+                   <layout class="QVBoxLayout" name="verticalLayout_68">
+                    <property name="leftMargin">
+                     <number>9</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>9</number>
+                    </property>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_19">
+                      <property name="text">
+                       <string>View</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_20">
+                      <property name="text">
+                       <string>Interact</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="3" column="1">
+                   <layout class="QVBoxLayout" name="verticalLayout_69">
+                    <property name="leftMargin">
+                     <number>9</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>9</number>
+                    </property>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_21">
+                      <property name="text">
+                       <string>View</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_22">
+                      <property name="text">
+                       <string>Interact</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="4" column="1">
+                   <layout class="QVBoxLayout" name="verticalLayout_70">
+                    <property name="leftMargin">
+                     <number>9</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>9</number>
+                    </property>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_23">
+                      <property name="text">
+                       <string>View</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_24">
+                      <property name="text">
+                       <string>Interact</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="5" column="1">
+                   <layout class="QVBoxLayout" name="verticalLayout_88">
+                    <property name="leftMargin">
+                     <number>9</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>9</number>
+                    </property>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_25">
+                      <property name="text">
+                       <string>View</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_26">
+                      <property name="text">
+                       <string>Interact</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="6" column="1">
+                   <layout class="QVBoxLayout" name="verticalLayout_89">
+                    <property name="leftMargin">
+                     <number>9</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>9</number>
+                    </property>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_27">
+                      <property name="text">
+                       <string>View</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_28">
+                      <property name="text">
+                       <string>Interact</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="7" column="1">
+                   <layout class="QVBoxLayout" name="verticalLayout_90">
+                    <property name="leftMargin">
+                     <number>9</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>9</number>
+                    </property>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_29">
+                      <property name="text">
+                       <string>View</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_30">
+                      <property name="text">
+                       <string>Interact</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="8" column="1">
+                   <layout class="QVBoxLayout" name="verticalLayout_91">
+                    <property name="leftMargin">
+                     <number>9</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>9</number>
+                    </property>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_31">
+                      <property name="text">
+                       <string>View</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_32">
+                      <property name="text">
+                       <string>Interact</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="9" column="1">
+                   <layout class="QVBoxLayout" name="verticalLayout_92">
+                    <property name="leftMargin">
+                     <number>9</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>9</number>
+                    </property>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_33">
+                      <property name="text">
+                       <string>View</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_34">
+                      <property name="text">
+                       <string>Interact</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="10" column="1">
+                   <layout class="QVBoxLayout" name="verticalLayout_93">
+                    <property name="leftMargin">
+                     <number>9</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>9</number>
+                    </property>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_35">
+                      <property name="text">
+                       <string>View</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_36">
+                      <property name="text">
+                       <string>Interact</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="11" column="1">
+                   <layout class="QVBoxLayout" name="verticalLayout_94">
+                    <property name="leftMargin">
+                     <number>9</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>9</number>
+                    </property>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_37">
+                      <property name="text">
+                       <string>View</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_38">
+                      <property name="text">
+                       <string>Interact</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="12" column="1">
+                   <layout class="QVBoxLayout" name="verticalLayout_95">
+                    <property name="leftMargin">
+                     <number>9</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>9</number>
+                    </property>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_39">
+                      <property name="text">
+                       <string>View</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_40">
+                      <property name="text">
+                       <string>Interact</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="1" column="2">
+                   <layout class="QVBoxLayout" name="verticalLayout_96">
+                    <property name="leftMargin">
+                     <number>9</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>9</number>
+                    </property>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_41">
+                      <property name="text">
+                       <string>View</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_42">
+                      <property name="text">
+                       <string>Interact</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="2" column="2">
+                   <layout class="QVBoxLayout" name="verticalLayout_97">
+                    <property name="leftMargin">
+                     <number>9</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>9</number>
+                    </property>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_43">
+                      <property name="text">
+                       <string>View</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_44">
+                      <property name="text">
+                       <string>Interact</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="3" column="2">
+                   <layout class="QVBoxLayout" name="verticalLayout_98">
+                    <property name="leftMargin">
+                     <number>9</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>9</number>
+                    </property>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_45">
+                      <property name="text">
+                       <string>View</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_46">
+                      <property name="text">
+                       <string>Interact</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="4" column="2">
+                   <layout class="QVBoxLayout" name="verticalLayout_99">
+                    <property name="leftMargin">
+                     <number>9</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>9</number>
+                    </property>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_47">
+                      <property name="text">
+                       <string>View</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_48">
+                      <property name="text">
+                       <string>Interact</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="5" column="2">
+                   <layout class="QVBoxLayout" name="verticalLayout_100">
+                    <property name="leftMargin">
+                     <number>9</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>9</number>
+                    </property>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_49">
+                      <property name="text">
+                       <string>View</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_50">
+                      <property name="text">
+                       <string>Interact</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="6" column="2">
+                   <layout class="QVBoxLayout" name="verticalLayout_101">
+                    <property name="leftMargin">
+                     <number>9</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>9</number>
+                    </property>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_51">
+                      <property name="text">
+                       <string>View</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_52">
+                      <property name="text">
+                       <string>Interact</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="7" column="2">
+                   <layout class="QVBoxLayout" name="verticalLayout_102">
+                    <property name="leftMargin">
+                     <number>9</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>9</number>
+                    </property>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_53">
+                      <property name="text">
+                       <string>View</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_54">
+                      <property name="text">
+                       <string>Interact</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="8" column="2">
+                   <layout class="QVBoxLayout" name="verticalLayout_103">
+                    <property name="leftMargin">
+                     <number>9</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>9</number>
+                    </property>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_55">
+                      <property name="text">
+                       <string>View</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_56">
+                      <property name="text">
+                       <string>Interact</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="9" column="2">
+                   <layout class="QVBoxLayout" name="verticalLayout_104">
+                    <property name="leftMargin">
+                     <number>9</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>9</number>
+                    </property>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_57">
+                      <property name="text">
+                       <string>View</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_58">
+                      <property name="text">
+                       <string>Interact</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="10" column="2">
+                   <layout class="QVBoxLayout" name="verticalLayout_105">
+                    <property name="leftMargin">
+                     <number>9</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>9</number>
+                    </property>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_59">
+                      <property name="text">
+                       <string>View</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_60">
+                      <property name="text">
+                       <string>Interact</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="11" column="2">
+                   <layout class="QVBoxLayout" name="verticalLayout_106">
+                    <property name="leftMargin">
+                     <number>9</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>9</number>
+                    </property>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_61">
+                      <property name="text">
+                       <string>View</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_62">
+                      <property name="text">
+                       <string>Interact</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="12" column="2">
+                   <layout class="QVBoxLayout" name="verticalLayout_107">
+                    <property name="leftMargin">
+                     <number>9</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>9</number>
+                    </property>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_63">
+                      <property name="text">
+                       <string>View</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_64">
+                      <property name="text">
+                       <string>Interact</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="1" column="3">
+                   <layout class="QVBoxLayout" name="verticalLayout_108">
+                    <property name="leftMargin">
+                     <number>9</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>9</number>
+                    </property>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_65">
+                      <property name="text">
+                       <string>View</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_66">
+                      <property name="text">
+                       <string>Interact</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="2" column="3">
+                   <layout class="QVBoxLayout" name="verticalLayout_109">
+                    <property name="leftMargin">
+                     <number>9</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>9</number>
+                    </property>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_67">
+                      <property name="text">
+                       <string>View</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_68">
+                      <property name="text">
+                       <string>Interact</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="3" column="3">
+                   <layout class="QVBoxLayout" name="verticalLayout_110">
+                    <property name="leftMargin">
+                     <number>9</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>9</number>
+                    </property>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_69">
+                      <property name="text">
+                       <string>View</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_70">
+                      <property name="text">
+                       <string>Interact</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="4" column="3">
+                   <layout class="QVBoxLayout" name="verticalLayout_111">
+                    <property name="leftMargin">
+                     <number>9</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>9</number>
+                    </property>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_71">
+                      <property name="text">
+                       <string>View</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_72">
+                      <property name="text">
+                       <string>Interact</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="5" column="3">
+                   <layout class="QVBoxLayout" name="verticalLayout_112">
+                    <property name="leftMargin">
+                     <number>9</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>9</number>
+                    </property>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_73">
+                      <property name="text">
+                       <string>View</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_74">
+                      <property name="text">
+                       <string>Interact</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="6" column="3">
+                   <layout class="QVBoxLayout" name="verticalLayout_113">
+                    <property name="leftMargin">
+                     <number>9</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>9</number>
+                    </property>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_75">
+                      <property name="text">
+                       <string>View</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_76">
+                      <property name="text">
+                       <string>Interact</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="7" column="3">
+                   <layout class="QVBoxLayout" name="verticalLayout_114">
+                    <property name="leftMargin">
+                     <number>9</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>9</number>
+                    </property>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_77">
+                      <property name="text">
+                       <string>View</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_78">
+                      <property name="text">
+                       <string>Interact</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="8" column="3">
+                   <layout class="QVBoxLayout" name="verticalLayout_115">
+                    <property name="leftMargin">
+                     <number>9</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>9</number>
+                    </property>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_79">
+                      <property name="text">
+                       <string>View</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_80">
+                      <property name="text">
+                       <string>Interact</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="9" column="3">
+                   <layout class="QVBoxLayout" name="verticalLayout_116">
+                    <property name="leftMargin">
+                     <number>9</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>9</number>
+                    </property>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_81">
+                      <property name="text">
+                       <string>View</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_82">
+                      <property name="text">
+                       <string>Interact</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="10" column="3">
+                   <layout class="QVBoxLayout" name="verticalLayout_117">
+                    <property name="leftMargin">
+                     <number>9</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>9</number>
+                    </property>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_83">
+                      <property name="text">
+                       <string>View</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_84">
+                      <property name="text">
+                       <string>Interact</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="11" column="3">
+                   <layout class="QVBoxLayout" name="verticalLayout_118">
+                    <property name="leftMargin">
+                     <number>9</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>9</number>
+                    </property>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_85">
+                      <property name="text">
+                       <string>View</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_86">
+                      <property name="text">
+                       <string>Interact</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="12" column="3">
+                   <layout class="QVBoxLayout" name="verticalLayout_119">
+                    <property name="leftMargin">
+                     <number>9</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>9</number>
+                    </property>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_87">
+                      <property name="text">
+                       <string>View</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_88">
+                      <property name="text">
+                       <string>Interact</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                 </layout>
+                </widget>
+               </widget>
               </widget>
              </widget>
             </widget>
@@ -16295,11 +17358,11 @@ background-color: rgb(0, 129, 175);
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="navigation_button_group"/>
-  <buttongroup name="input_list_page_button_group"/>
   <buttongroup name="main_motor_page_button_group"/>
-  <buttongroup name="io_module_button_group"/>
   <buttongroup name="output_list_page_button_group"/>
+  <buttongroup name="io_module_button_group"/>
+  <buttongroup name="navigation_button_group"/>
   <buttongroup name="main_motor_module_button_group"/>
+  <buttongroup name="input_list_page_button_group"/>
  </buttongroups>
 </ui>
