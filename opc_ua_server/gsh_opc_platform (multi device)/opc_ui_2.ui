@@ -764,6 +764,11 @@ QPushButton:checked
 	color: rgb(0, 0, 0);
 	background-color: rgb(255, 255, 255)
 }
+QPushButton:disabled 
+{
+	color: rgb(255, 255, 255);
+	background-color:rgb(167, 167, 167)
+}
 </string>
                  </property>
                  <property name="text">
@@ -827,7 +832,13 @@ QPushButton:checked
 {
 	color:rgb(0,0,0) ;
 	background-color: rgb(255,255,255);
-}</string>
+}
+QPushButton:disabled 
+{
+	color: rgb(255, 255, 255);
+	background-color:rgb(167, 167, 167)
+}
+</string>
                  </property>
                  <property name="text">
                   <string>LOT ENTRY</string>
@@ -890,7 +901,13 @@ QPushButton:checked
 {
 	color:rgb(0,0,0);
 	background-color: rgb(255,255,255);
-}</string>
+}
+QPushButton:disabled 
+{
+	color: rgb(255, 255, 255);
+	background-color:rgb(167, 167, 167)
+}
+</string>
                  </property>
                  <property name="text">
                   <string>LOT INFO</string>
@@ -953,6 +970,11 @@ QPushButton:checked
 {
 	color:rgb(0,0,0) ;
 	background-color: rgb(255,255,255);
+}
+QPushButton:disabled 
+{
+	color: rgb(255, 255, 255);
+	background-color:rgb(167, 167, 167)
 }</string>
                  </property>
                  <property name="text">
@@ -1016,6 +1038,11 @@ QPushButton:checked
 {
 	color:rgb(0,0,0) ;
 	background-color: rgb(255,255,255);
+}
+QPushButton:disabled 
+{
+	color: rgb(255, 255, 255);
+	background-color:rgb(167, 167, 167)
 }</string>
                  </property>
                  <property name="text">
@@ -1079,7 +1106,13 @@ QPushButton:checked
 {
 	color:rgb(0,0,0) ;
 	background-color: rgb(255,255,255);
-}</string>
+}
+QPushButton:disabled 
+{
+	color: rgb(255, 255, 255);
+	background-color:rgb(167, 167, 167)
+}
+</string>
                  </property>
                  <property name="text">
                   <string>IO LIST</string>
@@ -1142,7 +1175,13 @@ QPushButton:checked
 {
 	color:rgb(0,0,0) ;
 	background-color: rgb(255,255,255);
-}</string>
+}
+QPushButton:disabled 
+{
+	color: rgb(255, 255, 255);
+	background-color:rgb(167, 167, 167)
+}
+</string>
                  </property>
                  <property name="text">
                   <string>MOTOR</string>
@@ -1205,6 +1244,11 @@ QPushButton:checked
 {
 	color:rgb(0,0,0) ;
 	background-color: rgb(255,255,255);
+}
+QPushButton:disabled 
+{
+	color: rgb(255, 255, 255);
+	background-color:rgb(167, 167, 167)
 }</string>
                  </property>
                  <property name="text">
@@ -1268,7 +1312,13 @@ QPushButton:checked
 {
 	color:rgb(0,0,0) ;
 	background-color: rgb(255,255,255);
-}</string>
+}
+QPushButton:disabled 
+{
+	color: rgb(255, 255, 255);
+	background-color:rgb(167, 167, 167)
+}
+</string>
                  </property>
                  <property name="text">
                   <string>MISC</string>
@@ -1331,6 +1381,11 @@ QPushButton:checked
 {
 	color:rgb(0,0,0) ;
 	background-color: rgb(255,255,255);
+}
+QPushButton:disabled 
+{
+	color: rgb(255, 255, 255);
+	background-color:rgb(167, 167, 167)
 }</string>
                  </property>
                  <property name="text">
@@ -1394,7 +1449,13 @@ QPushButton:checked
 {
 	color:rgb(0,0,0) ;
 	background-color: rgb(255,255,255);
-}</string>
+}
+QPushButton:disabled 
+{
+	color: rgb(255, 255, 255);
+	background-color:rgb(167, 167, 167)
+}
+</string>
                  </property>
                  <property name="text">
                   <string>LIFE CYCLE</string>
@@ -1457,6 +1518,11 @@ QPushButton:checked
 {
 	color:rgb(0,0,0) ;
 	background-color: rgb(255,255,255);
+}
+QPushButton:disabled 
+{
+	color: rgb(255, 255, 255);
+	background-color:rgb(167, 167, 167)
 }</string>
                  </property>
                  <property name="text">
@@ -1509,7 +1575,7 @@ QPushButton:checked
             <number>0</number>
            </property>
            <property name="currentIndex">
-            <number>11</number>
+            <number>6</number>
            </property>
            <widget class="QWidget" name="main_page">
             <widget class="QFrame" name="title_frame">
@@ -2030,7 +2096,7 @@ QPushButton:checked
                 <rect>
                  <x>10</x>
                  <y>20</y>
-                 <width>326</width>
+                 <width>328</width>
                  <height>192</height>
                 </rect>
                </property>
@@ -3095,7 +3161,7 @@ background-color: rgb(141, 137, 166);
                    <rect>
                     <x>12</x>
                     <y>22</y>
-                    <width>201</width>
+                    <width>202</width>
                     <height>150</height>
                    </rect>
                   </property>
@@ -11651,7 +11717,7 @@ QPushButton:checked
              </widget>
             </widget>
            </widget>
-           <widget class="QWidget" name="main_motor_page">
+           <widget class="QWidget" name="motor_page">
             <widget class="QFrame" name="title_frame_6">
              <property name="geometry">
               <rect>
@@ -14893,7 +14959,7 @@ QTabBar::tab:left:only-one, QTabBar::tab:right:only-one {
                <attribute name="title">
                 <string>Light Tower</string>
                </attribute>
-               <widget class="QWidget" name="">
+               <widget class="QWidget" name="layoutWidget">
                 <property name="geometry">
                  <rect>
                   <x>10</x>
@@ -16356,7 +16422,7 @@ background-color: rgb(141, 137, 166);
                 <property name="frameShadow">
                  <enum>QFrame::Raised</enum>
                 </property>
-                <widget class="QWidget" name="">
+                <widget class="QWidget" name="layoutWidget">
                  <property name="geometry">
                   <rect>
                    <x>10</x>
@@ -17887,11 +17953,11 @@ background-color: rgb(0, 129, 175);
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="navigation_button_group"/>
-  <buttongroup name="main_motor_module_button_group"/>
-  <buttongroup name="io_module_button_group"/>
-  <buttongroup name="input_list_page_button_group"/>
   <buttongroup name="main_motor_page_button_group"/>
+  <buttongroup name="navigation_button_group"/>
+  <buttongroup name="io_module_button_group"/>
   <buttongroup name="output_list_page_button_group"/>
+  <buttongroup name="main_motor_module_button_group"/>
+  <buttongroup name="input_list_page_button_group"/>
  </buttongroups>
 </ui>

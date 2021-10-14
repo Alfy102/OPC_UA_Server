@@ -293,12 +293,12 @@ class OpcServerThread(object):
         hardware_name = lead_data['node_property']['device']
         device_size = len(io_dict)
         current_relay_list = await plc_tcp_socket_read(self.plc_ip_address,self.port_number,lead_device,device_size)
-        i=0
-        for key,value in io_dict.items():
+        
+        for i,(key,value) in enumerate(io_dict.items()):
             node_id = key
             data_type = value['node_property']['data_type']
             asyncio.create_task(self.simple_write_to_opc(node_id, current_relay_list[i], data_type))
-            i+=1
+            
 
     async def simple_write_to_opc(self, node_id, data_value, data_type):
         node_id=self.get_node(node_id)

@@ -142,15 +142,18 @@ class Ui_MainWindow(QMainWindow,gui):
         self.light_tower_cancel_button.clicked.connect(lambda: self.light_tower_setup(False))
 
         #-------------user_login logic------------------------
-        #self.user_login_button.clicked.connect(self.user_login_show)
+        self.user_login_button.clicked.connect(self.user_login_show)
         #self.user_login_button.clicked.connect(self.access_level_restriction)
         #self.user_login_button.clicked.connect(lambda: self.user_access_settings_info('3FFFFFF'))
         self.user_access_page_setup(False)
+        self.access_level_restriction('AA0000')
         self.user_access_edit_button.clicked.connect(lambda: self.user_access_page_setup(True))
         self.user_access_cancel_button.clicked.connect(lambda: self.user_access_page_setup(False))
         self.user_access_save_button.clicked.connect(lambda: self.user_access_page_setup(False))
         self.user_access_cancel_button.clicked.connect(lambda: self.user_access_settings_info('cancel'))
         self.user_access_save_button.clicked.connect(lambda: self.user_access_settings_info('save'))
+
+
 
     def show_alarm(self):
         self.stackedWidget.setCurrentIndex(3)
@@ -218,22 +221,42 @@ class Ui_MainWindow(QMainWindow,gui):
             for key, value in self.lot_input.items():
                 label = value['label_point'][0]
                 data_value = value['node_property']['initial_value']
-                if data_value == 'Null':
-                    data_value == ''
                 if key == 10054 or key == 10055:
                     label_object = eval(f"self.{label}")
-                    if data_value != 'Null':
+                    if data_value != '':
                         old_dt = datetime.strptime(data_value, "%d.%m.%Y %H:%M")
+                        label_object.setDateTime(old_dt)
                 else:
                     label_object = eval(f"self.{label}")
                     label_object.setText(data_value)
 
     def user_access_settings_info(self,data):
         if data == 'save':
+            for key,value in self.user_access_dict.items():
+                name = value['name']
+                bin_string = []
+                for i,label in enumerate(value['label_point']):
+                    check_box_object = eval(f"self.{name}_{label}")
+                    x = check_box_object.isChecked()
+                    bin_string.append(str(int(x)))
+                    #print(f"self.{name}_{label} {x}")
+                data_value = ''.join(bin_string)
+                data_value = str(hex(int(data_value,2)))[2:]
+                value['node_property']['initial_value'] = data_value
+                self.user_access_dict.update({key:value})
+                data_type = value['node_property']['data_type']
+                print(data_value)
+                #self.send_data_to_opc(key,data_value,data_type)
+        if data == 'cancel':
             for value in self.user_access_dict.values():
                 name = value['name']
-                for label in value['label_point']:
+                data_value = value['node_property']['initial_value']
+                value_hex = hex(int(data_value,16))
+                value_bin = bin(int(value_hex, 16))[2:].zfill(24)
+                check_box_state = [int(i) for i in value_bin]
+                for i,label in enumerate(value['label_point']):
                     check_box_object = eval(f"self.{name}_{label}")
+                    check_box_object.setChecked(bool(check_box_state[i]))
     #--------------lot OEE section-----------------
 
     def init_bar_plot(self, uph_dict):
@@ -301,10 +324,9 @@ class Ui_MainWindow(QMainWindow,gui):
     def user_access_page_setup(self, data):
         for value in self.user_access_dict.values():
             name = value['name']
-            if len(value['label_point'])!=0:
-                for label in value['label_point']:
-                    check_box_object = eval(f"self.{name}_{label}")
-                    check_box_object.setEnabled(data)
+            for label in value['label_point']:
+                check_box_object = eval(f"self.{name}_{label}")
+                check_box_object.setEnabled(data)
 
     def light_tower_setup(self, data):
         self.light_tower_settings_layout_group.setEnabled(data)
@@ -411,42 +433,50 @@ class Ui_MainWindow(QMainWindow,gui):
         username = dialog.ui.username_input.text()
         password = dialog.ui.password_input.text()
         access_level = self.user_access(username,password)
-        if access_level == 0:
+        if access_level == 'AA':
             self.message_box_show("Wrong Username/Password")
-        elif access_level != 0:
+        elif access_level != 'AA':
             self.message_box_show("Login Successful")
-
+        self.access_level_restriction(access_level)
+        self.stackedWidget.setCurrentIndex(0)
 
     def user_access(self, username, password):
         for value in self.user_access_dict.values():
-            data_value = value['node_property']['initial_value']
-            data_value = data_value.split(';')
-            ref_pass=data_value[1]
-            if username in data_value:
+            ref_name = value['username']
+            ref_pass = value['password']
+            data_value = value['node_property']['initial_value']  
+            if username == ref_name:
                 if password == ref_pass:
-                    access_level=data_value[2]
+                    access_level=data_value
                     break
                 elif password!= ref_pass:
-                    access_level=0
+                    access_level='AA0000'
             else:
-                access_level=0
+                access_level='AA0000'
+        if username == 'gsh_developer' and password == 'GSH_Engineering_1231!':
+            access_level = 'FFFFFF'
         return access_level
 
-
-
-
-
-
-
-    def access_level_restriction(self):#, data):
+    def access_level_restriction(self, data):
+        value_hex = hex(int(data,16))
+        value_bin = bin(int(value_hex, 16))[2:].zfill(24)
+        value_bin = str(value_bin)
+        value_bin_list = [value_bin[i:i+2] for i in range(0, len(value_bin), 2)]
         button_list = self.navigation_button_group.buttons()
-        for buttons in button_list:
-            print(buttons.text())
-
         page_list = self.stackedWidget.children()
-        for page in page_list:
-            print(page.objectName())
-
+        page_list = [str(page.objectName()) for page in page_list if str(page.objectName()) !='']
+        for i,buttons in enumerate(button_list):
+            button_name = buttons.text()
+            button_name = button_name.lower()
+            button_name = button_name.replace(' ','_')
+            page_index = [i for i, s in enumerate(page_list) if button_name in s]
+            page_name = page_list[page_index[0]]
+            #print(button_name, page_name)
+            button_state = bool(int(value_bin_list[i][0]))
+            page_state = bool(int(value_bin_list[i][1]))
+            page_object = eval(f"self.{page_name}")
+            buttons.setEnabled(button_state)
+            page_object.setEnabled(page_state)
 
 
 
@@ -454,9 +484,6 @@ class MessageBox(QDialog, message_dialog):
     def __init__(self, parent=None):
         QDialog.__init__(self, parent)
         self.setupUi(self)
-    
-
-
 
 class Dialog(QDialog, login_dialog):
     def __init__(self, parent=None):

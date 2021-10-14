@@ -180,27 +180,27 @@ node_structure = {
 #---------------------------------------------------------------------------------
 10050:{ 'name': 'lot_id',
         'label_point':['lot_id_input'],
-        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'lot_input', 'history': True,'rw': 'rw', 'initial_value': 'Null'},
+        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'lot_input', 'history': True,'rw': 'rw', 'initial_value': ''},
         'monitored_node': None},
 10051:{ 'name': 'operator_id',
         'label_point':['operator_id_input'],
-        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'lot_input', 'history': True,'rw': 'rw', 'initial_value': 'Null'},
+        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'lot_input', 'history': True,'rw': 'rw', 'initial_value': ''},
         'monitored_node': None},
 10052:{ 'name': 'package_name',
         'label_point':['package_name_input'],
-        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'lot_input', 'history': True,'rw': 'rw', 'initial_value': 'Null'},
+        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'lot_input', 'history': True,'rw': 'rw', 'initial_value': ''},
         'monitored_node': None},
 10053:{ 'name': 'device_id',
         'label_point':['device_id_input'],
-        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'lot_input', 'history': True,'rw': 'rw', 'initial_value': 'Null'},
+        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'lot_input', 'history': True,'rw': 'rw', 'initial_value': ''},
         'monitored_node': None},
 10054:{ 'name': 'lot_start_time',
         'label_point':['lot_start_date_time'],
-        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'lot_input', 'history': True,'rw': 'rw', 'initial_value': 'Null'},
+        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'lot_input', 'history': True,'rw': 'rw', 'initial_value': ''},
         'monitored_node': None},
 10055:{ 'name': 'shift_start_time',
         'label_point':['shift_start_date_time'],
-        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'lot_input', 'history': True,'rw': 'rw', 'initial_value': 'Null'},
+        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'lot_input', 'history': True,'rw': 'rw', 'initial_value': ''},
         'monitored_node': None},
 #---------------------------------------------------------------------------------
 #PLC Clock
@@ -287,24 +287,24 @@ node_structure = {
 #----------user access level restrictions
 #---------------------------------------------------------------------------------
 10090:{ 'name': 'level_1',
-        'label_point':['check_box_1','check_box_2','check_box_2','check_box_3','check_box_4','check_box_5','check_box_6','check_box_7','check_box_8','check_box_9','check_box_10','check_box_11','check_box_12','check_box_13','check_box_14','check_box_15','check_box_16','check_box_17','check_box_18','check_box_19','check_box_20','check_box_21','check_box_22','check_box_23','check_box_24'],
-        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'user_access', 'history': True,'rw': 'rw', 'initial_value': 'user_1;user_1;3FFFFFF'}},
+        'username':'user_1',
+        'password':'user_1',
+        'label_point':['check_box_1','check_box_2','check_box_3','check_box_4','check_box_5','check_box_6','check_box_7','check_box_8','check_box_9','check_box_10','check_box_11','check_box_12','check_box_13','check_box_14','check_box_15','check_box_16','check_box_17','check_box_18','check_box_19','check_box_20','check_box_21','check_box_22','check_box_23','check_box_24'],
+        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'user_access', 'history': True,'rw': 'rw', 'initial_value': 'FF0000'}},
 
 
 10091:{ 'name': 'level_2',
-        'label_point':['check_box_1','check_box_2','check_box_2','check_box_3','check_box_4','check_box_5','check_box_6','check_box_7','check_box_8','check_box_9','check_box_10','check_box_11','check_box_12','check_box_13','check_box_14','check_box_15','check_box_16','check_box_17','check_box_18','check_box_19','check_box_20','check_box_21','check_box_22','check_box_23','check_box_24'],
-        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'user_access', 'history': True,'rw': 'rw', 'initial_value': 'user_2;user_2;2FFFFFF'}},
+        'username':'user_2',
+        'password':'user_2',
+        'label_point':['check_box_1','check_box_2','check_box_3','check_box_4','check_box_5','check_box_6','check_box_7','check_box_8','check_box_9','check_box_10','check_box_11','check_box_12','check_box_13','check_box_14','check_box_15','check_box_16','check_box_17','check_box_18','check_box_19','check_box_20','check_box_21','check_box_22','check_box_23','check_box_24'],
+        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'user_access', 'history': True,'rw': 'rw', 'initial_value': 'FFA800'}},
 
 
 10092:{ 'name': 'level_3',
-        'label_point':['check_box_1','check_box_2','check_box_2','check_box_3','check_box_4','check_box_5','check_box_6','check_box_7','check_box_8','check_box_9','check_box_10','check_box_11','check_box_12','check_box_13','check_box_14','check_box_15','check_box_16','check_box_17','check_box_18','check_box_19','check_box_20','check_box_21','check_box_22','check_box_23','check_box_24'],
-        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'user_access', 'history': True,'rw': 'rw', 'initial_value': 'user_3;user_3;1FFFFFF'}},
-
-
-10093:{ 'name': 'developer_1',
-        'label_point':[],
-        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'user_access', 'history': False,'rw': 'rw', 'initial_value': 'developer_1;developer_1;3FFFFFF'}},
-
+        'username':'user_3',
+        'password':'user_3',
+        'label_point':['check_box_1','check_box_2','check_box_3','check_box_4','check_box_5','check_box_6','check_box_7','check_box_8','check_box_9','check_box_10','check_box_11','check_box_12','check_box_13','check_box_14','check_box_15','check_box_16','check_box_17','check_box_18','check_box_19','check_box_20','check_box_21','check_box_22','check_box_23','check_box_24'],
+        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'user_access', 'history': True,'rw': 'rw', 'initial_value': 'FFFFFF'}},
 
 
 
