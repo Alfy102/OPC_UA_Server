@@ -28,25 +28,25 @@ class Ui_MainWindow(QMainWindow,gui):
         self.hmi_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='client_input_1'}
         self.lot_input = {key:value for key,value in node_structure.items() if value['node_property']['category']=='lot_input'}
         self.user_access_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='user_access'}
+        self.monitored_node = {key:value for key,value in node_structure.items() if value['node_property']['category']=='server_variables' or value['node_property']['category']=='shift_server_variables'}
+        self.time_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='time_variables'}
+        
         self.ui_time_dict = {}
         self.client_thread=QThread()
         self.client_worker = gsh_client.OpcClientThread(self.input_queue,endpoint,self.uri,client_refresh_rate)
         self.client_worker.moveToThread(self.client_thread)
         self.client_thread.started.connect(self.client_worker.run)
-        self.client_worker.logger_signal.connect(self.logger_handler)
-        self.client_worker.data_signal.connect(self.io_handler)
-        self.client_worker.info_signal.connect(self.info_handler)
-        self.client_worker.uph_signal.connect(self.update_plot)
+       
         self.client_worker.init_plot.connect(self.init_bar_plot)
         self.client_worker.upstream_signal.connect(self.downstream_data_handler)
-
+        self.client_worker.time_data_signal.connect(self.time_label_update)
 
         timer = QTimer(self)
         timer.timeout.connect(self.update_system_time_label)
         timer.start(1000)
 
 
-        self.client_worker.time_data_signal.connect(self.time_label_update)
+        
         self.rgb_value_input_on = "64, 255, 0"
         self.rgb_value_input_off = "0, 80, 0"
         self.rgb_value_output_on = "255, 20, 20"
@@ -66,6 +66,7 @@ class Ui_MainWindow(QMainWindow,gui):
         function = data[0]
         input_data = data[1]
         target_function = eval(f"self.{function}")
+        target_function(input_data)
 
 
     def setupUi(self, MainFrame):
@@ -388,7 +389,7 @@ class Ui_MainWindow(QMainWindow,gui):
 
     def info_handler(self, data):
         data_value = data[0]
-        label_list = data[1]
+        label_list = self.monitored_node[data[1]]['label_point']
         if data_value:
             for label in label_list:
                 info_label = eval(f"self.{label}")
@@ -398,8 +399,8 @@ class Ui_MainWindow(QMainWindow,gui):
                     info_label.setText(f"{data_value:.2f}")
 
     def io_handler(self, data):
-        label_list = data[1]
         data_value = data[0]
+        label_list = self.io_dict[data[1]]['label_point']
         for label in label_list:
             indicator_label = eval(f"self.{label}")
             if data_value == 1:
@@ -414,7 +415,7 @@ class Ui_MainWindow(QMainWindow,gui):
                     indicator_label.setStyleSheet(f"background-color: rgb({self.rgb_value_output_off});color: rgb(200, 200, 200);")
 
     def time_label_update(self,data):
-        labels = data[0]
+        labels = self.time_dict[data[0]]['label_point']
         time_string = data[1].split('.')[0]
         for label in labels:
             time_label = eval(f"self.{label}")
