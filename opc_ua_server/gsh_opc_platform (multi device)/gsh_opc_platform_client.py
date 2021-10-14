@@ -20,7 +20,7 @@ class SubIoHandler(object):
     async def datachange_notification(self, node, val, data):
         node_id = node.nodeid.Identifier
         label_list = self.io_dict[node_id]['label_point']
-        self.data_signal.emit((int(val), label_list))
+        self.data_signal.emit(['io_handler',(int(val), label_list)])
 
 class SubInfoHandler(object):
     def __init__(self,info_signal,info_dict):
@@ -40,6 +40,7 @@ class SubTimerHandler(object):
         time_label = self.time_dict[node_identifier]['label_point']
         self.time_signal.emit((time_label, val))
 
+
 class SubUPHHandler(object):
     def __init__(self,uph_signal,uph_dict):
         self.uph_signal = uph_signal
@@ -57,10 +58,15 @@ class OpcClientThread(QObject):
     data_signal=pyqtSignal(tuple)
     time_data_signal=pyqtSignal(tuple)
     info_signal = pyqtSignal(tuple)
-    ui_refresh_signal=pyqtSignal()
     logger_signal=pyqtSignal(tuple)
     uph_signal = pyqtSignal(tuple)
+
+
+    upstream_signal = pyqtSignal(list)
+
+
     init_plot = pyqtSignal(dict)
+    ui_refresh_signal=pyqtSignal()
     def __init__(self,input_q,endpoint,uri,client_refresh_rate,parent=None,**kwargs):
         super().__init__(parent, **kwargs)
         self.input_queue = input_q
@@ -72,6 +78,13 @@ class OpcClientThread(QObject):
         self.hmi_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='client_input_1'}
         self.time_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='time_variables'}
         self.uph_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='uph_variables'}
+
+
+        self.device_mode_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='uph_variables'}
+        self.light_tower_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='light_tower_settings'}
+        self.user_access_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='user_access'}
+        self.lot_info_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='lot_input'}
+        self.device_mode_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='device_mode'}
         url = f"opc.tcp://{endpoint}"
         self.client = Client(url=url)
         self.uri = uri
@@ -104,7 +117,7 @@ class OpcClientThread(QObject):
         async with self.client as client:
             namespace_index = await client.get_namespace_index(self.uri)
 
-            io_handler = SubIoHandler(self.data_signal,self.io_dict)
+            io_handler = SubIoHandler(self.upstream_signal,self.io_dict)
             io_sub = await client.create_subscription(self.sub_time, io_handler)
             for node in self.io_dict.keys():
                 var = client.get_node((ua.NodeId(node, namespace_index)))
@@ -136,7 +149,6 @@ class OpcClientThread(QObject):
                 current_value = await var.read_value()
                 value['node_property']['initial_value'] = current_value
                 self.uph_dict.update({node:value})
-                #self.uph_signal.emit((node,current_value))
 
             self.init_plot.emit(self.uph_dict)
             uph_handler = SubUPHHandler(self.uph_signal,self.uph_dict)  

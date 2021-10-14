@@ -22,7 +22,7 @@ class Ui_MainWindow(QMainWindow,gui):
         self.uri = "PLC_Server"
         self.start_time = datetime.now()
         self.input_queue = Queue()
-        endpoint = "localhost:4845/gshopcua/server"
+        endpoint = "localhost:4840/gshopcua/server"
         client_refresh_rate = 0.1   
         self.io_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='relay'}
         self.hmi_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='client_input_1'}
@@ -38,6 +38,7 @@ class Ui_MainWindow(QMainWindow,gui):
         self.client_worker.info_signal.connect(self.info_handler)
         self.client_worker.uph_signal.connect(self.update_plot)
         self.client_worker.init_plot.connect(self.init_bar_plot)
+        self.client_worker.upstream_signal.connect(self.downstream_data_handler)
 
 
         timer = QTimer(self)
@@ -57,9 +58,16 @@ class Ui_MainWindow(QMainWindow,gui):
         self.plot_bar = ''
         self.plot_text =''
         self.light_tower_settings_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='light_tower_setting'}
-        
+        self.current_user_level = None
         self.setupUi(self)
-        
+
+
+    def downstream_data_handler(self, data):
+        function = data[0]
+        input_data = data[1]
+        target_function = eval(f"self.{function}")
+
+
     def setupUi(self, MainFrame):
         super(Ui_MainWindow, self).setupUi(MainFrame)
         self.alarm_log_text_edit.setReadOnly(True)
@@ -153,8 +161,6 @@ class Ui_MainWindow(QMainWindow,gui):
         self.user_access_cancel_button.clicked.connect(lambda: self.user_access_settings_info('cancel'))
         self.user_access_save_button.clicked.connect(lambda: self.user_access_settings_info('save'))
 
-
-
     def show_alarm(self):
         self.stackedWidget.setCurrentIndex(3)
         self.log_tab_widget.setCurrentIndex(1)
@@ -165,7 +171,7 @@ class Ui_MainWindow(QMainWindow,gui):
         dt = dt.strftime("%d-%m-%Y  %H:%M:%S")
         self.datetime_label.setText(dt)
 
-    #-------info sectioon -------------------
+#-------info sectioon -------------------
 
     def light_tower_info(self, data):
         if data=='save':
@@ -180,7 +186,7 @@ class Ui_MainWindow(QMainWindow,gui):
                 value['node_property']['initial_value'] = data_value
                 data_type = value['node_property']['data_type']
                 self.light_tower_settings_dict.update({key:value})
-                #self.send_data_to_opc(key,data_value,data_type)
+                self.send_data_to_opc(key,data_value,data_type)
         elif data == 'cancel':
             for key,value in self.light_tower_settings_dict.items():
                 initial_value = value['node_property']['initial_value']
@@ -214,7 +220,7 @@ class Ui_MainWindow(QMainWindow,gui):
                 value['node_property']['initial_value'] = data_value
                 data_type = value['node_property']['data_type']
                 self.lot_input.update({key:value})
-                #self.send_data_to_opc(key,data_value,data_type)
+                self.send_data_to_opc(key,data_value,data_type)
 
         if action=='cancel':
             
@@ -245,8 +251,7 @@ class Ui_MainWindow(QMainWindow,gui):
                 value['node_property']['initial_value'] = data_value
                 self.user_access_dict.update({key:value})
                 data_type = value['node_property']['data_type']
-                print(data_value)
-                #self.send_data_to_opc(key,data_value,data_type)
+                self.send_data_to_opc(key,data_value,data_type)
         if data == 'cancel':
             for value in self.user_access_dict.values():
                 name = value['name']
@@ -257,7 +262,8 @@ class Ui_MainWindow(QMainWindow,gui):
                 for i,label in enumerate(value['label_point']):
                     check_box_object = eval(f"self.{name}_{label}")
                     check_box_object.setChecked(bool(check_box_state[i]))
-    #--------------lot OEE section-----------------
+
+#--------------lot OEE section-----------------
 
     def init_bar_plot(self, uph_dict):
         self.uph_dict = uph_dict
@@ -265,8 +271,6 @@ class Ui_MainWindow(QMainWindow,gui):
 
     def update_plot(self):
         y = [value['node_property']['initial_value'] for value in self.uph_dict.values()]
-        
-
         for rect, h in zip(self.plot_bar, y):
             rect.set_height(h)
         if len(self.plot_text) !=0:
@@ -309,7 +313,7 @@ class Ui_MainWindow(QMainWindow,gui):
         rgb_value = background_color_property[background_color_property.find("(")+1:background_color_property.find(")")]
         return rgb_value
 
-    #-----------page setup section----------------------
+#-----------page setup section----------------------
 
     def lot_entry_page_setup(self, data):
         self.operator_id_input.setEnabled(data)
@@ -333,6 +337,8 @@ class Ui_MainWindow(QMainWindow,gui):
         self.light_tower_save_button.setEnabled(data)
         self.light_tower_cancel_button.setEnabled(data)
 
+#-----------page behaviour section----------------------
+
     def io_list_page_behaviour(self):
         self.stackedWidget.setCurrentIndex(4)
         self.input_stacked_widget.setCurrentIndex(0)
@@ -352,8 +358,12 @@ class Ui_MainWindow(QMainWindow,gui):
         self.main_motor_station_stacked_widget.setCurrentIndex(0)
         self.main_motor_control_stacked_widget.setCurrentIndex(0)
 
+#-----------send data to client section----------------------
+
     def send_data_to_opc(self,node_id, data_value, data_type):
         self.input_queue.put((node_id, data_value, data_type))
+
+#-----------data handler section----------------------
 
     def get_data_response(self,label_object_name,label_object_text, data_value):
         hmi_node = [(key,value) for key,value in self.hmi_dict.items() if label_object_name in value['label_point']][0]
@@ -410,19 +420,18 @@ class Ui_MainWindow(QMainWindow,gui):
             time_label = eval(f"self.{label}")
             time_label.setText(time_string)
 
+#-----------application exit event section----------------------
+
     def closeEvent(self,event):
         #create a method to check user access level
+        #if self.current_user_level != 'level_3':
+        #    self.message_box_show("YOU HAVE NO ACCESSS TO EXIT!!")
+        event.accept()
         #if user access level is accepted, accept event to close the HMI. event.accept()
         #else event.ignore() hence not closeing the HMI
-        print("Close event trigger")
-        
-    def message_box_show(self,message):
-        mbox = QtWidgets.QDialog()
-        mbox.ui = MessageBox()
-        mbox.ui.setupUi(mbox)
-        mbox.ui.plainTextEdit.appendPlainText(message)
-        mbox.setWindowFlags(QtCore.Qt.FramelessWindowHint)# | QtCore.Qt.WindowStaysOnTopHint)
-        mbox.exec_()
+
+#-----------user control section----------------------  
+  
 
     def user_login_show(self):
         dialog = QtWidgets.QDialog()
@@ -432,15 +441,17 @@ class Ui_MainWindow(QMainWindow,gui):
         dialog.exec_()
         username = dialog.ui.username_input.text()
         password = dialog.ui.password_input.text()
-        access_level = self.user_access(username,password)
+        access_level,access_level_name = self.user_access(username,password)
         if access_level == 'AA':
             self.message_box_show("Wrong Username/Password")
         elif access_level != 'AA':
             self.message_box_show("Login Successful")
         self.access_level_restriction(access_level)
+        self.current_user_level = access_level_name
         self.stackedWidget.setCurrentIndex(0)
 
     def user_access(self, username, password):
+        access_level_name = None
         for value in self.user_access_dict.values():
             ref_name = value['username']
             ref_pass = value['password']
@@ -448,6 +459,7 @@ class Ui_MainWindow(QMainWindow,gui):
             if username == ref_name:
                 if password == ref_pass:
                     access_level=data_value
+                    access_level_name = value['name']
                     break
                 elif password!= ref_pass:
                     access_level='AA0000'
@@ -455,7 +467,7 @@ class Ui_MainWindow(QMainWindow,gui):
                 access_level='AA0000'
         if username == 'gsh_developer' and password == 'GSH_Engineering_1231!':
             access_level = 'FFFFFF'
-        return access_level
+        return access_level, access_level_name
 
     def access_level_restriction(self, data):
         value_hex = hex(int(data,16))
@@ -478,6 +490,14 @@ class Ui_MainWindow(QMainWindow,gui):
             buttons.setEnabled(button_state)
             page_object.setEnabled(page_state)
 
+#----------- info message box section----------------------  
+    def message_box_show(self,message):
+        mbox = QtWidgets.QDialog()
+        mbox.ui = MessageBox()
+        mbox.ui.setupUi(mbox)
+        mbox.ui.plainTextEdit.appendPlainText(message)
+        mbox.setWindowFlags(QtCore.Qt.FramelessWindowHint)# | QtCore.Qt.WindowStaysOnTopHint)
+        mbox.exec_()
 
 
 class MessageBox(QDialog, message_dialog):
@@ -502,7 +522,7 @@ if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     main_window = Ui_MainWindow()
     main_window.setWindowFlags(QtCore.Qt.FramelessWindowHint)# | QtCore.Qt.WindowStaysOnTopHint)
-    #main_window.client_start()
+    main_window.client_start()
     main_window.show()
     main_window.showFullScreen()
     sys.exit(app.exec_())

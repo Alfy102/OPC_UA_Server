@@ -198,7 +198,8 @@ class OpcServerThread(object):
     async def system_uptime(self):    
         lot_start_node = self.get_node(10054)
         lot_start_datetime = await lot_start_node.read_value()
-        if lot_start_datetime != 'Null':
+        current_device_mode = self.mode_dict[10070]['node_property']['initial_value']
+        if lot_start_datetime != 'Null' and current_device_mode == True:
             uptime = self.uptime(lot_start_datetime)
             uptime = str(uptime).split('.')[0]
             asyncio.create_task(self.simple_write_to_opc(10044, uptime, 'String')) #write to lot_uptime
@@ -338,7 +339,7 @@ class OpcServerThread(object):
                             if historizing and category == 'time_variables':
                                 await self.server.historize_node_data_change(server_var, period=None, count=10)
                             if historizing and category != 'time_variables':
-                                await self.server.historize_node_data_change(server_var, period=None, count=500)
+                                await self.server.historize_node_data_change(server_var, period=None, count=100)
         conn.close()
 
 
