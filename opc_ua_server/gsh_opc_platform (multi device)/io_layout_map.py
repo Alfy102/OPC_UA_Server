@@ -300,20 +300,22 @@ node_structure = {
         'label_point':['check_box_1','check_box_2','check_box_3','check_box_4','check_box_5','check_box_6','check_box_7','check_box_8','check_box_9','check_box_10','check_box_11','check_box_12','check_box_13','check_box_14','check_box_15','check_box_16','check_box_17','check_box_18','check_box_19','check_box_20','check_box_21','check_box_22','check_box_23','check_box_24'],
         'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'user_access', 'history': True,'rw': 'rw', 'initial_value': 'FFFFFF'}},
 
-10093:{ 'name': 'level_1_info',
+10093:{ 'name': 'level_1',
         'label_point':[],
-        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'user_info', 'history': True,'rw': 'rw', 'initial_value': 'user_1;user_1'},
+        'username':'user_1',
+        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'user_info', 'history': True,'rw': 'rw', 'initial_value': 'user_1'},
         'monitored_node': 10090},
 
-
-10094:{ 'name': 'level_1_info',
+10094:{ 'name': 'level_2',
         'label_point':[],
-        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'user_info', 'history': True,'rw': 'rw', 'initial_value': 'user_2;user_2'},
+        'username':'user_2',
+        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'user_info', 'history': True,'rw': 'rw', 'initial_value': 'user_2'},
         'monitored_node': 10091},
 
-10095:{ 'name': 'level_1_info',
+10095:{ 'name': 'level_3',
         'label_point':[],
-        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'user_info', 'history': True,'rw': 'rw', 'initial_value': 'user_3;user_3'},
+        'username':'user_3',
+        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'user_info', 'history': True,'rw': 'rw', 'initial_value': 'user_3'},
         'monitored_node': 10092},
 
 

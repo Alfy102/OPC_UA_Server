@@ -1,7 +1,7 @@
 import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import  QThread,QEvent, QTimer
-from PyQt5.QtWidgets import QButtonGroup, QLineEdit, QMainWindow, QDialog, QLineEdit, QPlainTextEdit, QStackedWidget
+from PyQt5.QtWidgets import QButtonGroup, QComboBox, QLineEdit, QMainWindow, QDialog, QLineEdit, QPlainTextEdit, QStackedWidget
 from queue import Queue
 import gsh_opc_platform_client as gsh_client
 from gsh_opc_platform_gui import Ui_MainWindow as gui
@@ -167,6 +167,14 @@ class Ui_MainWindow(QMainWindow,gui):
         self.user_access_cancel_button.clicked.connect(lambda: self.user_access_settings_info('cancel'))
         self.user_access_save_button.clicked.connect(lambda: self.user_access_settings_info('save'))
 
+        #-------------change username and password page-------
+        self.user_info_setup(False)
+        self.user_edit_button.clicked.connect(lambda: self.user_info_setup(True))
+        self.user_save_button.clicked.connect(lambda: self.user_info_setup(False))
+        self.user_cancel_button.clicked.connect(lambda: self.user_info_setup(True))
+        self.user_save_button.clicked.connect(lambda: self.user_info_info('save'))
+        self.user_cancel_button.clicked.connect(lambda: self.user_info_info('cancel'))
+
     def show_alarm(self):
         self.stackedWidget.setCurrentIndex(3)
         self.log_tab_widget.setCurrentIndex(1)
@@ -269,10 +277,56 @@ class Ui_MainWindow(QMainWindow,gui):
                     check_box_object = eval(f"self.{name}_{label}")
                     check_box_object.setChecked(bool(check_box_state[i]))
 
+
+    def user_info_info(self, data):
+        if data == 'save':
+            username = self.username_combo_box.currentText()
+            old_password = self.old_password_input.text()
+            
+            new_password = self.new_password_input.text()
+            retyped_new_password = self.retyped_new_password_input.text()
+            if username == 'user_1':
+                current_password = self.user_info_dict[10093]['node_property']['initial_value']
+                if old_password == current_password:
+                    if new_password==retyped_new_password:
+                        self.send_data_to_opc(10093,new_password,'String')
+                    elif new_password != retyped_new_password:
+                        self.message_box_show("Mismatch New Password, Please Type Again Correctly!")
+                elif old_password != current_password:
+                    self.message_box_show("Wrong Old Password!")
+
+            elif username == 'user_2':
+                current_password = self.user_info_dict[10094]['node_property']['initial_value']
+                if old_password == current_password:
+                    if new_password==retyped_new_password:
+                        self.send_data_to_opc(10094,new_password,'String')
+                    elif new_password != retyped_new_password:
+                        self.message_box_show("Mismatch New Password, Please Type Again Correctly!")
+                elif old_password != current_password:
+                    self.message_box_show("Wrong Old Password!")
+
+            elif username == 'user_3':
+                current_password = self.user_info_dict[10095]['node_property']['initial_value']
+                if old_password == current_password:
+                    if new_password==retyped_new_password:
+                        self.send_data_to_opc(10095,new_password,'String')
+                    elif new_password != retyped_new_password:
+                        self.message_box_show("Mismatch New Password, Please Type Again Correctly!")
+                elif old_password != current_password:
+                    self.message_box_show("Wrong Old Password!")
+
+        if data == 'cancel':
+            self.username_combo_box.setCurrentText('user_1')
+            self.old_password_input.clear()
+            self.new_password_input.clear()
+            self.retyped_new_password_input.clear()
+            
+
+
     def update_settings_dictionary(self,data):
         key = data[0]
         new_value = data[1]
-        settings_dict = [self.lot_input_dict , self.user_access_dict , self.light_tower_settings_dict , self.device_mode_dict]
+        settings_dict = [self.lot_input_dict , self.user_info_dict, self.user_access_dict , self.light_tower_settings_dict , self.device_mode_dict]
         for dict in settings_dict:
             if key in dict:
                 extracted_value = dict[key]
@@ -356,6 +410,12 @@ class Ui_MainWindow(QMainWindow,gui):
         self.light_tower_settings_layout_group.setEnabled(data)
         self.light_tower_save_button.setEnabled(data)
         self.light_tower_cancel_button.setEnabled(data)
+
+    def user_info_setup(self, data):
+        self.username_combo_box.setEnabled(data)
+        self.new_password_input.setEnabled(data)
+        self.old_password_input.setEnabled(data)
+        self.retyped_new_password_input.setEnabled(data)
 
 #-----------page behaviour section----------------------
 
@@ -472,13 +532,13 @@ class Ui_MainWindow(QMainWindow,gui):
 
     def user_access(self, username, password):
         access_level_name = None
-        for value in self.user_access_dict.values():
+        for value in self.user_info_dict.values():
             ref_name = value['username']
-            ref_pass = value['password']
-            data_value = value['node_property']['initial_value']  
+            ref_pass = value['node_property']['initial_value'].split(';')
+            access_key = value['monitored_node']
             if username == ref_name:
                 if password == ref_pass:
-                    access_level=data_value
+                    access_level=self.user_access_dict[access_key]['node_property']['initial_value']
                     access_level_name = value['name']
                     break
                 elif password!= ref_pass:
@@ -537,12 +597,12 @@ class Dialog(QDialog, login_dialog):
 
 if __name__ == "__main__":
     import sys
-    #w = 1920; h = 1080
+
 
     app = QtWidgets.QApplication(sys.argv)
     main_window = Ui_MainWindow()
     main_window.setWindowFlags(QtCore.Qt.FramelessWindowHint)# | QtCore.Qt.WindowStaysOnTopHint)
-    main_window.client_start()
+    #main_window.client_start()
     main_window.show()
     main_window.showFullScreen()
     sys.exit(app.exec_())

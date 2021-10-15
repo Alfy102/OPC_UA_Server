@@ -75,6 +75,7 @@ class OpcClientThread(QObject):
 
         self.light_tower_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='light_tower_setting'}
         self.user_access_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='user_access'}
+        self.user_info_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='user_info'}
         self.lot_info_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='lot_input'}
         self.device_mode_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='device_mode'}
         url = f"opc.tcp://{endpoint}"
@@ -145,7 +146,7 @@ class OpcClientThread(QObject):
                 await uph_sub.subscribe_data_change(var,queuesize=1)
             
 
-            settings_dict = self.light_tower_dict | self.device_mode_dict | self.user_access_dict | self.lot_info_dict
+            settings_dict = self.light_tower_dict | self.device_mode_dict | self.user_info_dict | self.user_access_dict | self.lot_info_dict
             settings_handler = SubSettingsHandler(self.upstream_signal)
             settings_sub = await client.create_subscription(self.sub_time, settings_handler)
             for node in settings_dict.keys():
