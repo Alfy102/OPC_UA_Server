@@ -1575,7 +1575,7 @@ QPushButton:disabled
             <number>0</number>
            </property>
            <property name="currentIndex">
-            <number>6</number>
+            <number>11</number>
            </property>
            <widget class="QWidget" name="main_page">
             <widget class="QFrame" name="title_frame">
@@ -14950,7 +14950,7 @@ QTabBar::tab:left:only-one, QTabBar::tab:right:only-one {
 }</string>
               </property>
               <property name="currentIndex">
-               <number>3</number>
+               <number>2</number>
               </property>
               <widget class="QWidget" name="light_tower_page">
                <property name="styleSheet">
@@ -16386,12 +16386,306 @@ background-color: rgb(141, 137, 166);
                   <height>791</height>
                  </rect>
                 </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(232, 233, 238)</string>
+                </property>
                 <property name="frameShape">
                  <enum>QFrame::StyledPanel</enum>
                 </property>
                 <property name="frameShadow">
                  <enum>QFrame::Raised</enum>
                 </property>
+                <widget class="QWidget" name="">
+                 <property name="geometry">
+                  <rect>
+                   <x>10</x>
+                   <y>10</y>
+                   <width>401</width>
+                   <height>201</height>
+                  </rect>
+                 </property>
+                 <layout class="QVBoxLayout" name="verticalLayout_121" stretch="0,3,0">
+                  <property name="spacing">
+                   <number>2</number>
+                  </property>
+                  <item>
+                   <widget class="QLabel" name="label_143">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>15</pointsize>
+                      <bold>true</bold>
+                     </font>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">background-color: rgb(0, 129, 175);</string>
+                    </property>
+                    <property name="text">
+                     <string>Change Username and Password</string>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <layout class="QGridLayout" name="gridLayout_3">
+                    <item row="1" column="2">
+                     <widget class="QLineEdit" name="old_password_input">
+                      <property name="styleSheet">
+                       <string notr="true">background-color: rgb(255, 255, 255);</string>
+                      </property>
+                      <property name="echoMode">
+                       <enum>QLineEdit::Password</enum>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="2" column="0">
+                     <widget class="QLabel" name="label_167">
+                      <property name="font">
+                       <font>
+                        <pointsize>12</pointsize>
+                       </font>
+                      </property>
+                      <property name="text">
+                       <string>New Password</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="1" column="0">
+                     <widget class="QLabel" name="label_148">
+                      <property name="font">
+                       <font>
+                        <pointsize>12</pointsize>
+                       </font>
+                      </property>
+                      <property name="text">
+                       <string>Old Password</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="0">
+                     <widget class="QLabel" name="label_147">
+                      <property name="font">
+                       <font>
+                        <pointsize>12</pointsize>
+                       </font>
+                      </property>
+                      <property name="text">
+                       <string>Username</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="2" column="1">
+                     <widget class="QLabel" name="label_168">
+                      <property name="text">
+                       <string>:</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="2" column="2">
+                     <widget class="QLineEdit" name="new_password_input">
+                      <property name="styleSheet">
+                       <string notr="true">background-color: rgb(255, 255, 255);</string>
+                      </property>
+                      <property name="echoMode">
+                       <enum>QLineEdit::Password</enum>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="1">
+                     <widget class="QLabel" name="label_149">
+                      <property name="text">
+                       <string>:</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="1" column="1">
+                     <widget class="QLabel" name="label_150">
+                      <property name="text">
+                       <string>:</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="3" column="0">
+                     <widget class="QLabel" name="label_169">
+                      <property name="font">
+                       <font>
+                        <pointsize>12</pointsize>
+                       </font>
+                      </property>
+                      <property name="text">
+                       <string>Re-Type New Password</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="3" column="1">
+                     <widget class="QLabel" name="label_170">
+                      <property name="text">
+                       <string>:</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="3" column="2">
+                     <widget class="QLineEdit" name="retyped_new_password_input">
+                      <property name="styleSheet">
+                       <string notr="true">background-color: rgb(255, 255, 255);</string>
+                      </property>
+                      <property name="echoMode">
+                       <enum>QLineEdit::Password</enum>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="2">
+                     <widget class="QComboBox" name="username_combo_box">
+                      <property name="styleSheet">
+                       <string notr="true">background-color: rgb(255, 255, 255);</string>
+                      </property>
+                      <item>
+                       <property name="text">
+                        <string>user_1</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>user_2</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>user_3</string>
+                       </property>
+                      </item>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <layout class="QHBoxLayout" name="horizontalLayout_97">
+                    <property name="sizeConstraint">
+                     <enum>QLayout::SetDefaultConstraint</enum>
+                    </property>
+                    <item>
+                     <widget class="QPushButton" name="user_edit_button">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="minimumSize">
+                       <size>
+                        <width>75</width>
+                        <height>30</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>75</width>
+                        <height>30</height>
+                       </size>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">color:rgb(255,255,255);
+background-color: rgb(141, 137, 166);
+</string>
+                      </property>
+                      <property name="text">
+                       <string>Edit</string>
+                      </property>
+                      <property name="autoDefault">
+                       <bool>true</bool>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <spacer name="horizontalSpacer_17">
+                      <property name="orientation">
+                       <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                       <size>
+                        <width>40</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                     </spacer>
+                    </item>
+                    <item>
+                     <widget class="QPushButton" name="user_save_button">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="minimumSize">
+                       <size>
+                        <width>75</width>
+                        <height>30</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>75</width>
+                        <height>30</height>
+                       </size>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">color:rgb(255,255,255);
+background-color: rgb(141, 137, 166);
+</string>
+                      </property>
+                      <property name="text">
+                       <string>Save</string>
+                      </property>
+                      <property name="autoDefault">
+                       <bool>true</bool>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QPushButton" name="user_cancel_button">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="minimumSize">
+                       <size>
+                        <width>75</width>
+                        <height>30</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>75</width>
+                        <height>30</height>
+                       </size>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">color:rgb(255,255,255);
+background-color: rgb(141, 137, 166);
+</string>
+                      </property>
+                      <property name="text">
+                       <string>Cancel</string>
+                      </property>
+                      <property name="autoDefault">
+                       <bool>true</bool>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                 </layout>
+                </widget>
                </widget>
               </widget>
               <widget class="QWidget" name="user_access_page">
@@ -17954,10 +18248,10 @@ background-color: rgb(0, 129, 175);
  <connections/>
  <buttongroups>
   <buttongroup name="main_motor_page_button_group"/>
+  <buttongroup name="main_motor_module_button_group"/>
+  <buttongroup name="output_list_page_button_group"/>
+  <buttongroup name="input_list_page_button_group"/>
   <buttongroup name="navigation_button_group"/>
   <buttongroup name="io_module_button_group"/>
-  <buttongroup name="output_list_page_button_group"/>
-  <buttongroup name="main_motor_module_button_group"/>
-  <buttongroup name="input_list_page_button_group"/>
  </buttongroups>
 </ui>

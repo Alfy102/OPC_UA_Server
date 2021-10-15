@@ -198,7 +198,8 @@ class OpcServerThread(object):
     async def system_uptime(self):    
         lot_start_node = self.get_node(10054)
         lot_start_datetime = await lot_start_node.read_value()
-        if lot_start_datetime != 'Null':
+        current_device_mode = self.mode_dict[10070]['node_property']['initial_value']
+        if lot_start_datetime != 'Null' and current_device_mode == True:
             uptime = self.uptime(lot_start_datetime)
             uptime = str(uptime).split('.')[0]
             asyncio.create_task(self.simple_write_to_opc(10044, uptime, 'String')) #write to lot_uptime
@@ -290,7 +291,7 @@ class OpcServerThread(object):
     async def scan_loop_plc(self,io_dict):
         lead_data = io_dict[list(io_dict.keys())[0]]
         lead_device = lead_data['name']
-        hardware_name = lead_data['node_property']['device']
+        #hardware_name = lead_data['node_property']['device']
         device_size = len(io_dict)
         current_relay_list = await plc_tcp_socket_read(self.plc_ip_address,self.port_number,lead_device,device_size)
         
@@ -338,7 +339,7 @@ class OpcServerThread(object):
                             if historizing and category == 'time_variables':
                                 await self.server.historize_node_data_change(server_var, period=None, count=10)
                             if historizing and category != 'time_variables':
-                                await self.server.historize_node_data_change(server_var, period=None, count=500)
+                                await self.server.historize_node_data_change(server_var, period=None, count=100)
         conn.close()
 
 
