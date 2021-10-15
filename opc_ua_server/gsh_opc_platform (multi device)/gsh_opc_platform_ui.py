@@ -26,11 +26,16 @@ class Ui_MainWindow(QMainWindow,gui):
         client_refresh_rate = 0.1   
         self.io_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='relay'}
         self.hmi_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='client_input_1'}
-        self.lot_input = {key:value for key,value in node_structure.items() if value['node_property']['category']=='lot_input'}
-        self.user_access_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='user_access'}
         self.monitored_node = {key:value for key,value in node_structure.items() if value['node_property']['category']=='server_variables' or value['node_property']['category']=='shift_server_variables'}
         self.time_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='time_variables'}
         
+        self.lot_input_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='lot_input'}
+        self.user_access_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='user_access'}
+        self.light_tower_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='light_tower_settings'}
+        self.device_mode_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='device_mode'}
+        
+
+
         self.ui_time_dict = {}
         self.client_thread=QThread()
         self.client_worker = gsh_client.OpcClientThread(self.input_queue,endpoint,self.uri,client_refresh_rate)
@@ -39,7 +44,7 @@ class Ui_MainWindow(QMainWindow,gui):
        
         self.client_worker.init_plot.connect(self.init_bar_plot)
         self.client_worker.upstream_signal.connect(self.downstream_data_handler)
-        self.client_worker.time_data_signal.connect(self.time_label_update)
+        #self.client_worker.time_data_signal.connect(self.time_label_update)
 
         timer = QTimer(self)
         timer.timeout.connect(self.update_system_time_label)
@@ -199,7 +204,7 @@ class Ui_MainWindow(QMainWindow,gui):
 
     def lot_entry_info(self,action):
         if action=='save':
-            for key, value in self.lot_input.items():
+            for key, value in self.lot_input_dict.items():
                 label = value['label_point'][0]
                 label_object = eval(f"self.{label}")
                 if value['name']=='lot_id':
@@ -220,12 +225,12 @@ class Ui_MainWindow(QMainWindow,gui):
                     data_value = shift_start_datetime.strftime("%d.%m.%Y %H:%M")
                 value['node_property']['initial_value'] = data_value
                 data_type = value['node_property']['data_type']
-                self.lot_input.update({key:value})
+                self.lot_input_dict.update({key:value})
                 self.send_data_to_opc(key,data_value,data_type)
 
         if action=='cancel':
             
-            for key, value in self.lot_input.items():
+            for key, value in self.lot_input_dict.items():
                 label = value['label_point'][0]
                 data_value = value['node_property']['initial_value']
                 if key == 10054 or key == 10055:
@@ -263,6 +268,17 @@ class Ui_MainWindow(QMainWindow,gui):
                 for i,label in enumerate(value['label_point']):
                     check_box_object = eval(f"self.{name}_{label}")
                     check_box_object.setChecked(bool(check_box_state[i]))
+
+    def update_settings_dictionary(self,data):
+        key = data[0]
+        new_value = data[1]
+        settings_dict = [self.lot_input_dict , self.user_access_dict , self.light_tower_dict , self.device_mode_dict]
+        for dict in settings_dict:
+            if key in dict:
+                extracted_value = dict[key]
+                extracted_value['node_property']['initial_value']=new_value
+                dict.update({key:extracted_value})
+       
 
 #--------------lot OEE section-----------------
 
