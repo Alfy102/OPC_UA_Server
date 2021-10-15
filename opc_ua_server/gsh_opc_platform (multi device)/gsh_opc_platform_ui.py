@@ -1,13 +1,13 @@
 import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtCore import  QThread,QEvent, QTimer
-from PyQt5.QtWidgets import QButtonGroup, QComboBox, QLineEdit, QMainWindow, QDialog, QLineEdit, QPlainTextEdit, QStackedWidget
+from PyQt5.QtCore import  QThread,QEvent, QTimer, left
+from PyQt5.QtWidgets import QButtonGroup, QCheckBox, QComboBox, QHBoxLayout, QLabel, QLineEdit, QMainWindow, QDialog, QLineEdit, QPlainTextEdit, QStackedWidget
 from queue import Queue
 import gsh_opc_platform_client as gsh_client
 from gsh_opc_platform_gui import Ui_MainWindow as gui
 from login_gui import Ui_Dialog as login_dialog
 from msg_box_gui import Ui_Dialog as message_dialog
-from io_layout_map import node_structure,time_series_axis
+from io_layout_map import node_structure,time_series_axis,alarm_list
 from datetime import datetime
 from multiprocessing import Queue
 import collections
@@ -175,10 +175,69 @@ class Ui_MainWindow(QMainWindow,gui):
         self.user_save_button.clicked.connect(lambda: self.user_info_info('save'))
         self.user_cancel_button.clicked.connect(lambda: self.user_info_info('cancel'))
 
+        #------------alarm list--------------------------------
+        self.create_alarm_list()
+
+#--------UI functions starts-------------------------
+
+
+
     def show_alarm(self):
         self.stackedWidget.setCurrentIndex(3)
         self.log_tab_widget.setCurrentIndex(1)
         
+    def create_alarm_list(self):
+        layout = self.alarm_layout
+        layout.setSpacing(1)
+        sublayout = QHBoxLayout()
+        for i,(alarm_code,alarm_data) in enumerate(alarm_list.items()):
+            alarm_message = alarm_data[0]
+            soft_jam = alarm_data[1]
+            hard_jam = alarm_data[2]
+            sublayout = QHBoxLayout()
+            sublayout.setSpacing(2)
+            sublayout.setContentsMargins(5,2,5,2)
+            label_0 = QLabel(str(i))
+            label_0.setAlignment(QtCore.Qt.AlignCenter)
+            label_0.setFont(QtGui.QFont('Segoe', 12))
+            label_0.setStyleSheet("background-color: rgb(232, 233, 238)")
+
+            label_1 = QLabel(str(alarm_code))
+            label_1.setAlignment(QtCore.Qt.AlignCenter)
+            label_1.setFont(QtGui.QFont('Segoe', 12))
+            label_1.setStyleSheet("background-color: rgb(232, 233, 238)")
+
+            label_2 = QLabel(alarm_message)
+            label_2.setAlignment(QtCore.Qt.AlignLeft)
+            label_2.setFont(QtGui.QFont('Segoe', 12))
+            label_2.setStyleSheet("background-color: rgb(232, 233, 238)")
+
+            check_box_1 = QCheckBox("Soft Jam")
+            check_box_1.setFont(QtGui.QFont('Segoe', 12))
+            check_box_1.setChecked(bool(soft_jam))
+            #check_box_1.setAlignment(QtCore.Qt.AlignCenter)
+            check_box_1.setStyleSheet("background-color: rgb(232, 233, 238)")
+
+
+            check_box_2 = QCheckBox("Hard Jam")
+            check_box_2.setChecked(bool(hard_jam))
+            check_box_2.setFont(QtGui.QFont('Segoe', 12))
+            #check_box_2.setAlignment(QtCore.Qt.AlignCenter)
+            check_box_2.setStyleSheet("background-color: lightgreen")
+
+            sublayout.addWidget(label_0)
+            
+            sublayout.addWidget(label_1)
+            sublayout.addWidget(label_2)
+            sublayout.addWidget(check_box_1)
+            sublayout.addWidget(check_box_2)
+            
+            layout.addLayout(sublayout)
+        
+        #for alarm_code, alarm_msg in alarm_list.items():
+
+
+
     def update_system_time_label(self):
         dt = datetime.now()
         dt = dt.replace(microsecond=0)
@@ -534,8 +593,9 @@ class Ui_MainWindow(QMainWindow,gui):
         access_level_name = None
         for value in self.user_info_dict.values():
             ref_name = value['username']
-            ref_pass = value['node_property']['initial_value'].split(';')
+            ref_pass = value['node_property']['initial_value']
             access_key = value['monitored_node']
+            print(ref_name, ref_pass, access_key)
             if username == ref_name:
                 if password == ref_pass:
                     access_level=self.user_access_dict[access_key]['node_property']['initial_value']
@@ -547,6 +607,7 @@ class Ui_MainWindow(QMainWindow,gui):
                 access_level='AA0000'
         if username == 'gsh_developer' and password == 'GSH_Engineering_1231!':
             access_level = 'FFFFFF'
+        print(access_level, access_level_name)
         return access_level, access_level_name
 
     def access_level_restriction(self, data):

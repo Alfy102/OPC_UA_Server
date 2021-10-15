@@ -40,12 +40,12 @@ node_structure = {
 10006:{ 'name': 'lot_soft_jam',
         'label_point':['soft_jam_label'],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt32', 'category': 'server_variables', 'history': True,'rw': 'rw', 'initial_value': 0},
-        'monitored_node': 11006},
+        'monitored_node': None},
 
 10007:{ 'name': 'lot_hard_jam',
         'label_point':['hard_jam_label'],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt32', 'category': 'server_variables', 'history': True,'rw': 'rw', 'initial_value': 0},
-        'monitored_node': 11007},
+        'monitored_node': None},
 
 10008:{ 'name': 'lot_mtbf',
         'label_point':['mtbf_label'],
@@ -93,12 +93,12 @@ node_structure = {
 10024:{ 'name': 'shift_soft_jam',
         'label_point':['shift_soft_jam_label'],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt32', 'category': 'shift_variables', 'history': True,'rw': 'rw', 'initial_value': 0},
-        'monitored_node': 11006},
+        'monitored_node': None},
 
 10025:{ 'name': 'shift_hard_jam',
         'label_point':['shift_hard_jam_label'],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt32', 'category': 'shift_variables', 'history': True,'rw': 'rw', 'initial_value': 0},
-        'monitored_node': 11007},
+        'monitored_node': None},
 
 10026:{ 'name': 'shift_mtbf',
         'label_point':['shift_mtbf_label'],
@@ -1321,6 +1321,34 @@ node_structure = {
         'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'client_input_1','rw': 'rw', 'history': False, 'initial_value': False}},
 
 
+}
+
+
+alarm_list={
+        1000:['Alarm 1',0,1],	
+        1001:['Alarm 2',0,1],	
+        1002:['Alarm 3',0,1],	
+        1003:['Alarm 4',0,1],	
+        1004:['Alarm 5',0,1],	
+        1005:['Alarm 6',0,1],	
+        1006:['Alarm 7',0,1],	
+        1007:['Alarm 8',0,1],	
+        1008:['Alarm 9',0,1],	
+        1009:['Alarm 10',0,1],	
+        1010:['Alarm 11',0,1],	
+        1011:['Alarm 12',0,1],	
+        1012:['Alarm 13',0,1],	
+        1013:['Alarm 14',0,1],	
+        1014:['Alarm 15',0,1],	
+        1015:['Alarm 16',0,1],	
+        1016:['Alarm 17',0,1],	
+        1017:['Alarm 18',0,1],	
+        1018:['Alarm 19',0,1],	
+        1019:['Alarm 20',0,1],	
+        1020:['Alarm 21',0,1],	
+        1021:['Alarm 22',0,1],	
+        1022:['Alarm 23',0,1],	
+        1023:['Alarm 24',0,1],
 }
 
 socket_server_dictionary={

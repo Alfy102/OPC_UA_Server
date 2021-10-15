@@ -14950,7 +14950,7 @@ QTabBar::tab:left:only-one, QTabBar::tab:right:only-one {
 }</string>
               </property>
               <property name="currentIndex">
-               <number>2</number>
+               <number>1</number>
               </property>
               <widget class="QWidget" name="light_tower_page">
                <property name="styleSheet">
@@ -16371,6 +16371,56 @@ background-color: rgb(141, 137, 166);
                 <property name="frameShadow">
                  <enum>QFrame::Raised</enum>
                 </property>
+                <widget class="QScrollArea" name="alarm_settings">
+                 <property name="geometry">
+                  <rect>
+                   <x>10</x>
+                   <y>10</y>
+                   <width>600</width>
+                   <height>770</height>
+                  </rect>
+                 </property>
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>600</width>
+                   <height>770</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>600</width>
+                   <height>770</height>
+                  </size>
+                 </property>
+                 <property name="widgetResizable">
+                  <bool>true</bool>
+                 </property>
+                 <widget class="QWidget" name="scrollAreaWidgetContents">
+                  <property name="geometry">
+                   <rect>
+                    <x>0</x>
+                    <y>0</y>
+                    <width>598</width>
+                    <height>768</height>
+                   </rect>
+                  </property>
+                  <layout class="QVBoxLayout" name="verticalLayout_123">
+                   <item>
+                    <layout class="QVBoxLayout" name="alarm_layout">
+                     <property name="spacing">
+                      <number>1</number>
+                     </property>
+                    </layout>
+                   </item>
+                  </layout>
+                 </widget>
+                </widget>
                </widget>
               </widget>
               <widget class="QWidget" name="user_page">
