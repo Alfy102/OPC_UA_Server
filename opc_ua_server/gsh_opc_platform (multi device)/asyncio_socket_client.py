@@ -11,7 +11,7 @@ async def tcp_echo_client(message):
     print(test)
 
 async def main():
-    await tcp_echo_client("WR R101 1\r\n")
+    await tcp_echo_client("WR R101 0\r\n")
 
     #await tcp_echo_client("WR MR2003 0\r\n")
     """while True:

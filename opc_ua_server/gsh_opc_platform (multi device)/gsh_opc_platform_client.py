@@ -33,7 +33,7 @@ class SubTimerHandler(object):
     async def datachange_notification(self, node, val, data):
         node_identifier = node.nodeid.Identifier
         #time_label = self.time_dict[node_identifier]['label_point']
-        self.time_signal.emit('time_label_update',(node_identifier, val))
+        self.time_signal.emit(['time_label_update',(node_identifier, val)])
 
 class SubUPHHandler(object):
     def __init__(self,uph_signal,uph_dict):
@@ -73,7 +73,7 @@ class OpcClientThread(QObject):
         self.uph_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='uph_variables'}
 
 
-        self.light_tower_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='light_tower_settings'}
+        self.light_tower_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='light_tower_setting'}
         self.user_access_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='user_access'}
         self.lot_info_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='lot_input'}
         self.device_mode_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='device_mode'}

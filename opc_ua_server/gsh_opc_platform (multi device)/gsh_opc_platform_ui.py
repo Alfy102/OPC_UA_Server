@@ -31,10 +31,12 @@ class Ui_MainWindow(QMainWindow,gui):
         
         self.lot_input_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='lot_input'}
         self.user_access_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='user_access'}
-        self.light_tower_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='light_tower_settings'}
+        self.light_tower_settings_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='light_tower_setting'}
         self.device_mode_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='device_mode'}
         
+        self.user_info_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='user_info'}
 
+        uph_filter = {key:value for key,value in node_structure.items() if value['node_property']['category']=='uph_variables'}
 
         self.ui_time_dict = {}
         self.client_thread=QThread()
@@ -57,12 +59,12 @@ class Ui_MainWindow(QMainWindow,gui):
         self.rgb_value_output_on = "255, 20, 20"
         self.rgb_value_output_off = "80, 0, 0"
         self.x = time_series_axis
-        uph_filter = {key:value for key,value in node_structure.items() if value['node_property']['category']=='uph_variables'}
+        
         self.uph_dict = collections.OrderedDict(sorted(uph_filter.items()))
         self.y = [0 for _ in self.uph_dict.values()] 
         self.plot_bar = ''
         self.plot_text =''
-        self.light_tower_settings_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='light_tower_setting'}
+        
         self.current_user_level = None
         self.setupUi(self)
 
@@ -157,8 +159,6 @@ class Ui_MainWindow(QMainWindow,gui):
 
         #-------------user_login logic------------------------
         self.user_login_button.clicked.connect(self.user_login_show)
-        #self.user_login_button.clicked.connect(self.access_level_restriction)
-        #self.user_login_button.clicked.connect(lambda: self.user_access_settings_info('3FFFFFF'))
         self.user_access_page_setup(False)
         self.access_level_restriction('AA0000')
         self.user_access_edit_button.clicked.connect(lambda: self.user_access_page_setup(True))
@@ -191,7 +191,7 @@ class Ui_MainWindow(QMainWindow,gui):
                 data_value = int(data_value,2)
                 value['node_property']['initial_value'] = data_value
                 data_type = value['node_property']['data_type']
-                self.light_tower_settings_dict.update({key:value})
+                #self.light_tower_settings_dict.update({key:value})
                 self.send_data_to_opc(key,data_value,data_type)
         elif data == 'cancel':
             for key,value in self.light_tower_settings_dict.items():
@@ -225,7 +225,7 @@ class Ui_MainWindow(QMainWindow,gui):
                     data_value = shift_start_datetime.strftime("%d.%m.%Y %H:%M")
                 value['node_property']['initial_value'] = data_value
                 data_type = value['node_property']['data_type']
-                self.lot_input_dict.update({key:value})
+                #self.lot_input_dict.update({key:value})
                 self.send_data_to_opc(key,data_value,data_type)
 
         if action=='cancel':
@@ -255,7 +255,7 @@ class Ui_MainWindow(QMainWindow,gui):
                 data_value = ''.join(bin_string)
                 data_value = str(hex(int(data_value,2)))[2:]
                 value['node_property']['initial_value'] = data_value
-                self.user_access_dict.update({key:value})
+                #self.user_access_dict.update({key:value})
                 data_type = value['node_property']['data_type']
                 self.send_data_to_opc(key,data_value,data_type)
         if data == 'cancel':
@@ -272,14 +272,17 @@ class Ui_MainWindow(QMainWindow,gui):
     def update_settings_dictionary(self,data):
         key = data[0]
         new_value = data[1]
-        settings_dict = [self.lot_input_dict , self.user_access_dict , self.light_tower_dict , self.device_mode_dict]
+        settings_dict = [self.lot_input_dict , self.user_access_dict , self.light_tower_settings_dict , self.device_mode_dict]
         for dict in settings_dict:
             if key in dict:
                 extracted_value = dict[key]
                 extracted_value['node_property']['initial_value']=new_value
                 dict.update({key:extracted_value})
+                print(extracted_value['name'], new_value)
+        self.light_tower_info('cancel')
+        self.lot_entry_info('cancel')
+        self.user_access_settings_info('cancel')
        
-
 #--------------lot OEE section-----------------
 
     def init_bar_plot(self, uph_dict):

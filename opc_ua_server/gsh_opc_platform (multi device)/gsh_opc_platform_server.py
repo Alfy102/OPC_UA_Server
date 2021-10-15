@@ -291,7 +291,7 @@ class OpcServerThread(object):
     async def scan_loop_plc(self,io_dict):
         lead_data = io_dict[list(io_dict.keys())[0]]
         lead_device = lead_data['name']
-        hardware_name = lead_data['node_property']['device']
+        #hardware_name = lead_data['node_property']['device']
         device_size = len(io_dict)
         current_relay_list = await plc_tcp_socket_read(self.plc_ip_address,self.port_number,lead_device,device_size)
         
