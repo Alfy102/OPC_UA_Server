@@ -17324,6 +17324,9 @@ background-color: rgb(141, 137, 166);
                         <property name="text">
                          <string>View</string>
                         </property>
+                        <property name="tristate">
+                         <bool>false</bool>
+                        </property>
                        </widget>
                       </item>
                       <item>
