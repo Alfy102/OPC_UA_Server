@@ -33,8 +33,7 @@ class SubTimerHandler(object):
     async def datachange_notification(self, node, val, data):
         node_identifier = node.nodeid.Identifier
         #time_label = self.time_dict[node_identifier]['label_point']
-        self.time_signal.emit('time_label_update',(val,node_identifier))
-
+        self.time_signal.emit('time_label_update',(node_identifier, val))
 
 class SubUPHHandler(object):
     def __init__(self,uph_signal,uph_dict):
@@ -49,10 +48,18 @@ class SubUPHHandler(object):
             self.uph_dict.update({node_identifier:node_property})
             self.uph_signal.emit(['update_plot',(node_identifier, val)])
 
+class SubSettingsHandler(object):
+    def __init__(self,data_signal):
+        self.data_signal = data_signal
+    async def datachange_notification(self, node, val, data):
+        node_id = node.nodeid.Identifier
+        self.data_signal.emit(['update_settings_dictionary',(node_id, val)])
+
+
+
 class OpcClientThread(QObject):
     upstream_signal = pyqtSignal(list)
     init_plot = pyqtSignal(dict)
-    ui_refresh_signal=pyqtSignal()
     def __init__(self,input_q,endpoint,uri,client_refresh_rate,parent=None,**kwargs):
         super().__init__(parent, **kwargs)
         self.input_queue = input_q
@@ -66,7 +73,6 @@ class OpcClientThread(QObject):
         self.uph_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='uph_variables'}
 
 
-        self.device_mode_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='uph_variables'}
         self.light_tower_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='light_tower_settings'}
         self.user_access_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='user_access'}
         self.lot_info_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='lot_input'}
@@ -93,8 +99,6 @@ class OpcClientThread(QObject):
             ua_var = ua.Variant(float(data_value), ua.VariantType.Float)
         return ua_var
 
-
-
     @pyqtSlot()
     async def client_start(self):
         #await asyncio.sleep(3)
@@ -105,48 +109,52 @@ class OpcClientThread(QObject):
             io_handler = SubIoHandler(self.upstream_signal)
             io_sub = await client.create_subscription(self.sub_time, io_handler)
             for node in self.io_dict.keys():
-                var = client.get_node((ua.NodeId(node, namespace_index)))
+                var = client.get_node(ua.NodeId(node, namespace_index))
                 await io_sub.subscribe_data_change(var,queuesize=1)
 
             info_handler = SubInfoHandler(self.upstream_signal)
             info_sub = await client.create_subscription(self.sub_time, info_handler) 
             for node in self.monitored_node.keys():
-                var = client.get_node((ua.NodeId(node, namespace_index)))
+                var = client.get_node(ua.NodeId(node, namespace_index))
                 await info_sub.subscribe_data_change(var,queuesize=1)
 
             alarm_handler = SubAlarmHandler(self.upstream_signal)  
             alarm_sub = await client.create_subscription(self.sub_time, alarm_handler) 
             for node in self.alarm_dict.keys():
-                var = client.get_node((ua.NodeId(node, namespace_index)))
+                var = client.get_node(ua.NodeId(node, namespace_index))
                 await alarm_sub.subscribe_data_change(var,queuesize=1)
 
-            
             timer_handler = SubTimerHandler(self.upstream_signal)  
             time_sub = await client.create_subscription(self.sub_time, timer_handler) 
             for node in self.time_dict.keys():
-                var = client.get_node((ua.NodeId(node, namespace_index)))
+                var = client.get_node(ua.NodeId(node, namespace_index))
                 await time_sub.subscribe_data_change(var,queuesize=1)
 
-
-
             for node,value in self.uph_dict.items():
-                var = client.get_node((ua.NodeId(node, namespace_index)))
+                var = client.get_node(ua.NodeId(node, namespace_index))
                 current_value = await var.read_value()
                 value['node_property']['initial_value'] = current_value
                 self.uph_dict.update({node:value})
 
             self.init_plot.emit(self.uph_dict)
+
             uph_handler = SubUPHHandler(self.upstream_signal,self.uph_dict)  
             uph_sub = await client.create_subscription(self.sub_time, uph_handler) 
             for node,value in self.uph_dict.items():
-                var = client.get_node((ua.NodeId(node, namespace_index)))
+                var = client.get_node(ua.NodeId(node, namespace_index))
                 await uph_sub.subscribe_data_change(var,queuesize=1)
             
 
+            settings_dict = self.light_tower_dict | self.device_mode_dict | self.user_access_dict | self.lot_info_dict
+            settings_handler = SubSettingsHandler(self.upstream_signal)
+            settings_sub = await client.create_subscription(self.sub_time, settings_handler)
+            for node in settings_dict.keys():
+                var = client.get_node(ua.NodeId(node, namespace_index))
+                await settings_sub.subscribe_data_change(var, queuesize= 1)
+
+
             while True:
-                await asyncio.sleep(self.client_refresh_rate)
-                self.ui_refresh_signal.emit()
-                
+                #await asyncio.sleep(self.client_refresh_rate)             
                 if not self.input_queue.empty():
                     hmi_signal = self.input_queue.get()
                     hmi_node_id = hmi_signal[0]
