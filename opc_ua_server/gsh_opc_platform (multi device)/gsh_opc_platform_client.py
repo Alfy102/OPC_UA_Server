@@ -3,7 +3,7 @@ import asyncio
 from PyQt5.QtCore import QObject, pyqtSignal, pyqtSlot
 from io_layout_map import node_structure
 from datetime import datetime,timedelta
-
+from comm_protocol import ua_variant_data_type
 
 class SubAlarmHandler(object):
     def __init__(self,alarm_signal):
@@ -60,11 +60,18 @@ class SubSettingsHandler(object):
 class OpcClientThread(QObject):
     upstream_signal = pyqtSignal(list)
     init_plot = pyqtSignal(dict)
-    def __init__(self,input_q,endpoint,uri,client_refresh_rate,parent=None,**kwargs):
+
+    def __init__(self,input_q,endpoint,uri,parent=None,**kwargs):
+        """Initialise Client
+
+        Args:
+            input_q (Queue Object): used for sending data to the client.
+            endpoint (string): address of the OPC Server to be connected
+            uri (string): name of the OPC Server
+        """
         super().__init__(parent, **kwargs)
         self.input_queue = input_q
         self.sub_time = 50
-        self.client_refresh_rate = client_refresh_rate
         self.monitored_node = {key:value for key,value in node_structure.items() if value['node_property']['category']=='server_variables' or value['node_property']['category']=='shift_server_variables'}
         self.io_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='relay'}
         self.alarm_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='alarm'}
@@ -83,22 +90,12 @@ class OpcClientThread(QObject):
         self.uri = uri
     
     def run(self):
+        """
+        Runs the client in asyncion mode
+        """
         asyncio.run(self.client_start())
 
-    def ua_variant_data_type(self, data_type, data_value):
-        if data_type == 'UInt16':
-            ua_var = ua.Variant(int(data_value), ua.VariantType.UInt16)
-        elif data_type == 'UInt32':
-            ua_var = ua.Variant(int(data_value), ua.VariantType.UInt32)
-        elif data_type == 'UInt64':    
-            ua_var = ua.Variant(int(data_value), ua.VariantType.UInt64)
-        elif data_type == 'String':
-            ua_var = ua.Variant(str(data_value), ua.VariantType.String)
-        elif data_type == 'Boolean':
-            ua_var = ua.Variant(bool(data_value), ua.VariantType.Boolean)
-        elif data_type == 'Float':
-            ua_var = ua.Variant(float(data_value), ua.VariantType.Float)
-        return ua_var
+
 
     @pyqtSlot()
     async def client_start(self):
@@ -163,8 +160,8 @@ class OpcClientThread(QObject):
                     data_type = hmi_signal[2]
                     input_node = client.get_node(ua.NodeId(hmi_node_id, namespace_index))
                     #print(f"From client {input_node},{data_type},{data_value}")
-                    await input_node.write_value(self.ua_variant_data_type(data_type,data_value))
-
+                    await input_node.write_value(ua_variant_data_type(data_type,data_value))
+                
 
                 
 

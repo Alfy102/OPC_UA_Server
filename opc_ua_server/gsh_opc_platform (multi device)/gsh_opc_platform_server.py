@@ -8,22 +8,37 @@ import sqlite3
 from io_layout_map import node_structure
 import collections
 import time
-from comm_protocol import plc_tcp_socket_read, plc_tcp_socket_write
+from comm_protocol import (plc_tcp_socket_read, 
+                           plc_tcp_socket_write, 
+                           ua_variant_data_type, 
+                           data_type_conversion)
 #io_dict standard dictionary: {variables_id:[device_ip, variables_ns, device_name, category_name,variable_name,0]}
 #hmi_signal standard: (namespace, node_id, data_value)
 
 class SubHmiHandler(object):
+    
     def __init__(self,hmi_dictionary,plc_ip_address,port_number):
+        """initialise SubHmiHandler 
+
+        Args:
+            hmi_dictionary (dictionary): dictionary containing the values associated with hmi nodes
+            plc_ip_address (string): string of ipaddress 
+            port_number ([type]): port number in string
+        """
         self.hmi_structure = hmi_dictionary
         self.plc_adress = plc_ip_address
         self.port_number = port_number
     async def datachange_notification(self, node, val, data):
+        """This will be called whenever a datachange happens on the subscribed node
+
+        Args:
+            node (node object): [description]
+            val (int or string): [description]
+            data (monitored_data object): [description]
+        """
         node_identifier = node.nodeid.Identifier
         relay_name= self.hmi_structure[node_identifier]['name']
-        device = self.hmi_structure[node_identifier]['node_property']['device']
-        #print(f"from server {relay_name},{val},{device}")
         await plc_tcp_socket_write(self.plc_adress,self.port_number,relay_name,val)
-        #await self.plc_send(relay_name,val,device,'write',plc_ip_address=self.plc_adress)
 
 class SubVarHandler(object):
     def __init__(self,monitored_dict,count,get_node,yield_calculation,write_to_opc):
@@ -155,6 +170,7 @@ class OpcServerThread(object):
         new_value = current_value + data_value
         asyncio.create_task(self.simple_write_to_opc(node_id, new_value, data_type))
         return new_value
+    
 
 
     def yield_calculation(self,in_value, out_value):
@@ -245,37 +261,6 @@ class OpcServerThread(object):
         node =  self.server.get_node(ua.NodeId(node_id, self.namespace_index))
         return node
     
-    def ua_variant_data_type(self, data_type, data_value):
-        if data_type == 'UInt16':
-            ua_var = ua.Variant(int(data_value), ua.VariantType.UInt16)
-        elif data_type == 'UInt32':
-            ua_var = ua.Variant(int(data_value), ua.VariantType.UInt32)
-        elif data_type == 'UInt64':    
-            ua_var = ua.Variant(int(data_value), ua.VariantType.UInt64)
-        elif data_type == 'String':
-            ua_var = ua.Variant(str(data_value), ua.VariantType.String)
-        elif data_type == 'Boolean':
-            ua_var = ua.Variant(bool(data_value), ua.VariantType.Boolean)
-        elif data_type == 'Float':
-            ua_var = ua.Variant(float(data_value), ua.VariantType.Float)
-            
-        return ua_var
-
-    def data_type_conversion(self, data_type, data_value):
-        if data_type == 'UInt16':
-            data_value = int(data_value)
-        elif data_type == 'UInt32':
-            data_value = int(data_value)
-        elif data_type == 'UInt64':    
-            data_value = int(data_value)
-        elif data_type == 'String':
-            data_value = str(data_value)
-        elif data_type == 'Boolean':
-            data_value = bool(data_value)
-        elif data_type == 'Float':
-            data_value = float(data_value)
-        return data_value
-
     def checkTableExists(self,dbcon, tablename):
         dbcur = dbcon.cursor()
         dbcur.execute(f"SELECT * FROM sqlite_master WHERE type='table' AND name='{tablename}';")
@@ -291,7 +276,6 @@ class OpcServerThread(object):
     async def scan_loop_plc(self,io_dict):
         lead_data = io_dict[list(io_dict.keys())[0]]
         lead_device = lead_data['name']
-        #hardware_name = lead_data['node_property']['device']
         device_size = len(io_dict)
         current_relay_list = await plc_tcp_socket_read(self.plc_ip_address,self.port_number,lead_device,device_size)
         
@@ -304,7 +288,7 @@ class OpcServerThread(object):
     async def simple_write_to_opc(self, node_id, data_value, data_type):
         node_id=self.get_node(node_id)
         self.source_time = datetime.now()
-        data_value = ua.DataValue(self.ua_variant_data_type(data_type, data_value),SourceTimestamp=self.source_time, ServerTimestamp=self.source_time)
+        data_value = ua.DataValue(ua_variant_data_type(data_type, data_value),SourceTimestamp=self.source_time, ServerTimestamp=self.source_time)
         await self.server.write_attribute_value(node_id.nodeid, data_value)
 
     async def node_creation(self,database_file,node_category_list):
@@ -324,12 +308,12 @@ class OpcServerThread(object):
                                 previous_data = pd.read_sql_query(f"SELECT Value FROM '{self.namespace_index}_{node_id}' ORDER BY _Id DESC LIMIT 1", conn)
                                 if not previous_data.empty:
                                     previous_value = previous_data.iloc[0]['Value']
-                                    initial_value = self.data_type_conversion(data_type, previous_value)
+                                    initial_value = data_type_conversion(data_type, previous_value)
                                 else:
                                     initial_value = value['node_property']['initial_value']
                             else:
                                 initial_value = value['node_property']['initial_value']           
-                            server_var = await server_obj.add_variable(ua.NodeId(node_id,self.namespace_index), str(variable_name), self.ua_variant_data_type(data_type,initial_value))
+                            server_var = await server_obj.add_variable(ua.NodeId(node_id,self.namespace_index), str(variable_name), ua_variant_data_type(data_type,initial_value))
                             if rw_status:
                                 await server_var.set_writable()
                             if category == 'client_input':

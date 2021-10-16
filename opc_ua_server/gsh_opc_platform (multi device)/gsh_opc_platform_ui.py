@@ -1,13 +1,13 @@
 import sys
-from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtCore import  QThread,QEvent, QTimer, left
-from PyQt5.QtWidgets import QButtonGroup, QCheckBox, QComboBox, QHBoxLayout, QLabel, QLineEdit, QMainWindow, QDialog, QLineEdit, QPlainTextEdit, QStackedWidget
+from PyQt5 import QtCore, QtWidgets
+from PyQt5.QtCore import  QThread,QEvent, QTimer
+from PyQt5.QtWidgets import QMainWindow, QDialog
 from queue import Queue
 import gsh_opc_platform_client as gsh_client
 from gsh_opc_platform_gui import Ui_MainWindow as gui
 from login_gui import Ui_Dialog as login_dialog
 from msg_box_gui import Ui_Dialog as message_dialog
-from io_layout_map import node_structure,time_series_axis,alarm_list
+from io_layout_map import node_structure,time_series_axis
 from datetime import datetime
 from multiprocessing import Queue
 import collections
@@ -23,7 +23,7 @@ class Ui_MainWindow(QMainWindow,gui):
         self.start_time = datetime.now()
         self.input_queue = Queue()
         endpoint = "localhost:4840/gshopcua/server"
-        client_refresh_rate = 0.1   
+
         self.io_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='relay'}
         self.hmi_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='client_input_1'}
         self.monitored_node = {key:value for key,value in node_structure.items() if value['node_property']['category']=='server_variables' or value['node_property']['category']=='shift_server_variables'}
@@ -40,7 +40,7 @@ class Ui_MainWindow(QMainWindow,gui):
 
         self.ui_time_dict = {}
         self.client_thread=QThread()
-        self.client_worker = gsh_client.OpcClientThread(self.input_queue,endpoint,self.uri,client_refresh_rate)
+        self.client_worker = gsh_client.OpcClientThread(self.input_queue,endpoint,self.uri)
         self.client_worker.moveToThread(self.client_thread)
         self.client_thread.started.connect(self.client_worker.run)
        
@@ -92,7 +92,7 @@ class Ui_MainWindow(QMainWindow,gui):
         self.station_button.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(7))
         self.misc_button.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(8))
         self.vision_button.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(9))
-        self.life_cycle_button.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(11))
+        self.life_cycle_button.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(10))
         self.settings_button.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(11))
         self.settings_button.clicked.connect(lambda: self.settings_tab_widget.setCurrentIndex(0))
         #IO List signals
@@ -175,8 +175,7 @@ class Ui_MainWindow(QMainWindow,gui):
         self.user_save_button.clicked.connect(lambda: self.user_info_info('save'))
         self.user_cancel_button.clicked.connect(lambda: self.user_info_info('cancel'))
 
-        #------------alarm list--------------------------------
-        self.create_alarm_list()
+
 
 #--------UI functions starts-------------------------
 
@@ -186,56 +185,7 @@ class Ui_MainWindow(QMainWindow,gui):
         self.stackedWidget.setCurrentIndex(3)
         self.log_tab_widget.setCurrentIndex(1)
         
-    def create_alarm_list(self):
-        layout = self.alarm_layout
-        layout.setSpacing(1)
-        sublayout = QHBoxLayout()
-        for i,(alarm_code,alarm_data) in enumerate(alarm_list.items()):
-            alarm_message = alarm_data[0]
-            soft_jam = alarm_data[1]
-            hard_jam = alarm_data[2]
-            sublayout = QHBoxLayout()
-            sublayout.setSpacing(2)
-            sublayout.setContentsMargins(5,2,5,2)
-            label_0 = QLabel(str(i))
-            label_0.setAlignment(QtCore.Qt.AlignCenter)
-            label_0.setFont(QtGui.QFont('Segoe', 12))
-            label_0.setStyleSheet("background-color: rgb(232, 233, 238)")
-
-            label_1 = QLabel(str(alarm_code))
-            label_1.setAlignment(QtCore.Qt.AlignCenter)
-            label_1.setFont(QtGui.QFont('Segoe', 12))
-            label_1.setStyleSheet("background-color: rgb(232, 233, 238)")
-
-            label_2 = QLabel(alarm_message)
-            label_2.setAlignment(QtCore.Qt.AlignLeft)
-            label_2.setFont(QtGui.QFont('Segoe', 12))
-            label_2.setStyleSheet("background-color: rgb(232, 233, 238)")
-
-            check_box_1 = QCheckBox("Soft Jam")
-            check_box_1.setFont(QtGui.QFont('Segoe', 12))
-            check_box_1.setChecked(bool(soft_jam))
-            #check_box_1.setAlignment(QtCore.Qt.AlignCenter)
-            check_box_1.setStyleSheet("background-color: rgb(232, 233, 238)")
-
-
-            check_box_2 = QCheckBox("Hard Jam")
-            check_box_2.setChecked(bool(hard_jam))
-            check_box_2.setFont(QtGui.QFont('Segoe', 12))
-            #check_box_2.setAlignment(QtCore.Qt.AlignCenter)
-            check_box_2.setStyleSheet("background-color: lightgreen")
-
-            sublayout.addWidget(label_0)
-            
-            sublayout.addWidget(label_1)
-            sublayout.addWidget(label_2)
-            sublayout.addWidget(check_box_1)
-            sublayout.addWidget(check_box_2)
-            
-            layout.addLayout(sublayout)
-        
-        #for alarm_code, alarm_msg in alarm_list.items():
-
+    
 
 
     def update_system_time_label(self):
@@ -247,6 +197,11 @@ class Ui_MainWindow(QMainWindow,gui):
 #-------info sectioon -------------------
 
     def light_tower_info(self, data):
+        """light tower info
+
+        Args:
+            data (string): string of save or cancel action
+        """
         if data=='save':
             for key,value in self.light_tower_settings_dict.items():
                 bin_string = []
