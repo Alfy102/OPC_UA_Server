@@ -7,13 +7,11 @@ import pandas as pd
 import sqlite3
 from io_layout_map import node_structure
 import collections
-import time
 from comm_protocol import (plc_tcp_socket_read, 
                            plc_tcp_socket_write, 
                            ua_variant_data_type, 
                            data_type_conversion)
-#io_dict standard dictionary: {variables_id:[device_ip, variables_ns, device_name, category_name,variable_name,0]}
-#hmi_signal standard: (namespace, node_id, data_value)
+
 
 class SubHmiHandler(object):
     
@@ -164,7 +162,17 @@ class OpcServerThread(object):
         self.hmi_sub = 10
         asyncio.run(self.opc_server())
 
-    async def count_node(self,node_id,data_value, data_type):
+    async def count_node(self,node_id:int,data_value:int, data_type:str):
+        """this function counts the monitored node like a counter.
+
+        Args:
+            node_id (int): the stored count data node
+            data_value (int): the increment value
+            data_type (str): [description]
+
+        Returns:
+            [type]: [description]
+        """
         node = self.server.get_node(self.get_node(node_id)) 
         current_value = await node.read_value()
         new_value = current_value + data_value
@@ -179,7 +187,14 @@ class OpcServerThread(object):
             total_yield = round(total_yield, 2)       
         return total_yield
 
-    async def mode_update(self,node_id, data_value):
+    async def mode_update(self,node_id:int, data_value:bool):
+        """Each mode datachange will run this function.
+        What this function does is update the mode change time to the dictionary value.
+        This value will be used as delta time to calculate duration.
+        Args:
+            node_id (int): receive the machine mode node_id
+            data_value (bool): receive the machine mode node state (True/False)
+        """
         node_property = self.mode_dict[node_id]
         node_property['node_property']['initial_value'] = data_value
         node_property.update({'flag_time':datetime.now()})
@@ -197,7 +212,12 @@ class OpcServerThread(object):
                     value['node_property']['initial_value'] = await node_id.read_value()         
                 self.shift_time_dict.update({key:value})
  
-    def timer_function(self, time_dict):
+    def timer_function(self, time_dict:dict):
+        """Process the combines lot and shift time dictionary. 
+        Process both of them by checking the boolean condition of mode and get the delta time
+        Args:
+            time_dict (dict): shift time append with lot time
+        """
         for node_id,value in time_dict.items():
             corr_flag_node = value['monitored_node']
             if corr_flag_node != None:
@@ -225,7 +245,16 @@ class OpcServerThread(object):
             uptime = str(uptime).split('.')[0]
             asyncio.create_task(self.simple_write_to_opc(10040, uptime, 'String')) #write to shift_uptime
 
-    def duration(self,start_time, delta_time):
+    def duration(self,start_time:datetime, delta_time:datetime):
+        """provide the duration calculation by substracting current time starttime+deltatime
+
+        Args:
+            start_time (datetime): time when the mode change occur
+            delta_time (datetime): the previous known duration time
+
+        Returns:
+            deltatime: delta time of the duration
+        """
         if isinstance(start_time, str):
             start_time = self.convert_string_to_time(start_time)
         if isinstance(delta_time, str):
@@ -255,7 +284,15 @@ class OpcServerThread(object):
         delta_time = timedelta(hours=delta_time.hour, minutes=delta_time.minute, seconds=delta_time.second, microseconds=delta_time.microsecond)
         return delta_time
 
-    def get_node(self, node_id):
+    def get_node(self, node_id:int):
+        """This function will get the node object of a nodeid
+
+        Args:
+            node_id ([tint): [description]
+
+        Returns:
+            object: node object
+        """
         node =  self.server.get_node(ua.NodeId(node_id, self.namespace_index))
         return node
     
@@ -283,7 +320,14 @@ class OpcServerThread(object):
             asyncio.create_task(self.simple_write_to_opc(node_id, current_relay_list[i], data_type))
             
 
-    async def simple_write_to_opc(self, node_id, data_value, data_type):
+    async def simple_write_to_opc(self, node_id:int, data_value:any, data_type:str):
+        """This function uses the node_id to write the data value to the opc address
+
+        Args:
+            node_id (int): node address
+            data_value (any): int/string
+            data_type (str): UInt16,UInt32,UInt64,String,Boolean,Float
+        """
         node_id=self.get_node(node_id)
         self.source_time = datetime.now()
         data_value = ua.DataValue(ua_variant_data_type(data_type, data_value),SourceTimestamp=self.source_time, ServerTimestamp=self.source_time)

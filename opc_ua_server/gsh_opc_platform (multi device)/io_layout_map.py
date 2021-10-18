@@ -148,7 +148,7 @@ node_structure = {
 10043:{ 'name': 'shift_idling_time',
         'label_point':['shift_idling_time_label'],
         'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'shift_time_variables', 'history': True,'rw': 'rw', 'initial_value': '0:00:00.0'},
-        'monitored_node': 10072}, #refers to device_mode
+        'monitored_node': 10073}, #refers to device_mode
  
 10044:{ 'name': 'lot_uptime',
         'label_point':['lot_uptime_label'],
@@ -168,12 +168,12 @@ node_structure = {
 10047:{ 'name': 'lot_idling_time',
         'label_point':['lot_idling_time_label'],
         'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'time_variables', 'history': True,'rw': 'rw', 'initial_value': '0:00:00.0'},
-        'monitored_node': 10072}, #refers to device_mode
+        'monitored_node': 10073}, #refers to device_mode
  
 10048:{ 'name': 'lot_maintenance_time',
         'label_point':['lot_maintenance_time_label'],
         'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'time_variables', 'history': True,'rw': 'rw', 'initial_value': '0:00:00.0'},
-        'monitored_node': 10073}, #refers to device_mode
+        'monitored_node': 10074 }, #refers to device_mode
 
 #---------------------------------------------------------------------------------
 #Lot ID Information (from client)
@@ -232,34 +232,33 @@ node_structure = {
 
 
 #---------------------------------------------------------------------------------
-#Device Mode
+#Device Status
 #---------------------------------------------------------------------------------
 
-10070:{ 'name': 'MR2000', #operation_mode (auto_mode) machine running
+10070:{ 'name': 'MR2000', #Running
         'label_point':[], #10080
         'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'device_mode', 'history': False,'rw': 'r', 'initial_value': False},
         'monitored_node': 10080},
 
-10071:{ 'name': 'MR2001', #stand_by_mode / down_mode (not entering auto) machine stop
+10071:{ 'name': 'MR2001', #Stop
         'label_point':[], #10081
         'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'device_mode', 'history': False,'rw': 'r', 'initial_value': False},
         'monitored_node': 10081},
 
-10072:{ 'name': 'MR2002', #idling_mode / starving_mode (auto_mode) no material
+10072:{ 'name': 'MR2002', #Alarm
         'label_point':[], #10082
         'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'device_mode', 'history': False,'rw': 'r', 'initial_value': False},
         'monitored_node': 10082},
 
-10073:{ 'name': 'MR2003', #maintenance_mode (machine_stop) machine stop
+10073:{ 'name': 'MR2003', #No Material
         'label_point':[], #10083
         'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'device_mode', 'history': False,'rw': 'r', 'initial_value': False},
         'monitored_node': 10083},
 
-10074:{ 'name': 'MR2004', #machine_ready_to_initialize machine stop
+10074:{ 'name': 'MR2004', #Door Bypass
         'label_point':[], #10084
         'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'device_mode', 'history': False,'rw': 'r', 'initial_value': False},
         'monitored_node': 10084},
-
 
 #---------------------------------------------------------------------------------
 #light_tower settings
@@ -283,6 +282,7 @@ node_structure = {
 10084:{ 'name': 'door_bypass',  
         'label_point':['check_box_40','check_box_41','check_box_42','check_box_43','check_box_44','check_box_45'],
         'node_property':{'device': 'PLC1', 'data_type': 'UInt16', 'category': 'light_tower_setting', 'history': True,'rw': 'rw', 'initial_value': 0}},
+
 
 #---------------------------------------------------------------------------------
 #----------user access level restrictions
@@ -318,8 +318,6 @@ node_structure = {
         'username':'user_3',
         'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'user_info', 'history': True,'rw': 'rw', 'initial_value': 'user_3'},
         'monitored_node': 10092},
-
-
 
 #---------------------------------------------------------------------------------
 #UPH in 24 hours
@@ -1500,6 +1498,7 @@ socket_server_dictionary={
 169:('MR2002',0),
 170:('MR2003',0),
 171:('MR2004',0),
+172:('MR2005',0),
 173:('CM700',0),
 174:('CM701',0),
 175:('CM702',0),

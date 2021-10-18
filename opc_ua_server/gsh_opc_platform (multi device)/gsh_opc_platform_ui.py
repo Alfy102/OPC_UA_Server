@@ -307,7 +307,6 @@ class Ui_MainWindow(QMainWindow,gui):
                     check_box_object = eval(f"self.{name}_{label}")
                     check_box_object.setChecked(bool(check_box_state[i]))
 
-
     def user_info_info(self, data):
         if data == 'save':
             username = self.username_combo_box.currentText()
@@ -351,7 +350,24 @@ class Ui_MainWindow(QMainWindow,gui):
             self.old_password_input.clear()
             self.new_password_input.clear()
             self.retyped_new_password_input.clear()
+    
+    def machine_mode_update(self):
+        if self.device_mode_dict[10070]['node_property']['initial_value']==True:
+            self.machine_status_label.setText("RUNNING")
+        elif self.device_mode_dict[10071]['node_property']['initial_value']==True:
+            self.machine_status_label.setText("STOP")
+        elif self.device_mode_dict[10072]['node_property']['initial_value']==True:
+            self.machine_status_label.setText("ALARM")
+        elif self.device_mode_dict[10073]['node_property']['initial_value']==True:
+            self.machine_status_label.setText("NO MATERIAL")
+        elif self.device_mode_dict[10074]['node_property']['initial_value']==True:
+            self.machine_status_label.setText("DOOR BYPASS")
+        else:
+            self.machine_mode_label.setText("IDLE")
             
+    
+    
+       
     def update_settings_dictionary(self,data):
         key = data[0]
         new_value = data[1]
@@ -365,7 +381,7 @@ class Ui_MainWindow(QMainWindow,gui):
         self.light_tower_info('cancel')
         self.lot_entry_info('cancel')
         self.user_access_settings_info('cancel')
-
+        self.machine_mode_update()
        
 #--------------lot OEE section-----------------
 

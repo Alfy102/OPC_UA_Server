@@ -112,18 +112,14 @@ class OpcClientThread(QObject):
         """light tower control share the same input with HMI control
 
         Args:
-            mode_node (int): data value of node
+            mode_node (bool): data value of node
         """
-        
-        if mode_data == True:
-            light_tower_settings_node = self.device_mode_dict[mode_node]['monitored_node']
+        light_tower_settings_node = self.device_mode_dict[mode_node]['monitored_node']
+        if mode_data == True and light_tower_settings_node!=None:
             settings_data = await self.read_from_opc(light_tower_settings_node, 2)
             #settings_data = bin(settings_data)#
             settings_data = format(settings_data, '06b')
             await self.light_tower_output(settings_data)
-
-
-            
 
         
     async def read_from_opc(self, node:int, namespace_index:int):
@@ -165,9 +161,7 @@ class OpcClientThread(QObject):
         await input_node.write_value(ua_variant_data_type(data_type,data_value))
 
     @pyqtSlot()
-    async def client_start(self):
-        #await asyncio.sleep(3)
-        
+    async def client_start(self):        
         async with self.client as client:
             namespace_index = await client.get_namespace_index(self.uri)
      

@@ -153,11 +153,20 @@
             </item>
             <item>
              <widget class="QLabel" name="machine_status_label">
+              <property name="font">
+               <font>
+                <pointsize>12</pointsize>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgb(255, 255, 255);</string>
+              </property>
               <property name="lineWidth">
                <number>0</number>
               </property>
               <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:700; color:#ffffff;&quot;&gt;IDLE&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>IDLE</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignCenter</set>
@@ -215,14 +224,23 @@
             </item>
             <item>
              <widget class="QLabel" name="machine_mode_label">
+              <property name="font">
+               <font>
+                <pointsize>12</pointsize>
+                <bold>true</bold>
+               </font>
+              </property>
               <property name="autoFillBackground">
                <bool>false</bool>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgb(255, 255, 255);</string>
               </property>
               <property name="lineWidth">
                <number>0</number>
               </property>
               <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:700; color:#ffffff;&quot;&gt;IDLE&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>IDLE</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignCenter</set>
