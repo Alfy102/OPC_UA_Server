@@ -79,8 +79,9 @@ Implemented
 * User level Restrictions settings
 * User password change settings
 * Light Tower input that correspond with device mode
-* Re-configure pyqt signals data flow foir better efficiency
-* 
+* Re-configured pyqt signals data flow foir better efficiency
+* Message box output when clicking Save button
+* Each save action will output to UI Log
 
                                                                                                                                
                                                                                                                                 
