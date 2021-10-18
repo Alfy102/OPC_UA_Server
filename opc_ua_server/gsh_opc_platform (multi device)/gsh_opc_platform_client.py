@@ -142,7 +142,7 @@ class OpcClientThread(QObject):
         Args:
             input_data (string): a 6 dimension list of 0's and 1's in correspond for light tower on/off condition
         """
-        print(input_data)
+        #print(input_data)
         input_data = [int(d) for d in str(input_data)]
         await self.write_to_opc(13000,2,input_data[0],'Boolean')
         await self.write_to_opc(13001,2,input_data[1],'Boolean')
@@ -155,7 +155,7 @@ class OpcClientThread(QObject):
     async def write_to_opc(self, node_id: int, namespace_index: int, data_value: any, data_type: str):
         input_node = self.client.get_node(ua.NodeId(node_id, namespace_index))
         #self.source_time = datetime.now()
-        print(data_value, data_type)
+        #print(data_value, data_type)
         await input_node.write_value(ua_variant_data_type(data_type,data_value))
 
     @pyqtSlot()

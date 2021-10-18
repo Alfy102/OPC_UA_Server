@@ -1,7 +1,7 @@
 import sys
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtCore import  QThread,QEvent, QTimer
-from PyQt5.QtWidgets import QMainWindow, QDialog
+from PyQt5.QtWidgets import QCheckBox, QMainWindow, QDialog
 from queue import Queue
 import gsh_opc_platform_client as gsh_client
 from gsh_opc_platform_gui import Ui_MainWindow as gui
@@ -176,13 +176,13 @@ class Ui_MainWindow(QMainWindow,gui):
         self.user_cancel_button.clicked.connect(lambda: self.user_info_info('cancel'))
 
         #------------enabling/disabling module-----------------
-        self.module_1_check_box.clicked.connect(lambda: self.send_data_to_opc(13006, self.module_1_check_box.isChecked(),'Boolean'))
-        self.module_2_check_box.clicked.connect(lambda: self.send_data_to_opc(13007, self.module_1_check_box.isChecked(),'Boolean'))
-        self.module_3_check_box.clicked.connect(lambda: self.send_data_to_opc(13008, self.module_1_check_box.isChecked(),'Boolean'))
-        self.module_4_check_box.clicked.connect(lambda: self.send_data_to_opc(13009, self.module_1_check_box.isChecked(),'Boolean'))
-        self.module_5_check_box.clicked.connect(lambda: self.send_data_to_opc(13010, self.module_1_check_box.isChecked(),'Boolean'))
-        self.module_6_check_box.clicked.connect(lambda: self.send_data_to_opc(13011, self.module_1_check_box.isChecked(),'Boolean'))
-        self.module_7_check_box.clicked.connect(lambda: self.send_data_to_opc(13012, self.module_1_check_box.isChecked(),'Boolean'))
+        self.module_1_check_box.clicked.connect(lambda: self.module_page_behaviour(13010, self.module_1_check_box))
+        self.module_2_check_box.clicked.connect(lambda: self.module_page_behaviour(13011, self.module_2_check_box))
+        self.module_3_check_box.clicked.connect(lambda: self.module_page_behaviour(13012, self.module_3_check_box))
+        self.module_4_check_box.clicked.connect(lambda: self.module_page_behaviour(13013, self.module_4_check_box))
+        self.module_5_check_box.clicked.connect(lambda: self.module_page_behaviour(13014, self.module_5_check_box))
+        self.module_6_check_box.clicked.connect(lambda: self.module_page_behaviour(13015, self.module_6_check_box))
+        self.module_7_check_box.clicked.connect(lambda: self.module_page_behaviour(13016, self.module_7_check_box))
 
 
 #--------UI functions starts-------------------------
@@ -352,7 +352,6 @@ class Ui_MainWindow(QMainWindow,gui):
             self.retyped_new_password_input.clear()
             
 
-
     def update_settings_dictionary(self,data):
         key = data[0]
         new_value = data[1]
@@ -448,6 +447,15 @@ class Ui_MainWindow(QMainWindow,gui):
         self.retyped_new_password_input.setEnabled(data)
 
 #-----------page behaviour section----------------------
+    def module_page_behaviour(self, node:int, check_box:object):
+        state = check_box.isChecked()
+        self.send_data_to_opc(node, state,'Boolean')
+        if state == True:
+            state_str = 'Enabled'
+        elif state ==False:
+            state_str = 'Disbaled'
+        self.logger_handler(("INFO", f"{check_box.text()} is {state_str}"))
+
 
     def io_list_page_behaviour(self):
         self.stackedWidget.setCurrentIndex(4)
@@ -499,8 +507,9 @@ class Ui_MainWindow(QMainWindow,gui):
             data (tuple): (string, message)
         """
         handler_type = data[0]
-        time = (data[1].strftime("%d-%m-%Y | %H:%M:%S.%f")).split('.')[0]
-        data_value = data[2]
+        current_time = datetime.now()
+        time = (current_time.strftime("%d-%m-%Y | %H:%M:%S.%f")).split('.')[0]
+        data_value = data[1]
         msg = f"{time} | {handler_type} | {data_value}"
         if handler_type=='ALARM':
             self.alarm_log_text_edit.appendPlainText(msg)
@@ -570,7 +579,8 @@ class Ui_MainWindow(QMainWindow,gui):
         self.access_level_restriction(access_level)
         self.current_user_level = access_level_name
         self.stackedWidget.setCurrentIndex(0)
-
+        self.main_page_button.setChecked(True)
+        
     def user_access(self, username, password):
         access_level_name = None
         for value in self.user_info_dict.values():
@@ -614,7 +624,12 @@ class Ui_MainWindow(QMainWindow,gui):
             page_object.setEnabled(page_state)
 
 #----------- info message box section----------------------  
-    def message_box_show(self,message):
+    def message_box_show(self,message:str):
+        """output a dialog mesasge box in top of UI
+
+        Args:
+            message (str): message to output to text
+        """
         mbox = QtWidgets.QDialog()
         mbox.ui = MessageBox()
         mbox.ui.setupUi(mbox)
