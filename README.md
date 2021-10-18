@@ -54,28 +54,12 @@ Not yet implemented:
 * Main Motor Page
 * Station Page
 * Vision Page
-* Tower Light page
+* ~~Tower Light page~~ Moved into settings page
 * Life Cycle page
 * Settings Page
 
 
-## OPC UA Client
-
-Implemented
-
-* read and write relay/data memory from client to server
-* reduced input delay by imlpmenting asynchronous input output method
-
-Not yet implemented:
-* Integrate with new ui file
-* Server logs export to CSV/TXT
-* Integration with PyQt5 HMI
-* Require server certificate to start connection with OPC server.
-* Client logs export to CSV/TXT
-* event and alarm logs (moved from server side to client side)
                                                                                                                                 
-## OPC UA Server
-
 Implemented
 
 * read/set attributes and browse
@@ -86,16 +70,35 @@ Implemented
 * write to node of current value of PLC relay/data memory
 * datachange events will trigger write to PLC relay/data memory
 * multithreaded application to prevent GUI freeze
-* ~~server configuration and server settings file~~
-* ~~server event and alarm logs~~
-* ~~Server certificate and key for encryption~~ (removed implementatiuon of server encryption as it current SSL key generation does not meet security criteria)                                                                                                                                          
+* read and write relay/data memory from client to server
+* reduced input delay by imlpmenting asynchronous input output method
+* ~~server configuration and server settings file~~ Not Needed
+* ~~server event and alarm logs~~ Not Needed
+* ~~Server certificate and key for encryption~~ (removed implementatiuon of server encryption as it current SSL key generation does not meet security criteria, Not Needed)
+* Light tower settings
+* User level Restrictions settings
+* User password change settings
+* Light Tower input that correspond with device mode
+* Re-configure pyqt signals data flow foir better efficiency
+* 
+
+                                                                                                                               
+                                                                                                                                
 Tested clients: uaexpert
 
-Not yet implemented:
+To DO:
 
-
-* Server events/methods
-*
-* Mean Time Between Failure (MTBF) calculation using server method
-* Mean Time Between Action (MTBF) calculation using server method
-* Unit per Hour (UPH) calculation using server method
+* ~~Integrate with new ui file~~ Done
+* Server logs export to CSV/TXT
+* ~~Integration with PyQt5 HMI~~ Done
+* ~~Require server certificate to start connection with OPC server.~~ Not needed
+* Client logs export to CSV/TXT
+* ~~event and alarm logs (moved from server side to client side)~~ Done
+* ~~Server events/methods~~ Not needed
+* 
+* ~~Mean Time Between Failure (MTBF) calculation using server method~~
+* ~~Mean Time Between Action (MTBF) calculation using server method~~
+* Alarm list which user can choose if a certain alarm causes soft jam (software jam) or hard jam (hardware jam)
+* MTBF and MTBA calculation as perusing soft jam and hard jam counting for the day.
+* ~~Unit per Hour (UPH) calculation using server method~~ Done
+* Manual input of motor for PLC Motion Card
