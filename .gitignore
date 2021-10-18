@@ -13,3 +13,4 @@ opc_ua_server/test_history_server.py
 opc_ua_server/gsh_opc_platform (multi device)/__pycache__/gsh_platform_client.cpython-39.pyc
 opc_ua_server/gsh_opc_platform (multi device)/variable_history.sqlite3
 opc_ua_server/gsh_opc_platform (multi device)/variable_history.sqlite3-journal
+opc_ua_server/gsh_opc_platform (multi device)/variable_history.sqlite3
