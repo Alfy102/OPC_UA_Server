@@ -175,6 +175,14 @@ class Ui_MainWindow(QMainWindow,gui):
         self.user_save_button.clicked.connect(lambda: self.user_info_info('save'))
         self.user_cancel_button.clicked.connect(lambda: self.user_info_info('cancel'))
 
+        #------------enabling/disabling module-----------------
+        self.module_1_check_box.clicked.connect(lambda: self.send_data_to_opc(13006, self.module_1_check_box.isChecked(),'Boolean'))
+        self.module_2_check_box.clicked.connect(lambda: self.send_data_to_opc(13007, self.module_1_check_box.isChecked(),'Boolean'))
+        self.module_3_check_box.clicked.connect(lambda: self.send_data_to_opc(13008, self.module_1_check_box.isChecked(),'Boolean'))
+        self.module_4_check_box.clicked.connect(lambda: self.send_data_to_opc(13009, self.module_1_check_box.isChecked(),'Boolean'))
+        self.module_5_check_box.clicked.connect(lambda: self.send_data_to_opc(13010, self.module_1_check_box.isChecked(),'Boolean'))
+        self.module_6_check_box.clicked.connect(lambda: self.send_data_to_opc(13011, self.module_1_check_box.isChecked(),'Boolean'))
+        self.module_7_check_box.clicked.connect(lambda: self.send_data_to_opc(13012, self.module_1_check_box.isChecked(),'Boolean'))
 
 
 #--------UI functions starts-------------------------
@@ -215,6 +223,8 @@ class Ui_MainWindow(QMainWindow,gui):
                 data_type = value['node_property']['data_type']
                 #self.light_tower_settings_dict.update({key:value})
                 self.send_data_to_opc(key,data_value,data_type)
+            self.message_box_show("Settings Saved")
+            self.logger_handler(('INFO', "Light tower settings changed"))
         elif data == 'cancel':
             for key,value in self.light_tower_settings_dict.items():
                 initial_value = value['node_property']['initial_value']
@@ -249,6 +259,9 @@ class Ui_MainWindow(QMainWindow,gui):
                 data_type = value['node_property']['data_type']
                 #self.lot_input_dict.update({key:value})
                 self.send_data_to_opc(key,data_value,data_type)
+            self.message_box_show("Settings Saved")
+            lot_id_value = self.lot_input_dict[10050]['node_property']['initial_value']
+            self.logger_handler(('INFO', f"Lot Entry of ID:{lot_id_value} save"))
 
         if action=='cancel':
             
@@ -280,6 +293,8 @@ class Ui_MainWindow(QMainWindow,gui):
                 #self.user_access_dict.update({key:value})
                 data_type = value['node_property']['data_type']
                 self.send_data_to_opc(key,data_value,data_type)
+            self.message_box_show("Settings Saved")
+            self.logger_handler(('INFO', "User Access Restrictions Settings Changed"))
         if data == 'cancel':
             for value in self.user_access_dict.values():
                 name = value['name']
@@ -328,7 +343,8 @@ class Ui_MainWindow(QMainWindow,gui):
                         self.message_box_show("Mismatch New Password, Please Type Again Correctly!")
                 elif old_password != current_password:
                     self.message_box_show("Wrong Old Password!")
-
+            self.message_box_show("Password Succcessfully Changed")
+            self.logger_handler(('INFO', f"Password for {username} Changed"))
         if data == 'cancel':
             self.username_combo_box.setCurrentText('user_1')
             self.old_password_input.clear()
@@ -454,7 +470,13 @@ class Ui_MainWindow(QMainWindow,gui):
 
 #-----------send data to client section----------------------
 
-    def send_data_to_opc(self,node_id, data_value, data_type):
+    def send_data_to_opc(self,node_id:int, data_value:int, data_type:str):
+        """Function to send data to OPC using Queue() method
+        Args:
+            node_id (int): the node address
+            data_value (int): the data value
+            data_type (str): UInt16,UInt32,UInt64,UInt16,String,Boolean or Float
+        """
         self.input_queue.put((node_id, data_value, data_type))
 
 #-----------data handler section----------------------
@@ -470,7 +492,12 @@ class Ui_MainWindow(QMainWindow,gui):
         elif current_value == 0:
             self.logger_handler(('INFO', datetime.now() , f"{label_object_text} is switched OFF"))
 
-    def logger_handler(self, data):
+    def logger_handler(self, data:tuple):
+        """outputs to log box. Must defien if its and event log of alarm log
+            string can either be ALARM or INFO
+        Args:
+            data (tuple): (string, message)
+        """
         handler_type = data[0]
         time = (data[1].strftime("%d-%m-%Y | %H:%M:%S.%f")).split('.')[0]
         data_value = data[2]
@@ -550,7 +577,7 @@ class Ui_MainWindow(QMainWindow,gui):
             ref_name = value['username']
             ref_pass = value['node_property']['initial_value']
             access_key = value['monitored_node']
-            print(ref_name, ref_pass, access_key)
+            #print(ref_name, ref_pass, access_key)
             if username == ref_name:
                 if password == ref_pass:
                     access_level=self.user_access_dict[access_key]['node_property']['initial_value']
@@ -562,7 +589,7 @@ class Ui_MainWindow(QMainWindow,gui):
                 access_level='AA0000'
         if username == 'gsh_developer' and password == 'GSH_Engineering_1231!':
             access_level = 'FFFFFF'
-        print(access_level, access_level_name)
+        #print(access_level, access_level_name)
         return access_level, access_level_name
 
     def access_level_restriction(self, data):

@@ -1575,7 +1575,7 @@ QPushButton:disabled
             <number>0</number>
            </property>
            <property name="currentIndex">
-            <number>11</number>
+            <number>7</number>
            </property>
            <widget class="QWidget" name="main_page">
             <widget class="QFrame" name="title_frame">
@@ -14516,7 +14516,7 @@ QPushButton:checked
                 </widget>
                </item>
                <item>
-                <widget class="QCheckBox" name="checkBox">
+                <widget class="QCheckBox" name="module_1_check_box">
                  <property name="font">
                   <font>
                    <pointsize>12</pointsize>
@@ -14528,7 +14528,7 @@ QPushButton:checked
                 </widget>
                </item>
                <item>
-                <widget class="QCheckBox" name="checkBox_2">
+                <widget class="QCheckBox" name="module_2_check_box">
                  <property name="font">
                   <font>
                    <pointsize>12</pointsize>
@@ -14540,7 +14540,7 @@ QPushButton:checked
                 </widget>
                </item>
                <item>
-                <widget class="QCheckBox" name="checkBox_3">
+                <widget class="QCheckBox" name="module_3_check_box">
                  <property name="font">
                   <font>
                    <pointsize>12</pointsize>
@@ -14552,7 +14552,7 @@ QPushButton:checked
                 </widget>
                </item>
                <item>
-                <widget class="QCheckBox" name="checkBox_4">
+                <widget class="QCheckBox" name="module_4_check_box">
                  <property name="font">
                   <font>
                    <pointsize>12</pointsize>
@@ -14564,7 +14564,7 @@ QPushButton:checked
                 </widget>
                </item>
                <item>
-                <widget class="QCheckBox" name="checkBox_5">
+                <widget class="QCheckBox" name="module_5_check_box">
                  <property name="font">
                   <font>
                    <pointsize>12</pointsize>
@@ -14576,7 +14576,7 @@ QPushButton:checked
                 </widget>
                </item>
                <item>
-                <widget class="QCheckBox" name="checkBox_6">
+                <widget class="QCheckBox" name="module_6_check_box">
                  <property name="font">
                   <font>
                    <pointsize>12</pointsize>
@@ -14588,7 +14588,7 @@ QPushButton:checked
                 </widget>
                </item>
                <item>
-                <widget class="QCheckBox" name="checkBox_7">
+                <widget class="QCheckBox" name="module_7_check_box">
                  <property name="font">
                   <font>
                    <pointsize>12</pointsize>
