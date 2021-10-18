@@ -170,8 +170,6 @@ class OpcServerThread(object):
         new_value = current_value + data_value
         asyncio.create_task(self.simple_write_to_opc(node_id, new_value, data_type))
         return new_value
-    
-
 
     def yield_calculation(self,in_value, out_value):
         if in_value == 0 or out_value==0:
@@ -196,8 +194,8 @@ class OpcServerThread(object):
             if value['monitored_node']==node_id and data_value == True:
                 if data_value == True:
                     node_id = self.get_node(key)
-                    value['node_property']['initial_value']= await node_id.read_value()         
-                self.lot_time_dict.update({key:value})
+                    value['node_property']['initial_value'] = await node_id.read_value()         
+                self.shift_time_dict.update({key:value})
  
     def timer_function(self, time_dict):
         for node_id,value in time_dict.items():
@@ -375,7 +373,6 @@ class OpcServerThread(object):
         plc_clock_dict = collections.OrderedDict(sorted(self.plc_clock_dict.items()))
         async with self.server:
             while True:
-                #tic = time.time()
                 await self.scan_loop_plc(plc_clock_dict)
                 await asyncio.sleep(self.server_refresh_rate)
                 await self.scan_loop_plc(alarm_dict)
@@ -383,8 +380,7 @@ class OpcServerThread(object):
                 await self.scan_loop_plc(mode_dict)
                 self.timer_function(self.lot_time_dict | self.shift_time_dict)
                 asyncio.create_task(self.system_uptime())
-                #toc = time.time()
-                #print(f"{toc - tic- self.server_refresh_rate :.9f}")
+
 
 def main():
     uri = "PLC_Server"

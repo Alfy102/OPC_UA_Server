@@ -4,7 +4,7 @@ from PyQt5 import QtWidgets
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as Canvas
 import matplotlib
-
+from matplotlib.artist import Artist
 # Ensure using PyQt5 backend
 matplotlib.use('QT5Agg')
 

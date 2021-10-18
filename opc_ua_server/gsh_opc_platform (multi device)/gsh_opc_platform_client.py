@@ -27,6 +27,7 @@ class SubInfoHandler(object):
     async def datachange_notification(self, node, val, data):
         node_id = node.nodeid.Identifier
         self.info_signal.emit(['info_handler',(val, node_id)])
+        
 
 class SubTimerHandler(object):
     def __init__(self,time_signal):
@@ -47,7 +48,7 @@ class SubUPHHandler(object):
         if val != initial_value:
             node_property['node_property']['initial_value'] = val
             self.uph_dict.update({node_identifier:node_property})
-            self.uph_signal.emit(['update_plot',(node_identifier, val)])
+            self.uph_signal.emit(['update_uph_dict',(node_identifier, val)])
 
 class SubDeviceModeHandler(object):
     def __init__(self,machine_mode_update):
@@ -82,11 +83,11 @@ class OpcClientThread(QObject):
         super().__init__(parent, **kwargs)
         self.input_queue = input_q
         self.sub_time = 50
-        self.monitored_node = {key:value for key,value in node_structure.items() if value['node_property']['category']=='server_variables' or value['node_property']['category']=='shift_server_variables'}
+        self.monitored_node = {key:value for key,value in node_structure.items() if (value['node_property']['category']=='server_variables') or (value['node_property']['category']=='shift_variables')}
         self.io_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='relay'}
         self.alarm_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='alarm'}
         self.hmi_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='client_input_1'}
-        self.time_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='time_variables'}
+        self.time_dict = {key:value for key,value in node_structure.items() if (value['node_property']['category']=='time_variables') or (value['node_property']['category']=='shift_time_variables')}
         self.uph_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='uph_variables'}
 
 
@@ -95,7 +96,7 @@ class OpcClientThread(QObject):
         self.user_info_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='user_info'}
         self.lot_info_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='lot_input'}
         self.device_mode_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='device_mode'}
-        url = f"opc.tcp://{endpoint}"
+        url = f"opc.tcp://{endpoint}"        
         self.client = Client(url=url)
         self.uri = uri
     
@@ -107,8 +108,13 @@ class OpcClientThread(QObject):
 
 
 
-    async def machine_mode_update(self, mode_node, mode_data):
-        #light tower control share the same input with HMI control
+    async def machine_mode_update(self, mode_node:int, mode_data:bool):
+        """light tower control share the same input with HMI control
+
+        Args:
+            mode_node (int): data value of node
+        """
+        
         if mode_data == True:
             light_tower_settings_node = self.device_mode_dict[mode_node]['monitored_node']
             settings_data = await self.read_from_opc(light_tower_settings_node, 2)
@@ -202,25 +208,19 @@ class OpcClientThread(QObject):
             for node,value in self.uph_dict.items():
                 var = client.get_node(ua.NodeId(node, namespace_index))
                 await uph_sub.subscribe_data_change(var,queuesize=1)
-            
-            
-            
-            
+         
             device_mode_handler = SubDeviceModeHandler(self.machine_mode_update)
             device_mode_sub =  await client.create_subscription(self.sub_time, device_mode_handler) 
             for node in self.device_mode_dict.keys():
                 var = client.get_node(ua.NodeId(node, namespace_index))
                 await device_mode_sub.subscribe_data_change(var,queuesize=1)
             
-            
-
             settings_dict = self.light_tower_dict | self.device_mode_dict | self.user_info_dict | self.user_access_dict | self.lot_info_dict
             settings_handler = SubSettingsHandler(self.upstream_signal)
             settings_sub = await client.create_subscription(self.sub_time, settings_handler)
             for node in settings_dict.keys():
                 var = client.get_node(ua.NodeId(node, namespace_index))
                 await settings_sub.subscribe_data_change(var, queuesize= 1)
-
 
             while True:
                 await asyncio.sleep(0.01)#self.client_refresh_rate)             
@@ -229,9 +229,6 @@ class OpcClientThread(QObject):
                     hmi_node_id = hmi_signal[0]
                     data_value = hmi_signal[1]
                     data_type = hmi_signal[2]
-                    #input_node = client.get_node(ua.NodeId(hmi_node_id, namespace_index))
-                    #print(f"From client {input_node},{data_type},{data_value}")
-                    #await input_node.write_value(ua_variant_data_type(data_type,data_value))
                     await self.write_to_opc(hmi_node_id, namespace_index,data_value,data_type)
 
                 

@@ -26,8 +26,8 @@ class Ui_MainWindow(QMainWindow,gui):
 
         self.io_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='relay'}
         self.hmi_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='client_input_1'}
-        self.monitored_node = {key:value for key,value in node_structure.items() if value['node_property']['category']=='server_variables' or value['node_property']['category']=='shift_server_variables'}
-        self.time_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='time_variables'}
+        self.monitored_node = {key:value for key,value in node_structure.items() if value['node_property']['category']=='server_variables' or value['node_property']['category']=='shift_variables'}
+        self.time_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='time_variables' or value['node_property']['category']=='shift_time_variables'}
         
         self.lot_input_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='lot_input'}
         self.user_access_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='user_access'}
@@ -63,13 +63,12 @@ class Ui_MainWindow(QMainWindow,gui):
         self.uph_dict = collections.OrderedDict(sorted(uph_filter.items()))
         self.y = [0 for _ in self.uph_dict.values()] 
         self.plot_bar = ''
-        self.plot_text =''
-        
+        self.plot_text = []        
         self.current_user_level = None
         self.setupUi(self)
 
 
-    def downstream_data_handler(self, data):
+    def downstream_data_handler(self, data:list):
         function = data[0]
         input_data = data[1]
         target_function = eval(f"self.{function}")
@@ -183,6 +182,8 @@ class Ui_MainWindow(QMainWindow,gui):
         self.module_5_check_box.clicked.connect(lambda: self.module_page_behaviour(13014, self.module_5_check_box))
         self.module_6_check_box.clicked.connect(lambda: self.module_page_behaviour(13015, self.module_6_check_box))
         self.module_7_check_box.clicked.connect(lambda: self.module_page_behaviour(13016, self.module_7_check_box))
+
+
 
 
 #--------UI functions starts-------------------------
@@ -351,20 +352,20 @@ class Ui_MainWindow(QMainWindow,gui):
             self.new_password_input.clear()
             self.retyped_new_password_input.clear()
             
-
     def update_settings_dictionary(self,data):
         key = data[0]
         new_value = data[1]
         settings_dict = [self.lot_input_dict , self.user_info_dict, self.user_access_dict , self.light_tower_settings_dict , self.device_mode_dict]
-        for dict in settings_dict:
-            if key in dict:
-                extracted_value = dict[key]
+        for dict_item in settings_dict:
+            if key in dict_item:
+                extracted_value = dict_item[key]
                 extracted_value['node_property']['initial_value']=new_value
-                dict.update({key:extracted_value})
-                #print(extracted_value['name'], new_value)
+                dict_item.update({key:extracted_value})
+  
         self.light_tower_info('cancel')
         self.lot_entry_info('cancel')
         self.user_access_settings_info('cancel')
+
        
 #--------------lot OEE section-----------------
 
@@ -372,17 +373,34 @@ class Ui_MainWindow(QMainWindow,gui):
         self.uph_dict = uph_dict
         self.update_plot()
 
+
+    def update_uph_dict(self, data):
+        node_id = data[0]
+        data_value = data[1]
+        value = self.uph_dict[node_id]
+        value['node_property']['initial_value']=data_value
+        self.uph_dict.update({node_id:value})
+        self.update_plot()
+
+
     def update_plot(self):
+        
         y = [value['node_property']['initial_value'] for value in self.uph_dict.values()]
         for rect, h in zip(self.plot_bar, y):
             rect.set_height(h)
+
         if len(self.plot_text) !=0:
             for text in self.plot_text:
-                del text
-        for i, v in enumerate(y):
-            self.plot_text = self.MplWidget.canvas.ax.text(i - 0.3 , v + 0.25, str(v), color='red', fontsize=6)
+                text.set_visible(False)
         
-        self.MplWidget.canvas.ax.relim()# recompute the ax.dataLim
+
+        self.plot_text.clear()  
+        for i, v in enumerate(y):
+            self.plot_text.append(self.MplWidget.canvas.ax.text(i - 0.3 , v + 0.25, str(v), color='red', fontsize=6))
+
+
+        # recompute the ax.dataLim
+        self.MplWidget.canvas.ax.relim()
         # update ax.viewLim using the new dataLim
         self.MplWidget.canvas.ax.autoscale_view()
         self.MplWidget.canvas.draw()  
@@ -636,7 +654,6 @@ class Ui_MainWindow(QMainWindow,gui):
         mbox.ui.plainTextEdit.appendPlainText(message)
         mbox.setWindowFlags(QtCore.Qt.FramelessWindowHint)# | QtCore.Qt.WindowStaysOnTopHint)
         mbox.exec_()
-
 
 class MessageBox(QDialog, message_dialog):
     def __init__(self, parent=None):
