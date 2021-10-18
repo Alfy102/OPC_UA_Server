@@ -74,7 +74,7 @@ Implemented
 * reduced input delay by imlpmenting asynchronous input output method
 * ~~server configuration and server settings file~~ Not Needed
 * ~~server event and alarm logs~~ Not Needed
-* ~~Server certificate and key for encryption~~ (removed implementatiuon of server encryption as it current SSL key generation does not meet security criteria, Not Needed)
+* ~~Server certificate and key for encryption~~ (removed implementation of server encryption as it current SSL key generation does not meet security criteria, Not Needed)
 * Light tower settings
 * User level Restrictions settings
 * User password change settings
