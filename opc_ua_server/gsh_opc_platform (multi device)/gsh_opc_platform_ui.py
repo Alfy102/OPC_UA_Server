@@ -346,7 +346,7 @@ class Ui_MainWindow(QMainWindow,gui):
                 extracted_value = dict[key]
                 extracted_value['node_property']['initial_value']=new_value
                 dict.update({key:extracted_value})
-                print(extracted_value['name'], new_value)
+                #print(extracted_value['name'], new_value)
         self.light_tower_info('cancel')
         self.lot_entry_info('cancel')
         self.user_access_settings_info('cancel')
@@ -618,7 +618,7 @@ if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     main_window = Ui_MainWindow()
     main_window.setWindowFlags(QtCore.Qt.FramelessWindowHint)# | QtCore.Qt.WindowStaysOnTopHint)
-    #main_window.client_start()
+    main_window.client_start()
     main_window.show()
     main_window.showFullScreen()
     sys.exit(app.exec_())

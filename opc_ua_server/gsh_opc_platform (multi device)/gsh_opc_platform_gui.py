@@ -10093,7 +10093,7 @@ class Ui_MainWindow(object):
         self.io_module_stacked_widget.setCurrentIndex(3)
         self.main_motor_control_stacked_widget.setCurrentIndex(0)
         self.main_motor_station_stacked_widget.setCurrentIndex(0)
-        self.settings_tab_widget.setCurrentIndex(1)
+        self.settings_tab_widget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):

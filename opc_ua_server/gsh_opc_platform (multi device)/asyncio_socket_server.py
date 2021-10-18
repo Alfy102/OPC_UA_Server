@@ -1,6 +1,5 @@
 import asyncio
 from datetime import datetime
-import random
 from io_layout_map import socket_server_dictionary
 import collections
 
@@ -14,12 +13,12 @@ class socket(object):
 
     async def handle_echo(self,reader, writer):
         current_time = datetime.now()
-        self.io_dict[171]=('CM700',f"{current_time.year:05}")
-        self.io_dict[172]=('CM701',f"{current_time.month:05}")
-        self.io_dict[173]=('CM702',f"{current_time.day:05}")
-        self.io_dict[174]=('CM703',f"{current_time.hour:05}")
-        self.io_dict[175]=('CM704',f"{current_time.minute:05}")
-        self.io_dict[176]=('CM705',f"{current_time.second:05}")
+        self.io_dict[173]=('CM700',f"{current_time.year:05}")
+        self.io_dict[174]=('CM701',f"{current_time.month:05}")
+        self.io_dict[175]=('CM702',f"{current_time.day:05}")
+        self.io_dict[176]=('CM703',f"{current_time.hour:05}")
+        self.io_dict[177]=('CM704',f"{current_time.minute:05}")
+        self.io_dict[178]=('CM705',f"{current_time.second:05}")
         data = await reader.readuntil(separator=b'\n')
         message = data.decode('UTF-8').split()
         data_value = message[2]
@@ -37,6 +36,7 @@ class socket(object):
             input_key = message[1]
             
             for key,value in self.io_dict.items():
+
                 if value[0] == input_key:
                     value = (input_key, data_value)
                     self.io_dict.update({key:value})
@@ -58,12 +58,12 @@ class socket(object):
         print(f'Serving on {addr}')  
         async with server:
                 start_time = datetime.now()
-                self.io_dict[177]=('DM1000',f"{start_time.year:05}")
-                self.io_dict[178]=('DM1001',f"{start_time.month:05}")
-                self.io_dict[179]=('DM1002',f"{start_time.day:05}")
-                self.io_dict[180]=('DM1003',f"{start_time.hour:05}")
-                self.io_dict[181]=('DM1004',f"{start_time.minute:05}")
-                self.io_dict[182]=('DM1005',f"{start_time.second:05}")
+                self.io_dict[179]=('DM1000',f"{start_time.year:05}")
+                self.io_dict[180]=('DM1001',f"{start_time.month:05}")
+                self.io_dict[181]=('DM1002',f"{start_time.day:05}")
+                self.io_dict[182]=('DM1003',f"{start_time.hour:05}")
+                self.io_dict[183]=('DM1004',f"{start_time.minute:05}")
+                self.io_dict[184]=('DM1005',f"{start_time.second:05}")
                 await server.serve_forever()
 
 

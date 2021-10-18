@@ -1,6 +1,7 @@
 from asyncua import Client, ua
 import asyncio
 from PyQt5.QtCore import QObject, pyqtSignal, pyqtSlot
+from asyncua.ua.uatypes import Boolean
 from io_layout_map import node_structure
 from datetime import datetime,timedelta
 from comm_protocol import ua_variant_data_type
@@ -47,6 +48,15 @@ class SubUPHHandler(object):
             node_property['node_property']['initial_value'] = val
             self.uph_dict.update({node_identifier:node_property})
             self.uph_signal.emit(['update_plot',(node_identifier, val)])
+
+class SubDeviceModeHandler(object):
+    def __init__(self,machine_mode_update):
+        self.machine_update = machine_mode_update
+    async def datachange_notification(self, node, val, data):
+        node_id = node.nodeid.Identifier
+        #self.data_signal.emit(['update_settings_dictionary',(node_id, val)])
+        #print(node_id, val)
+        await self.machine_update(node_id,val)
 
 class SubSettingsHandler(object):
     def __init__(self,data_signal):
@@ -97,6 +107,57 @@ class OpcClientThread(QObject):
 
 
 
+    async def machine_mode_update(self, mode_node, mode_data):
+        #light tower control share the same input with HMI control
+        if mode_data == True:
+            light_tower_settings_node = self.device_mode_dict[mode_node]['monitored_node']
+            settings_data = await self.read_from_opc(light_tower_settings_node, 2)
+            #settings_data = bin(settings_data)#
+            settings_data = format(settings_data, '06b')
+            await self.light_tower_output(settings_data)
+
+
+            
+
+        
+    async def read_from_opc(self, node:int, namespace_index:int):
+        """read from OPC using the address and namespace index to get the stored value
+
+        Args:
+            node (int): node address
+            namespace_index (int): namespace index
+
+        Returns:
+            any: returns the stored data value inside the corresponding node address
+        """
+        mode_var = self.client.get_node(ua.NodeId(node, namespace_index))
+        data = await mode_var.read_value()
+        return data
+
+
+
+    async def light_tower_output(self, input_data:int):
+        """outputs the light tower condition
+
+        Args:
+            input_data (string): a 6 dimension list of 0's and 1's in correspond for light tower on/off condition
+        """
+        print(input_data)
+        input_data = [int(d) for d in str(input_data)]
+        await self.write_to_opc(13000,2,input_data[0],'Boolean')
+        await self.write_to_opc(13001,2,input_data[1],'Boolean')
+        await self.write_to_opc(13002,2,input_data[2],'Boolean') 
+        await self.write_to_opc(13003,2,input_data[3],'Boolean')
+        await self.write_to_opc(13004,2,input_data[4],'Boolean')
+        await self.write_to_opc(13005,2,input_data[5],'Boolean')
+        
+
+    async def write_to_opc(self, node_id: int, namespace_index: int, data_value: any, data_type: str):
+        input_node = self.client.get_node(ua.NodeId(node_id, namespace_index))
+        #self.source_time = datetime.now()
+        print(data_value, data_type)
+        await input_node.write_value(ua_variant_data_type(data_type,data_value))
+
     @pyqtSlot()
     async def client_start(self):
         #await asyncio.sleep(3)
@@ -142,6 +203,16 @@ class OpcClientThread(QObject):
                 var = client.get_node(ua.NodeId(node, namespace_index))
                 await uph_sub.subscribe_data_change(var,queuesize=1)
             
+            
+            
+            
+            device_mode_handler = SubDeviceModeHandler(self.machine_mode_update)
+            device_mode_sub =  await client.create_subscription(self.sub_time, device_mode_handler) 
+            for node in self.device_mode_dict.keys():
+                var = client.get_node(ua.NodeId(node, namespace_index))
+                await device_mode_sub.subscribe_data_change(var,queuesize=1)
+            
+            
 
             settings_dict = self.light_tower_dict | self.device_mode_dict | self.user_info_dict | self.user_access_dict | self.lot_info_dict
             settings_handler = SubSettingsHandler(self.upstream_signal)
@@ -152,16 +223,16 @@ class OpcClientThread(QObject):
 
 
             while True:
-                #await asyncio.sleep(self.client_refresh_rate)             
+                await asyncio.sleep(0.01)#self.client_refresh_rate)             
                 if not self.input_queue.empty():
                     hmi_signal = self.input_queue.get()
                     hmi_node_id = hmi_signal[0]
                     data_value = hmi_signal[1]
                     data_type = hmi_signal[2]
-                    input_node = client.get_node(ua.NodeId(hmi_node_id, namespace_index))
+                    #input_node = client.get_node(ua.NodeId(hmi_node_id, namespace_index))
                     #print(f"From client {input_node},{data_type},{data_value}")
-                    await input_node.write_value(ua_variant_data_type(data_type,data_value))
-                
+                    #await input_node.write_value(ua_variant_data_type(data_type,data_value))
+                    await self.write_to_opc(hmi_node_id, namespace_index,data_value,data_type)
 
                 
 

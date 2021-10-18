@@ -236,28 +236,29 @@ node_structure = {
 #---------------------------------------------------------------------------------
 
 10070:{ 'name': 'MR2000', #operation_mode (auto_mode) machine running
-        'label_point':[],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'device_mode', 'history': False,'rw': 'r', 'initial_value': False}},
+        'label_point':[], #10080
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'device_mode', 'history': False,'rw': 'r', 'initial_value': False},
+        'monitored_node': 10080},
 
 10071:{ 'name': 'MR2001', #stand_by_mode / down_mode (not entering auto) machine stop
-        'label_point':[],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'device_mode', 'history': False,'rw': 'r', 'initial_value': False}},
+        'label_point':[], #10081
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'device_mode', 'history': False,'rw': 'r', 'initial_value': False},
+        'monitored_node': 10081},
 
-10072:{ 'name': 'MR2002', #idling_mode / starving_mode (auto_mode) no maetrial
-        'label_point':[],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'device_mode', 'history': False,'rw': 'r', 'initial_value': False}},
+10072:{ 'name': 'MR2002', #idling_mode / starving_mode (auto_mode) no material
+        'label_point':[], #10082
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'device_mode', 'history': False,'rw': 'r', 'initial_value': False},
+        'monitored_node': 10082},
 
 10073:{ 'name': 'MR2003', #maintenance_mode (machine_stop) machine stop
-        'label_point':[],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'device_mode', 'history': False,'rw': 'r', 'initial_value': False}},
+        'label_point':[], #10083
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'device_mode', 'history': False,'rw': 'r', 'initial_value': False},
+        'monitored_node': 10083},
 
 10074:{ 'name': 'MR2004', #machine_ready_to_initialize machine stop
-        'label_point':[],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'device_mode', 'history': False,'rw': 'r', 'initial_value': False}},
-
-10075:{ 'name': 'MR2005', #machine_ready_to_run machine stop
-        'label_point':[],
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'device_mode', 'history': False,'rw': 'r', 'initial_value': False}},
+        'label_point':[], #10084
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'device_mode', 'history': False,'rw': 'r', 'initial_value': False},
+        'monitored_node': 10084},
 
 
 #---------------------------------------------------------------------------------
@@ -1031,15 +1032,15 @@ node_structure = {
         'label_point':['label_y6212'],
         'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'relay','rw': 'r', 'history': False, 'initial_value': False}},
 
-11109:{ 'name': 'R713', 
+11109:{ 'name': 'R713', #green
         'label_point':['label_y6213'],
         'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'relay','rw': 'r', 'history': False, 'initial_value': False}},
 
-11110:{ 'name': 'R714', 
+11110:{ 'name': 'R714', #amber
         'label_point':['label_y6214'],
         'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'relay','rw': 'r', 'history': False, 'initial_value': False}},
 
-11111:{ 'name': 'R715', 
+11111:{ 'name': 'R715', #red
         'label_point':['label_y6215'],
         'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'relay','rw': 'r', 'history': False, 'initial_value': False}},
 
@@ -1498,20 +1499,19 @@ socket_server_dictionary={
 168:('MR2001',0),
 169:('MR2002',0),
 170:('MR2003',0),
-170:('MR2004',0),
-170:('MR2005',0),
-171:('CM700',0),
-172:('CM701',0),
-173:('CM702',0),
-174:('CM703',0),
-175:('CM704',0),
-176:('CM705',0),
-177:('DM1000',0),
-178:('DM1001',0),
-179:('DM1002',0),
-180:('DM1003',0),
-181:('DM1004',0),
-182:('DM1005',0),
+171:('MR2004',0),
+173:('CM700',0),
+174:('CM701',0),
+175:('CM702',0),
+176:('CM703',0),
+177:('CM704',0),
+178:('CM705',0),
+179:('DM1000',0),
+180:('DM1001',0),
+181:('DM1002',0),
+182:('DM1003',0),
+183:('DM1004',0),
+184:('DM1005',0),
 }
 
 time_series_axis = [
