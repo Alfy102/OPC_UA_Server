@@ -32,7 +32,7 @@ class Ui_MainWindow(QMainWindow,gui):
         self.lot_input_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='lot_input'}
         self.user_access_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='user_access'}
         self.light_tower_settings_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='light_tower_setting'}
-        self.device_mode_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='device_mode'}
+        self.device_mode_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='device_status'}
         
         self.user_info_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='user_info'}
 

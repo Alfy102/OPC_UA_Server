@@ -152,7 +152,9 @@ class OpcServerThread(object):
         self.hmi_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='hmi'}
         self.lot_time_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='time_variables'}
         self.uph_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='uph_variables'}
-        self.mode_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='device_mode'}
+        self.status_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='device_status' or value['node_property']['category']=='device_mode'}
+        
+        #self.mode_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='device_mode'}
         self.plc_clock_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='plc_clock'}
         self.node_structure = node_structure
         self.system_clock = 0
@@ -195,10 +197,10 @@ class OpcServerThread(object):
             node_id (int): receive the machine mode node_id
             data_value (bool): receive the machine mode node state (True/False)
         """
-        node_property = self.mode_dict[node_id]
+        node_property = self.status_dict[node_id]
         node_property['node_property']['initial_value'] = data_value
         node_property.update({'flag_time':datetime.now()})
-        self.mode_dict.update({node_id:node_property})
+        self.status_dict.update({node_id:node_property})
         for key,value in self.lot_time_dict.items():
             if value['monitored_node']==node_id:
                 if data_value == True:
@@ -221,10 +223,10 @@ class OpcServerThread(object):
         for node_id,value in time_dict.items():
             corr_flag_node = value['monitored_node']
             if corr_flag_node != None:
-                device_mode = self.mode_dict[corr_flag_node]['node_property']['initial_value']
-                if device_mode == True:
+                device_status = self.status_dict[corr_flag_node]['node_property']['initial_value']
+                if device_status == True:
                     data_type = value['node_property']['data_type']
-                    flag_time = self.mode_dict[corr_flag_node]['flag_time']
+                    flag_time = self.status_dict[corr_flag_node]['flag_time']
                     delta_time = self.convert_string_to_time(value['node_property']['initial_value'])
                     duration = self.duration(flag_time, delta_time)
                     asyncio.create_task(self.simple_write_to_opc(node_id,duration,data_type))
@@ -232,7 +234,7 @@ class OpcServerThread(object):
     async def system_uptime(self):    
         lot_start_node = self.get_node(10054)
         lot_start_datetime = await lot_start_node.read_value()
-        current_device_mode = self.mode_dict[10070]['node_property']['initial_value']
+        current_device_mode = self.status_dict[10070]['node_property']['initial_value']
         if lot_start_datetime != 'Null' and current_device_mode == True:
             uptime = self.uptime(lot_start_datetime)
             uptime = str(uptime).split('.')[0]
@@ -337,7 +339,7 @@ class OpcServerThread(object):
         hmi_handler = SubHmiHandler(self.hmi_dict,self.plc_ip_address,self.port_number)
         hmi_sub = await self.server.create_subscription(self.hmi_sub, hmi_handler)
 
-        mode_handler = SubDeviceModeHandler(self.mode_dict,self.mode_update)
+        mode_handler = SubDeviceModeHandler(self.status_dict,self.mode_update)
         device_mode_sub = await self.server.create_subscription(self.sub_time, mode_handler)
         conn = sqlite3.connect(self.file_path.joinpath(database_file))
         for category in node_category_list:
@@ -413,15 +415,17 @@ class OpcServerThread(object):
 
         alarm_dict = collections.OrderedDict(sorted(self.alarm_dict.items()))
         io_dict = collections.OrderedDict(sorted(self.io_dict.items()))
-        mode_dict = collections.OrderedDict(sorted(self.mode_dict.items()))
+        status_dict = collections.OrderedDict(sorted(self.status_dict.items()))
+        #mode_dict = collections.OrderedDict(sorted(self.mode_dict.items()))
         plc_clock_dict = collections.OrderedDict(sorted(self.plc_clock_dict.items()))
+
         async with self.server:
             while True:
                 await self.scan_loop_plc(plc_clock_dict)
                 await asyncio.sleep(self.server_refresh_rate)
                 await self.scan_loop_plc(alarm_dict)
                 await self.scan_loop_plc(io_dict)
-                await self.scan_loop_plc(mode_dict)
+                await self.scan_loop_plc(status_dict)
                 self.timer_function(self.lot_time_dict | self.shift_time_dict)
                 asyncio.create_task(self.system_uptime())
 

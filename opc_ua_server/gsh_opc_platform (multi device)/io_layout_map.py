@@ -173,7 +173,7 @@ node_structure = {
 10048:{ 'name': 'lot_maintenance_time',
         'label_point':['lot_maintenance_time_label'],
         'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'time_variables', 'history': True,'rw': 'rw', 'initial_value': '0:00:00.0'},
-        'monitored_node': 10074 }, #refers to device_mode
+        'monitored_node': 10078 }, #refers to device_mode
 
 #---------------------------------------------------------------------------------
 #Lot ID Information (from client)
@@ -237,28 +237,54 @@ node_structure = {
 
 10070:{ 'name': 'MR2000', #Running
         'label_point':[], #10080
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'device_mode', 'history': False,'rw': 'r', 'initial_value': False},
-        'monitored_node': 10080},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'device_status', 'history': False,'rw': 'r', 'initial_value': False},
+        'monitored_node': 10080}, #this node will affect this node
 
 10071:{ 'name': 'MR2001', #Stop
         'label_point':[], #10081
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'device_mode', 'history': False,'rw': 'r', 'initial_value': False},
-        'monitored_node': 10081},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'device_status', 'history': False,'rw': 'r', 'initial_value': False},
+        'monitored_node': 10081}, #this node will affect this node
 
 10072:{ 'name': 'MR2002', #Alarm
         'label_point':[], #10082
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'device_mode', 'history': False,'rw': 'r', 'initial_value': False},
-        'monitored_node': 10082},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'device_status', 'history': False,'rw': 'r', 'initial_value': False},
+        'monitored_node': 10082}, #this node will affect this node
 
 10073:{ 'name': 'MR2003', #No Material
         'label_point':[], #10083
-        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'device_mode', 'history': False,'rw': 'r', 'initial_value': False},
-        'monitored_node': 10083},
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'device_status', 'history': False,'rw': 'r', 'initial_value': False},
+        'monitored_node': 10083}, #this node will affect this node
 
 10074:{ 'name': 'MR2004', #Door Bypass
         'label_point':[], #10084
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'device_status', 'history': False,'rw': 'r', 'initial_value': False},
+        'monitored_node': 10084}, #this node will affect this node
+
+#---------------------------------------------------------------------------------
+#Device Mode
+#---------------------------------------------------------------------------------
+
+
+
+10075:{ 'name': 'MR2010', #Operational
+        'label_point':[], 
         'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'device_mode', 'history': False,'rw': 'r', 'initial_value': False},
-        'monitored_node': 10084},
+        'monitored_node': None},
+10076:{ 'name': 'MR2011', #Non-Operational
+        'label_point':[], 
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'device_mode', 'history': False,'rw': 'r', 'initial_value': False},
+        'monitored_node': None},
+10077:{ 'name': 'MR2012', #Idling
+        'label_point':[], 
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'device_mode', 'history': False,'rw': 'r', 'initial_value': False},
+        'monitored_node': None},
+10078:{ 'name': 'MR2013', #Maintenance
+        'label_point':[], 
+        'node_property':{'device': 'PLC1', 'data_type': 'Boolean', 'category': 'device_mode', 'history': False,'rw': 'r', 'initial_value': False},
+        'monitored_node': None},
+
+
+
 
 #---------------------------------------------------------------------------------
 #light_tower settings
@@ -303,20 +329,20 @@ node_structure = {
 
 10093:{ 'name': 'level_1',
         'label_point':[],
-        'username':'user_1',
-        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'user_info', 'history': True,'rw': 'rw', 'initial_value': 'user_1'},
+        'username':'level_1',
+        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'user_info', 'history': True,'rw': 'rw', 'initial_value': 'level_1'},
         'monitored_node': 10090},
 
 10094:{ 'name': 'level_2',
         'label_point':[],
-        'username':'user_2',
-        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'user_info', 'history': True,'rw': 'rw', 'initial_value': 'user_2'},
+        'username':'level_2',
+        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'user_info', 'history': True,'rw': 'rw', 'initial_value': 'level_2'},
         'monitored_node': 10091},
 
 10095:{ 'name': 'level_3',
         'label_point':[],
-        'username':'user_3',
-        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'user_info', 'history': True,'rw': 'rw', 'initial_value': 'user_3'},
+        'username':'level_3',
+        'node_property':{'device': 'PLC1', 'data_type': 'String', 'category': 'user_info', 'history': True,'rw': 'rw', 'initial_value': 'level_3'},
         'monitored_node': 10092},
 
 #---------------------------------------------------------------------------------
@@ -1510,7 +1536,12 @@ socket_server_dictionary={
 181:('DM1002',0),
 182:('DM1003',0),
 183:('DM1004',0),
-184:('DM1005',0),
+184:('MR2010',0),
+185:('MR2011',0),
+186:('MR2012',0),
+187:('MR2013',0),
+
+
 }
 
 time_series_axis = [

@@ -95,7 +95,7 @@ class OpcClientThread(QObject):
         self.user_access_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='user_access'}
         self.user_info_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='user_info'}
         self.lot_info_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='lot_input'}
-        self.device_mode_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='device_mode'}
+        self.device_mode_dict = {key:value for key,value in node_structure.items() if value['node_property']['category']=='device_status'}
         url = f"opc.tcp://{endpoint}"        
         self.client = Client(url=url)
         self.uri = uri
